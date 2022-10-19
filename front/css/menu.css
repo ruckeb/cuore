@@ -1,0 +1,321 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100%;
+    height: 150px;
+    position: relative;
+    bottom: 21.5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+img {
+    width: 5%;
+    height: 50px;
+}
+
+button {
+    height: 30px;
+    border: 2px double black;
+    border-radius: 20px;
+    background-color: rgb(41, 57, 82);
+    color: white;
+}
+
+section {
+    width: 100%;
+    height: 471px;
+    position: relative;
+    bottom: 21.5px;
+}
+
+h1 {
+    color: rgb(41, 57, 82);
+}
+
+#menu {
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+}
+
+.lista > #lista{
+    display: block;
+
+    animation-name: animacion;
+    animation-duration: 1s;
+}
+
+#lista {
+    width: 15%;
+    position: absolute;
+    top: 54px;
+    left: 85.5%;
+    z-index: 2;
+    display: none;
+    cursor: pointer;
+}
+
+@keyframes animacion {
+    from {
+        opacity: 0;
+        transform: translateX(200%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+#lista li > a {
+    min-width: 100px;
+    padding: 10px;
+    background-color: rgb(41, 57, 82);
+    color: white;
+    text-decoration: none;
+}
+
+#lista #cerrar_sesion > a {
+    background-color: red;
+}
+
+#lista li > a:hover {
+    color: #000;
+    background-color: #eaeaea;
+}
+
+#lista > li{
+    display: flex;
+    flex-direction: column;
+    text-align:center;
+}
+
+#lista #cerrar_sesion > a:hover {
+    color: red;
+    background-color: #eaeaea;
+}
+
+nav {
+    position: relative;
+    bottom: 21.5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+nav span ~ span {
+    margin-left: 25%;
+}
+
+hr {
+    width: 80%;
+    margin-top: 0px;
+    background-color: rgb(41, 57, 82);
+}
+
+#contenido {
+    width: 80%;
+    height: 471px;
+    margin-left: 10%;
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 2%;
+    row-gap: 2%;
+}
+
+#cuenta1 {
+    width: 100%;
+    height: 150px;
+    border: 3px;
+    border-radius: 25px;
+    background-color: rgb(41, 57, 82);
+    color: white;
+    text-align: center;
+}
+
+#titulo_saldo {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 3em;
+}
+
+#saldo {
+    font-size: 2em;
+}
+
+.div_tabla {
+    max-width: 100%;
+    height: 175px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+table {
+    width: 100%;
+    font-size: 1.1em;
+    text-align: center;
+    color: black;
+    border-collapse: collapse;
+}
+
+thead{
+    position: sticky;
+    top: 0%;   
+}
+
+#thead_ingresos {
+    background-color: lightgreen;
+}
+
+#thead_reintegros {
+    background-color: salmon;
+}
+
+th,td {
+    border-bottom: 1px solid forestgreen;
+}
+
+#tabla_reintegros th {
+    border-bottom: 1px solid red;
+}
+
+#tabla_reintegros td {
+    border-bottom: 1px solid red;
+}
+
+#ingresar {
+    height: 35px;
+    margin-top: 5px;
+    border: 2px solid forestgreen;
+    border-radius: 2px;
+    background-color: forestgreen;
+    color: white;
+    cursor: pointer;
+}
+
+#ingresar:hover {
+    background-color: darkseagreen;
+}
+
+#sacar {
+    height: 35px;
+    margin-top: 5px;
+    border: 2px solid red;
+    border-radius: 2px;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}
+
+#sacar:hover {
+    background-color: darksalmon;
+}
+
+#ingresos {
+    width: 49%;
+    height: 281px;
+    border: 3px;
+    border-radius: 25px;
+    background-color:lightgreen;
+    color: forestgreen;
+    text-align: center;
+}
+
+#titulo_ingresos {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 3em;
+}
+
+#gastos {
+    width: 49%;
+    height: 281px;
+    border: 3px;
+    border-radius: 25px;
+    background-color: salmon;
+    color: red;
+    text-align: center;
+}
+
+#titulo_gastos {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 3em;
+}
+
+#cajaIngreso {
+    width: 25%;
+    height: 281px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5%;
+    position: absolute;
+    top: 100px;
+    right: 37.5%;
+    bottom: 100px;
+    left: 37.5%;
+    border: 3px solid black;
+    border-radius: 25px;
+    background-color: white;
+    color: rgb(41, 57, 82);
+    text-align: center;
+}
+
+#cajaReintegro {
+    width: 25%;
+    height: 281px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5%;
+    position: absolute;
+    top: 100px;
+    right: 37.5%;
+    bottom: 100px;
+    left: 37.5%;
+    border: 3px solid black;
+    border-radius: 25px;
+    background-color: white;
+    color: rgb(41, 57, 82);
+    text-align: center;
+}
+
+#cajaBotones_ingreso, #cajaBotones_reintegro {
+    width: 100%;
+}
+
+#confirmar_ingreso:active, #confirmar_reintegro:active {
+    color: white;
+    background-color: forestgreen;
+}
+
+#cancelar_ingreso, #cancelar_reintegro {
+    margin-left: 2%;
+}
+
+#cancelar_ingreso:active, #cancelar_reintegro:active {
+    color: white;
+    background-color: red;
+}
+
+.contenedor {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    column-gap: 10%;
+    font-size: 1.25em;
+    text-align: center;
+    background-color: rgb(41, 57, 82);
+    color: white;
+}

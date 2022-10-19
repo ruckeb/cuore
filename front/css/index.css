@@ -1,0 +1,163 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100%;
+    height: 150px;
+    position: relative;
+    bottom: 21.5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(109, 109, 238);
+}
+#iniciar_sesion{
+    background-color: rgb(245, 98, 135);
+    border: 3px solid black;    
+}
+#registrarse{
+    background-color: rgb(245, 98, 135);
+    border: 3px solid black;
+}
+
+img {
+    width: 20%;
+    height: 200px;
+    cursor: pointer;
+}
+
+button {
+    height: 30px;
+    border: 2px double black;
+    border-radius: 20px;
+    background-color: rgb(41, 57, 82);
+    color: white;
+    cursor: pointer;
+}
+
+section {
+    width: 100%;
+    height: 471px;
+    position: relative;
+    bottom: 21.5px;
+}
+
+#fondo {
+    position: absolute;
+    right: 58%;
+    margin-top: 100px;
+    font-size: 15em;
+    font-family: "times new roman";
+    text-shadow: 7.5px 7.5px 7.5px grey;
+    color: rgb(238, 65, 65);
+    z-index: -1;
+    animation-name: fondo;
+    animation-duration: 3.5s;
+}
+#fondo2 {
+    position: absolute;
+    right: 20%;
+    margin-top: 100px;
+    font-size: 15em;
+    font-family: "times new roman";
+    text-shadow: 7.5px 7.5px 7.5px grey;
+    color: black;
+    z-index: -1;
+    animation-name: fondo;
+    animation-duration: 3.5s;
+}
+
+@keyframes fondo {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#formulario_inicio{
+    width: 70%;
+    height: 200px;
+    margin-left: 15%;
+    padding-top: 20px;
+    border: 2px ridge rgb(41, 57, 82);
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px silver;
+    background-color: white;
+    text-align: center;
+    display: none;
+}
+
+#formulario_registro {
+    width: 70%;
+    height: 450px;
+    margin-left: 15%;
+    padding-top: 10px;
+    border: 2px ridge rgb(41, 57, 82);
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px silver;
+    background-color: white;
+    text-align: center;
+    display: none;
+}
+
+#noCoinciden {
+    width: 20%;
+    position: absolute;
+    left: 60%;
+    border: 1px solid red;
+    border-radius: 3px;
+    background-color: salmon;
+    color: red;
+}
+
+#coinciden {
+    width: 20%;
+    position: absolute;
+    left: 60%;
+    border: 1px solid green;
+    border-radius: 3px;
+    background-color: lightgreen;
+    color: green;
+}
+
+.ocultar {
+    display: none;
+}
+
+.mostrar {
+    display: block;
+}
+
+input {
+    border-radius: 4px;
+    border: 0.5px solid whitesmoke;
+    border-bottom: 2px solid black;
+    background-color: white;
+}
+
+input:focus {
+    border: 3px groove dodgerblue;
+    border-radius: 2px;
+    background-color: white;
+}
+
+.contenedor {
+    width: 100%;
+    height: 150px;
+    top: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    column-gap: 10%;
+    font-size: 1.25em;
+    text-align: center;
+    background-color: rgb(109, 109, 238);
+    color: white;
+}

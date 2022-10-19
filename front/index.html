@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Primera Página de prueba</title>
+    <link rel="shortcut icon" href="./img/logo.png">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header>
+        <img src="./img/logo.png" id="logo" title="Logo">
+        <div id="botones_login">
+            <button id="iniciar_sesion">Inicia sesión</button>
+            <button id="registrarse">Regístrate</button>
+        </div>
+    </header>
+
+    <section id="formularios">
+        <h1 id="fondo">CU<h1 id="fondo2">ORE</h1></h1>
+        <form id="formulario_inicio">
+            <label for="usuario">Correo:</label>
+            <br>
+            <input type="email" id="usuario" name="usuario">
+            <br>
+            <br><br>
+            <label for="clave">Contraseña</label>
+            <br>
+            <input type="password" id="clave" name="clave">
+            <br><br>
+            <button type="submit" id="entrar">Iniciar Sesión</button>
+        </form>
+
+        <form id="formulario_registro"> 
+            <label for="nombre">Nombre:</label>
+            <br>
+            <input type="text" id="nombre" name="nombre" required>
+            <br><br>
+            <label for="apellidos">Apellidos:</label>
+            <br>
+            <input type="text" id="apellidos" name="apellidos" required>
+            <br><br>
+            <label for="pais">País:</label>
+            <br>
+            <input type="text" id="pais" name="pais" required>
+            <br><br>
+            <label for="ciudad">Ciudad:</label>
+            <br>
+            <input type="text" id="ciudad" name="ciudad" required>
+            <br><br>
+            <label for="correo">Correo:</label>
+            <br>
+            <input type="email" id="correo" name="correo" required>
+            <br><br>
+            <label for="clave_registro">Establecer contraseña:</label>
+            <br>
+            <input type="text" id="clave_registro" name="clave_registro" maxlength="8" required>
+            <div id="noCoinciden" class="ocultar">
+                Las Contraseñas no coinciden, vuelve a intentarlo!
+            </div>
+            <div id="coinciden" class="ocultar">
+                Las Contraseñas coinciden!
+            </div>
+            <br><br>
+            <label for="clave_confirma">Repetir contraseña:</label>
+            <br>
+            <input type="text" id="clave_confirma" name="clave_confirma" maxlength="8" required>
+            <br><br>
+            <button type="submit" id="registrar">Registrarse</button>
+        </form>
+    </section>
+    
+    <footer class="contenedor">
+        <div class="p1">© Copyright 2022</div>
+        <div class="p2">Proyecto por David Denche, Rubén López y Sara Ortigosa.</div>
+    </footer>
+    <script src="js/sesion.js"></script>
+</body>
+</html>
