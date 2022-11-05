@@ -1,0 +1,251 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+header {
+    width: 100%;
+    height: 190px;
+    position: relative;
+    bottom: 23.5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #454545;
+}
+#botones_login{    /*si quitamos esto nos vamos a dos lineas*/
+    padding-right: 5%;
+    display: flex;
+    flex-direction: row;
+}
+#botones_Env_Publi{   
+    padding-left: 5%;
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+}
+#botonIdiomas{
+    background-color: transparent;
+    border: transparent;
+    width: 18%;
+    height: 30px;
+}
+#espana{
+    width: 78%;
+    height: 40px;
+}
+#reino-unido{
+    width: 75%;
+    height: 40px;
+}
+#francia{
+    width: 75%;
+    height: 40px;
+}
+#alemania{
+    width: 90%;
+    height: 40px;
+}
+#iniciar_sesion{
+    background-color: white;
+    font-size: 1em;
+    font-weight: 800;
+    color: #e53935;
+    width: 160px;
+    height: 40px;
+    margin-left: 5px;
+}
+#registrarse{
+    background-color: white;
+    font-size: 1em;
+    font-weight: 800;
+    color: #e53935;
+    width: 160px;
+    height: 40px;
+    margin-left: 5px;
+}
+img {
+    width: 33%;
+    height: 254px;
+    cursor: pointer;
+}
+button {
+    height: 30px;
+    width: 150px;
+    border: 2px double black;
+    border-radius: 20px;
+    background-color: rgb(41, 57, 82);
+    color: black;
+    cursor: pointer;
+}
+section {
+    width: 100%;
+    height: 490px;
+    position: relative;
+    bottom: 21.5px;
+}
+#fondo {
+    position: absolute;
+    right: 53%;
+    margin-top: 100px;
+    font-size: 15em;
+    font-family: "times new roman";
+    text-shadow: 7.5px 7.5px 7.5px grey;
+    color: #e53935;
+    z-index: -1;
+    animation-name: fondo;
+    animation-duration: 3.5s;
+}
+#fondo2 {
+    position: absolute;
+    right: 20%;
+    margin-top: 100px;
+    font-size: 15em;
+    font-family: "times new roman";
+    text-shadow: 7.5px 7.5px 7.5px grey;
+    color: black;
+    z-index: -1;
+    animation-name: fondo;
+    animation-duration: 3.5s;
+}
+@keyframes fondo {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+#formulario_inicio{
+    width: 70%;
+    height: 200px;
+    margin-top: 20px;
+    margin-left: 15%;
+    padding-top: 20px;
+    border: 2px ridge rgb(41, 57, 82);
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px silver;
+    background-color: white;
+    text-align: center;
+    display: none;
+}
+#entrar{
+    background-color: rgb(245, 98, 135);
+    border: 3px solid black; 
+}
+#formulario_registro {
+    width: 70%;
+    height: 450px;
+    margin-top: 20px;
+    margin-left: 15%;
+    padding-top: 10px;
+    border: 2px ridge rgb(41, 57, 82);
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px silver;
+    background-color: white;
+    text-align: center;
+    display: none;
+}
+#registrar{
+    background-color: rgb(245, 98, 135);
+    border: 3px solid black; 
+}
+#noCoinciden {
+    width: 20%;
+    position: absolute;
+    left: 60%;
+    border: 1px solid red;
+    border-radius: 3px;
+    background-color: salmon;
+    color: red;
+}
+#coinciden {
+    width: 20%;
+    position: absolute;
+    left: 60%;
+    border: 1px solid green;
+    border-radius: 3px;
+    background-color: lightgreen;
+    color: green;
+}
+.ocultar {
+    display: none;
+}
+.mostrar {
+    display: block;
+}
+input {
+    border-radius: 4px;
+    border: 0.5px solid whitesmoke;
+    border-bottom: 2px solid black;
+    background-color: white;
+}
+input:focus {
+    border: 3px groove dodgerblue;
+    border-radius: 2px;
+    background-color: white;
+}
+#formulario_mensajes{
+    width: 70%;
+    height: 450px;
+    margin-top: 20px;
+    margin-left: 15%;
+    padding-top: 20px;
+    border: 2px ridge rgb(41, 57, 82);
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px silver;
+    background-color: white;
+    text-align: center;
+    display: none;
+}
+#enviar{
+    background-color: #454545;
+    color: #e53935;
+    width: 230px;
+    height: 120px;
+    margin-top: 70px;
+    font-size: 1.5em;
+    font-weight: 800;
+}
+#formulario_publicaciones{
+    width: 70%;
+    height: 450px;
+    margin-top: 20px;
+    margin-left: 15%;
+    padding-top: 20px;
+    border: 2px ridge rgb(41, 57, 82);
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px silver;
+    background-color: white;
+    text-align: center;
+    display: none;
+}
+#publicar{
+    background-color: #454545;
+    color: #e53935;
+    width: 230px;
+    height: 120px;
+    margin-top: 90px;
+    font-size: 1.5em;
+    font-weight: 800;
+}
+#entrar{
+    background-color: rgb(245, 98, 135);
+    border: 3px solid black; 
+}
+.contenedor {
+    width: 100%;
+    height: 60px;
+    top: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    column-gap: 10%;
+    font-size: 1.2em;
+    font-weight: 800;
+    text-align: center;
+    background: #454545;
+    color: #e53935;
+}
