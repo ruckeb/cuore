@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Primera Página de prueba</title>
     <link rel="shortcut icon" href="../img/imgLogo/logo.png">
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/login.css">
     <script src="../js/BotonesLogin.js"></script>
 </head>
 <body>
@@ -16,14 +16,15 @@
             <button id="botonIdiomas"><img id="francia" src="../img/imgPaises/francia.png"></button>
             <button id="botonIdiomas"><img id="alemania" src="../img/imgPaises/alemania.png"></button>
             <button id="iniciar_sesion">Inicia sesión</button>
-            <button id="registrarse">Regístrate</button>
+            <button id="registrarse" onclick="BtnAbrirRegistro()">Regístrate</button>
         </div>
     </header>
 
     <section id="formularios">
-        <h1 id="fondo">CU<h1 id="fondo2">ORE</h1></h1>
-        <form id="formulario_inicio" onclick="AbrirFormInicio()">
-            <label for="usuarios">Nick:</label>
+        <div id="animacion"><h1 id="fondo">CU<h1 id="fondo2">ORE</h1></h1></div>
+
+        <form id="formulario_inicio">
+            <label for="usuarios">Usuario:</label>
             <br>
             <input type="text" id="usuario" name="usuario">
             <br><br>
@@ -35,11 +36,11 @@
         </form>
 
         <form id="formulario_registro"> 
-            <label for="nick">Nick:</label>
+            <label for="nick">Usuario:</label>
             <br>
             <input type="text" id="nick" name="nick" required>
             <br><br>
-            <label for="email">Email:</label>
+            <label for="email">Correo:</label>
             <br>
             <input type="email" id="email" name="email" required>
             <br><br>
@@ -77,6 +78,5 @@
         <div class="p1">© Copyright 2022</div>
         <div class="p2">Proyecto por David Denche, Rubén López y Sara Ortigosa.</div>
     </footer>
-    <script src="js/sesion.js"></script>
 </body>
 </html>

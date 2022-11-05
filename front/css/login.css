@@ -1,4 +1,4 @@
-body {
+* {
     margin: 0;
     padding: 0;
 }
@@ -50,7 +50,7 @@ header {
     background-color: white;
     font-size: 1em;
     font-weight: 800;
-    color: #e53935;
+    color: black;
     width: 160px;
     height: 40px;
     margin-left: 5px;
@@ -59,7 +59,7 @@ header {
     background-color: white;
     font-size: 1em;
     font-weight: 800;
-    color: #e53935;
+    color: black;
     width: 160px;
     height: 40px;
     margin-left: 5px;
@@ -83,28 +83,35 @@ section {
     height: 490px;
     position: relative;
     bottom: 21.5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+}
+#animacion {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 #fondo {
-    position: absolute;
-    right: 57%;
-    margin-top: 100px;
+    width: 45%;
+    text-align: right;
     font-size: 15em;
     font-family: "times new roman";
     text-shadow: 7.5px 7.5px 7.5px grey;
     color: #e53935;
-    z-index: -1;
     animation-name: fondo;
     animation-duration: 3.5s;
 }
 #fondo2 {
-    position: absolute;
-    right: 18%;
-    margin-top: 100px;
+    width: 55%;
     font-size: 15em;
     font-family: "times new roman";
     text-shadow: 7.5px 7.5px 7.5px grey;
     color: black;
-    z-index: -1;
     animation-name: fondo;
     animation-duration: 3.5s;
 }
@@ -119,8 +126,7 @@ section {
 #formulario_inicio{
     width: 70%;
     height: 200px;
-    margin-top: 20px;
-    margin-left: 15%;
+    z-index: 1;
     padding-top: 20px;
     border: 2px ridge rgb(41, 57, 82);
     border-radius: 10px;
@@ -136,21 +142,21 @@ section {
 #formulario_registro {
     width: 70%;
     height: 450px;
-    margin-top: 20px;
-    margin-left: 15%;
+    z-index: 1;
     padding-top: 10px;
     border: 2px ridge rgb(41, 57, 82);
     border-radius: 10px;
     box-shadow: 10px 10px 5px silver;
     background-color: white;
     text-align: center;
-    /* display: none; */
+    display: none;
 }
 #registrar{
     background-color: rgb(245, 98, 135);
     border: 3px solid black; 
 }
-#noCoinciden {
+/*Esto lo pongo para si queremos poner que coinciden o no las contraseñas*/
+/* #noCoinciden {
     width: 20%;
     position: absolute;
     left: 60%;
@@ -166,8 +172,8 @@ section {
     border: 1px solid green;
     border-radius: 3px;
     background-color: lightgreen;
-    color: green;
-}
+    color: green; 
+}*/
 .ocultar {
     display: none;
 }
@@ -185,54 +191,6 @@ input:focus {
     border-radius: 2px;
     background-color: white;
 }
-#formulario_mensajes{
-    width: 70%;
-    height: 450px;
-    margin-top: 20px;
-    margin-left: 15%;
-    padding-top: 20px;
-    border: 2px ridge rgb(41, 57, 82);
-    border-radius: 10px;
-    box-shadow: 10px 10px 5px silver;
-    background-color: white;
-    text-align: center;
-    display: none;
-}
-#enviar{
-    background-color: #454545;
-    color: #e53935;
-    width: 230px;
-    height: 120px;
-    margin-top: 70px;
-    font-size: 1.5em;
-    font-weight: 800;
-}
-#formulario_publicaciones{
-    width: 70%;
-    height: 450px;
-    margin-top: 20px;
-    margin-left: 15%;
-    padding-top: 20px;
-    border: 2px ridge rgb(41, 57, 82);
-    border-radius: 10px;
-    box-shadow: 10px 10px 5px silver;
-    background-color: white;
-    text-align: center;
-    display: none;
-}
-#publicar{
-    background-color: #454545;
-    color: #e53935;
-    width: 230px;
-    height: 120px;
-    margin-top: 90px;
-    font-size: 1.5em;
-    font-weight: 800;
-}
-#entrar{
-    background-color: rgb(245, 98, 135);
-    border: 3px solid black; 
-}
 .contenedor {
     width: 100%;
     height: 60px;
@@ -247,5 +205,5 @@ input:focus {
     font-weight: 800;
     text-align: center;
     background: #454545;
-    color: #e53935;
+    color: white;
 }
