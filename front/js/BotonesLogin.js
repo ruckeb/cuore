@@ -24,5 +24,4 @@ window.onload = ()=>{
         inicio_sesion.style.color = "black";
         registro.style.color = "black";
     }
-
 }

@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Primera Página de prueba</title>
+    <title>Login</title>
     <link rel="shortcut icon" href="../img/imgLogo/logo.png">
     <link rel="stylesheet" href="../css/login.css">
-    <script src="../js/BotonesLogin.js"></script>
+    <script src="../js/botonesLogin.js"></script>
 </head>
 <body>
     <header>
@@ -44,16 +44,20 @@
             <br>
             <input type="email" id="email" name="email" required>
             <br><br>
-            <label for="rol">Rol:</label>
-            <br>
-            <input type="text" id="rol" name="rol" required>
+            <label for="rol">Rol:</label> 
+            <select name="rol" id="rol">
+                <option value="Hombre">Hombre</option>
+                <option value="Mujer">Mujer</option>
+                <option value="Ambos">Ambos</option>
+            </select>
+
             <br><br>
             <label for="imagen">Imagen:</label>
-            <br>
+            <br><br>
             <input type="file" accept=".png,.jpg,jpeg" id="imagen" name="imagen" required>
             <br><br>
             <label for="video">Video Presentacion:</label>
-            <br>
+            <br><br>
             <input type="file" accept="" id="video" name="video" required>
             <br><br>
             <label for="clave_registro">Establecer contraseña:</label>
