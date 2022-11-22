@@ -2,181 +2,367 @@
     margin: 0;
     padding: 0;
 }
-body{
-    background-color: #6b6868;
+
+@media screen and (min-width:400px) {
+    body {
+        background-color: #6b6868;
+    }
+    header {
+        width: 100%;
+        height: 190px;
+        position: relative;
+        bottom: 23.5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #454545;
+    }
+    img {
+        width: 25%;
+        height: 190px;
+        cursor: pointer;
+    }
+    #botones_login {
+        /*si quitamos esto nos vamos a dos lineas*/
+        padding-right: 5%;
+        display: flex;
+        flex-direction: row;
+    }
+    #botonIdiomas {
+        background-color: transparent;
+        border: transparent;
+        width: 30%;
+        height: 30px;
+    }
+    #espana {
+        width: 78%;
+        height: 40px;
+    }
+    #reino-unido {
+        width: 75%;
+        height: 40px;
+    }
+    #francia {
+        width: 75%;
+        height: 40px;
+    }
+    #alemania {
+        width: 100%;
+        height: 40px;
+    }
+    #menu {
+        background-color: transparent;
+        width: 90%;
+        height: 40px;
+        margin-left: 55%;
+    }
+    button {
+        height: 40px;
+        width: 150px;
+        cursor: pointer;
+    }
+    #disMenu {
+        display: none;
+        width: 30%;
+        height: 269px;
+        position: absolute;
+        right: 0%;
+        top: 120px;
+    }
+    #tablaMenu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+    }
+    #btnMenu {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+        border: 2px solid black;
+        border-collapse: collapse;
+        background-color: #454545;
+    }
+    #disMenu :hover {
+        width: 100%;
+        background-color: #6b6868;
+    }
+    p {
+        font-size: 25px;
+        padding-left: 5%;
+    }
+    section {
+        width: 100%;
+        height: 500px;
+    }
+    #section1 {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        width: 100%;
+        height: 300px;
+    }
+    #imgPerfil {
+        width: 25%;
+        height: 250px;
+        margin-left: 5%;
+        background-size: cover;
+        border-radius: 50%;
+        border: 2px solid black;
+    }
+    #textoPerfil {
+        width: 100%;
+        height: 200px;
+        margin-left: 5%;
+    }
+    h3 {
+        font-size: 25px;
+    }
+    #btnImgVid {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-around;
+        width: 100%;
+    }
+    #btnImagenes {
+        width: 50%;
+        background-color: #454545;
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    #btnImagenes :hover {
+        width: 100%;
+        height: 29px;
+        padding-top: 1%;
+        background-color: #6b6868;
+    }
+    #btnVideos {
+        width: 50%;
+        background-color: #454545;
+        font-size: 20px;
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    #btnVideos :hover {
+        width: 100%;
+        height: 29px;
+        padding-top: 1%;
+        background-color: #6b6868;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    #disImg {
+        display: none;
+    }
+    #cajImagenes {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    #imagenes {
+        width: 25%;
+    }
+    #disVid {
+        display: none;
+    }
+    #cajVideos {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    #videos {
+        width: 25%;
+    }
 }
-header {
-    width: 100%;
-    height: 190px;
-    position: relative;
-    bottom: 23.5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #454545;
-}
-img {
-    width: 25%;
-    height: 190px;
-    cursor: pointer;
-}
-#botones_login{    /*si quitamos esto nos vamos a dos lineas*/
-    padding-right: 5%;
-    display: flex;
-    flex-direction: row;
-}
-#botonIdiomas{
-    background-color: transparent;
-    border: transparent;
-    width: 30%;
-    height: 30px;
-}
-#espana{
-    width: 78%;
-    height: 40px;
-}
-#reino-unido{
-    width: 75%;
-    height: 40px;
-}
-#francia{
-    width: 75%;
-    height: 40px;
-}
-#alemania{
-    width: 100%;
-    height: 40px;
-}
-#menu{
-    background-color: transparent;
-    width: 90%;
-    height: 40px;
-    margin-left: 55%;
-}
-button{
-    height: 40px;
-    width: 150px;
-    cursor: pointer;
-}
-#disMenu{
-    display: none;
-    width: 30%;
-    height: 269px;
-    position: absolute;
-    right: 0%;
-    top: 120px;
-}
-#tablaMenu{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-}
-#btnMenu{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    border: 2px solid black;
-    border-collapse: collapse;
-    background-color: #454545;
-}
-#disMenu :hover{
-    width: 100%;
-    background-color: #6b6868;
-}
-p{
-    font-size: 25px;
-    padding-left: 5%;
-}
-section{
-    width: 100%;
-    height: 500px;
-}
-#section1{
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    width: 100%;
-    height: 300px;
-}
-#imgPerfil{
-    width: 25%;
-    height: 250px;
-    margin-left: 5%;
-    background-size: cover;
-    border-radius: 50%;
-    border: 2px solid black;
-}
-#textoPerfil{
-    width: 100%;
-    height: 200px;
-    margin-left: 5%;
-}
-h3{
- font-size: 25px;
-}
-#btnImgVid{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-around;
-    width: 100%;
-}
-#btnImagenes{
-    width: 50%;
-    background-color: #454545;
-    border: 2px solid black;
-    border-collapse: collapse;
-}
-#btnImagenes :hover{
-    width: 100%;
-    height: 29px;
-    padding-top: 1%;
-    background-color: #6b6868;
-}
-#btnVideos{
-    width: 50%;
-    background-color: #454545;
-    font-size: 20px;
-    border: 2px solid black;
-    border-collapse: collapse;
-}
-#btnVideos :hover{
-    width: 100%;
-    height: 29px;
-    padding-top: 1%;
-    background-color: #6b6868;
-}
-h2{
-    font-size: 20px;
-}
-#disImg{
-    display: none;
-}
-#cajImagenes{
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    align-items: flex-start;
-}
-#imagenes{
-    width: 25%;
-}
-#disVid{
-    display: none;
-}
-#cajVideos{
-    display: flex;
-    justify-content: space-around;
-    flex-direction: row;
-    align-items: flex-start;
-}
-#videos{
-    width: 25%;
+
+@media screen and (max-width:399px) {
+    body {
+        background-color: #6b6868;
+    }
+    header {
+        width: 100%;
+        height: 190px;
+        position: relative;
+        bottom: 23.5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #454545;
+    }
+    img {
+        width: 25%;
+        height: 190px;
+        cursor: pointer;
+    }
+    #botones_login {
+        /*si quitamos esto nos vamos a dos lineas*/
+        padding-right: 5%;
+        display: flex;
+        flex-direction: row;
+    }
+    #botonIdiomas {
+        background-color: transparent;
+        border: transparent;
+        width: 30%;
+        height: 30px;
+    }
+    #espana {
+        width: 78%;
+        height: 40px;
+    }
+    #reino-unido {
+        width: 75%;
+        height: 40px;
+    }
+    #francia {
+        width: 75%;
+        height: 40px;
+    }
+    #alemania {
+        width: 100%;
+        height: 40px;
+    }
+    #menu {
+        background-color: transparent;
+        width: 90%;
+        height: 40px;
+        margin-left: 55%;
+    }
+    button {
+        height: 40px;
+        width: 150px;
+        cursor: pointer;
+    }
+    #disMenu {
+        display: none;
+        width: 30%;
+        height: 269px;
+        position: absolute;
+        right: 0%;
+        top: 120px;
+    }
+    #tablaMenu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+    }
+    #btnMenu {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+        border: 2px solid black;
+        border-collapse: collapse;
+        background-color: #454545;
+    }
+    #disMenu :hover {
+        width: 100%;
+        background-color: #6b6868;
+    }
+    p {
+        font-size: 25px;
+        padding-left: 5%;
+    }
+    section {
+        width: 100%;
+        height: 500px;
+    }
+    #section1 {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        width: 100%;
+        height: 300px;
+    }
+    #imgPerfil {
+        width: 25%;
+        height: 250px;
+        margin-left: 5%;
+        background-size: cover;
+        border-radius: 50%;
+        border: 2px solid black;
+    }
+    #textoPerfil {
+        width: 100%;
+        height: 200px;
+        margin-left: 5%;
+    }
+    h3 {
+        font-size: 25px;
+    }
+    #btnImgVid {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-around;
+        width: 100%;
+    }
+    #btnImagenes {
+        width: 50%;
+        background-color: #454545;
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    #btnImagenes :hover {
+        width: 100%;
+        height: 29px;
+        padding-top: 1%;
+        background-color: #6b6868;
+    }
+    #btnVideos {
+        width: 50%;
+        background-color: #454545;
+        font-size: 20px;
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    #btnVideos :hover {
+        width: 100%;
+        height: 29px;
+        padding-top: 1%;
+        background-color: #6b6868;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    #disImg {
+        display: none;
+    }
+    #cajImagenes {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    #imagenes {
+        width: 25%;
+    }
+    #disVid {
+        display: none;
+    }
+    #cajVideos {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    #videos {
+        width: 25%;
+    }
 }
