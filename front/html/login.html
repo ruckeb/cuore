@@ -5,78 +5,11 @@
     <title>Primera Página de prueba</title>
     <link rel="shortcut icon" href="../img/imgLogo/logo.png">
     <link rel="stylesheet" href="../css/login.css">
-    <script src="../js/BotonesLogin.js"></script>
+    <script src="../js/login.js" type="module"></script>
 </head>
 <body>
-    <header>
-        <img src="../img/imgLogo/logo.png" id="logo" title="Logo">
-        <div id="botones_login">
-            <button id="botonIdiomas"><img id="espana" src="../img/imgPaises/espana.png"></button>
-            <button id="botonIdiomas"><img id="reino-unido" src="../img/imgPaises/reino-unido.png"></button>
-            <button id="botonIdiomas"><img id="francia" src="../img/imgPaises/francia.png"></button>
-            <button id="botonIdiomas"><img id="alemania" src="../img/imgPaises/alemania.png"></button>
-            <button id="iniciar_sesion">Inicia sesión</button>
-            <button id="registrarse" onclick="BtnAbrirRegistro()">Regístrate</button>
-        </div>
-    </header>
-
-    <section id="formularios">
-        <div id="animacion"><h1 id="fondo">CU<h1 id="fondo2">ORE</h1></h1></div>
-
-        <form id="formulario_inicio">
-            <label for="usuarios">Usuario:</label>
-            <br>
-            <input type="text" id="usuario" name="usuario">
-            <br><br>
-            <label for="clave">Contraseña:</label>
-            <br>
-            <input type="password" id="clave" name="clave">
-            <br><br>
-            <button type="submit" id="entrar">Iniciar Sesión</button>
-        </form>
-
-        <form id="formulario_registro"> 
-            <label for="nick">Usuario:</label>
-            <br>
-            <input type="text" id="nick" name="nick" required>
-            <br><br>
-            <label for="email">Correo:</label>
-            <br>
-            <input type="email" id="email" name="email" required>
-            <br><br>
-            <label for="rol">Rol:</label>
-            <br>
-            <input type="text" id="rol" name="rol" required>
-            <br><br>
-            <label for="imagen">Imagen:</label>
-            <br>
-            <input type="file" accept=".png,.jpg,jpeg" id="imagen" name="imagen" required>
-            <br><br>
-            <label for="video">Video Presentacion:</label>
-            <br>
-            <input type="file" accept="" id="video" name="video" required>
-            <br><br>
-            <label for="clave_registro">Establecer contraseña:</label>
-            <br>
-            <input type="text" id="clave_registro" name="clave_registro" maxlength="8" required>
-            <div id="noCoinciden" class="ocultar">
-                Las Contraseñas no coinciden, vuelve a intentarlo!
-            </div>
-            <div id="coinciden" class="ocultar">
-                Las Contraseñas coinciden!
-            </div>
-            <br><br>
-            <label for="clave_confirma">Repetir contraseña:</label>
-            <br>
-            <input type="text" id="clave_confirma" name="clave_confirma" maxlength="8" required>
-            <br><br>
-            <button type="submit" id="registrar">Registrarse</button>
-        </form>
-    </section>
-    
-    <footer class="contenedor">
-        <div class="p1">© Copyright 2022</div>
-        <div class="p2">Proyecto por David Denche, Rubén López y Sara Ortigosa.</div>
-    </footer>
+    <header></header>
+    <main></main>
+    <footer></footer>
 </body>
 </html>
