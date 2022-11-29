@@ -2,9 +2,12 @@
     margin: 0;
     padding: 0;
 }
+body{
+    height: 100vh;
+}
 header {
     width: 100%;
-    height: 190px;
+    height: 20%;
     position: relative;
     bottom: 23.5px;
     display: flex;
@@ -81,7 +84,7 @@ button {
 }
 main {
     width: 100%;
-    height: 490px;
+    min-height: 70%;
     position: relative;
     bottom: 21.5px;
     display: flex;
@@ -98,7 +101,7 @@ main {
     justify-content: center;
 }
 #fondo {
-    width: 45%;
+    width: 40%;
     text-align: right;
     font-size: 15em;
     font-family: "times new roman";
@@ -108,7 +111,7 @@ main {
     animation-duration: 3.5s;
 }
 #fondo2 {
-    width: 55%;
+    width: 60%;
     font-size: 15em;
     font-family: "times new roman";
     text-shadow: 7.5px 7.5px 7.5px grey;
@@ -194,8 +197,8 @@ input:focus {
 }
 footer {
     width: 100%;
-    height: 60px;
-    top: 100%;
+    height: 10%;
+    bottom: 0%;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -206,5 +209,4 @@ footer {
     font-weight: 800;
     text-align: center;
     background: #454545;
-    color: white;
 }
