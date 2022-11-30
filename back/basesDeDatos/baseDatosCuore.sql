@@ -1,14 +1,31 @@
 CREATE DATABASE IF NOT EXISTS Cuore;
 USE Cuore;
 
+CREATE TABLE IF NOT EXISTS sexos (
+    id INT UNSIGNED AUTO_INCREMENT,
+    sexo VARCHAR(19) NOT NULL,
+    CONSTRAINT PK_sexos PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS busquedas (
+    id INT UNSIGNED AUTO_INCREMENT,
+    busqueda VARCHAR(19) NOT NULL,
+    CONSTRAINT PK_busquedas PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS usuarios (
-    nick VARCHAR(50) UNIQUE NOT NULL,
+    nick VARCHAR(50),
+    nombre VARCHAR(50),
+    fecha_nacimiento DATE NOT NULL, 
     email VARCHAR(50) UNIQUE NOT NULL,
-    rol ENUM (chicaBUSCAchica, chicaBUSCAchico, chicoBUSCAchico, chicoBUSCAchica, chic@BUSCAchic@),
-    imagen VARCHAR(300) NOT NULL,
-    video_present VARCHAR(500) NOT NULL,
-    clave VARCHAR(10) NOT NULL,
-    PRIMARY KEY (nick)
+    sexo INT NOT NULL,
+    perfil_busqueda INT NOT NULL,
+    imagen VARCHAR(50) NOT NULL,
+    video_present VARCHAR(50) NOT NULL,
+    clave VARCHAR(20) NOT NULL,
+    CONSTRAINT PK_usuarios PRIMARY KEY (nick),
+    CONSTRAINT FK_usarios_sexos FOREIGN KEY (sexo) REFERENCES sexos (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_usarios_busquedas FOREIGN KEY (perfil_busqueda) REFERENCES busquedas (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS publicaciones(
