@@ -36,7 +36,6 @@ VALUES
 ('login', 'checkbox_busqueda_2', 'es', 'Mujeres'),
 ('login', 'checkbox_busqueda_3', 'es', 'Ambos'),
 ('login', 'input_nombre_titulo', 'es', 'xxxxxxxxxxxxxxx'),
-
 ('login', 'iniciar_sesion', 'en', 'Log in'),
 ('login', 'registrarse', 'en', 'Sign up'),
 ('login', 'label_usuario', 'en', 'User:'),
@@ -60,7 +59,6 @@ VALUES
 ('login', 'checkbox_busqueda_2', 'en', 'Women'),
 ('login', 'checkbox_busqueda_3', 'en', 'Both'),
 ('login', 'input_nombre_titulo', 'en', 'xxxxxxxxxxxxxxx'),
-
 ('login', 'iniciar_sesion', 'fr', 'Connexion'),
 ('login', 'registrarse', 'fr', "S'inscrire"),
 ('login', 'label_usuario', 'fr', 'Utilisateur:'),
@@ -84,7 +82,6 @@ VALUES
 ('login', 'checkbox_busqueda_2', 'fr', 'Les femmes'),
 ('login', 'checkbox_busqueda_3', 'fr', 'Les deux'),
 ('login', 'input_nombre_titulo', 'fr', 'xxxxxxxxxxxxxxx'),
-
 ('login', 'iniciar_sesion', 'de', 'Einloggen'),
 ('login', 'registrarse', 'de', 'Anmelden'),
 ('login', 'label_usuario', 'de', 'Benutzer:'),
@@ -108,7 +105,6 @@ VALUES
 ('login', 'checkbox_busqueda_2', 'de', 'Manner'),
 ('login', 'checkbox_busqueda_3', 'de', 'Beide'),
 ('login', 'input_nombre_titulo', 'de', 'xxxxxxxxxxxxxxx'),
-
 ('perfil', 'h3_nombre', 'es', 'Nombre:'),
 ('perfil', 'h3_correo', 'es', 'Correo:'),
 ('perfil', 'h3_sexo', 'es', 'Sexo:'),
@@ -116,7 +112,6 @@ VALUES
 ('perfil', 'h2_boton_imagenes', 'es', 'TUS IMÁGENES'),
 ('perfil', 'h2_boton_videos', 'es', 'TUS VÍDEOS'),
 ('perfil', 'p2', 'es', 'Proyecto por David Denche, Rubén López y Sara Ortigosa.'),
-
 ('perfil', 'h3_nombre', 'en', 'Name:'),
 ('perfil', 'h3_correo', 'en', 'Email:'),
 ('perfil', 'h3_sexo', 'en', 'Sex:'),
@@ -124,7 +119,6 @@ VALUES
 ('perfil', 'h2_boton_imagenes', 'en', 'YOUR IMAGES'),
 ('perfil', 'h2_boton_videos', 'en', 'YOUR VIDEOS'),
 ('perfil', 'p2', 'en', 'Project by David Denche, Rubén López and Sara Ortigosa.'),
-
 ('perfil', 'h3_nombre', 'fr', 'Nom:'),
 ('perfil', 'h3_correo', 'fr', 'Email:'),
 ('perfil', 'h3_sexo', 'fr', 'Sexe:'),
@@ -132,7 +126,6 @@ VALUES
 ('perfil', 'h2_boton_imagenes', 'fr', 'VOS IMAGES'),
 ('perfil', 'h2_boton_videos', 'fr', 'VOS VIDÉOS'),
 ('perfil', 'p2', 'fr', 'Projet de David Denche, Rubén López et Sara Ortigosa.'),
-
 ('perfil', 'h3_nombre', 'de', 'Name:'),
 ('perfil', 'h3_correo', 'de', 'Email:'),
 ('perfil', 'h3_sexo', 'de', 'Sex:'),
