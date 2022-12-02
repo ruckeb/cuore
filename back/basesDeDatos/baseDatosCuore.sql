@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS publicaciones(
     texto VARCHAR (500),
     imagen VARCHAR(300)NOT NULL,
     creado DATETIME NOT NULL,
-    PRIMARY KEY (idPublicacion),
-    FOREIGN KEY (nick) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT PK_publicaciones PRIMARY KEY (idPublicacion),
+    CONSTRAINT FK_publicaciones_usuarios FOREIGN KEY (nick) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS mensajes (
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS mensajes (
     nick_destino VARCHAR(50) NOT NULL,                    
     texto VARCHAR (500) NOT NULL,
     creado DATETIME NOT NULL,
-    PRIMARY KEY (idMensaje),
-    FOREIGN KEY (nick) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (nick_destino) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT PK_mensajes PRIMARY KEY (idMensaje),
+    CONSTRAINT FK_mensajes_usuarios FOREIGN KEY (nick) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_mensajes_usuarios FOREIGN KEY (nick_destino) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE
 );
