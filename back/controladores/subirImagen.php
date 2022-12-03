@@ -10,9 +10,9 @@
             $carpeta_destino = $_SERVER['DOCUMENT_ROOT'] . '/TFG/cuore/front/img/imgUsuarios/';
             move_uploaded_file($_FILES['imagen']['tmp_name'], $carpeta_destino.$nombre_imagen);
         } else {
-            $mensaje_error = 2;//"Sólo se pueden subir imagenes jpeg/jpg/png"
+            $codigo_error = 2;//"Sólo se pueden subir imagenes jpeg/jpg/png"
         }
     } else {
-        $mensaje_error = 1;//"El tamaño del archivo es demasiado grande"
+        $codigo_error = 1;//"El tamaño del archivo es demasiado grande"
     }
     

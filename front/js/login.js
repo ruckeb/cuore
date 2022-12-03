@@ -202,6 +202,7 @@ function cargarMain(literales) {
 
     let formulario_registro = document.createElement('form')
     formulario_registro.id = "formulario_registro"
+    formulario_registro.enctype = "multipart/form-data" //Esto es necesario porque este formulario incluye inputs de tipo file
 
     let label_nick = document.createElement('label')
     label_nick.id = "label_nick"
