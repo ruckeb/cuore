@@ -171,6 +171,9 @@ function cargarMain(literales) {
     input_usuario.id = "usuario"
     input_usuario.type = "text"
     input_usuario.name = "usuario"
+    input_usuario.maxLength = 50
+    input_usuario.pattern = "/^[a-z0-9_-]{2,50}$/"
+    input_usuario.title = buscarLiteral(literales, input_nick.id + "_title")
     input_usuario.required = true
 
     let label_contrasena = document.createElement('label')
@@ -181,8 +184,12 @@ function cargarMain(literales) {
     let input_contrasena = document.createElement('input')
     input_contrasena.id = "clave"
     input_contrasena.type = "password"
-    input_contrasena.name = "clave"
-    input_usuario.required = true
+    input_contrasena.name = "clave" 
+    input_contrasena.minLength = 8 
+    input_contrasena.maxLength = 20
+    input_contrasena.required = true
+    input_contrasena.pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
+    input_contrasena.title = buscarLiteral(literales, input_clave.id + "_title")
 
     let boton_enviar = document.createElement('button')
     boton_enviar.id = "entrar"
@@ -213,6 +220,9 @@ function cargarMain(literales) {
     input_nick.id = "nick"
     input_nick.type = "text"
     input_nick.name = "nick" 
+    input_nick.maxLength = 50
+    input_nick.pattern = "/^[a-z0-9_-]{2,50}$/"
+    input_nick.title = buscarLiteral(literales, input_nick.id + "_title")
     input_nick.required = true
    
     let label_email = document.createElement('label')
@@ -224,6 +234,10 @@ function cargarMain(literales) {
     input_email.id = "email"
     input_email.type = "email"
     input_email.name = "email" 
+    input_email.minLength = 5
+    input_email.maxLength = 150
+    input_email.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+    input_email.title = buscarLiteral(literales, input_email.id + "_title")
     input_email.required = true
 
     let label_fecha_nacimiento = document.createElement('label')
@@ -234,7 +248,7 @@ function cargarMain(literales) {
     let input_fecha_nacimiento = document.createElement('input')
     input_fecha_nacimiento.id = "fecha_nacimiento"
     input_fecha_nacimiento.type = "Date"
-    input_fecha_nacimiento.name = "fecha_nacimiento" 
+    input_fecha_nacimiento.name = "fecha_nacimiento"
     input_fecha_nacimiento.required = true
 
     let label_sexo = document.createElement('label')
@@ -298,7 +312,8 @@ function cargarMain(literales) {
     input_imagen.id = "imagen"
     input_imagen.type = "file"
     input_imagen.name = "imagen" 
-    input_imagen.accept = ".png,.jpg,jpeg"
+    input_imagen.accept = ".PNG,.JPG,.JPEG,.GIF,.TIFF,.PSD"
+    input_imagen.title = buscarLiteral(literales, input_imagen.id + "_title")
     input_imagen.required = true
 
     let label_video = document.createElement('label')
@@ -310,7 +325,8 @@ function cargarMain(literales) {
     input_video.id = "video"
     input_video.type = "file"
     input_video.name = "video" 
-    input_video.accept = ""
+    input_video.accept = ".MP4,.AVI,.MKV,.FLV,.MOV,.WMV,.DIVX,.H.264,.XVID,.RM"
+    input_imagen.title = buscarLiteral(literales, input_video.id + "_title")
     input_video.required = true
 
     let div_no_coinciden = document.createElement('div')
@@ -328,13 +344,7 @@ function cargarMain(literales) {
     label_clave.htmlFor = "clave_registro"
     label_clave.innerHTML = buscarLiteral(literales, label_clave.id)
 
-    let input_clave = document.createElement('input')
-    input_clave.id = "clave_registro"
-    input_clave.type = "password"
-    input_clave.name = "clave_registro" 
-    input_clave.maxLength = 8
-    input_clave.required = true
-    input_clave.onkeyup = () => {
+    function comprobarContrasenas() {
         if (input_clave.value == input_repetir_clave.value) {
             div_coinciden.classList.remove("ocultar")
             div_no_coinciden.classList.add("ocultar")
@@ -343,6 +353,17 @@ function cargarMain(literales) {
             div_no_coinciden.classList.remove("ocultar")
         }
     }
+
+    let input_clave = document.createElement('input')
+    input_clave.id = "clave_registro"
+    input_clave.type = "password"
+    input_clave.name = "clave_registro"
+    input_clave.minLength = 8 
+    input_clave.maxLength = 20
+    input_clave.required = true
+    input_clave.pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
+    input_clave.title = buscarLiteral(literales, input_clave.id + "_title")
+    input_clave.onkeyup = comprobarContrasenas
 
     let label_repetir_clave = document.createElement('label')
     label_repetir_clave.id = "label_repetir_clave"
@@ -353,22 +374,25 @@ function cargarMain(literales) {
     input_repetir_clave.id = "clave_confirma"
     input_repetir_clave.type = "password"
     input_repetir_clave.name = "clave_confirma" 
-    input_repetir_clave.maxLength = 8
+    input_repetir_clave.minLength = 8 
+    input_repetir_clave.maxLength = 20
     input_repetir_clave.required = true
-    input_repetir_clave.onkeyup = () => {
-        if (input_clave.value == input_repetir_clave.value) {
-            div_coinciden.classList.remove("ocultar")
-            div_no_coinciden.classList.add("ocultar")
-        } else {
-            div_coinciden.classList.add("ocultar")
-            div_no_coinciden.classList.remove("ocultar")
-        }
-    }
+    input_repetir_clave.pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
+    input_repetir_clave.title = buscarLiteral(literales, input_clave.id + "_title")
+    input_repetir_clave.required = true
+    input_repetir_clave.onkeyup = comprobarContrasenas
 
     let boton_enviar_registro = document.createElement('button')
     boton_enviar_registro.id = "registrar"
     boton_enviar_registro.type = "submit"
     boton_enviar_registro.innerHTML = buscarLiteral(literales, boton_enviar_registro.id)
+    boton_enviar_registro.onclick = (e) => {
+        e.preventDefault()
+        if (formulario_registro.reportValidity()) {
+            /*enviarRegistroAServidor(formulario_registro)*/
+            console.log('validado')
+        }
+    }
 
     formulario_registro.appendChild(label_nick)
     formulario_registro.appendChild(document.createElement('br'))
