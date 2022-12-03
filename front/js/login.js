@@ -123,7 +123,7 @@ function cargarCabecera(literales) {
     boton_registrarse.onclick = e => {
         e.preventDefault()
         document.getElementById("formulario_inicio").style.display = "none"
-        document.getElementById("formulario_registro").style.display = "block"
+        document.getElementById("formulario_registro").style.display = "flex"
         boton_registrarse.style.backgroundColor = "rgb(245, 98, 135)"
         boton_iniciar_sesion.style.backgroundColor = "white"
         boton_iniciar_sesion.style.color = "black"
@@ -173,8 +173,22 @@ function cargarMain(literales) {
     input_usuario.name = "usuario"
     input_usuario.maxLength = 50
     input_usuario.pattern = "/^[a-z0-9_-]{2,50}$/"
-    input_usuario.title = buscarLiteral(literales, input_nick.id + "_title")
+    input_usuario.title = buscarLiteral(literales, input_usuario.id + "_title")
     input_usuario.required = true
+
+    function boton_mostrar_contrasena(e) {
+        e.preventDefault()
+        let input = this.previousSibling
+        if (input.type == 'password') {
+            input.type = 'text'
+        }else{
+            input.type = 'password'
+        }
+    }
+    let boton_ojo_contrasena = document.createElement('button')
+    boton_ojo_contrasena.id = "ojo_contrasena"
+    boton_ojo_contrasena.innerHTML = "👁"
+    boton_ojo_contrasena.onclick = boton_mostrar_contrasena 
 
     let label_contrasena = document.createElement('label')
     label_contrasena.id = "label_contrasena"
@@ -189,7 +203,7 @@ function cargarMain(literales) {
     input_contrasena.maxLength = 20
     input_contrasena.required = true
     input_contrasena.pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
-    input_contrasena.title = buscarLiteral(literales, input_clave.id + "_title")
+    input_contrasena.title = buscarLiteral(literales, input_contrasena.id + "_title")
 
     let boton_enviar = document.createElement('button')
     boton_enviar.id = "entrar"
@@ -204,12 +218,16 @@ function cargarMain(literales) {
     formulario_inicio.appendChild(label_contrasena)
     formulario_inicio.appendChild(document.createElement('br'))
     formulario_inicio.appendChild(input_contrasena)
+    formulario_inicio.appendChild(boton_ojo_contrasena)
     formulario_inicio.appendChild(document.createElement('br'))
     formulario_inicio.appendChild(document.createElement('br'))
     formulario_inicio.appendChild(boton_enviar)
 
     let formulario_registro = document.createElement('form')
     formulario_registro.id = "formulario_registro"
+
+    let fila1_registro = document.createElement('div')
+    fila1_registro.id = "fila1_registro" 
 
     let label_nick = document.createElement('label')
     label_nick.id = "label_nick"
@@ -239,6 +257,14 @@ function cargarMain(literales) {
     input_email.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
     input_email.title = buscarLiteral(literales, input_email.id + "_title")
     input_email.required = true
+
+    fila1_registro.appendChild(label_nick)
+    fila1_registro.appendChild(input_nick)
+    fila1_registro.appendChild(label_email)
+    fila1_registro.appendChild(input_email)
+
+    let fila2_registro = document.createElement('div')
+    fila2_registro.id = "fila2_registro" 
 
     let label_fecha_nacimiento = document.createElement('label')
     label_fecha_nacimiento.id = "label_fecha_nacimiento"
@@ -299,9 +325,18 @@ function cargarMain(literales) {
     option_bus_ambos.value = buscarLiteral(literales, select_busqueda.id + '_ambos') 
     option_bus_ambos.innerHTML = buscarLiteral(literales, select_busqueda.id + '_ambos') 
 
+    fila2_registro.appendChild(label_fecha_nacimiento)
+    fila2_registro.appendChild(input_fecha_nacimiento)
+    fila2_registro.appendChild(label_sexo)
+    fila2_registro.appendChild(select_sexo)
+    fila2_registro.appendChild(label_busqueda)
+    fila2_registro.appendChild(select_busqueda)
     select_busqueda.appendChild(option_bus_hombre)
     select_busqueda.appendChild(option_bus_mujer)
     select_busqueda.appendChild(option_bus_ambos)
+
+    let fila3_registro = document.createElement('div')
+    fila3_registro.id = "fila3_registro" 
 
     let label_imagen = document.createElement('label')
     label_imagen.id = "label_imagen"
@@ -329,6 +364,14 @@ function cargarMain(literales) {
     input_imagen.title = buscarLiteral(literales, input_video.id + "_title")
     input_video.required = true
 
+    fila3_registro.appendChild(label_imagen)
+    fila3_registro.appendChild(input_imagen)
+    fila3_registro.appendChild(label_video)
+    fila3_registro.appendChild(input_video)
+
+    let fila4_registro = document.createElement('div')
+    fila4_registro.id = "fila4_registro" 
+
     let div_no_coinciden = document.createElement('div')
     div_no_coinciden.id = "noCoinciden"
     div_no_coinciden.classList.add("ocultar")
@@ -338,6 +381,11 @@ function cargarMain(literales) {
     div_coinciden.id = "coinciden"
     div_coinciden.classList.add("ocultar")
     div_coinciden.innerHTML = buscarLiteral(literales, div_coinciden.id)
+
+    let boton_ojo_contrasena2 = document.createElement('button')
+    boton_ojo_contrasena2.id = "ojo_contrasena2"
+    boton_ojo_contrasena2.innerHTML = "👁"
+    boton_ojo_contrasena2.onclick = boton_mostrar_contrasena 
 
     let label_clave = document.createElement('label')
     label_clave.id = "label_clave"
@@ -365,6 +413,11 @@ function cargarMain(literales) {
     input_clave.title = buscarLiteral(literales, input_clave.id + "_title")
     input_clave.onkeyup = comprobarContrasenas
 
+    let boton_ojo_contrasena3 = document.createElement('button')
+    boton_ojo_contrasena3.id = "ojo_contrasena3"
+    boton_ojo_contrasena3.innerHTML = "👁"
+    boton_ojo_contrasena3.onclick = boton_mostrar_contrasena
+
     let label_repetir_clave = document.createElement('label')
     label_repetir_clave.id = "label_repetir_clave"
     label_repetir_clave.htmlFor = "clave_confirma"
@@ -382,6 +435,15 @@ function cargarMain(literales) {
     input_repetir_clave.required = true
     input_repetir_clave.onkeyup = comprobarContrasenas
 
+    fila4_registro.appendChild(div_no_coinciden)
+    fila4_registro.appendChild(div_coinciden)
+    fila4_registro.appendChild(label_clave)
+    fila4_registro.appendChild(input_clave)
+    fila4_registro.appendChild(boton_ojo_contrasena2)
+    fila4_registro.appendChild(label_repetir_clave)
+    fila4_registro.appendChild(input_repetir_clave)
+    fila4_registro.appendChild(boton_ojo_contrasena3)
+
     let boton_enviar_registro = document.createElement('button')
     boton_enviar_registro.id = "registrar"
     boton_enviar_registro.type = "submit"
@@ -394,52 +456,16 @@ function cargarMain(literales) {
         }
     }
 
-    formulario_registro.appendChild(label_nick)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(input_nick)
+    formulario_registro.appendChild(fila1_registro)
     formulario_registro.appendChild(document.createElement('br'))
     formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_email)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(input_email)
+    formulario_registro.appendChild(fila2_registro)
     formulario_registro.appendChild(document.createElement('br'))
     formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_fecha_nacimiento)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(input_fecha_nacimiento)
+    formulario_registro.appendChild(fila3_registro)
     formulario_registro.appendChild(document.createElement('br'))
     formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_sexo)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(select_sexo)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_busqueda)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(select_busqueda)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_imagen)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(input_imagen)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_video)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(input_video)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_clave)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(input_clave)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_repetir_clave)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(input_repetir_clave)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(div_coinciden)
-    formulario_registro.appendChild(div_no_coinciden)
+    formulario_registro.appendChild(fila4_registro)
     formulario_registro.appendChild(document.createElement('br'))
     formulario_registro.appendChild(document.createElement('br'))
     formulario_registro.appendChild(boton_enviar_registro)
