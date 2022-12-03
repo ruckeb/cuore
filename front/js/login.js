@@ -10,6 +10,7 @@ window.onload = ()=>{
 
     cargarLogin()
 }
+const ERROR = "_error"
 
 function cargarLogin() {
     let bodyContent = {
@@ -225,16 +226,68 @@ function cargarMain(literales) {
     input_email.name = "email" 
     input_email.required = true
 
-    let label_rol = document.createElement('label')
-    label_rol.id = "label_rol"
-    label_rol.htmlFor = "rol"
-    label_rol.innerHTML = buscarLiteral(literales, label_rol.id)
+    let label_fecha_nacimiento = document.createElement('label')
+    label_fecha_nacimiento.id = "label_fecha_nacimiento"
+    label_fecha_nacimiento.htmlFor = "fecha_nacimiento"
+    label_fecha_nacimiento.innerHTML = buscarLiteral(literales, label_fecha_nacimiento.id)
 
-    let input_rol = document.createElement('input')
-    input_rol.id = "rol"
-    input_rol.type = "text"
-    input_rol.name = "rol" 
-    input_rol.required = true
+    let input_fecha_nacimiento = document.createElement('input')
+    input_fecha_nacimiento.id = "fecha_nacimiento"
+    input_fecha_nacimiento.type = "Date"
+    input_fecha_nacimiento.name = "fecha_nacimiento" 
+    input_fecha_nacimiento.required = true
+
+    let label_sexo = document.createElement('label')
+    label_sexo.id = "label_sexo"
+    label_sexo.htmlFor = "sexo"
+    label_sexo.innerHTML = buscarLiteral(literales, label_sexo.id)
+
+    let select_sexo = document.createElement('select')
+    select_sexo.id = "sexo"
+    select_sexo.name = "sexo" 
+    select_sexo.required = true
+    
+    let option_hombre = document.createElement('option')
+    option_hombre.value = buscarLiteral(literales, select_sexo.id + '_hombre') 
+    option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
+
+    let option_mujer = document.createElement('option')
+    option_mujer.value = buscarLiteral(literales, select_sexo.id + '_mujer') 
+    option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
+
+    let option_otros = document.createElement('option')
+    option_otros.value = buscarLiteral(literales, select_sexo.id + '_otros') 
+    option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
+
+    select_sexo.appendChild(option_hombre)
+    select_sexo.appendChild(option_mujer)
+    select_sexo.appendChild(option_otros)
+
+    let label_busqueda = document.createElement('label')
+    label_busqueda.id = "label_busqueda"
+    label_busqueda.htmlFor = "busqueda"
+    label_busqueda.innerHTML = buscarLiteral(literales, label_busqueda.id)
+
+    let select_busqueda = document.createElement('select')
+    select_busqueda.id = "busqueda"
+    select_busqueda.name = "busqueda" 
+    select_busqueda.required = true
+    
+    let option_bus_hombre = document.createElement('option')
+    option_bus_hombre.value = buscarLiteral(literales, select_busqueda.id + '_hombre') 
+    option_bus_hombre.innerHTML = buscarLiteral(literales, select_busqueda.id + '_hombre') 
+
+    let option_bus_mujer = document.createElement('option')
+    option_bus_mujer.value = buscarLiteral(literales, select_busqueda.id + '_mujer') 
+    option_bus_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_mujer')
+
+    let option_bus_ambos = document.createElement('option')
+    option_bus_ambos.value = buscarLiteral(literales, select_busqueda.id + '_ambos') 
+    option_bus_ambos.innerHTML = buscarLiteral(literales, select_busqueda.id + '_ambos') 
+
+    select_busqueda.appendChild(option_bus_hombre)
+    select_busqueda.appendChild(option_bus_mujer)
+    select_busqueda.appendChild(option_bus_ambos)
 
     let label_imagen = document.createElement('label')
     label_imagen.id = "label_imagen"
@@ -281,14 +334,13 @@ function cargarMain(literales) {
     input_clave.name = "clave_registro" 
     input_clave.maxLength = 8
     input_clave.required = true
-    input_clave.onkeydown = () => {
-        if (input_clave.innerHTML == input_repetir_clave) {
+    input_clave.onkeyup = () => {
+        if (input_clave.value == input_repetir_clave.value) {
             div_coinciden.classList.remove("ocultar")
             div_no_coinciden.classList.add("ocultar")
         } else {
             div_coinciden.classList.add("ocultar")
             div_no_coinciden.classList.remove("ocultar")
-
         }
     }
 
@@ -303,14 +355,13 @@ function cargarMain(literales) {
     input_repetir_clave.name = "clave_confirma" 
     input_repetir_clave.maxLength = 8
     input_repetir_clave.required = true
-    input_repetir_clave.onkeydown = () => {
-        if (input_clave.innerHTML == input_repetir_clave) {
+    input_repetir_clave.onkeyup = () => {
+        if (input_clave.value == input_repetir_clave.value) {
             div_coinciden.classList.remove("ocultar")
             div_no_coinciden.classList.add("ocultar")
         } else {
             div_coinciden.classList.add("ocultar")
             div_no_coinciden.classList.remove("ocultar")
-
         }
     }
 
@@ -329,9 +380,19 @@ function cargarMain(literales) {
     formulario_registro.appendChild(input_email)
     formulario_registro.appendChild(document.createElement('br'))
     formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(label_rol)
+    formulario_registro.appendChild(label_fecha_nacimiento)
     formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(input_rol)
+    formulario_registro.appendChild(input_fecha_nacimiento)
+    formulario_registro.appendChild(document.createElement('br'))
+    formulario_registro.appendChild(document.createElement('br'))
+    formulario_registro.appendChild(label_sexo)
+    formulario_registro.appendChild(document.createElement('br'))
+    formulario_registro.appendChild(select_sexo)
+    formulario_registro.appendChild(document.createElement('br'))
+    formulario_registro.appendChild(document.createElement('br'))
+    formulario_registro.appendChild(label_busqueda)
+    formulario_registro.appendChild(document.createElement('br'))
+    formulario_registro.appendChild(select_busqueda)
     formulario_registro.appendChild(document.createElement('br'))
     formulario_registro.appendChild(document.createElement('br'))
     formulario_registro.appendChild(label_imagen)
