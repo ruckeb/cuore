@@ -275,8 +275,14 @@ function cargarMain(literales) {
     label_clave.htmlFor = "clave_registro"
     label_clave.innerHTML = buscarLiteral(literales, label_clave.id)
 
-    function comprobarContrasenas() {
-        if (input_clave.value == input_repetir_clave.value) {
+    let input_clave = document.createElement('input')
+    input_clave.id = "clave_registro"
+    input_clave.type = "password"
+    input_clave.name = "clave_registro" 
+    input_clave.maxLength = 8
+    input_clave.required = true
+    input_clave.onkeydown = () => {
+        if (input_clave.innerHTML == input_repetir_clave) {
             div_coinciden.classList.remove("ocultar")
             div_no_coinciden.classList.add("ocultar")
         } else {
@@ -285,16 +291,6 @@ function cargarMain(literales) {
 
         }
     }
-
-    let input_clave = document.createElement('input')
-    input_clave.id = "clave_registro"
-    input_clave.type = "password"
-    input_clave.name = "clave_registro" 
-    input_clave.maxLength = 20
-    input_clave.required = true
-    input_clave.pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
-    input_clave.title = buscarLiteral(literales, "input_clave_titulo")
-    input_clave.onkeyup = comprobarContrasenas
 
     let label_repetir_clave = document.createElement('label')
     label_repetir_clave.id = "label_repetir_clave"
@@ -307,19 +303,21 @@ function cargarMain(literales) {
     input_repetir_clave.name = "clave_confirma" 
     input_repetir_clave.maxLength = 8
     input_repetir_clave.required = true
-    input_repetir_clave.onkeyup = comprobarContrasenas
+    input_repetir_clave.onkeydown = () => {
+        if (input_clave.innerHTML == input_repetir_clave) {
+            div_coinciden.classList.remove("ocultar")
+            div_no_coinciden.classList.add("ocultar")
+        } else {
+            div_coinciden.classList.add("ocultar")
+            div_no_coinciden.classList.remove("ocultar")
+
+        }
+    }
 
     let boton_enviar_registro = document.createElement('button')
     boton_enviar_registro.id = "registrar"
     boton_enviar_registro.type = "submit"
     boton_enviar_registro.innerHTML = buscarLiteral(literales, boton_enviar_registro.id)
-    boton_enviar_registro.onclick = (e) => {
-        e.preventDefault()
-        if (formulario_registro.reportValidity()) {
-            /*enviarRegistroAServidor(formulario_registro)*/
-            console.log('validado')
-        }
-    }
 
     formulario_registro.appendChild(label_nick)
     formulario_registro.appendChild(document.createElement('br'))
