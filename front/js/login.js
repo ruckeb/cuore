@@ -392,6 +392,23 @@ function cargarMain(literales) {
         if (formulario_registro.reportValidity()) {
             /*enviarRegistroAServidor(formulario_registro)*/
             console.log('validado')
+            let bodyContent = {
+                id_html: 'login',
+            }
+            let data = FormData()
+            data.append('imagen', formulario_registro.input_imagen.files[0])
+            data.append('video', formulario_registro.input_video.files[0])
+            data.append(JSON.stringify(bodyContent))
+            let url = '../../back/controladores/registrarUsuario.php'
+            let params = {
+                method: 'POST',
+                body: data
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                    console.log(datos)
+                })
         }
     }
 
