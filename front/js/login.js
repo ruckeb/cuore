@@ -348,7 +348,7 @@ function cargarMain(literales) {
     input_imagen.id = "imagen"
     input_imagen.type = "file"
     input_imagen.name = "imagen" 
-    input_imagen.accept = ".PNG,.JPG,.JPEG,.GIF,.TIFF,.PSD"
+    input_imagen.accept = ".PNG,.JPG,.JPEG"
     input_imagen.title = buscarLiteral(literales, input_imagen.id + "_title")
     input_imagen.required = true
 
@@ -361,7 +361,7 @@ function cargarMain(literales) {
     input_video.id = "video"
     input_video.type = "file"
     input_video.name = "video" 
-    input_video.accept = ".MP4,.AVI,.MKV,.FLV,.MOV,.WMV,.DIVX,.H.264,.XVID,.RM"
+    input_video.accept = ".MP4,.OGV,.WEBM"
     input_imagen.title = buscarLiteral(literales, input_video.id + "_title")
     input_video.required = true
 
@@ -452,15 +452,18 @@ function cargarMain(literales) {
     boton_enviar_registro.onclick = (e) => {
         e.preventDefault()
         if (formulario_registro.reportValidity()) {
-            /*enviarRegistroAServidor(formulario_registro)*/
-            console.log('validado')
             let bodyContent = {
-                id_html: 'login',
+                nick: formulario_registro.nick.value,
+                fecha_nacimiento: formulario_registro.fecha_nacimiento.value,
+                email: formulario_registro.email.value,
+                sexo: formulario_registro.sexo.value,
+                perfil_busqueda: formulario_registro.busqueda.value,
+                clave: formulario_registro.clave_registro.value
             }
-            let data = FormData()
-            data.append('imagen', formulario_registro.input_imagen.files[0])
-            data.append('video', formulario_registro.input_video.files[0])
-            data.append(JSON.stringify(bodyContent))
+            let data = new FormData()
+            data.append('imagen', formulario_registro.imagen.files[0])
+            data.append('video', formulario_registro.video.files[0])
+            data.append('bodyContent', JSON.stringify(bodyContent))
             let url = '../../back/controladores/registrarUsuario.php'
             let params = {
                 method: 'POST',
