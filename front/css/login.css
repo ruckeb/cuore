@@ -154,30 +154,39 @@ main {
     background-color: white;
     text-align: center;
     display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+#fila1_registro{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+#fila2_registro{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+#fila3_registro{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+#fila4_registro{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
 }
 #registrar{
     background-color: rgb(245, 98, 135);
     border: 3px solid black; 
 }
-/*Esto lo pongo para si queremos poner que coinciden o no las contraseñas*/
-/* #noCoinciden {
-    width: 20%;
-    position: absolute;
-    left: 60%;
-    border: 1px solid red;
-    border-radius: 3px;
-    background-color: salmon;
-    color: red;
-}
-#coinciden {
-    width: 20%;
-    position: absolute;
-    left: 60%;
-    border: 1px solid green;
-    border-radius: 3px;
-    background-color: lightgreen;
-    color: green; 
-}*/
 .ocultar {
     display: none;
 }
