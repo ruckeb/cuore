@@ -20,6 +20,7 @@ VALUES
 ('login', 'label_contrasena', 'es', 'Contraseña:'),
 ('login', 'clave_title', 'es', 'La contraseña debe contener al menos 8 caracteres: una minúscula, una mayúscula, un número y no puede contener espacios.'),
 ('login', 'entrar', 'es', 'Iniciar sesión'),
+('login', 'label_rol', 'es', 'Rol:'),
 ('login', 'label_nick', 'es', 'Usuario:'),
 ('login', 'nick_title', 'es', 'El nick debe contener entre 2 y 50 caracteres: minúsculas, números, -, _.'),
 ('login', 'label_email', 'es', 'Correo:'),

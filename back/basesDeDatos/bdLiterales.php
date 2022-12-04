@@ -7,7 +7,7 @@
             $password_db = "";
             return new PDO("mysql:dbname=$dbname;host=$host", $user_bd, $password_db);
         } catch (Exception $e) {
-            throw new Exception("Error al conectar a la base de datos");
+            throw new Exception("Error al conectar a la base de datos de literales");
         }
     }
 

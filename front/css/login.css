@@ -139,6 +139,12 @@ main {
     text-align: center;
     display: none;
 }
+#clave{
+    margin-left: 2%;
+}
+#ojo_contrasena{
+    width: 2%;
+}
 #entrar{
     background-color: rgb(245, 98, 135);
     border: 3px solid black; 
@@ -154,30 +160,102 @@ main {
     background-color: white;
     text-align: center;
     display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+#fila1_registro,#fila2_registro,#fila3_registro,#fila4_registro{
+    width: 100%;
+    min-height: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+#caja_usuario{
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+#caja_email{
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#caja_fecha_nacimiento{
+    width: 25%;
+    margin-left: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+#caja_sexo{
+    width: 25%;
+    padding-right: 7%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#caja_busqueda{
+    width: 33%;
+    margin-right: 7%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+#caja_imagen{
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+#caja_video{
+    width: 33%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+#caja_contrasena{
+    width: 40%;
+    margin-left: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+#caja_repetir_contrasena{
+    width: 40%;
+    padding-right: 3%;
+    margin-left: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+#ojo_contrasena2,#ojo_contrasena3{
+    width: 5%;
+}
+#caja_coincide{
+    width: 50%;
+    margin-right: 4%;
+    margin-left: 4%;
+    padding-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+#ojo_contrasena, #ojo_contrasena2, #ojo_contrasena3{
+    background-color: transparent;
+    border: transparent;
+    color: rgb(245, 98, 135);
 }
 #registrar{
     background-color: rgb(245, 98, 135);
     border: 3px solid black; 
+    align-self: center;
 }
-/*Esto lo pongo para si queremos poner que coinciden o no las contraseñas*/
-/* #noCoinciden {
-    width: 20%;
-    position: absolute;
-    left: 60%;
-    border: 1px solid red;
-    border-radius: 3px;
-    background-color: salmon;
-    color: red;
-}
-#coinciden {
-    width: 20%;
-    position: absolute;
-    left: 60%;
-    border: 1px solid green;
-    border-radius: 3px;
-    background-color: lightgreen;
-    color: green; 
-}*/
 .ocultar {
     display: none;
 }
