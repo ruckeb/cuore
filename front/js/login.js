@@ -10,7 +10,6 @@ window.onload = ()=>{
 
     cargarLogin()
 }
-const ERROR = "_error"
 
 function cargarLogin() {
     let bodyContent = {
@@ -309,15 +308,15 @@ function cargarMain(literales) {
     select_sexo.required = true
     
     let option_hombre = document.createElement('option')
-    option_hombre.value = buscarLiteral(literales, select_sexo.id + '_hombre') 
+    option_hombre.value = 1 
     option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
 
     let option_mujer = document.createElement('option')
-    option_mujer.value = buscarLiteral(literales, select_sexo.id + '_mujer') 
+    option_mujer.value = 2 
     option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
 
     let option_otros = document.createElement('option')
-    option_otros.value = buscarLiteral(literales, select_sexo.id + '_otros') 
+    option_otros.value = 3 
     option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
 
     caja_sexo.appendChild(label_sexo)
@@ -340,15 +339,15 @@ function cargarMain(literales) {
     select_busqueda.required = true
     
     let option_bus_hombre = document.createElement('option')
-    option_bus_hombre.value = buscarLiteral(literales, select_busqueda.id + '_hombre') 
+    option_bus_hombre.value = 1 
     option_bus_hombre.innerHTML = buscarLiteral(literales, select_busqueda.id + '_hombre') 
 
     let option_bus_mujer = document.createElement('option')
-    option_bus_mujer.value = buscarLiteral(literales, select_busqueda.id + '_mujer') 
+    option_bus_mujer.value = 2
     option_bus_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_mujer')
 
     let option_bus_ambos = document.createElement('option')
-    option_bus_ambos.value = buscarLiteral(literales, select_busqueda.id + '_ambos') 
+    option_bus_ambos.value = 3
     option_bus_ambos.innerHTML = buscarLiteral(literales, select_busqueda.id + '_ambos') 
 
     caja_busqueda.appendChild(label_busqueda)

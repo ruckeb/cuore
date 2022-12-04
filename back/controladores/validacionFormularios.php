@@ -29,6 +29,18 @@
         if ($imagen['size'] > 5000000) {
             return 8; //El tamaño máximo del video son 5000000 bytes
         }
+        if (!mayorDeEdad($datos->fecha_nacimiento)) {
+            return 9; //El usuario debe ser mayor de edad
+        }
         return 0;
         /*nombre [a-zA-ZñÑáéíóúÁÉÍÓÚàèìòùâêîôûäëïöüçÇ]{2,50}*/
+    }
+    function mayorDeEdad($fecha_nacimiento) {
+        $nace = date_create($fecha_nacimiento);
+        $actual = date_create();
+        $calculo = date_diff($actual, $nace);
+        if ($calculo->y < 18) {
+            return false;
+        }
+        return true;
     }
