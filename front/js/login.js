@@ -10,7 +10,6 @@ window.onload = ()=>{
 
     cargarLogin()
 }
-const ERROR = "_error"
 
 function cargarLogin() {
     let bodyContent = {
@@ -225,6 +224,7 @@ function cargarMain(literales) {
 
     let formulario_registro = document.createElement('form')
     formulario_registro.id = "formulario_registro"
+    formulario_registro.enctype = "multipart/form-data" //Esto es necesario porque este formulario incluye inputs de tipo file
 
     let fila1_registro = document.createElement('div')
     fila1_registro.id = "fila1_registro" 
@@ -308,15 +308,15 @@ function cargarMain(literales) {
     select_sexo.required = true
     
     let option_hombre = document.createElement('option')
-    option_hombre.value = buscarLiteral(literales, select_sexo.id + '_hombre') 
+    option_hombre.value = 1 
     option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
 
     let option_mujer = document.createElement('option')
-    option_mujer.value = buscarLiteral(literales, select_sexo.id + '_mujer') 
+    option_mujer.value = 2 
     option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
 
     let option_otros = document.createElement('option')
-    option_otros.value = buscarLiteral(literales, select_sexo.id + '_otros') 
+    option_otros.value = 3 
     option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
 
     caja_sexo.appendChild(label_sexo)
@@ -339,15 +339,15 @@ function cargarMain(literales) {
     select_busqueda.required = true
     
     let option_bus_hombre = document.createElement('option')
-    option_bus_hombre.value = buscarLiteral(literales, select_busqueda.id + '_hombre') 
+    option_bus_hombre.value = 1 
     option_bus_hombre.innerHTML = buscarLiteral(literales, select_busqueda.id + '_hombre') 
 
     let option_bus_mujer = document.createElement('option')
-    option_bus_mujer.value = buscarLiteral(literales, select_busqueda.id + '_mujer') 
+    option_bus_mujer.value = 2
     option_bus_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_mujer')
 
     let option_bus_ambos = document.createElement('option')
-    option_bus_ambos.value = buscarLiteral(literales, select_busqueda.id + '_ambos') 
+    option_bus_ambos.value = 3
     option_bus_ambos.innerHTML = buscarLiteral(literales, select_busqueda.id + '_ambos') 
 
     caja_busqueda.appendChild(label_busqueda)
@@ -375,7 +375,7 @@ function cargarMain(literales) {
     input_imagen.id = "imagen"
     input_imagen.type = "file"
     input_imagen.name = "imagen" 
-    input_imagen.accept = ".PNG,.JPG,.JPEG,.GIF,.TIFF,.PSD"
+    input_imagen.accept = ".PNG,.JPG,.JPEG"
     input_imagen.title = buscarLiteral(literales, input_imagen.id + "_title")
     input_imagen.required = true
 
@@ -394,7 +394,7 @@ function cargarMain(literales) {
     input_video.id = "video"
     input_video.type = "file"
     input_video.name = "video" 
-    input_video.accept = ".MP4,.AVI,.MKV,.FLV,.MOV,.WMV,.DIVX,.H.264,.XVID,.RM"
+    input_video.accept = ".MP4,.OGV,.WEBM"
     input_imagen.title = buscarLiteral(literales, input_video.id + "_title")
     input_video.required = true
 
@@ -499,8 +499,28 @@ function cargarMain(literales) {
     boton_enviar_registro.onclick = (e) => {
         e.preventDefault()
         if (formulario_registro.reportValidity()) {
-            /*enviarRegistroAServidor(formulario_registro)*/
-            console.log('validado')
+            let bodyContent = {
+                nick: formulario_registro.nick.value,
+                fecha_nacimiento: formulario_registro.fecha_nacimiento.value,
+                email: formulario_registro.email.value,
+                sexo: formulario_registro.sexo.value,
+                perfil_busqueda: formulario_registro.busqueda.value,
+                clave: formulario_registro.clave_registro.value
+            }
+            let data = new FormData()
+            data.append('imagen', formulario_registro.imagen.files[0])
+            data.append('video', formulario_registro.video.files[0])
+            data.append('bodyContent', JSON.stringify(bodyContent))
+            let url = '../../back/controladores/registrarUsuario.php'
+            let params = {
+                method: 'POST',
+                body: data
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                    console.log(datos)
+                })
         }
     }
 
