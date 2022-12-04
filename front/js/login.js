@@ -172,7 +172,7 @@ function cargarMain(literales) {
     input_usuario.type = "text"
     input_usuario.name = "usuario"
     input_usuario.maxLength = 50
-    input_usuario.pattern = "/^[a-z0-9_-]{2,50}$/"
+    input_usuario.pattern = "[\-\_\da-z]{2,50}"
     input_usuario.title = buscarLiteral(literales, input_usuario.id + "_title")
     input_usuario.required = true
 
@@ -230,6 +230,9 @@ function cargarMain(literales) {
     let fila1_registro = document.createElement('div')
     fila1_registro.id = "fila1_registro" 
 
+    let caja_usuario = document.createElement('div')
+    caja_usuario.id = "caja_usuario"
+
     let label_nick = document.createElement('label')
     label_nick.id = "label_nick"
     label_nick.htmlFor = "nick"
@@ -240,10 +243,16 @@ function cargarMain(literales) {
     input_nick.type = "text"
     input_nick.name = "nick" 
     input_nick.maxLength = 50
-    input_nick.pattern = "/^[a-z0-9_-]{2,50}$/"
+    input_nick.pattern = "[\-\_\da-z]{2,50}"
     input_nick.title = buscarLiteral(literales, input_nick.id + "_title")
     input_nick.required = true
    
+    caja_usuario.appendChild(label_nick)
+    caja_usuario.appendChild(input_nick)
+
+    let caja_email = document.createElement('div')
+    caja_email.id = "caja_email"
+
     let label_email = document.createElement('label')
     label_email.id = "label_email"
     label_email.htmlFor = "email"
@@ -259,13 +268,18 @@ function cargarMain(literales) {
     input_email.title = buscarLiteral(literales, input_email.id + "_title")
     input_email.required = true
 
-    fila1_registro.appendChild(label_nick)
-    fila1_registro.appendChild(input_nick)
-    fila1_registro.appendChild(label_email)
-    fila1_registro.appendChild(input_email)
+    caja_email.appendChild(label_email)
+    caja_email.appendChild(input_email)
+
+    fila1_registro.appendChild(caja_usuario)
+    fila1_registro.appendChild(caja_email)
+
 
     let fila2_registro = document.createElement('div')
     fila2_registro.id = "fila2_registro" 
+
+    let caja_fecha_nacimiento = document.createElement('div')
+    caja_fecha_nacimiento.id = "caja_fecha_nacimiento"
 
     let label_fecha_nacimiento = document.createElement('label')
     label_fecha_nacimiento.id = "label_fecha_nacimiento"
@@ -277,6 +291,12 @@ function cargarMain(literales) {
     input_fecha_nacimiento.type = "Date"
     input_fecha_nacimiento.name = "fecha_nacimiento"
     input_fecha_nacimiento.required = true
+
+    caja_fecha_nacimiento.appendChild(label_fecha_nacimiento)
+    caja_fecha_nacimiento.appendChild(input_fecha_nacimiento)
+
+    let caja_sexo = document.createElement('div')
+    caja_sexo.id = "caja_sexo"
 
     let label_sexo = document.createElement('label')
     label_sexo.id = "label_sexo"
@@ -300,9 +320,14 @@ function cargarMain(literales) {
     option_otros.value = buscarLiteral(literales, select_sexo.id + '_otros') 
     option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
 
+    caja_sexo.appendChild(label_sexo)
+    caja_sexo.appendChild(select_sexo)
     select_sexo.appendChild(option_hombre)
     select_sexo.appendChild(option_mujer)
     select_sexo.appendChild(option_otros)
+
+    let caja_busqueda = document.createElement('div')
+    caja_busqueda.id = "caja_busqueda"
 
     let label_busqueda = document.createElement('label')
     label_busqueda.id = "label_busqueda"
@@ -326,18 +351,21 @@ function cargarMain(literales) {
     option_bus_ambos.value = buscarLiteral(literales, select_busqueda.id + '_ambos') 
     option_bus_ambos.innerHTML = buscarLiteral(literales, select_busqueda.id + '_ambos') 
 
-    fila2_registro.appendChild(label_fecha_nacimiento)
-    fila2_registro.appendChild(input_fecha_nacimiento)
-    fila2_registro.appendChild(label_sexo)
-    fila2_registro.appendChild(select_sexo)
-    fila2_registro.appendChild(label_busqueda)
-    fila2_registro.appendChild(select_busqueda)
+    caja_busqueda.appendChild(label_busqueda)
+    caja_busqueda.appendChild(select_busqueda)
     select_busqueda.appendChild(option_bus_hombre)
     select_busqueda.appendChild(option_bus_mujer)
     select_busqueda.appendChild(option_bus_ambos)
 
+    fila2_registro.appendChild(caja_fecha_nacimiento)
+    fila2_registro.appendChild(caja_sexo)
+    fila2_registro.appendChild(caja_busqueda)
+
     let fila3_registro = document.createElement('div')
     fila3_registro.id = "fila3_registro" 
+
+    let caja_imagen = document.createElement('div')
+    caja_imagen.id = "caja_imagen"
 
     let label_imagen = document.createElement('label')
     label_imagen.id = "label_imagen"
@@ -352,6 +380,12 @@ function cargarMain(literales) {
     input_imagen.title = buscarLiteral(literales, input_imagen.id + "_title")
     input_imagen.required = true
 
+    caja_imagen.appendChild(label_imagen)
+    caja_imagen.appendChild(input_imagen)
+
+    let caja_video = document.createElement('div')
+    caja_video.id = "caja_video"
+
     let label_video = document.createElement('label')
     label_video.id = "label_video"
     label_video.htmlFor = "video"
@@ -365,23 +399,16 @@ function cargarMain(literales) {
     input_imagen.title = buscarLiteral(literales, input_video.id + "_title")
     input_video.required = true
 
-    fila3_registro.appendChild(label_imagen)
-    fila3_registro.appendChild(input_imagen)
-    fila3_registro.appendChild(label_video)
-    fila3_registro.appendChild(input_video)
+    caja_video.appendChild(label_video)
+    caja_video.appendChild(input_video)
+    fila3_registro.appendChild(caja_imagen)
+    fila3_registro.appendChild(caja_video)
 
     let fila4_registro = document.createElement('div')
     fila4_registro.id = "fila4_registro" 
-
-    let div_no_coinciden = document.createElement('div')
-    div_no_coinciden.id = "noCoinciden"
-    div_no_coinciden.classList.add("ocultar")
-    div_no_coinciden.innerHTML = buscarLiteral(literales, div_no_coinciden.id)
-
-    let div_coinciden = document.createElement('div')
-    div_coinciden.id = "coinciden"
-    div_coinciden.classList.add("ocultar")
-    div_coinciden.innerHTML = buscarLiteral(literales, div_coinciden.id)
+    
+    let caja_contrasena = document.createElement('div')
+    caja_contrasena.id = "caja_contrasena"
 
     let boton_ojo_contrasena2 = document.createElement('button')
     boton_ojo_contrasena2.id = "ojo_contrasena2"
@@ -414,6 +441,13 @@ function cargarMain(literales) {
     input_clave.title = buscarLiteral(literales, input_clave.id + "_title")
     input_clave.onkeyup = comprobarContrasenas
 
+    caja_contrasena.appendChild(label_clave)
+    caja_contrasena.appendChild(input_clave)
+    caja_contrasena.appendChild(boton_ojo_contrasena2)
+
+    let caja_repetir_contrasena = document.createElement('div')
+    caja_repetir_contrasena.id = "caja_repetir_contrasena"
+
     let boton_ojo_contrasena3 = document.createElement('button')
     boton_ojo_contrasena3.id = "ojo_contrasena3"
     boton_ojo_contrasena3.innerHTML = "👁"
@@ -436,14 +470,28 @@ function cargarMain(literales) {
     input_repetir_clave.required = true
     input_repetir_clave.onkeyup = comprobarContrasenas
 
-    fila4_registro.appendChild(div_no_coinciden)
-    fila4_registro.appendChild(div_coinciden)
-    fila4_registro.appendChild(label_clave)
-    fila4_registro.appendChild(input_clave)
-    fila4_registro.appendChild(boton_ojo_contrasena2)
-    fila4_registro.appendChild(label_repetir_clave)
-    fila4_registro.appendChild(input_repetir_clave)
-    fila4_registro.appendChild(boton_ojo_contrasena3)
+    caja_repetir_contrasena.appendChild(label_repetir_clave)
+    caja_repetir_contrasena.appendChild(input_repetir_clave)
+    caja_repetir_contrasena.appendChild(boton_ojo_contrasena3)
+
+    let caja_coincide = document.createElement('div')
+    caja_coincide.id = "caja_coincide"
+
+    let div_no_coinciden = document.createElement('div')
+    div_no_coinciden.id = "noCoinciden"
+    div_no_coinciden.classList.add("ocultar")
+    div_no_coinciden.innerHTML = buscarLiteral(literales, div_no_coinciden.id)
+
+    let div_coinciden = document.createElement('div')
+    div_coinciden.id = "coinciden"
+    div_coinciden.classList.add("ocultar")
+    div_coinciden.innerHTML = buscarLiteral(literales, div_coinciden.id)
+
+    caja_coincide.appendChild(div_no_coinciden)
+    caja_coincide.appendChild(div_coinciden)
+    fila4_registro.appendChild(caja_contrasena)
+    fila4_registro.appendChild(caja_repetir_contrasena)
+    fila4_registro.appendChild(caja_coincide)
 
     let boton_enviar_registro = document.createElement('button')
     boton_enviar_registro.id = "registrar"
