@@ -1,16 +1,18 @@
 <?php
     function validarFormularioRegistro($datos, $imagen, $video) {
-        if (!preg_match("/[\-\_\da-z]{2,50}/", $datos->nick)) {
+        if (!preg_match("/^[a-z0-9_-]{2,50}/", $datos->nick)) {
             return 1; //El campo nick debe contener entre 2 y 50 caracteres: letras minúsculas, números, - y _
         }
         $fecha  = explode('-', $datos->fecha_nacimiento);
         if (!checkdate($fecha[1], $fecha[2], $fecha[0])) {
             return 2; //Debe ser una fecha válida
         }
-        if (!preg_match("/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $datos->email)) {
+        if (!preg_match("/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $datos->email) ||
+            strlen($datos->email) > 150 || strlen($datos->email) < 5) {
             return 3; //El email debe tener el formato xxx@xxx.xxx
         }
-        if (!preg_match("/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$/", $datos->clave)) {
+        if (!preg_match("/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$/", $datos->clave) ||
+            strlen($datos->clave) > 20 || strlen($datos->clave) < 8) {
             return 4; //La clave debe contener al menos una mayúscula, una minúscula y un número, además no puede contener espacios
         }
         if (!($imagen['type']=="image/jpeg" || 
@@ -35,6 +37,7 @@
         return 0;
         /*nombre [a-zA-ZñÑáéíóúÁÉÍÓÚàèìòùâêîôûäëïöüçÇ]{2,50}*/
     }
+
     function mayorDeEdad($fecha_nacimiento) {
         $nace = date_create($fecha_nacimiento);
         $actual = date_create();
@@ -43,4 +46,15 @@
             return false;
         }
         return true;
+    }
+
+    function validarFormularioInicioSesion($datos){
+        if (!preg_match("/^[a-z0-9_-]{2,50}/", $datos->usuario)) {
+            return 1; //El campo nick debe contener entre 2 y 50 caracteres: letras minúsculas, números, - y _
+        }
+        if (!preg_match("/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$/", $datos->contrasena) ||
+            strlen($datos->contrasena) > 20 || strlen($datos->contrasena) < 8) {
+            return 4; //La clave debe contener al menos una mayúscula, una minúscula y un número, además no puede contener espacios
+        }
+        return 0;
     }

@@ -171,7 +171,7 @@ function cargarMain(literales) {
     input_usuario.type = "text"
     input_usuario.name = "usuario"
     input_usuario.maxLength = 50
-    input_usuario.pattern = "[\-\_\da-z]{2,50}"
+    input_usuario.pattern = "^[a-z0-9_-]{2,50}"
     input_usuario.title = buscarLiteral(literales, input_usuario.id + "_title")
     input_usuario.required = true
 
@@ -208,6 +208,31 @@ function cargarMain(literales) {
     boton_enviar.id = "entrar"
     boton_enviar.type = "submit"
     boton_enviar.innerHTML = buscarLiteral(literales, boton_enviar.id)
+    boton_enviar.onclick = (e) => {
+        e.preventDefault()
+        if (formulario_inicio.reportValidity()) {
+            let bodyContent = {
+                usuario: formulario_inicio.usuario.value,
+                contrasena: formulario_inicio.clave.value
+            }
+            let url = '../../back/controladores/iniciarSesion.php'
+            let params = {
+                method: 'POST',
+                body: JSON.stringify(bodyContent)
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                    if (datos.nick) {
+                        console.log("VAMOOOOOOOOOOOOOOOOOOOOOOOOOOS")
+                        //location.href = "./home.html"
+                    } else {
+                        //añadir este literal al div de errores
+                        buscarLiteral(literales, "server_error_" + datos)
+                    }
+                })
+        }
+    }
 
     formulario_inicio.appendChild(label_usuario)
     formulario_inicio.appendChild(document.createElement('br'))
@@ -242,7 +267,7 @@ function cargarMain(literales) {
     input_nick.type = "text"
     input_nick.name = "nick" 
     input_nick.maxLength = 50
-    input_nick.pattern = "[\-\_\da-z]{2,50}"
+    input_nick.pattern = "^[a-z0-9_-]{2,50}"
     input_nick.title = buscarLiteral(literales, input_nick.id + "_title")
     input_nick.required = true
    
