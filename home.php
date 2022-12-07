@@ -13,8 +13,8 @@
     <title>Cuore</title>
     <link rel="icon" type="image/x-icon" href="front/img/imgLogo/logo.png">
     <link rel="stylesheet" href="front/css/all.css">
-    <link rel="stylesheet" href="front/css/perfil.css">
-    <script src="front/js/perfil.js" type="module"></script>
+    <link rel="stylesheet" href="front/css/home.css">
+    <script src="front/js/home.js" type="module"></script>
 </head>
 
 <body>

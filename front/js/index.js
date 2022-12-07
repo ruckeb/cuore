@@ -171,7 +171,7 @@ function cargarMain(literales) {
     input_usuario.type = "text"
     input_usuario.name = "usuario"
     input_usuario.maxLength = 50
-    input_usuario.pattern = "^[a-z0-9_-]{2,50}"
+    input_usuario.pattern = "^[A-Za-z0-9_-]{2,50}"
     input_usuario.title = buscarLiteral(literales, input_usuario.id + "_title")
     input_usuario.required = true
 
@@ -272,7 +272,7 @@ function cargarMain(literales) {
     input_nick.type = "text"
     input_nick.name = "nick" 
     input_nick.maxLength = 50
-    input_nick.pattern = "^[a-z0-9_-]{2,50}"
+    input_nick.pattern = "^[A-Za-z0-9_-]{2,50}"
     input_nick.title = buscarLiteral(literales, input_nick.id + "_title")
     input_nick.required = true
    
