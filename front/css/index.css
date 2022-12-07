@@ -1,53 +1,31 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-body{
-    height: 100vh;
-}
-header {
-    width: 100%;
-    height: 20%;
-    position: relative;
-    bottom: 23.5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #454545;
-}
 #botones_login{    /*si quitamos esto nos vamos a dos lineas*/
     padding-right: 5%;
     display: flex;
     flex-direction: row;
-}
-#botones_Env_Publi{   
-    padding-left: 5%;
-    display: flex;
-    flex-direction:column;
-    justify-content:center;
+    justify-content: flex-end;
+    align-content: flex-end;
 }
 .botonIdiomas{
     background-color: transparent;
     border: transparent;
-    width: 18%;
-    height: 30px;
+    width: 5%;
+    height: auto;
 }
 #espana{
     width: 78%;
-    height: 40px;
+    height: 40%;
 }
 #reino-unido{
     width: 75%;
-    height: 40px;
+    height: 40%;
 }
 #francia{
     width: 75%;
-    height: 40px;
+    height: 40%;
 }
 #alemania{
-    width: 90%;
-    height: 40px;
+    width: 75%;
+    height: 40%;
 }
 #iniciar_sesion{
     background-color: white;
@@ -55,8 +33,8 @@ header {
     font-weight: 800;
     color: black;
     width: 160px;
-    height: 40px;
-    margin-left: 5px;
+    height: auto;
+    margin: 5% 0% 5% 1%;
 }
 #registrarse{
     background-color: white;
@@ -64,8 +42,13 @@ header {
     font-weight: 800;
     color: black;
     width: 160px;
-    height: 40px;
-    margin-left: 5px;
+    height: auto;
+    margin: 5% 1% 5% 1%;
+    padding: 0.5%;
+}
+form{
+    padding-top: 1%;
+    padding-bottom: 1%;
 }
 img {
     object-fit: contain;
@@ -151,9 +134,10 @@ main {
 }
 #formulario_registro {
     width: 70%;
-    height: 450px;
+    height: 100%;
     z-index: 1;
     padding-top: 10px;
+    padding-bottom: 1%;
     border: 2px ridge rgb(41, 57, 82);
     border-radius: 10px;
     box-shadow: 10px 10px 5px silver;
@@ -167,6 +151,7 @@ main {
 #fila1_registro,#fila2_registro,#fila3_registro,#fila4_registro{
     width: 100%;
     min-height: 20%;
+    margin: 2% 1% 1% 1%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -186,15 +171,16 @@ main {
 }
 
 #caja_fecha_nacimiento{
-    width: 25%;
-    margin-left: 15%;
+    width: 30%;
+    margin-left: 10%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
 #caja_sexo{
     width: 25%;
-    padding-right: 7%;
+    padding-right: 8%;
+    padding-top: 0.1%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -203,6 +189,7 @@ main {
 #caja_busqueda{
     width: 33%;
     margin-right: 7%;
+    padding-top: 0.1%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -272,19 +259,4 @@ input:focus {
     border: 3px groove dodgerblue;
     border-radius: 2px;
     background-color: white;
-}
-footer {
-    width: 100%;
-    height: 10%;
-    bottom: 0%;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    column-gap: 10%;
-    font-size: 1.2em;
-    font-weight: 800;
-    text-align: center;
-    background: #454545;
 }

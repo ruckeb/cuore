@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body{
+    height: 100vh;
+}
+/* parte de arriba */
+header {
+    width: 100%;
+    height: 20%;
+    position: relative;
+    bottom: 23.5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #454545;
+}
+/* parte de abajo */
+footer {
+    width: 100%;
+    height: 10%;
+    bottom: 0%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    column-gap: 10%;
+    font-size: 1.2em;
+    font-weight: 800;
+    text-align: center;
+    background: #454545;
+    color: rgb(245, 98, 135);
+}
