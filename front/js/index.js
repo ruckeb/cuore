@@ -1,4 +1,5 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
+
 window.onload = ()=>{
 
     var lenguaje_actual = getCookie("idioma")
@@ -7,7 +8,6 @@ window.onload = ()=>{
     } else {
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
-
     cargarLogin()
 }
 
@@ -227,8 +227,13 @@ function cargarMain(literales) {
                         console.log("VAMOOOOOOOOOOOOOOOOOOOOOOOOOOS")
                         //location.href = "./home.html"
                     } else {
-                        //añadir este literal al div de errores
-                        buscarLiteral(literales, "server_error_" + datos)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + datos),
+                            target: main
+                        })
+                        
                     }
                 })
         }
