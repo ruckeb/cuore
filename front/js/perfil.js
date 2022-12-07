@@ -37,7 +37,7 @@ function cargarCabecera(literales) {
 
     let imagen_logo_cuore = document.createElement('img')
     imagen_logo_cuore.id = "logo"
-    imagen_logo_cuore.src = "../img/imgLogo/logo.png"
+    imagen_logo_cuore.src = "front/img/imgLogo/logo.png"
     imagen_logo_cuore.title = "Logo"
     imagen_logo_cuore.onclick = () => {
         location.reload()
@@ -58,7 +58,7 @@ function cargarCabecera(literales) {
 
     let imagen_bandera_espana = document.createElement('img')
     imagen_bandera_espana.id = "espana"
-    imagen_bandera_espana.src = "../img/imgPaises/espana.png"
+    imagen_bandera_espana.src = "front/img/imgPaises/espana.png"
     boton_espana.appendChild(imagen_bandera_espana)
 
     let boton_reino_unido = document.createElement('button')
@@ -73,7 +73,7 @@ function cargarCabecera(literales) {
 
     let imagen_bandera_reino_unido = document.createElement('img')
     imagen_bandera_reino_unido.id = "reino-unido"
-    imagen_bandera_reino_unido.src = "../img/imgPaises/reino-unido.png"
+    imagen_bandera_reino_unido.src = "front/img/imgPaises/reino-unido.png"
     boton_reino_unido.appendChild(imagen_bandera_reino_unido)
 
     let boton_francia = document.createElement('button')
@@ -88,7 +88,7 @@ function cargarCabecera(literales) {
 
     let imagen_bandera_francia = document.createElement('img')
     imagen_bandera_francia.id = "francia"
-    imagen_bandera_francia.src = "../img/imgPaises/francia.png"
+    imagen_bandera_francia.src = "front/img/imgPaises/francia.png"
     boton_francia.appendChild(imagen_bandera_francia)
 
     let boton_alemania = document.createElement('button')
@@ -103,7 +103,7 @@ function cargarCabecera(literales) {
 
     let imagen_bandera_alemania = document.createElement('img')
     imagen_bandera_alemania.id = "alemania"
-    imagen_bandera_alemania.src = "../img/imgPaises/alemania.png"
+    imagen_bandera_alemania.src = "front/img/imgPaises/alemania.png"
     boton_alemania.appendChild(imagen_bandera_alemania)
 
     let boton_menu = document.createElement('button')
@@ -115,7 +115,7 @@ function cargarCabecera(literales) {
 
     let imagen_menu = document.createElement('img')
     imagen_menu.id = "menu"
-    imagen_menu.src = "../img/imgMenu/menu.png"
+    imagen_menu.src = "front/img/imgMenu/menu.png"
     boton_menu.appendChild(imagen_menu)
 
     let div_contenedor_menu = document.createElement('div')
@@ -202,7 +202,7 @@ function cargarMain(literales) {
 
     let img_perfil = document.createElement('img')
     img_perfil.id = "imgPerfil"
-    img_perfil.src = "../img/imgPerfil/perfil.png"
+    img_perfil.src = "front/img/imgPerfil/perfil.png"
 
     let div_texto_perfil = document.createElement('div')
     div_texto_perfil.id = "textoPerfil"

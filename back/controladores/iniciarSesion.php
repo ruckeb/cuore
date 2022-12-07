@@ -10,6 +10,11 @@
             $codigo_error = contarVisita($datos->usuario);
             if ($codigo_error == 0) {
                 $codigo_error = $usuario;
+                session_start();
+                $token = sha1(uniqid(rand(),true));
+                $_SESSION['token'] = $token;
+                $_SESSION['usuario'] = $codigo_error['nick'];
+                setcookie("token", $token, time() + 60 * 5, "/"); //cookie token dura 5 min
             }
         } else {
             $codigo_error = $usuario;
