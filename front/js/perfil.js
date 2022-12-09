@@ -46,27 +46,13 @@ function cargarCabecera(literales) {
     let div_botones_login = document.createElement('div')
     div_botones_login.id = "botones_login"
 
-    let boton_espana = document.createElement('button')
-    boton_espana.id = "boton_espana"
-    boton_espana.classList.add("botonIdiomas")
-    boton_espana.onclick = () => {
-        if (getCookie("idioma") != "es") {
-            setCookie("idioma", "es", 7)
-            location.reload()
-        }
-    }
-
     let imagen_bandera_espana = document.createElement('img')
     imagen_bandera_espana.id = "espana"
     imagen_bandera_espana.src = "front/img/imgPaises/espana.png"
-    boton_espana.appendChild(imagen_bandera_espana)
-
-    let boton_reino_unido = document.createElement('button')
-    boton_reino_unido.id = "boton_reino_unido"
-    boton_reino_unido.classList.add("botonIdiomas")
-    boton_reino_unido.onclick = () => {
-        if (getCookie("idioma") != "en") {
-            setCookie("idioma", "en", 7)
+    imagen_bandera_espana.classList.add("botonIdiomas")
+    imagen_bandera_espana.onclick = () => {
+        if (getCookie("idioma") != "es") {
+            setCookie("idioma", "es", 7)
             location.reload()
         }
     }
@@ -74,14 +60,10 @@ function cargarCabecera(literales) {
     let imagen_bandera_reino_unido = document.createElement('img')
     imagen_bandera_reino_unido.id = "reino-unido"
     imagen_bandera_reino_unido.src = "front/img/imgPaises/reino-unido.png"
-    boton_reino_unido.appendChild(imagen_bandera_reino_unido)
-
-    let boton_francia = document.createElement('button')
-    boton_francia.id = "boton_francia"
-    boton_francia.classList.add("botonIdiomas")
-    boton_francia.onclick = () => {
-        if (getCookie("idioma") != "fr") {
-            setCookie("idioma", "fr", 7)
+    imagen_bandera_reino_unido.classList.add("botonIdiomas")
+    imagen_bandera_reino_unido.onclick = () => {
+        if (getCookie("idioma") != "en") {
+            setCookie("idioma", "en", 7)
             location.reload()
         }
     }
@@ -89,14 +71,10 @@ function cargarCabecera(literales) {
     let imagen_bandera_francia = document.createElement('img')
     imagen_bandera_francia.id = "francia"
     imagen_bandera_francia.src = "front/img/imgPaises/francia.png"
-    boton_francia.appendChild(imagen_bandera_francia)
-
-    let boton_alemania = document.createElement('button')
-    boton_alemania.id = "boton_alemania"
-    boton_alemania.classList.add("botonIdiomas")
-    boton_alemania.onclick = () => {
-        if (getCookie("idioma") != "de") {
-            setCookie("idioma", "de", 7)
+    imagen_bandera_francia.classList.add("botonIdiomas")
+    imagen_bandera_francia.onclick = () => {
+        if (getCookie("idioma") != "fr") {
+            setCookie("idioma", "fr", 7)
             location.reload()
         }
     }
@@ -104,11 +82,16 @@ function cargarCabecera(literales) {
     let imagen_bandera_alemania = document.createElement('img')
     imagen_bandera_alemania.id = "alemania"
     imagen_bandera_alemania.src = "front/img/imgPaises/alemania.png"
-    boton_alemania.appendChild(imagen_bandera_alemania)
+    imagen_bandera_alemania.classList.add("botonIdiomas")
+    imagen_bandera_alemania.onclick = () => {
+        if (getCookie("idioma") != "de") {
+            setCookie("idioma", "de", 7)
+            location.reload()
+        }
+    }
 
     let boton_menu = document.createElement('button')
     boton_menu.id = "boton_menu"
-    boton_menu.classList.add("botonIdiomas")
     boton_menu.onclick = () => {
         div_contenedor_menu.classList.toggle("ocultar")
     }
@@ -183,10 +166,10 @@ function cargarCabecera(literales) {
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
-    div_botones_login.appendChild(boton_espana)
-    div_botones_login.appendChild(boton_reino_unido)
-    div_botones_login.appendChild(boton_francia)
-    div_botones_login.appendChild(boton_alemania)
+    div_botones_login.appendChild(imagen_bandera_espana)
+    div_botones_login.appendChild(imagen_bandera_reino_unido)
+    div_botones_login.appendChild(imagen_bandera_francia)
+    div_botones_login.appendChild(imagen_bandera_alemania)
     div_botones_login.appendChild(boton_menu)
 
     header.appendChild(imagen_logo_cuore)
