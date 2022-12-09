@@ -11,7 +11,7 @@
         }
     }
 
-    function registrarUsuarioBBDD($nick, $fecha_nacimiento, $email, $sexo, $perfil_busqueda, $clave, $ruta_imagen, $ruta_video){
+    function registrarUsuarioBBDD($nick, $fecha_nacimiento, $email, $sexo, $perfil_busqueda, $clave, $ruta_imagen, $ruta_video, $latitud, $longitud){
         try {
             $db = getConnection();
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -30,9 +30,11 @@
             if ($db->query($sql)->fetchColumn() != 0) {
                 return 502; //El correo ya existe
             }
+
+            $db->beginTransaction();  
             	
-            $sql = $db->prepare("INSERT INTO usuarios (nick, fecha_nacimiento, email, sexo, perfil_busqueda, imagen, video_present, clave)
-                    VALUES (:nick, :fecha_nacimiento, :email, :sexo, :perfil_busqueda, :imagen, :video_present, :clave)");
+            $sql = $db->prepare("INSERT INTO usuarios (nick, fecha_nacimiento, email, sexo, perfil_busqueda, imagen, video_present, clave, ubicacion)
+                    VALUES (:nick, :fecha_nacimiento, :email, :sexo, :perfil_busqueda, :imagen, :video_present, :clave, PointFromText(:ubicacion))");
             $sql->bindParam(':nick', $nick);
             $sql->bindParam(':fecha_nacimiento', $fecha_nacimiento);
             $sql->bindParam(':email', $email);
@@ -42,7 +44,25 @@
             $sql->bindParam(':video_present', $ruta_video);
             $clave_cifrada = password_hash($clave, PASSWORD_BCRYPT);
             $sql->bindParam(':clave', $clave_cifrada);
+            $ubicacion = "POINT($latitud $longitud)";
+            $sql->bindParam(':ubicacion', $ubicacion);
             $sql->execute();
+
+            $sql = "INSERT INTO publicaciones (nick_publicacion, imagen)
+                    VALUES ('$nick', '$ruta_imagen')";
+            if ($db->query($sql) === FALSE) {
+                $db->rollback();  
+                return 507; //Error insertando la imagen
+            }
+
+            $sql = "INSERT INTO publicaciones (nick_publicacion, imagen)
+                    VALUES ('$nick', '$ruta_video')";
+            if ($db->query($sql) === FALSE) {
+                $db->rollback();  
+                return 508; //Error insertando el video
+            }
+
+            $db->commit();  
             return 0;
         } catch (Exception $e) {
             return $e->getMessage();

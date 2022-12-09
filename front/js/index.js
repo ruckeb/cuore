@@ -11,6 +11,37 @@ window.onload = ()=>{
     cargarLogin()
 }
 
+let ubicacion
+
+function obtenerUbicacion(literales) {
+    /* OBTENEMOS LA UBICACION */
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    }
+      
+    function success(pos) {
+        ubicacion = pos
+    }
+    
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+        Swal.fire({
+            icon: 'info',
+            title: 'Oops...',
+            text: buscarLiteral(literales, "error_ubicacion"),
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then(function () {
+            location.reload()
+        })
+    }
+    
+    navigator.geolocation.getCurrentPosition(success, error, options);
+    /* TENEMOS UBICACION */
+}
+
 function cargarLogin() {
     let bodyContent = {
         id_html: 'login',
@@ -23,6 +54,7 @@ function cargarLogin() {
     fetch(url, params)
         .then(req => req.json())
         .then( literales => {
+            obtenerUbicacion(literales)
             cargarCabecera(literales)
             cargarMain(literales)
             cargarFooter(literales)
@@ -222,9 +254,12 @@ function cargarMain(literales) {
     boton_enviar.onclick = (e) => {
         e.preventDefault()
         if (formulario_inicio.reportValidity()) {
+            
             let bodyContent = {
                 usuario: formulario_inicio.usuario.value,
-                contrasena: formulario_inicio.clave.value
+                contrasena: formulario_inicio.clave.value,
+                latitud: ubicacion.coords.latitude,
+                longitud: ubicacion.coords.longitude
             }
             let url = '../../back/controladores/iniciarSesion.php'
             let params = {
@@ -450,7 +485,9 @@ function cargarMain(literales) {
                 email: formulario_registro.email.value,
                 sexo: formulario_registro.sexo.value,
                 perfil_busqueda: formulario_registro.busqueda.value,
-                clave: formulario_registro.clave_registro.value
+                clave: formulario_registro.clave_registro.value,
+                latitud: ubicacion.coords.latitude,
+                longitud: ubicacion.coords.longitude
             }
             let data = new FormData()
             data.append('imagen', formulario_registro.imagen.files[0])

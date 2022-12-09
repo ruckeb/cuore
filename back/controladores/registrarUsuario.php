@@ -9,7 +9,7 @@
     if ($codigo_error == 0) {
         $ruta_imagen = subirImagenAlServidor($imagen, $datos->nick);
         $ruta_video = subirVideoAlServidor($video, $datos->nick);
-        $codigo_error = registrarUsuarioBBDD($datos->nick, $datos->fecha_nacimiento, $datos->email, $datos->sexo, $datos->perfil_busqueda, $datos->clave, $ruta_imagen, $ruta_video);
+        $codigo_error = registrarUsuarioBBDD($datos->nick, $datos->fecha_nacimiento, $datos->email, $datos->sexo, $datos->perfil_busqueda, $datos->clave, $ruta_imagen, $ruta_video, $datos->latitud, $datos->longitud);
         if ($codigo_error != 0) {
             unlink($ruta_imagen);
             unlink($ruta_video);
