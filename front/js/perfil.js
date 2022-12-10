@@ -37,7 +37,7 @@ function cargarCabecera(literales) {
 
     let imagen_logo_cuore = document.createElement('img')
     imagen_logo_cuore.id = "logo"
-    imagen_logo_cuore.src = "../img/imgLogo/logo.png"
+    imagen_logo_cuore.src = "front/img/imgLogo/logo.png"
     imagen_logo_cuore.title = "Logo"
     imagen_logo_cuore.onclick = () => {
         location.reload()
@@ -46,76 +46,59 @@ function cargarCabecera(literales) {
     let div_botones_login = document.createElement('div')
     div_botones_login.id = "botones_login"
 
-    let boton_espana = document.createElement('button')
-    boton_espana.id = "boton_espana"
-    boton_espana.classList.add("botonIdiomas")
-    boton_espana.onclick = () => {
+    let imagen_bandera_espana = document.createElement('img')
+    imagen_bandera_espana.id = "espana"
+    imagen_bandera_espana.src = "front/img/imgPaises/espana.png"
+    imagen_bandera_espana.classList.add("botonIdiomas")
+    imagen_bandera_espana.onclick = () => {
         if (getCookie("idioma") != "es") {
             setCookie("idioma", "es", 7)
             location.reload()
         }
     }
 
-    let imagen_bandera_espana = document.createElement('img')
-    imagen_bandera_espana.id = "espana"
-    imagen_bandera_espana.src = "../img/imgPaises/espana.png"
-    boton_espana.appendChild(imagen_bandera_espana)
-
-    let boton_reino_unido = document.createElement('button')
-    boton_reino_unido.id = "boton_reino_unido"
-    boton_reino_unido.classList.add("botonIdiomas")
-    boton_reino_unido.onclick = () => {
+    let imagen_bandera_reino_unido = document.createElement('img')
+    imagen_bandera_reino_unido.id = "reino-unido"
+    imagen_bandera_reino_unido.src = "front/img/imgPaises/reino-unido.png"
+    imagen_bandera_reino_unido.classList.add("botonIdiomas")
+    imagen_bandera_reino_unido.onclick = () => {
         if (getCookie("idioma") != "en") {
             setCookie("idioma", "en", 7)
             location.reload()
         }
     }
 
-    let imagen_bandera_reino_unido = document.createElement('img')
-    imagen_bandera_reino_unido.id = "reino-unido"
-    imagen_bandera_reino_unido.src = "../img/imgPaises/reino-unido.png"
-    boton_reino_unido.appendChild(imagen_bandera_reino_unido)
-
-    let boton_francia = document.createElement('button')
-    boton_francia.id = "boton_francia"
-    boton_francia.classList.add("botonIdiomas")
-    boton_francia.onclick = () => {
+    let imagen_bandera_francia = document.createElement('img')
+    imagen_bandera_francia.id = "francia"
+    imagen_bandera_francia.src = "front/img/imgPaises/francia.png"
+    imagen_bandera_francia.classList.add("botonIdiomas")
+    imagen_bandera_francia.onclick = () => {
         if (getCookie("idioma") != "fr") {
             setCookie("idioma", "fr", 7)
             location.reload()
         }
     }
 
-    let imagen_bandera_francia = document.createElement('img')
-    imagen_bandera_francia.id = "francia"
-    imagen_bandera_francia.src = "../img/imgPaises/francia.png"
-    boton_francia.appendChild(imagen_bandera_francia)
-
-    let boton_alemania = document.createElement('button')
-    boton_alemania.id = "boton_alemania"
-    boton_alemania.classList.add("botonIdiomas")
-    boton_alemania.onclick = () => {
+    let imagen_bandera_alemania = document.createElement('img')
+    imagen_bandera_alemania.id = "alemania"
+    imagen_bandera_alemania.src = "front/img/imgPaises/alemania.png"
+    imagen_bandera_alemania.classList.add("botonIdiomas")
+    imagen_bandera_alemania.onclick = () => {
         if (getCookie("idioma") != "de") {
             setCookie("idioma", "de", 7)
             location.reload()
         }
     }
 
-    let imagen_bandera_alemania = document.createElement('img')
-    imagen_bandera_alemania.id = "alemania"
-    imagen_bandera_alemania.src = "../img/imgPaises/alemania.png"
-    boton_alemania.appendChild(imagen_bandera_alemania)
-
     let boton_menu = document.createElement('button')
     boton_menu.id = "boton_menu"
-    boton_menu.classList.add("botonIdiomas")
     boton_menu.onclick = () => {
         div_contenedor_menu.classList.toggle("ocultar")
     }
 
     let imagen_menu = document.createElement('img')
     imagen_menu.id = "menu"
-    imagen_menu.src = "../img/imgMenu/menu.png"
+    imagen_menu.src = "front/img/imgMenu/menu.png"
     boton_menu.appendChild(imagen_menu)
 
     let div_contenedor_menu = document.createElement('div')
@@ -183,10 +166,10 @@ function cargarCabecera(literales) {
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
-    div_botones_login.appendChild(boton_espana)
-    div_botones_login.appendChild(boton_reino_unido)
-    div_botones_login.appendChild(boton_francia)
-    div_botones_login.appendChild(boton_alemania)
+    div_botones_login.appendChild(imagen_bandera_espana)
+    div_botones_login.appendChild(imagen_bandera_reino_unido)
+    div_botones_login.appendChild(imagen_bandera_francia)
+    div_botones_login.appendChild(imagen_bandera_alemania)
     div_botones_login.appendChild(boton_menu)
 
     header.appendChild(imagen_logo_cuore)
@@ -202,7 +185,7 @@ function cargarMain(literales) {
 
     let img_perfil = document.createElement('img')
     img_perfil.id = "imgPerfil"
-    img_perfil.src = "../img/imgPerfil/perfil.png"
+    img_perfil.src = "front/img/imgPerfil/perfil.png"
 
     let div_texto_perfil = document.createElement('div')
     div_texto_perfil.id = "textoPerfil"

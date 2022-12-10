@@ -1,21 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-body{
-    height: 100vh;
-}
-header {
-    width: 100%;
-    height: 20%;
-    position: relative;
-    bottom: 23.5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #454545;
-}
 img {
     width: 25%;
     height: auto;
@@ -28,43 +10,31 @@ img {
 }
 #botones_login{    /*si quitamos esto nos vamos a dos lineas*/
     padding-right: 5%;
+    height: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
 }
 .botonIdiomas{
+    max-width: 15%;
+    height: 20%;
+    margin-right: 2%;
+    cursor: pointer;
+}
+#boton_menu{
     background-color: transparent;
-    border: transparent;
-    width: 30%;
-    height: 30px;
-}
-#espana{
-    width: 78%;
-    height: 40px;
-}
-#reino-unido{
-    width: 75%;
-    height: 40px;
-}
-#francia{
-    width: 75%;
-    height: 40px;
-}
-#alemania{
-    width: 100%;
-    height: 40px;
+    border-color: transparent;
+    height: 80%;
 }
 #menu{
-    background-color: transparent;
     width: 90%;
-    height: 40px;
-    margin-left: 55%;
+    height: 50%;
 }
 .ocultar{
     display: none;
 }
 button{
-    height: 40px;
-    width: 150px;
     cursor: pointer;
 }
 #disMenu{
@@ -102,7 +72,9 @@ p{
 }
 main{
     width: 100%;
-    min-height: 70%;
+    height: 70%;
+    max-height: 70%;
+    overflow-y: scroll;
 }
 #section1{
     display: flex;
@@ -153,8 +125,6 @@ h3{
 }
 .btnActivo{
     width: 100%;
-    height: 29px;
-    padding-top: 1%;
     background-color: #6b6868;
 }
 h2{
@@ -171,19 +141,4 @@ h2{
 
 .videos{
     width: 25%;
-}
-footer {
-    width: 100%;
-    height: 10%;
-    bottom: 0%;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    column-gap: 10%;
-    font-size: 1.2em;
-    font-weight: 800;
-    text-align: center;
-    background: #454545;
 }

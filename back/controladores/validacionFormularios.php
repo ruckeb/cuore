@@ -1,6 +1,6 @@
 <?php
     function validarFormularioRegistro($datos, $imagen, $video) {
-        if (!preg_match("/^[a-z0-9_-]{2,50}/", $datos->nick)) {
+        if (!preg_match("/^[A-Za-z0-9_-]{2,50}/", $datos->nick)) {
             return 1; //El campo nick debe contener entre 2 y 50 caracteres: letras minúsculas, números, - y _
         }
         $fecha  = explode('-', $datos->fecha_nacimiento);
@@ -49,7 +49,7 @@
     }
 
     function validarFormularioInicioSesion($datos){
-        if (!preg_match("/^[a-z0-9_-]{2,50}/", $datos->usuario)) {
+        if (!preg_match("/^[A-Za-z0-9_-]{2,50}/", $datos->usuario)) {
             return 1; //El campo nick debe contener entre 2 y 50 caracteres: letras minúsculas, números, - y _
         }
         if (!preg_match("/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$/", $datos->contrasena) ||
