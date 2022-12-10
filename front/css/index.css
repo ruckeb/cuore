@@ -1,54 +1,50 @@
 #botones_login{    /*si quitamos esto nos vamos a dos lineas*/
     padding-right: 5%;
+    height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    align-content: flex-end;
+    align-items: center;
 }
 .botonIdiomas{
-    background-color: transparent;
-    border: transparent;
-    width: 5%;
-    height: auto;
+    max-width: 10%;
+    height: 30%;
+    margin-right: 2%;
 }
-#espana{
-    width: 78%;
-    height: 40%;
-}
-#reino-unido{
-    width: 75%;
-    height: 40%;
-}
-#francia{
-    width: 75%;
-    height: 40%;
-}
-#alemania{
-    width: 75%;
-    height: 40%;
+.boton_cabecera {
+    background-color: white;
+    font-size: 1em;
+    font-weight: 800;
+    color: black;
 }
 #iniciar_sesion{
-    background-color: white;
-    font-size: 1em;
-    font-weight: 800;
-    color: black;
-    width: 160px;
-    height: auto;
-    margin: 5% 0% 5% 1%;
-}
-#registrarse{
-    background-color: white;
-    font-size: 1em;
-    font-weight: 800;
-    color: black;
-    width: 160px;
-    height: auto;
-    margin: 5% 1% 5% 1%;
-    padding: 0.5%;
+    margin-right: 2%;
+    white-space: nowrap;
+    text-align: center;
 }
 form{
-    padding-top: 1%;
-    padding-bottom: 1%;
+    width: 70%;
+    max-height: 100%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
+    z-index: 1;
+    border: 2px ridge rgb(41, 57, 82);
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px silver;
+    background-color: white;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    gap: 10px;
+    /* para ocultar la barra de scroll */
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* para ocultar la barra de scroll Chrome, Safari y Opera*/
+form::-webkit-scrollbar{
+    display: none;
 }
 img {
     object-fit: contain;
@@ -57,9 +53,8 @@ img {
     cursor: pointer;
 }
 button {
-    height: 30px;
-    width: 150px;
     border: 2px double black;
+    padding: 1%;
     border-radius: 20px;
     background-color: rgb(41, 57, 82);
     color: black;
@@ -67,14 +62,13 @@ button {
 }
 main {
     width: 100%;
-    min-height: 70%;
-    position: relative;
-    bottom: 21.5px;
+    max-height: 70%;
+    height: 70%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
-
+    justify-content: space-around;
+    overflow: hidden;
 }
 #animacion {
     position: absolute;
@@ -86,7 +80,7 @@ main {
 #fondo {
     width: 40%;
     text-align: right;
-    font-size: 15em;
+    font-size: 15vw;
     font-family: "times new roman";
     text-shadow: 7.5px 7.5px 7.5px grey;
     color: #e53935;
@@ -95,7 +89,7 @@ main {
 }
 #fondo2 {
     width: 60%;
-    font-size: 15em;
+    font-size: 15vw;
     font-family: "times new roman";
     text-shadow: 7.5px 7.5px 7.5px grey;
     color: black;
@@ -110,21 +104,6 @@ main {
         opacity: 1;
     }
 }
-#formulario_inicio{
-    width: 70%;
-    height: 200px;
-    z-index: 1;
-    padding-top: 20px;
-    border: 2px ridge rgb(41, 57, 82);
-    border-radius: 10px;
-    box-shadow: 10px 10px 5px silver;
-    background-color: white;
-    text-align: center;
-    display: none;
-}
-#clave{
-    margin-left: 2%;
-}
 #ojo_contrasena{
     width: 2%;
 }
@@ -132,106 +111,8 @@ main {
     background-color: rgb(245, 98, 135);
     border: 3px solid black; 
 }
-#formulario_registro {
-    width: 70%;
-    height: 100%;
-    z-index: 1;
-    padding-top: 10px;
-    padding-bottom: 1%;
-    border: 2px ridge rgb(41, 57, 82);
-    border-radius: 10px;
-    box-shadow: 10px 10px 5px silver;
-    background-color: white;
-    text-align: center;
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-}
-#fila1_registro,#fila2_registro,#fila3_registro,#fila4_registro{
-    width: 100%;
-    min-height: 20%;
-    margin: 2% 1% 1% 1%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: flex-start;
-}
-#caja_usuario{
-    width: 33%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-#caja_email{
-    width: 33%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-#caja_fecha_nacimiento{
-    width: 30%;
-    margin-left: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-#caja_sexo{
-    width: 25%;
-    padding-right: 8%;
-    padding-top: 0.1%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-#caja_busqueda{
-    width: 33%;
-    margin-right: 7%;
-    padding-top: 0.1%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-#caja_imagen{
-    width: 33%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-#caja_video{
-    width: 33%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-#caja_contrasena{
-    width: 40%;
-    margin-left: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-#caja_repetir_contrasena{
-    width: 40%;
-    padding-right: 3%;
-    margin-left: 4%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
 #ojo_contrasena2,#ojo_contrasena3{
     width: 5%;
-}
-#caja_coincide{
-    width: 50%;
-    margin-right: 4%;
-    margin-left: 4%;
-    padding-top: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
 }
 #ojo_contrasena, #ojo_contrasena2, #ojo_contrasena3{
     background-color: transparent;
@@ -241,7 +122,6 @@ main {
 #registrar{
     background-color: rgb(245, 98, 135);
     border: 3px solid black; 
-    align-self: center;
 }
 .ocultar {
     display: none;
@@ -249,11 +129,21 @@ main {
 .mostrar {
     display: block;
 }
+.mostrar_flex {
+    display: flex;
+}
+.activo {
+    display: flex;
+    background-color: rgb(245, 98, 135);
+    color: black;
+}
 input {
     border-radius: 4px;
     border: 0.5px solid whitesmoke;
     border-bottom: 2px solid black;
     background-color: white;
+    overflow: visible !important;
+    flex-shrink: 0;
 }
 input:focus {
     border: 3px groove dodgerblue;

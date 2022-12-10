@@ -55,7 +55,10 @@ button{
     position: absolute;
     right: 0%;
     top: 120px;
+<<<<<<< HEAD
     z-index: 10;
+=======
+>>>>>>> ad666b8a6fd878372d03938b77330cfcf5c049de
 }
 #tablaMenu{
     display: flex;

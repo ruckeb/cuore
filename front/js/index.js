@@ -11,6 +11,37 @@ window.onload = ()=>{
     cargarLogin()
 }
 
+let ubicacion
+
+function obtenerUbicacion(literales) {
+    /* OBTENEMOS LA UBICACION */
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    }
+      
+    function success(pos) {
+        ubicacion = pos
+    }
+    
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+        Swal.fire({
+            icon: 'info',
+            title: 'Oops...',
+            text: buscarLiteral(literales, "error_ubicacion"),
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then(function () {
+            location.reload()
+        })
+    }
+    
+    navigator.geolocation.getCurrentPosition(success, error, options);
+    /* TENEMOS UBICACION */
+}
+
 function cargarLogin() {
     let bodyContent = {
         id_html: 'login',
@@ -23,6 +54,7 @@ function cargarLogin() {
     fetch(url, params)
         .then(req => req.json())
         .then( literales => {
+            obtenerUbicacion(literales)
             cargarCabecera(literales)
             cargarMain(literales)
             cargarFooter(literales)
@@ -43,27 +75,13 @@ function cargarCabecera(literales) {
     let div_botones_login = document.createElement('div')
     div_botones_login.id = "botones_login"
 
-    let boton_espana = document.createElement('button')
-    boton_espana.id = "boton_espana"
-    boton_espana.classList.add("botonIdiomas")
-    boton_espana.onclick = () => {
-        if (getCookie("idioma") != "es") {
-            setCookie("idioma", "es", 7)
-            location.reload()
-        }
-    }
-
     let imagen_bandera_espana = document.createElement('img')
     imagen_bandera_espana.id = "espana"
     imagen_bandera_espana.src = "front/img/imgPaises/espana.png"
-    boton_espana.appendChild(imagen_bandera_espana)
-
-    let boton_reino_unido = document.createElement('button')
-    boton_reino_unido.id = "boton_reino_unido"
-    boton_reino_unido.classList.add("botonIdiomas")
-    boton_reino_unido.onclick = () => {
-        if (getCookie("idioma") != "en") {
-            setCookie("idioma", "en", 7)
+    imagen_bandera_espana.classList.add("botonIdiomas")
+    imagen_bandera_espana.onclick = () => {
+        if (getCookie("idioma") != "es") {
+            setCookie("idioma", "es", 7)
             location.reload()
         }
     }
@@ -71,14 +89,10 @@ function cargarCabecera(literales) {
     let imagen_bandera_reino_unido = document.createElement('img')
     imagen_bandera_reino_unido.id = "reino-unido"
     imagen_bandera_reino_unido.src = "front/img/imgPaises/reino-unido.png"
-    boton_reino_unido.appendChild(imagen_bandera_reino_unido)
-
-    let boton_francia = document.createElement('button')
-    boton_francia.id = "boton_francia"
-    boton_francia.classList.add("botonIdiomas")
-    boton_francia.onclick = () => {
-        if (getCookie("idioma") != "fr") {
-            setCookie("idioma", "fr", 7)
+    imagen_bandera_reino_unido.classList.add("botonIdiomas")
+    imagen_bandera_reino_unido.onclick = () => {
+        if (getCookie("idioma") != "en") {
+            setCookie("idioma", "en", 7)
             location.reload()
         }
     }
@@ -86,14 +100,10 @@ function cargarCabecera(literales) {
     let imagen_bandera_francia = document.createElement('img')
     imagen_bandera_francia.id = "francia"
     imagen_bandera_francia.src = "front/img/imgPaises/francia.png"
-    boton_francia.appendChild(imagen_bandera_francia)
-
-    let boton_alemania = document.createElement('button')
-    boton_alemania.id = "boton_alemania"
-    boton_alemania.classList.add("botonIdiomas")
-    boton_alemania.onclick = () => {
-        if (getCookie("idioma") != "de") {
-            setCookie("idioma", "de", 7)
+    imagen_bandera_francia.classList.add("botonIdiomas")
+    imagen_bandera_francia.onclick = () => {
+        if (getCookie("idioma") != "fr") {
+            setCookie("idioma", "fr", 7)
             location.reload()
         }
     }
@@ -101,38 +111,54 @@ function cargarCabecera(literales) {
     let imagen_bandera_alemania = document.createElement('img')
     imagen_bandera_alemania.id = "alemania"
     imagen_bandera_alemania.src = "front/img/imgPaises/alemania.png"
-    boton_alemania.appendChild(imagen_bandera_alemania)
+    imagen_bandera_alemania.classList.add("botonIdiomas")
+    imagen_bandera_alemania.onclick = () => {
+        if (getCookie("idioma") != "de") {
+            setCookie("idioma", "de", 7)
+            location.reload()
+        }
+    }
 
     let boton_iniciar_sesion = document.createElement('button')
     boton_iniciar_sesion.id = "iniciar_sesion"
+    boton_iniciar_sesion.classList.add("boton_cabecera")
     boton_iniciar_sesion.innerHTML = buscarLiteral(literales, boton_iniciar_sesion.id)
     boton_iniciar_sesion.onclick = e => {
         e.preventDefault()
-        document.getElementById("formulario_inicio").style.display = "block"
-        document.getElementById("formulario_registro").style.display = "none"
-        boton_iniciar_sesion.style.backgroundColor = "rgb(245, 98, 135)"
-        boton_registrarse.style.backgroundColor = "white"
-        boton_iniciar_sesion.style.color = "black"
-        boton_registrarse.style.color = "black"
+        if (!boton_iniciar_sesion.classList.contains("activo")) {
+            boton_iniciar_sesion.classList.toggle("activo")
+            formulario_inicio.classList.toggle("ocultar")
+            formulario_inicio.classList.toggle("mostrar_flex")
+        }
+        if (boton_registrarse.classList.contains("activo")) {
+            boton_registrarse.classList.toggle("activo")
+            formulario_registro.classList.toggle("ocultar")
+            formulario_registro.classList.toggle("mostrar_flex")
+        }
     }
 
     let boton_registrarse = document.createElement('button')
     boton_registrarse.id = "registrarse"
+    boton_registrarse.classList.add("boton_cabecera")
     boton_registrarse.innerHTML = buscarLiteral(literales, boton_registrarse.id)
     boton_registrarse.onclick = e => {
         e.preventDefault()
-        document.getElementById("formulario_inicio").style.display = "none"
-        document.getElementById("formulario_registro").style.display = "flex"
-        boton_registrarse.style.backgroundColor = "rgb(245, 98, 135)"
-        boton_iniciar_sesion.style.backgroundColor = "white"
-        boton_iniciar_sesion.style.color = "black"
-        boton_registrarse.style.color = "black"
+        if (!boton_registrarse.classList.contains("activo")) {
+            boton_registrarse.classList.toggle("activo")
+            formulario_registro.classList.toggle("ocultar")
+            formulario_registro.classList.toggle("mostrar_flex")
+        }
+        if (boton_iniciar_sesion.classList.contains("activo")) {
+            boton_iniciar_sesion.classList.toggle("activo")
+            formulario_inicio.classList.toggle("ocultar")
+            formulario_inicio.classList.toggle("mostrar_flex")
+        }
     }
 
-    div_botones_login.appendChild(boton_espana)
-    div_botones_login.appendChild(boton_reino_unido)
-    div_botones_login.appendChild(boton_francia)
-    div_botones_login.appendChild(boton_alemania)
+    div_botones_login.appendChild(imagen_bandera_espana)
+    div_botones_login.appendChild(imagen_bandera_reino_unido)
+    div_botones_login.appendChild(imagen_bandera_francia)
+    div_botones_login.appendChild(imagen_bandera_alemania)
     div_botones_login.appendChild(boton_iniciar_sesion)
     div_botones_login.appendChild(boton_registrarse)
 
@@ -142,6 +168,27 @@ function cargarCabecera(literales) {
 }
 
 function cargarMain(literales) {
+
+    function comprobarContrasenas() {
+        if (input_clave.value == input_repetir_clave.value) {
+            div_coinciden.classList.remove("ocultar")
+            div_no_coinciden.classList.add("ocultar")
+        } else {
+            div_coinciden.classList.add("ocultar")
+            div_no_coinciden.classList.remove("ocultar")
+        }
+    }
+
+    function boton_mostrar_contrasena(e) {
+        e.preventDefault()
+        let input = this.previousSibling
+        if (input.type == 'password') {
+            input.type = 'text'
+        }else{
+            input.type = 'password'
+        }
+    }
+
     let main = document.body.children[1]
 
     let div_animacion = document.createElement('div')
@@ -159,6 +206,7 @@ function cargarMain(literales) {
     div_animacion.appendChild(fondo_sin_formulario2)
 
     let formulario_inicio = document.createElement('form')
+    formulario_inicio.classList.add("ocultar")
     formulario_inicio.id = "formulario_inicio"
 
     let label_usuario = document.createElement('label')
@@ -175,15 +223,6 @@ function cargarMain(literales) {
     input_usuario.title = buscarLiteral(literales, input_usuario.id + "_title")
     input_usuario.required = true
 
-    function boton_mostrar_contrasena(e) {
-        e.preventDefault()
-        let input = this.previousSibling
-        if (input.type == 'password') {
-            input.type = 'text'
-        }else{
-            input.type = 'password'
-        }
-    }
     let boton_ojo_contrasena = document.createElement('button')
     boton_ojo_contrasena.id = "ojo_contrasena"
     boton_ojo_contrasena.innerHTML = "👁"
@@ -204,6 +243,10 @@ function cargarMain(literales) {
     input_contrasena.pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$"
     input_contrasena.title = buscarLiteral(literales, input_contrasena.id + "_title")
 
+    let div_contrasena_ojo = document.createElement('div')
+    div_contrasena_ojo.appendChild(input_contrasena)
+    div_contrasena_ojo.appendChild(boton_ojo_contrasena)
+
     let boton_enviar = document.createElement('button')
     boton_enviar.id = "entrar"
     boton_enviar.type = "submit"
@@ -211,9 +254,12 @@ function cargarMain(literales) {
     boton_enviar.onclick = (e) => {
         e.preventDefault()
         if (formulario_inicio.reportValidity()) {
+            
             let bodyContent = {
                 usuario: formulario_inicio.usuario.value,
-                contrasena: formulario_inicio.clave.value
+                contrasena: formulario_inicio.clave.value,
+                latitud: ubicacion.coords.latitude,
+                longitud: ubicacion.coords.longitude
             }
             let url = '../../back/controladores/iniciarSesion.php'
             let params = {
@@ -224,43 +270,28 @@ function cargarMain(literales) {
                 .then(req => req.json())
                 .then( datos => {
                     if (datos.nick) {
-                        console.log("VAMOOOOOOOOOOOOOOOOOOOOOOOOOOS")
-                        //location.href = "./home.html"
+                        location.href = "./home.php"
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: buscarLiteral(literales, "server_error_" + datos),
-                            target: main
+                            text: buscarLiteral(literales, "server_error_" + datos)
                         })
-                        
                     }
                 })
         }
     }
 
     formulario_inicio.appendChild(label_usuario)
-    formulario_inicio.appendChild(document.createElement('br'))
     formulario_inicio.appendChild(input_usuario)
-    formulario_inicio.appendChild(document.createElement('br'))
-    formulario_inicio.appendChild(document.createElement('br'))
     formulario_inicio.appendChild(label_contrasena)
-    formulario_inicio.appendChild(document.createElement('br'))
-    formulario_inicio.appendChild(input_contrasena)
-    formulario_inicio.appendChild(boton_ojo_contrasena)
-    formulario_inicio.appendChild(document.createElement('br'))
-    formulario_inicio.appendChild(document.createElement('br'))
+    formulario_inicio.appendChild(div_contrasena_ojo)
     formulario_inicio.appendChild(boton_enviar)
 
     let formulario_registro = document.createElement('form')
     formulario_registro.id = "formulario_registro"
+    formulario_registro.classList.add("ocultar")
     formulario_registro.enctype = "multipart/form-data" //Esto es necesario porque este formulario incluye inputs de tipo file
-
-    let fila1_registro = document.createElement('div')
-    fila1_registro.id = "fila1_registro" 
-
-    let caja_usuario = document.createElement('div')
-    caja_usuario.id = "caja_usuario"
 
     let label_nick = document.createElement('label')
     label_nick.id = "label_nick"
@@ -275,12 +306,6 @@ function cargarMain(literales) {
     input_nick.pattern = "^[A-Za-z0-9_-]{2,50}"
     input_nick.title = buscarLiteral(literales, input_nick.id + "_title")
     input_nick.required = true
-   
-    caja_usuario.appendChild(label_nick)
-    caja_usuario.appendChild(input_nick)
-
-    let caja_email = document.createElement('div')
-    caja_email.id = "caja_email"
 
     let label_email = document.createElement('label')
     label_email.id = "label_email"
@@ -297,19 +322,6 @@ function cargarMain(literales) {
     input_email.title = buscarLiteral(literales, input_email.id + "_title")
     input_email.required = true
 
-    caja_email.appendChild(label_email)
-    caja_email.appendChild(input_email)
-
-    fila1_registro.appendChild(caja_usuario)
-    fila1_registro.appendChild(caja_email)
-
-
-    let fila2_registro = document.createElement('div')
-    fila2_registro.id = "fila2_registro" 
-
-    let caja_fecha_nacimiento = document.createElement('div')
-    caja_fecha_nacimiento.id = "caja_fecha_nacimiento"
-
     let label_fecha_nacimiento = document.createElement('label')
     label_fecha_nacimiento.id = "label_fecha_nacimiento"
     label_fecha_nacimiento.htmlFor = "fecha_nacimiento"
@@ -320,12 +332,6 @@ function cargarMain(literales) {
     input_fecha_nacimiento.type = "Date"
     input_fecha_nacimiento.name = "fecha_nacimiento"
     input_fecha_nacimiento.required = true
-
-    caja_fecha_nacimiento.appendChild(label_fecha_nacimiento)
-    caja_fecha_nacimiento.appendChild(input_fecha_nacimiento)
-
-    let caja_sexo = document.createElement('div')
-    caja_sexo.id = "caja_sexo"
 
     let label_sexo = document.createElement('label')
     label_sexo.id = "label_sexo"
@@ -349,14 +355,9 @@ function cargarMain(literales) {
     option_otros.value = 3 
     option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
 
-    caja_sexo.appendChild(label_sexo)
-    caja_sexo.appendChild(select_sexo)
     select_sexo.appendChild(option_hombre)
     select_sexo.appendChild(option_mujer)
     select_sexo.appendChild(option_otros)
-
-    let caja_busqueda = document.createElement('div')
-    caja_busqueda.id = "caja_busqueda"
 
     let label_busqueda = document.createElement('label')
     label_busqueda.id = "label_busqueda"
@@ -380,21 +381,9 @@ function cargarMain(literales) {
     option_bus_ambos.value = 3
     option_bus_ambos.innerHTML = buscarLiteral(literales, select_busqueda.id + '_ambos') 
 
-    caja_busqueda.appendChild(label_busqueda)
-    caja_busqueda.appendChild(select_busqueda)
     select_busqueda.appendChild(option_bus_hombre)
     select_busqueda.appendChild(option_bus_mujer)
     select_busqueda.appendChild(option_bus_ambos)
-
-    fila2_registro.appendChild(caja_fecha_nacimiento)
-    fila2_registro.appendChild(caja_sexo)
-    fila2_registro.appendChild(caja_busqueda)
-
-    let fila3_registro = document.createElement('div')
-    fila3_registro.id = "fila3_registro" 
-
-    let caja_imagen = document.createElement('div')
-    caja_imagen.id = "caja_imagen"
 
     let label_imagen = document.createElement('label')
     label_imagen.id = "label_imagen"
@@ -409,12 +398,6 @@ function cargarMain(literales) {
     input_imagen.title = buscarLiteral(literales, input_imagen.id + "_title")
     input_imagen.required = true
 
-    caja_imagen.appendChild(label_imagen)
-    caja_imagen.appendChild(input_imagen)
-
-    let caja_video = document.createElement('div')
-    caja_video.id = "caja_video"
-
     let label_video = document.createElement('label')
     label_video.id = "label_video"
     label_video.htmlFor = "video"
@@ -425,19 +408,8 @@ function cargarMain(literales) {
     input_video.type = "file"
     input_video.name = "video" 
     input_video.accept = ".MP4,.OGV,.WEBM"
-    input_imagen.title = buscarLiteral(literales, input_video.id + "_title")
+    input_video.title = buscarLiteral(literales, input_video.id + "_title")
     input_video.required = true
-
-    caja_video.appendChild(label_video)
-    caja_video.appendChild(input_video)
-    fila3_registro.appendChild(caja_imagen)
-    fila3_registro.appendChild(caja_video)
-
-    let fila4_registro = document.createElement('div')
-    fila4_registro.id = "fila4_registro" 
-    
-    let caja_contrasena = document.createElement('div')
-    caja_contrasena.id = "caja_contrasena"
 
     let boton_ojo_contrasena2 = document.createElement('button')
     boton_ojo_contrasena2.id = "ojo_contrasena2"
@@ -448,16 +420,6 @@ function cargarMain(literales) {
     label_clave.id = "label_clave"
     label_clave.htmlFor = "clave_registro"
     label_clave.innerHTML = buscarLiteral(literales, label_clave.id)
-
-    function comprobarContrasenas() {
-        if (input_clave.value == input_repetir_clave.value) {
-            div_coinciden.classList.remove("ocultar")
-            div_no_coinciden.classList.add("ocultar")
-        } else {
-            div_coinciden.classList.add("ocultar")
-            div_no_coinciden.classList.remove("ocultar")
-        }
-    }
 
     let input_clave = document.createElement('input')
     input_clave.id = "clave_registro"
@@ -470,12 +432,9 @@ function cargarMain(literales) {
     input_clave.title = buscarLiteral(literales, input_clave.id + "_title")
     input_clave.onkeyup = comprobarContrasenas
 
-    caja_contrasena.appendChild(label_clave)
-    caja_contrasena.appendChild(input_clave)
-    caja_contrasena.appendChild(boton_ojo_contrasena2)
-
-    let caja_repetir_contrasena = document.createElement('div')
-    caja_repetir_contrasena.id = "caja_repetir_contrasena"
+    let div_clave_ojo = document.createElement('div')
+    div_clave_ojo.appendChild(input_clave)
+    div_clave_ojo.appendChild(boton_ojo_contrasena2)
 
     let boton_ojo_contrasena3 = document.createElement('button')
     boton_ojo_contrasena3.id = "ojo_contrasena3"
@@ -499,12 +458,9 @@ function cargarMain(literales) {
     input_repetir_clave.required = true
     input_repetir_clave.onkeyup = comprobarContrasenas
 
-    caja_repetir_contrasena.appendChild(label_repetir_clave)
-    caja_repetir_contrasena.appendChild(input_repetir_clave)
-    caja_repetir_contrasena.appendChild(boton_ojo_contrasena3)
-
-    let caja_coincide = document.createElement('div')
-    caja_coincide.id = "caja_coincide"
+    let div_repetir_clave_ojo = document.createElement('div')
+    div_repetir_clave_ojo.appendChild(input_repetir_clave)
+    div_repetir_clave_ojo.appendChild(boton_ojo_contrasena3)
 
     let div_no_coinciden = document.createElement('div')
     div_no_coinciden.id = "noCoinciden"
@@ -515,12 +471,6 @@ function cargarMain(literales) {
     div_coinciden.id = "coinciden"
     div_coinciden.classList.add("ocultar")
     div_coinciden.innerHTML = buscarLiteral(literales, div_coinciden.id)
-
-    caja_coincide.appendChild(div_no_coinciden)
-    caja_coincide.appendChild(div_coinciden)
-    fila4_registro.appendChild(caja_contrasena)
-    fila4_registro.appendChild(caja_repetir_contrasena)
-    fila4_registro.appendChild(caja_coincide)
 
     let boton_enviar_registro = document.createElement('button')
     boton_enviar_registro.id = "registrar"
@@ -535,7 +485,9 @@ function cargarMain(literales) {
                 email: formulario_registro.email.value,
                 sexo: formulario_registro.sexo.value,
                 perfil_busqueda: formulario_registro.busqueda.value,
-                clave: formulario_registro.clave_registro.value
+                clave: formulario_registro.clave_registro.value,
+                latitud: ubicacion.coords.latitude,
+                longitud: ubicacion.coords.longitude
             }
             let data = new FormData()
             data.append('imagen', formulario_registro.imagen.files[0])
@@ -549,23 +501,46 @@ function cargarMain(literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                    console.log(datos)
+                    if (datos == 0) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'registrado_correctamente'),
+                            title: buscarLiteral(literales, 'correcto'),
+                            icon: "success",
+                            timer: 5000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                          });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + datos)
+                        })
+                    }
                 })
         }
     }
 
-    formulario_registro.appendChild(fila1_registro)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(fila2_registro)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(fila3_registro)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(fila4_registro)
-    formulario_registro.appendChild(document.createElement('br'))
-    formulario_registro.appendChild(document.createElement('br'))
+    formulario_registro.appendChild(label_nick)
+    formulario_registro.appendChild(input_nick)
+    formulario_registro.appendChild(label_email)
+    formulario_registro.appendChild(input_email)
+    formulario_registro.appendChild(label_fecha_nacimiento)
+    formulario_registro.appendChild(input_fecha_nacimiento)
+    formulario_registro.appendChild(label_sexo)
+    formulario_registro.appendChild(select_sexo)
+    formulario_registro.appendChild(label_busqueda)
+    formulario_registro.appendChild(select_busqueda)
+    formulario_registro.appendChild(label_imagen)
+    formulario_registro.appendChild(input_imagen)
+    formulario_registro.appendChild(label_video)
+    formulario_registro.appendChild(input_video)
+    formulario_registro.appendChild(label_clave)
+    formulario_registro.appendChild(div_clave_ojo)
+    formulario_registro.appendChild(label_repetir_clave)
+    formulario_registro.appendChild(div_repetir_clave_ojo)
+    formulario_registro.appendChild(div_coinciden)
+    formulario_registro.appendChild(div_no_coinciden)
     formulario_registro.appendChild(boton_enviar_registro)
 
 
