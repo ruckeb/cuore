@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (!isset($_SESSION['token']) || !isset($_COOKIE['token']) || $_SESSION['token'] != $_COOKIE['token']) {
-        // header("Location: index.html");
+        header("Location: index.html");
     }
 ?>
 <!DOCTYPE html>
