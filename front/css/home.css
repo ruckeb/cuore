@@ -85,13 +85,17 @@ p{
 main{
     width: 100%;
     height: 70%;
-    position: relative;
-    bottom: 21.5px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* para ocultar la barra de scroll Chrome, Safari y Opera*/
+main::-webkit-scrollbar{
+    display: none;
 }
 #c_recomendaciones_img{
     width: 60%;
