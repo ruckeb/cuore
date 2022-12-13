@@ -1,7 +1,6 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
 
 window.onload = ()=>{
-
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
         setCookie("idioma", "es", 7)
@@ -200,41 +199,226 @@ function cargarMain(literales) {
     let c_recomendaciones_img = document.createElement('div')
     c_recomendaciones_img.id = "c_recomendaciones_img"
 
-    // let imagenes no se el como meter las indefinidas, al hacer click c_img_click display= block
-    // meter dos botones uno al principio y otro al final que hagan como para pasar adelante y atras
+    let imagen_flecha_izq = document.createElement('img')
+    imagen_flecha_izq.id = "flecha_izq"
+    imagen_flecha_izq.src = "front/img/imgHome/flecha-izq-negro-rosa.png"
+
+    let img_recomendacion = document.createElement('img')
+    img_recomendacion.id = "img_recomendacion"
+    img_recomendacion.src = "front/img/imgPerfil/perfil.png"
+
+    let imagen_flecha_der = document.createElement('img')
+    imagen_flecha_der.id = "flecha_der"
+    imagen_flecha_der.src = "front/img/imgHome/flecha-der-negro-rosa.png"
+
+    let contenedor_datos_imagen = document.createElement('div')
+    contenedor_datos_imagen.id = "contenedor_datos_imagen"
+
+    let usuario_imagen = document.createElement('p')
+    usuario_imagen.id = "usuario_imagen"
+    usuario_imagen.innerHTML = "Denche11"
+
+    let comentario_usuario_imagen = document.createElement('div')
+    comentario_usuario_imagen.id = "comentario_usuario_imagen"
+    comentario_usuario_imagen.innerHTML = "Hoy por la mañana recien levantadito amor!"
+
+    contenedor_datos_imagen.appendChild(usuario_imagen)
+    contenedor_datos_imagen.appendChild(comentario_usuario_imagen)
+
+    c_recomendaciones_img.appendChild(imagen_flecha_izq)
+    c_recomendaciones_img.appendChild(img_recomendacion)
+    c_recomendaciones_img.appendChild(imagen_flecha_der)
+    c_recomendaciones_img.appendChild(contenedor_datos_imagen)
 
     let c_img_click = document.createElement('div')
     c_img_click.id = "c_img_click"
-    c_img_click.style.display = 'block'
-   
-    let img_escogida = document.createElement('img')
-    img_escogida.id = "img_escogida"
-    img_escogida.innerHTML = buscarLiteral(literales, img_escogida.id)
-
-    let contenedor_general_comentarios = document.createElement('div')
-    contenedor_general_comentarios.id = "contenedor_general_comentarios"
 
     let contenedor_comentarios = document.createElement('div')
     contenedor_comentarios.id = "contenedor_comentarios"
+
+    let parrafo_comentario = document.createElement('p')
+    parrafo_comentario.classList.add('comentarios')
+
+    let fecha_comentario = document.createElement('span')
+    fecha_comentario.classList.add('fecha_comentario')
+    fecha_comentario.innerHTML = "13/02/2001 "
+    // fecha_comentario.innerHTML = 
+
+    let usuario_comentario = document.createElement('span')
+    usuario_comentario.classList.add('usuario_comentario')
+    usuario_comentario.innerHTML = " Denche11: "
+
+    let texto_comentario = document.createElement('span')
+    texto_comentario.classList.add('texto_comentario')
+    texto_comentario.innerHTML = " Me comento a mi mismo porque estoy tremendo"
     
+    parrafo_comentario.appendChild(fecha_comentario)
+    parrafo_comentario.appendChild(usuario_comentario)
+    parrafo_comentario.appendChild(texto_comentario)
+
+    contenedor_comentarios.appendChild(parrafo_comentario)
+
     let contenedor_reacciones = document.createElement('div')
     contenedor_reacciones.id = "contenedor_reacciones"
+
+    let caja_fuego = document.createElement('div')
+    caja_fuego.id = "caja_fuego"
+    caja_fuego.onclick = function(){
+        
+    }
+
+    let logo_fuego = document.createElement('img')
+    logo_fuego.id = "logo_fuego"
+    logo_fuego.src = "front/img/imgHome/fuego-desactivado.png"
+
+    let num_fuego = document.createElement('p')
+    num_fuego.id = "num_fuego"
+    num_fuego.innerHTML = "0"
+
+    caja_fuego.appendChild(logo_fuego)
+    caja_fuego.appendChild(num_fuego)
+
+    let caja_like = document.createElement('div')
+    caja_like.id = "caja_like"
+    caja_like.onclick = function(){
+        
+    }
+
+    let logo_like = document.createElement('img')
+    logo_like.id = "logo_like"
+    logo_like.src = "front/img/imgHome/me-gusta-desactivado.png"
+
+    let num_like = document.createElement('p')
+    num_like.id = "num_like"
+    num_like.innerHTML = "0"
+
+    caja_like.appendChild(logo_like)
+    caja_like.appendChild(num_like)
+
+    let caja_dislike = document.createElement('div')
+    caja_dislike.id = "caja_dislike"
+    caja_dislike.onclick = function(){
+        
+    }
+
+    let logo_dislike = document.createElement('img')
+    logo_dislike.id = "logo_dislike"
+    logo_dislike.src = "front/img/imgHome/no-me-gusta-desactivado.png"
+
+    let num_dislike = document.createElement('p')
+    num_dislike.id = "num_dislike"
+    num_dislike.innerHTML = "0"
+
+    caja_dislike.appendChild(logo_dislike)
+    caja_dislike.appendChild(num_dislike)
+
+   let caja_labio = document.createElement('div')
+    caja_labio.id = "caja_labio"
+    caja_labio.onclick = function(){
+        
+    }
+
+    let logo_labio = document.createElement('img')
+    logo_labio.id = "logo_labio"
+    logo_labio.src = "front/img/imgHome/labios-desactivado.png"
+
+    let num_labio = document.createElement('p')
+    num_labio.id = "num_labio"
+    num_labio.innerHTML = "0"
+
+    caja_labio.appendChild(logo_labio)
+    caja_labio.appendChild(num_labio)
+
+    let caja_corazon = document.createElement('div')
+    caja_corazon.id = "caja_corazon"
+    caja_corazon.onclick = function(){
+        
+    }
+
+    let logo_corazon = document.createElement('img')
+    logo_corazon.id = "logo_corazon"
+    logo_corazon.src = "front/img/imgHome/corazon-desactivado.png"
+
+    let num_corazon = document.createElement('p')
+    num_corazon.id = "num_corazon"
+    num_corazon.innerHTML = "0"
+
+    caja_corazon.appendChild(logo_corazon)
+    caja_corazon.appendChild(num_corazon)
+
+    contenedor_reacciones.appendChild(caja_fuego)
+    contenedor_reacciones.appendChild(caja_like)
+    contenedor_reacciones.appendChild(caja_dislike)
+    contenedor_reacciones.appendChild(caja_labio)
+    contenedor_reacciones.appendChild(caja_corazon)
     
     let c_comentario_personal = document.createElement('textarea')
     c_comentario_personal.id = 'c_comentario_personal'
     c_comentario_personal.placeholder = 'comentario...'
 
-    contenedor_general_comentarios.appendChild(contenedor_comentarios)
-    contenedor_general_comentarios.appendChild(document.createElement('hr'))
-    contenedor_general_comentarios.appendChild(contenedor_reacciones)
-    contenedor_general_comentarios.appendChild(document.createElement('hr'))
-    contenedor_general_comentarios.appendChild(c_comentario_personal)
-
-    c_img_click.appendChild(img_escogida)
-    c_img_click.appendChild(contenedor_general_comentarios)
+    c_img_click.appendChild(contenedor_comentarios)
+    c_img_click.appendChild(document.createElement('hr'))
+    c_img_click.appendChild(contenedor_reacciones)
+    c_img_click.appendChild(document.createElement('hr'))
+    c_img_click.appendChild(c_comentario_personal)
 
     main.appendChild(c_recomendaciones_img)
     main.appendChild(c_img_click)
+
+    $('#caja_fuego').click(function(){
+        $(this).toggleClass('activado')
+        if ($(this).hasClass('activado')){
+            $(this).children().first().attr('src', 'front/img/imgHome/fuego-activado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+        } else {
+            $(this).children().first().attr('src', 'front/img/imgHome/fuego-desactivado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())-1)
+        }
+    })
+
+    $('#caja_like').click(function(){
+        $(this).toggleClass('activado')
+        if ($(this).hasClass('activado')){
+            $(this).children().first().attr('src', 'front/img/imgHome/me-gusta-activado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+        } else {
+            $(this).children().first().attr('src', 'front/img/imgHome/me-gusta-desactivado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())-1)
+        }
+    })
+
+    $('#caja_dislike').click(function(){
+        $(this).toggleClass('activado')
+        if ($(this).hasClass('activado')){
+            $(this).children().first().attr('src', 'front/img/imgHome/no-me-gusta-activado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+        } else {
+            $(this).children().first().attr('src', 'front/img/imgHome/no-me-gusta-desactivado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())-1)
+        }
+    })
+
+    $('#caja_labio').click(function(){
+        $(this).toggleClass('activado')
+        if ($(this).hasClass('activado')){
+            $(this).children().first().attr('src', 'front/img/imgHome/labios-activado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+        } else {
+            $(this).children().first().attr('src', 'front/img/imgHome/labios-desactivado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())-1)
+        }
+    })
+
+    $('#caja_corazon').click(function(){
+        $(this).toggleClass('activado')
+        if ($(this).hasClass('activado')){
+            $(this).children().first().attr('src', 'front/img/imgHome/corazon-activado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+        } else {
+            $(this).children().first().attr('src', 'front/img/imgHome/corazon-desactivado.png')
+            $(this).children().last().html(parseInt($(this).children().last().html())-1)
+        }
+    })
 }
 
 
