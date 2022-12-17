@@ -472,6 +472,16 @@ function cargarMain(literales) {
     div_coinciden.classList.add("ocultar")
     div_coinciden.innerHTML = buscarLiteral(literales, div_coinciden.id)
 
+    //Certifico ser mayor de edad y aceptar las <a href="back/uploads/files/Español/condicionesDeUso.pdf" download>Condiciones Generales</a>. Descubre como tratamos tus datos en nuestra 
+    //<a href="back/uploads/files/Español/privacidadYprotecciónDeDatos.pdf" download>Política de privacidad</a>, <a href="back/uploads/files/Español/políticaUsoDeCookies.pdf" download>Política de uso de cookies</a> y 
+    //<a href="back/uploads/files/Español/dondeSeVePerfil.pdf" download>normas relativas a la visibilidad de los perfiles</a>.
+
+    //Doy mi consentimiento para el procesamiento de mis <a href="back/uploads/files/Español/datosSensibles.pdf" download>datos confidenciales</a> y para el uso de 
+    //<a href="back/uploads/files/Español/mensajesQueEnvioRecibo.pdf" download>filtros de mensajes seguros</a> por Cuore para brindarme el servicio.
+
+    //Deseo recibir por correo electrónico ofertas comerciales relativas a los productos y servicios ofrecidos por los socios de Cuore S.L. Ver nuestros <a href="back/uploads/files/Español/colaboraciones.pdf" download>socios</a>.
+    
+
     let boton_enviar_registro = document.createElement('button')
     boton_enviar_registro.id = "registrar"
     boton_enviar_registro.type = "submit"
