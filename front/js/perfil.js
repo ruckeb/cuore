@@ -1,7 +1,6 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
 
 window.onload = ()=>{
-
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
         setCookie("idioma", "es", 7)
@@ -31,7 +30,6 @@ function cargarPerfil() {
         })
 }
 
-
 function cargarCabecera(literales) {
     let header = document.body.children[0]
 
@@ -46,13 +44,27 @@ function cargarCabecera(literales) {
     let div_botones_login = document.createElement('div')
     div_botones_login.id = "botones_login"
 
+    let boton_espana = document.createElement('button')
+    boton_espana.id = "boton_espana"
+    boton_espana.classList.add("botonIdiomas")
+    boton_espana.onclick = () => {
+        if (getCookie("idioma") != "es") {
+            setCookie("idioma", "es", 7)
+            location.reload()
+        }
+    }
+
     let imagen_bandera_espana = document.createElement('img')
     imagen_bandera_espana.id = "espana"
     imagen_bandera_espana.src = "front/img/imgPaises/espana.png"
-    imagen_bandera_espana.classList.add("botonIdiomas")
-    imagen_bandera_espana.onclick = () => {
-        if (getCookie("idioma") != "es") {
-            setCookie("idioma", "es", 7)
+    boton_espana.appendChild(imagen_bandera_espana)
+
+    let boton_reino_unido = document.createElement('button')
+    boton_reino_unido.id = "boton_reino_unido"
+    boton_reino_unido.classList.add("botonIdiomas")
+    boton_reino_unido.onclick = () => {
+        if (getCookie("idioma") != "en") {
+            setCookie("idioma", "en", 7)
             location.reload()
         }
     }
@@ -60,10 +72,14 @@ function cargarCabecera(literales) {
     let imagen_bandera_reino_unido = document.createElement('img')
     imagen_bandera_reino_unido.id = "reino-unido"
     imagen_bandera_reino_unido.src = "front/img/imgPaises/reino-unido.png"
-    imagen_bandera_reino_unido.classList.add("botonIdiomas")
-    imagen_bandera_reino_unido.onclick = () => {
-        if (getCookie("idioma") != "en") {
-            setCookie("idioma", "en", 7)
+    boton_reino_unido.appendChild(imagen_bandera_reino_unido)
+
+    let boton_francia = document.createElement('button')
+    boton_francia.id = "boton_francia"
+    boton_francia.classList.add("botonIdiomas")
+    boton_francia.onclick = () => {
+        if (getCookie("idioma") != "fr") {
+            setCookie("idioma", "fr", 7)
             location.reload()
         }
     }
@@ -71,10 +87,14 @@ function cargarCabecera(literales) {
     let imagen_bandera_francia = document.createElement('img')
     imagen_bandera_francia.id = "francia"
     imagen_bandera_francia.src = "front/img/imgPaises/francia.png"
-    imagen_bandera_francia.classList.add("botonIdiomas")
-    imagen_bandera_francia.onclick = () => {
-        if (getCookie("idioma") != "fr") {
-            setCookie("idioma", "fr", 7)
+    boton_francia.appendChild(imagen_bandera_francia)
+
+    let boton_alemania = document.createElement('button')
+    boton_alemania.id = "boton_alemania"
+    boton_alemania.classList.add("botonIdiomas")
+    boton_alemania.onclick = () => {
+        if (getCookie("idioma") != "de") {
+            setCookie("idioma", "de", 7)
             location.reload()
         }
     }
@@ -82,16 +102,11 @@ function cargarCabecera(literales) {
     let imagen_bandera_alemania = document.createElement('img')
     imagen_bandera_alemania.id = "alemania"
     imagen_bandera_alemania.src = "front/img/imgPaises/alemania.png"
-    imagen_bandera_alemania.classList.add("botonIdiomas")
-    imagen_bandera_alemania.onclick = () => {
-        if (getCookie("idioma") != "de") {
-            setCookie("idioma", "de", 7)
-            location.reload()
-        }
-    }
+    boton_alemania.appendChild(imagen_bandera_alemania)
 
     let boton_menu = document.createElement('button')
     boton_menu.id = "boton_menu"
+    boton_menu.classList.add("botonIdiomas")
     boton_menu.onclick = () => {
         div_contenedor_menu.classList.toggle("ocultar")
     }
@@ -166,10 +181,10 @@ function cargarCabecera(literales) {
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
-    div_botones_login.appendChild(imagen_bandera_espana)
-    div_botones_login.appendChild(imagen_bandera_reino_unido)
-    div_botones_login.appendChild(imagen_bandera_francia)
-    div_botones_login.appendChild(imagen_bandera_alemania)
+    div_botones_login.appendChild(boton_espana)
+    div_botones_login.appendChild(boton_reino_unido)
+    div_botones_login.appendChild(boton_francia)
+    div_botones_login.appendChild(boton_alemania)
     div_botones_login.appendChild(boton_menu)
 
     header.appendChild(imagen_logo_cuore)
@@ -177,6 +192,7 @@ function cargarCabecera(literales) {
     header.appendChild(div_contenedor_menu)
 
 }
+
 function cargarMain(literales) {
     let main = document.body.children[1]
 
@@ -187,36 +203,72 @@ function cargarMain(literales) {
     img_perfil.id = "imgPerfil"
     img_perfil.src = "front/img/imgPerfil/perfil.png"
 
-    let div_texto_perfil = document.createElement('div')
-    div_texto_perfil.id = "textoPerfil"
+    let caja_perfil = document.createElement('div')
+    caja_perfil.id = "caja_perfil"
 
-    let h3_nombre = document.createElement('h3')
-    h3_nombre.id = "h3_nombre"
-    h3_nombre.innerHTML = buscarLiteral(literales, h3_nombre.id)
+    let caja_nombre = document.createElement('div')
+    caja_nombre.id = "caja_nombre"
 
-    let h3_correo = document.createElement('h3')
-    h3_correo.id = "h3_correo"
-    h3_correo.innerHTML = buscarLiteral(literales, h3_correo.id) 
+    let titulo_nombre = document.createElement('h3')
+    titulo_nombre.id = "titulo_nombre"
 
-    let h3_sexo = document.createElement('h3')
-    h3_sexo.id = "h3_sexo"
-    h3_sexo.innerHTML = buscarLiteral(literales, h3_sexo.id) 
+    let texto_nombre = document.createElement('p')
+    texto_nombre.id = "texto_nombre"
+    texto_nombre.innerHTML = buscarLiteral(literales, texto_nombre.id)
 
-    let h3_rol = document.createElement('h3')
-    h3_rol.id = "h3_rol"
-    h3_rol.innerHTML = buscarLiteral(literales, h3_rol.id) 
+    caja_nombre.appendChild(titulo_nombre)
+    caja_nombre.appendChild(texto_nombre)
 
-    div_texto_perfil.appendChild(h3_nombre)
-    div_texto_perfil.appendChild(document.createElement('br'))
-    div_texto_perfil.appendChild(h3_correo)
-    div_texto_perfil.appendChild(document.createElement('br'))
-    div_texto_perfil.appendChild(h3_sexo)
-    div_texto_perfil.appendChild(document.createElement('br'))
-    div_texto_perfil.appendChild(h3_rol)
-    div_texto_perfil.appendChild(document.createElement('br'))
+    let caja_correo = document.createElement('div')
+    caja_correo.id = "caja_correo"
+
+    let titulo_correo = document.createElement('h3')
+    titulo_correo.id = "titulo_correo"
+
+    let texto_correo = document.createElement('p')
+    texto_correo.id = "texto_correo"
+    texto_correo.innerHTML = buscarLiteral(literales, texto_correo.id)
+
+    caja_correo.appendChild(titulo_correo)
+    caja_correo.appendChild(texto_correo)
+
+    let caja_sexo = document.createElement('div')
+    caja_sexo.id = "caja_sexo"
+
+    let titulo_sexo = document.createElement('h3')
+    titulo_sexo.id = "titulo_sexo"
+
+    let texto_sexo = document.createElement('p')
+    texto_sexo.id = "texto_sexo"
+    texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id)
+
+    caja_sexo.appendChild(titulo_sexo)
+    caja_sexo.appendChild(texto_sexo)
+
+    let caja_rol = document.createElement('div')
+    caja_rol.id = "caja_rol"
+
+    let titulo_rol = document.createElement('h3')
+    titulo_rol.id = "titulo_rol"
+
+    let texto_rol = document.createElement('p')
+    texto_rol.id = "texto_rol"
+    texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+
+    caja_rol.appendChild(titulo_rol)
+    caja_rol.appendChild(texto_rol)
+
+    caja_perfil.appendChild(caja_nombre)
+    caja_perfil.appendChild(document.createElement('br'))
+    caja_perfil.appendChild(caja_correo)
+    caja_perfil.appendChild(document.createElement('br'))
+    caja_perfil.appendChild(caja_sexo)
+    caja_perfil.appendChild(document.createElement('br'))
+    caja_perfil.appendChild(caja_rol)
+    caja_perfil.appendChild(document.createElement('br'))
 
     div_section1.appendChild(img_perfil)
-    div_section1.appendChild(div_texto_perfil)
+    div_section1.appendChild(caja_perfil)
 
     let div_btn_img_vid = document.createElement('div')
     div_btn_img_vid.id = "btnImgVid"

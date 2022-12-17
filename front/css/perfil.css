@@ -8,33 +8,45 @@ img {
     width: 33%;
     cursor: pointer;
 }
-#botones_login{    /*si quitamos esto nos vamos a dos lineas*/
+#botones_login{
     padding-right: 5%;
-    height: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
 }
 .botonIdiomas{
-    max-width: 15%;
-    height: 20%;
-    margin-right: 2%;
-    cursor: pointer;
-}
-#boton_menu{
     background-color: transparent;
-    border-color: transparent;
-    height: 80%;
+    border: transparent;
+    width: 30%;
+    height: 30px;
+}
+#espana{
+    width: 78%;
+    height: 40px;
+}
+#reino-unido{
+    width: 75%;
+    height: 40px;
+}
+#francia{
+    width: 75%;
+    height: 40px;
+}
+#alemania{
+    width: 100%;
+    height: 40px;
 }
 #menu{
+    background-color: transparent;
     width: 90%;
-    height: 50%;
+    height: 40px;
+    margin-left: 55%;
 }
 .ocultar{
     display: none;
 }
 button{
+    height: 40px;
+    width: 150px;
     cursor: pointer;
 }
 #disMenu{
