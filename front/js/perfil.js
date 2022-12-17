@@ -126,6 +126,10 @@ function cargarCabecera(literales) {
     let boton_menu1 = document.createElement('button')
     boton_menu1.id = "boton_menu1"
     boton_menu1.classList.add("btnMenu")
+    boton_menu1.onclick = (e) => {
+        e.preventDefault()
+       
+    }
 
     let p_menu1 = document.createElement('p')
     p_menu1.id = "p_menu1"
@@ -136,6 +140,10 @@ function cargarCabecera(literales) {
     let boton_menu2 = document.createElement('button')
     boton_menu2.id = "boton_menu2"
     boton_menu2.classList.add("btnMenu")
+    boton_menu2.onclick = (e) => {
+        e.preventDefault()
+       
+    }
 
     let p_menu2 = document.createElement('p')
     p_menu2.id = "p_menu2"
@@ -146,6 +154,10 @@ function cargarCabecera(literales) {
     let boton_menu3 = document.createElement('button')
     boton_menu3.id = "boton_menu3"
     boton_menu3.classList.add("btnMenu")
+    boton_menu3.onclick = (e) => {
+        e.preventDefault()
+       
+    }
 
     let p_menu3 = document.createElement('p')
     p_menu3.id = "p_menu3"
@@ -156,6 +168,10 @@ function cargarCabecera(literales) {
     let boton_menu4 = document.createElement('button')
     boton_menu4.id = "boton_menu4"
     boton_menu4.classList.add("btnMenu")
+    boton_menu4.onclick = (e) => {
+        e.preventDefault()
+       
+    }
 
     let p_menu4 = document.createElement('p')
     p_menu4.id = "p_menu4"
@@ -166,6 +182,10 @@ function cargarCabecera(literales) {
     let boton_menu5 = document.createElement('button')
     boton_menu5.id = "boton_menu5"
     boton_menu5.classList.add("btnMenu")
+    boton_menu5.onclick = (e) => {
+        e.preventDefault()
+        location.href = 'back/controladores/cerrarSesion.php' 
+    }
 
     let p_menu5 = document.createElement('p')
     p_menu5.id = "p_menu5"
@@ -211,6 +231,7 @@ function cargarMain(literales) {
 
     let titulo_nombre = document.createElement('h3')
     titulo_nombre.id = "titulo_nombre"
+    titulo_nombre.innerHTML = buscarLiteral(literales, titulo_nombre.id)
 
     let texto_nombre = document.createElement('p')
     texto_nombre.id = "texto_nombre"
@@ -224,6 +245,7 @@ function cargarMain(literales) {
 
     let titulo_correo = document.createElement('h3')
     titulo_correo.id = "titulo_correo"
+    titulo_correo.innerHTML = buscarLiteral(literales, titulo_correo.id)
 
     let texto_correo = document.createElement('p')
     texto_correo.id = "texto_correo"
@@ -237,6 +259,7 @@ function cargarMain(literales) {
 
     let titulo_sexo = document.createElement('h3')
     titulo_sexo.id = "titulo_sexo"
+    titulo_sexo.innerHTML = buscarLiteral(literales, titulo_sexo.id)
 
     let texto_sexo = document.createElement('p')
     texto_sexo.id = "texto_sexo"
@@ -250,6 +273,7 @@ function cargarMain(literales) {
 
     let titulo_rol = document.createElement('h3')
     titulo_rol.id = "titulo_rol"
+    titulo_rol.innerHTML = buscarLiteral(literales, titulo_rol.id)
 
     let texto_rol = document.createElement('p')
     texto_rol.id = "texto_rol"
@@ -266,9 +290,46 @@ function cargarMain(literales) {
     caja_perfil.appendChild(document.createElement('br'))
     caja_perfil.appendChild(caja_rol)
     caja_perfil.appendChild(document.createElement('br'))
+    caja_perfil.appendChild(caja_sexo)
+    caja_perfil.appendChild(document.createElement('br'))
+
+    let caja_botones_edicion = document.createElement('div')
+    caja_botones_edicion.id = "caja_botones_edicion"
+
+    let boton_edicion = document.createElement('button')
+    boton_edicion.id = "boton_edicion"
+    boton_edicion.classList.add("botones_seccion1")
+    boton_edicion.innerHTML = buscarLiteral(literales, boton_edicion.id)
+    boton_edicion.onclick = e => {
+        e.preventDefault()
+        if (!boton_edicion.classList.contains("activo")) {
+            boton_edicion.classList.toggle("activo")
+        }
+        if (boton_añadir_publi.classList.contains("activo")) {
+            boton_añadir_publi.classList.toggle("activo")
+        }
+    }
+
+    let boton_añadir_publi = document.createElement('button')
+    boton_añadir_publi.id = "boton_añadir_publi"
+    boton_añadir_publi.classList.add("botones_seccion1")
+    boton_añadir_publi.innerHTML = buscarLiteral(literales, boton_añadir_publi.id)
+    boton_añadir_publi.onclick = e => {
+        e.preventDefault()
+        if (!boton_añadir_publi.classList.contains("activo")) {
+            boton_añadir_publi.classList.toggle("activo")
+        }
+        if (boton_edicion.classList.contains("activo")) {
+            boton_edicion.classList.toggle("activo")
+        }
+    }
+
+    caja_botones_edicion.appendChild(boton_edicion)
+    caja_botones_edicion.appendChild(boton_añadir_publi)
 
     div_section1.appendChild(img_perfil)
     div_section1.appendChild(caja_perfil)
+    div_section1.appendChild(caja_botones_edicion)
 
     let div_btn_img_vid = document.createElement('div')
     div_btn_img_vid.id = "btnImgVid"
