@@ -11,6 +11,16 @@
         }
     }
 
+    function validateToken(){
+        session_start();
+        if (!isset($_SESSION['token']) || !isset($_COOKIE['token']) || $_SESSION['token'] != $_COOKIE['token']) {
+            return false;
+        } else {
+            setcookie("token", $_SESSION['token'], time() + 60 * 5, "/"); //añado 5 minutos al token por hacer una operacion
+            return true;
+        }
+    }
+
     function registrarUsuarioBBDD($nick, $fecha_nacimiento, $email, $sexo, $perfil_busqueda, $clave, $ruta_imagen, $ruta_video, $latitud, $longitud){
         try {
             $db = getConnection();
@@ -131,3 +141,107 @@
             return $e->getMessage();
         }
     }
+
+    function getRecomendacionesBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT publi.id, nick, texto, imagen, creado, 
+                        distanciaCoordenadas(X(ubicacion), Y(ubicacion), X(ubicacion_yo), Y(ubicacion_yo)) as distancia,
+                        ABS(DATEDIFF(fecha_nacimiento, fecha_yo)) as dif_edad,
+                        labios, pulgares, corazones, risas, c.fecha as fecha_comentario,
+                        c.comentario, c.nick_comenta
+                        FROM (	
+                            SELECT p.*, u.nick, u.ubicacion, u.fecha_nacimiento, 
+                            (SELECT ubicacion FROM usuarios WHERE nick=$nick) as ubicacion_yo,
+                            (SELECT fecha_nacimiento FROM usuarios WHERE nick=$nick) as fecha_yo,
+                            COALESCE(SUM(r.labios), 0) as labios, COALESCE(SUM(r.pulgar), 0) as pulgares, 
+                            COALESCE(SUM(r.fuego), 0) as fuegos, COALESCE(SUM(r.corazon), 0) as corazones, 
+                            COALESCE(SUM(r.risa), 0) as risas
+                            FROM publicaciones p
+                            LEFT JOIN usuarios u
+                            ON u.nick = p.nick_publicacion
+                            LEFT JOIN reacciones r
+                            ON r.id_publicacion = p.id
+                            WHERE (nick_publicacion, creado) IN (
+                                SELECT nick_publicacion, MAX(creado)
+                                FROM publicaciones
+                                WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
+                                GROUP BY nick_publicacion
+                            )
+                            AND SUBSTRING_INDEX(SUBSTRING_INDEX(p.imagen, '/', -2), '/', 1) = 'img'
+                            AND u.nick != $nick
+                            GROUP BY p.id
+                        ) publi
+                        LEFT JOIN comentarios c
+                        ON c.id_publicacion = publi.id
+                        ORDER BY distancia, dif_edad, fecha_comentario DESC";
+                $recomendaciones = $db->query($sql);	
+                if($recomendaciones === FALSE){		
+                    return 507; //No existen recomendaciones disponibles
+                } else{
+                    $resultado = array();
+                    foreach ($recomendaciones as $recomendacion) {
+                        if ($resultado['id'] == $recomendacion['id']) {
+                            
+                        } else {
+
+                        }
+                    }
+                }
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        } 
+    }
+
+
+    /*
+    SELECT publi.*, c.*
+                        FROM comentarios c
+                        RIGHT JOIN (
+                            SELECT p.*, distanciaCoordenadas(X(u.ubicacion), Y(u.ubicacion), X(logged.ubicacion), Y(logged.ubicacion)) as distancia, ABS(DATEDIFF(logged.fecha_nacimiento, u.fecha_nacimiento)) as dif_edad, SUM(corazon) AS corazones, SUM(fuego) AS fuegos
+                            FROM publicaciones p
+                            JOIN usuarios u
+                            ON u.nick = p.nick_publicacion
+                            JOIN usuarios logged
+                            JOIN reacciones r
+                            ON r.id_publicacion = p.id
+                            WHERE (nick_publicacion, creado) IN (
+                                SELECT nick_publicacion, MAX(creado)
+                                FROM publicaciones
+                                WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
+                                GROUP BY nick_publicacion
+                            )
+                            AND SUBSTRING_INDEX(SUBSTRING_INDEX(p.imagen, '/', -2), '/', 1) = 'img'
+                            AND logged.nick = 'ochoa'
+                            AND u.nick != 'ochoa'
+                        ) publi
+                        ON publi.id = c.id_publicacion
+                        ORDER BY distancia, dif_edad, fecha DESC
+                        */
+
+
+                        /*
+                        SELECT p.*, u.ubicacion, (SELECT ubicacion FROM usuarios WHERE nick='ochoa') as yo,
+COALESCE(SUM(r.labios), 0) as labios, COALESCE(SUM(r.pulgar), 0) as pulgares, 
+COALESCE(SUM(r.fuego), 0) as fuegos, COALESCE(SUM(r.corazon), 0) as corazones, 
+COALESCE(SUM(r.risa), 0) as risas
+-- , distanciaCoordenadas(X(u.ubicacion), Y(u.ubicacion), X(logged.ubicacion), Y(logged.ubicacion)) as distancia, ABS(DATEDIFF(logged.fecha_nacimiento, u.fecha_nacimiento)) as dif_edad
+	FROM publicaciones p
+	LEFT JOIN usuarios u
+	ON u.nick = p.nick_publicacion
+    LEFT JOIN reacciones r
+    ON r.id_publicacion = p.id
+	WHERE (nick_publicacion, creado) IN (
+		SELECT nick_publicacion, MAX(creado)
+		FROM publicaciones
+		WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
+		GROUP BY nick_publicacion
+	)
+AND SUBSTRING_INDEX(SUBSTRING_INDEX(p.imagen, '/', -2), '/', 1) = 'img'
+AND u.nick != 'ochoa'
+GROUP BY p.id*/
