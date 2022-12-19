@@ -346,21 +346,21 @@ function cargarMain(literales) {
     boton_guardar.id = "boton_guardar"
     boton_guardar.classList.add("botones_seccion1")
     boton_guardar.classList.add("ocul")
-    boton_guardar.innerHTML = "guardar"
+    boton_guardar.innerHTML = buscarLiteral(literales, boton_guardar.id)
     boton_guardar.onclick = e => {
-        e.preventDefault()
+            e.preventDefault()
             boton_edicion.classList = 'botones_seccion1 aparecer'
-            boton_guardar.classList = 'botones_seccion1 desaparecer'
+            boton_guardar.classList = 'botones_seccion1 ocul'
         }
 
     let boton_edicion = document.createElement('button')
     boton_edicion.id = "boton_edicion"
     boton_edicion.classList.add("botones_seccion1")
-    boton_edicion.innerHTML = "editar"
+    boton_edicion.innerHTML = buscarLiteral(literales, boton_edicion.id)
     boton_edicion.onclick = e => {
-        e.preventDefault()
+            e.preventDefault()
             boton_guardar.classList = 'botones_seccion1 aparecer'
-            boton_edicion.classList = 'botones_seccion1 desaperecer'
+            boton_edicion.classList = 'botones_seccion1 ocul'
         }
 
     let boton_anadir_publi = document.createElement('button')

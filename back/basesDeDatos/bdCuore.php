@@ -150,12 +150,12 @@
                 $sql = "SELECT publi.id, nick, texto, imagen, creado, 
                         distanciaCoordenadas(X(ubicacion), Y(ubicacion), X(ubicacion_yo), Y(ubicacion_yo)) as distancia,
                         ABS(DATEDIFF(fecha_nacimiento, fecha_yo)) as dif_edad,
-                        labios, pulgares, corazones, risas, c.fecha as fecha_comentario,
-                        c.comentario, c.nick_comenta
+                        labios, pulgares, corazones, risas, c.id as id_comentario, 
+                        c.fecha as fecha_comentario, c.comentario, c.nick_comenta
                         FROM (	
                             SELECT p.*, u.nick, u.ubicacion, u.fecha_nacimiento, 
-                            (SELECT ubicacion FROM usuarios WHERE nick=$nick) as ubicacion_yo,
-                            (SELECT fecha_nacimiento FROM usuarios WHERE nick=$nick) as fecha_yo,
+                            (SELECT ubicacion FROM usuarios WHERE nick='$nick') as ubicacion_yo,
+                            (SELECT fecha_nacimiento FROM usuarios WHERE nick='$nick') as fecha_yo,
                             COALESCE(SUM(r.labios), 0) as labios, COALESCE(SUM(r.pulgar), 0) as pulgares, 
                             COALESCE(SUM(r.fuego), 0) as fuegos, COALESCE(SUM(r.corazon), 0) as corazones, 
                             COALESCE(SUM(r.risa), 0) as risas
@@ -171,7 +171,7 @@
                                 GROUP BY nick_publicacion
                             )
                             AND SUBSTRING_INDEX(SUBSTRING_INDEX(p.imagen, '/', -2), '/', 1) = 'img'
-                            AND u.nick != $nick
+                            AND u.nick != '$nick'
                             GROUP BY p.id
                         ) publi
                         LEFT JOIN comentarios c
@@ -183,12 +183,52 @@
                 } else{
                     $resultado = array();
                     foreach ($recomendaciones as $recomendacion) {
-                        if ($resultado['id'] == $recomendacion['id']) {
-                            
-                        } else {
-
+                        $recomen = array(
+                            'id' => $recomendacion['id'],
+                            'nick' => $recomendacion['nick'],
+                            'texto' => $recomendacion['texto'],
+                            'imagen' => $recomendacion['imagen'],
+                            'creado' => $recomendacion['creado'],
+                            'distancia' => $recomendacion['distancia'],
+                            'dif_edad' => $recomendacion['dif_edad'],
+                            'labios' => $recomendacion['labios'],
+                            'pulgares' => $recomendacion['pulgares'],
+                            'corazones' => $recomendacion['corazones'],
+                            'risas' => $recomendacion['risas'],
+                            'comentarios' => array(),
+                        );
+                        $index = null;
+                        foreach ($resultado as $key => $value) {
+                            if ($value['id'] == $recomendacion['id']) {
+                                $index = $key;
+                                break;
+                            }
                         }
+                        if (!isset($index)) {
+                            if (isset($recomendacion['id_comentario'])) {
+                                $comentario = array(
+                                    'id_comentario' => $recomendacion['id_comentario'],
+                                    'fecha_comentario' => $recomendacion['fecha_comentario'],
+                                    'nick_comentario' => $recomendacion['nick_comenta'],
+                                    'comentario' => $recomendacion['comentario'],
+                                );
+                                array_push($recomen['comentarios'], $comentario);
+                            }
+                            array_push($resultado, $recomen);
+                        } else {
+                            if (isset($recomendacion['id_comentario'])) {
+                                $comentario = array(
+                                    'id_comentario' => $recomendacion['id_comentario'],
+                                    'fecha_comentario' => $recomendacion['fecha_comentario'],
+                                    'nick_comentario' => $recomendacion['nick_comenta'],
+                                    'comentario' => $recomendacion['comentario'],
+                                );
+                                array_push($resultado[$index]['comentarios'], $comentario);
+                            }
+                        }
+                        
                     }
+                    return $resultado;
                 }
             } catch (Exception $e) {
                 return $e->getMessage();
@@ -197,51 +237,3 @@
             return 999; //Token de sesion ha expirado
         } 
     }
-
-
-    /*
-    SELECT publi.*, c.*
-                        FROM comentarios c
-                        RIGHT JOIN (
-                            SELECT p.*, distanciaCoordenadas(X(u.ubicacion), Y(u.ubicacion), X(logged.ubicacion), Y(logged.ubicacion)) as distancia, ABS(DATEDIFF(logged.fecha_nacimiento, u.fecha_nacimiento)) as dif_edad, SUM(corazon) AS corazones, SUM(fuego) AS fuegos
-                            FROM publicaciones p
-                            JOIN usuarios u
-                            ON u.nick = p.nick_publicacion
-                            JOIN usuarios logged
-                            JOIN reacciones r
-                            ON r.id_publicacion = p.id
-                            WHERE (nick_publicacion, creado) IN (
-                                SELECT nick_publicacion, MAX(creado)
-                                FROM publicaciones
-                                WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
-                                GROUP BY nick_publicacion
-                            )
-                            AND SUBSTRING_INDEX(SUBSTRING_INDEX(p.imagen, '/', -2), '/', 1) = 'img'
-                            AND logged.nick = 'ochoa'
-                            AND u.nick != 'ochoa'
-                        ) publi
-                        ON publi.id = c.id_publicacion
-                        ORDER BY distancia, dif_edad, fecha DESC
-                        */
-
-
-                        /*
-                        SELECT p.*, u.ubicacion, (SELECT ubicacion FROM usuarios WHERE nick='ochoa') as yo,
-COALESCE(SUM(r.labios), 0) as labios, COALESCE(SUM(r.pulgar), 0) as pulgares, 
-COALESCE(SUM(r.fuego), 0) as fuegos, COALESCE(SUM(r.corazon), 0) as corazones, 
-COALESCE(SUM(r.risa), 0) as risas
--- , distanciaCoordenadas(X(u.ubicacion), Y(u.ubicacion), X(logged.ubicacion), Y(logged.ubicacion)) as distancia, ABS(DATEDIFF(logged.fecha_nacimiento, u.fecha_nacimiento)) as dif_edad
-	FROM publicaciones p
-	LEFT JOIN usuarios u
-	ON u.nick = p.nick_publicacion
-    LEFT JOIN reacciones r
-    ON r.id_publicacion = p.id
-	WHERE (nick_publicacion, creado) IN (
-		SELECT nick_publicacion, MAX(creado)
-		FROM publicaciones
-		WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
-		GROUP BY nick_publicacion
-	)
-AND SUBSTRING_INDEX(SUBSTRING_INDEX(p.imagen, '/', -2), '/', 1) = 'img'
-AND u.nick != 'ochoa'
-GROUP BY p.id*/
