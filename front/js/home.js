@@ -166,6 +166,10 @@ function cargarCabecera(literales) {
     let boton_menu5 = document.createElement('button')
     boton_menu5.id = "boton_menu5"
     boton_menu5.classList.add("btnMenu")
+    boton_menu5.onclick = (e) => {
+        e.preventDefault()
+        location.href = 'back/controladores/cerrarSesion.php' 
+    }
 
     let p_menu5 = document.createElement('p')
     p_menu5.id = "p_menu5"
