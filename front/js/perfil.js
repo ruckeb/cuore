@@ -1,7 +1,6 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
 
 window.onload = ()=>{
-
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
         setCookie("idioma", "es", 7)
@@ -31,7 +30,6 @@ function cargarPerfil() {
         })
 }
 
-
 function cargarCabecera(literales) {
     let header = document.body.children[0]
 
@@ -46,13 +44,27 @@ function cargarCabecera(literales) {
     let div_botones_login = document.createElement('div')
     div_botones_login.id = "botones_login"
 
+    let boton_espana = document.createElement('button')
+    boton_espana.id = "boton_espana"
+    boton_espana.classList.add("botonIdiomas")
+    boton_espana.onclick = () => {
+        if (getCookie("idioma") != "es") {
+            setCookie("idioma", "es", 7)
+            location.reload()
+        }
+    }
+
     let imagen_bandera_espana = document.createElement('img')
     imagen_bandera_espana.id = "espana"
     imagen_bandera_espana.src = "front/img/imgPaises/espana.png"
-    imagen_bandera_espana.classList.add("botonIdiomas")
-    imagen_bandera_espana.onclick = () => {
-        if (getCookie("idioma") != "es") {
-            setCookie("idioma", "es", 7)
+    boton_espana.appendChild(imagen_bandera_espana)
+
+    let boton_reino_unido = document.createElement('button')
+    boton_reino_unido.id = "boton_reino_unido"
+    boton_reino_unido.classList.add("botonIdiomas")
+    boton_reino_unido.onclick = () => {
+        if (getCookie("idioma") != "en") {
+            setCookie("idioma", "en", 7)
             location.reload()
         }
     }
@@ -60,10 +72,14 @@ function cargarCabecera(literales) {
     let imagen_bandera_reino_unido = document.createElement('img')
     imagen_bandera_reino_unido.id = "reino-unido"
     imagen_bandera_reino_unido.src = "front/img/imgPaises/reino-unido.png"
-    imagen_bandera_reino_unido.classList.add("botonIdiomas")
-    imagen_bandera_reino_unido.onclick = () => {
-        if (getCookie("idioma") != "en") {
-            setCookie("idioma", "en", 7)
+    boton_reino_unido.appendChild(imagen_bandera_reino_unido)
+
+    let boton_francia = document.createElement('button')
+    boton_francia.id = "boton_francia"
+    boton_francia.classList.add("botonIdiomas")
+    boton_francia.onclick = () => {
+        if (getCookie("idioma") != "fr") {
+            setCookie("idioma", "fr", 7)
             location.reload()
         }
     }
@@ -71,10 +87,14 @@ function cargarCabecera(literales) {
     let imagen_bandera_francia = document.createElement('img')
     imagen_bandera_francia.id = "francia"
     imagen_bandera_francia.src = "front/img/imgPaises/francia.png"
-    imagen_bandera_francia.classList.add("botonIdiomas")
-    imagen_bandera_francia.onclick = () => {
-        if (getCookie("idioma") != "fr") {
-            setCookie("idioma", "fr", 7)
+    boton_francia.appendChild(imagen_bandera_francia)
+
+    let boton_alemania = document.createElement('button')
+    boton_alemania.id = "boton_alemania"
+    boton_alemania.classList.add("botonIdiomas")
+    boton_alemania.onclick = () => {
+        if (getCookie("idioma") != "de") {
+            setCookie("idioma", "de", 7)
             location.reload()
         }
     }
@@ -82,16 +102,11 @@ function cargarCabecera(literales) {
     let imagen_bandera_alemania = document.createElement('img')
     imagen_bandera_alemania.id = "alemania"
     imagen_bandera_alemania.src = "front/img/imgPaises/alemania.png"
-    imagen_bandera_alemania.classList.add("botonIdiomas")
-    imagen_bandera_alemania.onclick = () => {
-        if (getCookie("idioma") != "de") {
-            setCookie("idioma", "de", 7)
-            location.reload()
-        }
-    }
+    boton_alemania.appendChild(imagen_bandera_alemania)
 
     let boton_menu = document.createElement('button')
     boton_menu.id = "boton_menu"
+    boton_menu.classList.add("botonIdiomas")
     boton_menu.onclick = () => {
         div_contenedor_menu.classList.toggle("ocultar")
     }
@@ -111,6 +126,10 @@ function cargarCabecera(literales) {
     let boton_menu1 = document.createElement('button')
     boton_menu1.id = "boton_menu1"
     boton_menu1.classList.add("btnMenu")
+    boton_menu1.onclick = (e) => {
+        e.preventDefault()
+       
+    }
 
     let p_menu1 = document.createElement('p')
     p_menu1.id = "p_menu1"
@@ -121,6 +140,10 @@ function cargarCabecera(literales) {
     let boton_menu2 = document.createElement('button')
     boton_menu2.id = "boton_menu2"
     boton_menu2.classList.add("btnMenu")
+    boton_menu2.onclick = (e) => {
+        e.preventDefault()
+       
+    }
 
     let p_menu2 = document.createElement('p')
     p_menu2.id = "p_menu2"
@@ -131,6 +154,10 @@ function cargarCabecera(literales) {
     let boton_menu3 = document.createElement('button')
     boton_menu3.id = "boton_menu3"
     boton_menu3.classList.add("btnMenu")
+    boton_menu3.onclick = (e) => {
+        e.preventDefault()
+       
+    }
 
     let p_menu3 = document.createElement('p')
     p_menu3.id = "p_menu3"
@@ -141,6 +168,10 @@ function cargarCabecera(literales) {
     let boton_menu4 = document.createElement('button')
     boton_menu4.id = "boton_menu4"
     boton_menu4.classList.add("btnMenu")
+    boton_menu4.onclick = (e) => {
+        e.preventDefault()
+       
+    }
 
     let p_menu4 = document.createElement('p')
     p_menu4.id = "p_menu4"
@@ -151,6 +182,10 @@ function cargarCabecera(literales) {
     let boton_menu5 = document.createElement('button')
     boton_menu5.id = "boton_menu5"
     boton_menu5.classList.add("btnMenu")
+    boton_menu5.onclick = (e) => {
+        e.preventDefault()
+        location.href = 'back/controladores/cerrarSesion.php' 
+    }
 
     let p_menu5 = document.createElement('p')
     p_menu5.id = "p_menu5"
@@ -166,10 +201,10 @@ function cargarCabecera(literales) {
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
-    div_botones_login.appendChild(imagen_bandera_espana)
-    div_botones_login.appendChild(imagen_bandera_reino_unido)
-    div_botones_login.appendChild(imagen_bandera_francia)
-    div_botones_login.appendChild(imagen_bandera_alemania)
+    div_botones_login.appendChild(boton_espana)
+    div_botones_login.appendChild(boton_reino_unido)
+    div_botones_login.appendChild(boton_francia)
+    div_botones_login.appendChild(boton_alemania)
     div_botones_login.appendChild(boton_menu)
 
     header.appendChild(imagen_logo_cuore)
@@ -177,6 +212,7 @@ function cargarCabecera(literales) {
     header.appendChild(div_contenedor_menu)
 
 }
+
 function cargarMain(literales) {
     let main = document.body.children[1]
 
@@ -187,36 +223,161 @@ function cargarMain(literales) {
     img_perfil.id = "imgPerfil"
     img_perfil.src = "front/img/imgPerfil/perfil.png"
 
-    let div_texto_perfil = document.createElement('div')
-    div_texto_perfil.id = "textoPerfil"
+    let caja_perfil = document.createElement('div')
+    caja_perfil.id = "caja_perfil"
 
-    let h3_nombre = document.createElement('h3')
-    h3_nombre.id = "h3_nombre"
-    h3_nombre.innerHTML = buscarLiteral(literales, h3_nombre.id)
+    let caja_nombre = document.createElement('div')
+    caja_nombre.id = "caja_nombre"
 
-    let h3_correo = document.createElement('h3')
-    h3_correo.id = "h3_correo"
-    h3_correo.innerHTML = buscarLiteral(literales, h3_correo.id) 
+    let titulo_nombre = document.createElement('label')
+    titulo_nombre.id = "titulo_nombre"
+    titulo_nombre.htmlFor = "usuario"
+    titulo_nombre.innerHTML = buscarLiteral(literales, titulo_nombre.id)
 
-    let h3_sexo = document.createElement('h3')
-    h3_sexo.id = "h3_sexo"
-    h3_sexo.innerHTML = buscarLiteral(literales, h3_sexo.id) 
+    let texto_nombre = document.createElement('input')
+    texto_nombre.id = "texto_nombre"
+    texto_nombre.type = "text"
+    texto_nombre.name = "usuario"
+    texto_nombre.maxLength = 50
+    texto_nombre.pattern = "^[A-Za-z0-9_-]{2,50}"
+    texto_nombre.title = buscarLiteral(literales, texto_nombre.id + "_title")
+    texto_nombre.required = true
 
-    let h3_rol = document.createElement('h3')
-    h3_rol.id = "h3_rol"
-    h3_rol.innerHTML = buscarLiteral(literales, h3_rol.id) 
+    caja_nombre.appendChild(titulo_nombre)
+    caja_nombre.appendChild(texto_nombre)
 
-    div_texto_perfil.appendChild(h3_nombre)
-    div_texto_perfil.appendChild(document.createElement('br'))
-    div_texto_perfil.appendChild(h3_correo)
-    div_texto_perfil.appendChild(document.createElement('br'))
-    div_texto_perfil.appendChild(h3_sexo)
-    div_texto_perfil.appendChild(document.createElement('br'))
-    div_texto_perfil.appendChild(h3_rol)
-    div_texto_perfil.appendChild(document.createElement('br'))
+    let caja_correo = document.createElement('div')
+    caja_correo.id = "caja_correo"
+
+    let titulo_correo = document.createElement('label')
+    titulo_correo.id = "titulo_correo"
+    titulo_correo.htmlFor = "correo"
+    titulo_correo.innerHTML = buscarLiteral(literales, titulo_correo.id)
+
+    let texto_correo = document.createElement('input')
+    texto_correo.id = "texto_correo"
+    texto_correo.type = "email"
+    texto_correo.name = "email" 
+    texto_correo.minLength = 5
+    texto_correo.maxLength = 150
+    texto_correo.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+    texto_correo.title = buscarLiteral(literales, texto_correo.id + "_title")
+
+    caja_correo.appendChild(titulo_correo)
+    caja_correo.appendChild(texto_correo)
+
+    let caja_sexo = document.createElement('div')
+    caja_sexo.id = "caja_sexo"
+
+    let titulo_sexo = document.createElement('label')
+    titulo_sexo.id = "titulo_sexo"
+    titulo_sexo.htmlFor = "sexo"
+    titulo_sexo.innerHTML = buscarLiteral(literales, titulo_sexo.id)
+
+    let select_sexo = document.createElement('select')
+    select_sexo.id = "sexo"
+    select_sexo.name = "sexo" 
+    select_sexo.required = true
+    
+    let option_hombre = document.createElement('option')
+    option_hombre.value = 1 
+    option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
+
+    let option_mujer = document.createElement('option')
+    option_mujer.value = 2 
+    option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
+
+    let option_otros = document.createElement('option')
+    option_otros.value = 3 
+    option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
+
+    select_sexo.appendChild(option_hombre)
+    select_sexo.appendChild(option_mujer)
+    select_sexo.appendChild(option_otros)
+
+    caja_sexo.appendChild(titulo_sexo)
+    caja_sexo.appendChild(select_sexo)
+
+    let caja_rol = document.createElement('div')
+    caja_rol.id = "caja_rol"
+
+    let titulo_rol = document.createElement('label')
+    titulo_rol.id = "titulo_rol"
+    titulo_rol.htmlFor = "rol"
+    titulo_rol.innerHTML = buscarLiteral(literales, titulo_rol.id)
+
+    let select_rol = document.createElement('select')
+    select_rol.id = "rol"
+    select_rol.name = "rol" 
+    select_rol.required = true
+    
+    let option_bus_hombre = document.createElement('option')
+    option_bus_hombre.value = 1 
+    option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
+
+    let option_bus_mujer = document.createElement('option')
+    option_bus_mujer.value = 2
+    option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
+
+    let option_bus_ambos = document.createElement('option')
+    option_bus_ambos.value = 3
+    option_bus_ambos.innerHTML = buscarLiteral(literales, select_rol.id + '_ambos') 
+
+    select_rol.appendChild(option_bus_hombre)
+    select_rol.appendChild(option_bus_mujer)
+    select_rol.appendChild(option_bus_ambos)
+
+    caja_sexo.appendChild(titulo_rol)
+    caja_sexo.appendChild(select_rol)
+
+    caja_perfil.appendChild(caja_nombre)
+    caja_perfil.appendChild(document.createElement('br'))
+    caja_perfil.appendChild(caja_correo)
+    caja_perfil.appendChild(document.createElement('br'))
+    caja_perfil.appendChild(caja_sexo)
+    caja_perfil.appendChild(document.createElement('br'))
+    caja_perfil.appendChild(caja_rol)
+    caja_perfil.appendChild(document.createElement('br'))
+
+    let caja_botones_edicion = document.createElement('div')
+    caja_botones_edicion.id = "caja_botones_edicion"
+
+    let boton_guardar = document.createElement('button')
+    boton_guardar.id = "boton_guardar"
+    boton_guardar.classList.add("botones_seccion1")
+    boton_guardar.classList.add("ocul")
+    boton_guardar.innerHTML = "guardar"
+    boton_guardar.onclick = e => {
+        e.preventDefault()
+            boton_edicion.classList = 'botones_seccion1 aparecer'
+            boton_guardar.classList = 'botones_seccion1 desaparecer'
+        }
+
+    let boton_edicion = document.createElement('button')
+    boton_edicion.id = "boton_edicion"
+    boton_edicion.classList.add("botones_seccion1")
+    boton_edicion.innerHTML = "editar"
+    boton_edicion.onclick = e => {
+        e.preventDefault()
+            boton_guardar.classList = 'botones_seccion1 aparecer'
+            boton_edicion.classList = 'botones_seccion1 desaperecer'
+        }
+
+    let boton_anadir_publi = document.createElement('button')
+    boton_anadir_publi.id = "boton_anadir_publi"
+    boton_anadir_publi.classList.add("botones_seccion1")
+    boton_anadir_publi.innerHTML = buscarLiteral(literales, boton_anadir_publi.id)
+    boton_anadir_publi.onclick = e => {
+        e.preventDefault()
+    }
+
+    caja_botones_edicion.appendChild(boton_guardar)
+    caja_botones_edicion.appendChild(boton_edicion)
+    caja_botones_edicion.appendChild(boton_anadir_publi)
 
     div_section1.appendChild(img_perfil)
-    div_section1.appendChild(div_texto_perfil)
+    div_section1.appendChild(caja_perfil)
+    div_section1.appendChild(caja_botones_edicion)
 
     let div_btn_img_vid = document.createElement('div')
     div_btn_img_vid.id = "btnImgVid"

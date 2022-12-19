@@ -8,7 +8,7 @@ img {
     width: 33%;
     cursor: pointer;
 }
-#botones_login{    /*si quitamos esto nos vamos a dos lineas*/
+#botones_login{
     padding-right: 5%;
     display: flex;
     flex-direction: row;
