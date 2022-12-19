@@ -142,35 +142,17 @@ hr{
 }
 .aparecer{
     animation-name: aparecer;
-    animation-fill-mode: both;
-    animation-duration: 2s;
-    animation-delay: 2s;
-}
-.desaparecer{
-    animation-name: desaparecer;
-    animation-fill-mode: both;
-    animation-duration: 4s;
+    animation-duration: 1s;
 }
 .ocul{
     display: none;
 }
 @keyframes aparecer {
     from {
-        display: none;
         opacity: 0;
     }
     to {
         opacity: 1;
-        display: block;
-    }
-}
-@keyframes desaparecer {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-        display: none;
     }
 }
 .botones_seccion1{
