@@ -229,13 +229,19 @@ function cargarMain(literales) {
     let caja_nombre = document.createElement('div')
     caja_nombre.id = "caja_nombre"
 
-    let titulo_nombre = document.createElement('h3')
+    let titulo_nombre = document.createElement('label')
     titulo_nombre.id = "titulo_nombre"
+    titulo_nombre.htmlFor = "usuario"
     titulo_nombre.innerHTML = buscarLiteral(literales, titulo_nombre.id)
 
-    let texto_nombre = document.createElement('p')
+    let texto_nombre = document.createElement('input')
     texto_nombre.id = "texto_nombre"
-    texto_nombre.innerHTML = buscarLiteral(literales, texto_nombre.id)
+    texto_nombre.type = "text"
+    texto_nombre.name = "usuario"
+    texto_nombre.maxLength = 50
+    texto_nombre.pattern = "^[A-Za-z0-9_-]{2,50}"
+    texto_nombre.title = buscarLiteral(literales, texto_nombre.id + "_title")
+    texto_nombre.required = true
 
     caja_nombre.appendChild(titulo_nombre)
     caja_nombre.appendChild(texto_nombre)
@@ -243,13 +249,19 @@ function cargarMain(literales) {
     let caja_correo = document.createElement('div')
     caja_correo.id = "caja_correo"
 
-    let titulo_correo = document.createElement('h3')
+    let titulo_correo = document.createElement('label')
     titulo_correo.id = "titulo_correo"
+    titulo_correo.htmlFor = "correo"
     titulo_correo.innerHTML = buscarLiteral(literales, titulo_correo.id)
 
-    let texto_correo = document.createElement('p')
+    let texto_correo = document.createElement('input')
     texto_correo.id = "texto_correo"
-    texto_correo.innerHTML = buscarLiteral(literales, texto_correo.id)
+    texto_correo.type = "email"
+    texto_correo.name = "email" 
+    texto_correo.minLength = 5
+    texto_correo.maxLength = 150
+    texto_correo.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+    texto_correo.title = buscarLiteral(literales, texto_correo.id + "_title")
 
     caja_correo.appendChild(titulo_correo)
     caja_correo.appendChild(texto_correo)
@@ -257,30 +269,66 @@ function cargarMain(literales) {
     let caja_sexo = document.createElement('div')
     caja_sexo.id = "caja_sexo"
 
-    let titulo_sexo = document.createElement('h3')
+    let titulo_sexo = document.createElement('label')
     titulo_sexo.id = "titulo_sexo"
+    titulo_sexo.htmlFor = "sexo"
     titulo_sexo.innerHTML = buscarLiteral(literales, titulo_sexo.id)
 
-    let texto_sexo = document.createElement('p')
-    texto_sexo.id = "texto_sexo"
-    texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id)
+    let select_sexo = document.createElement('select')
+    select_sexo.id = "sexo"
+    select_sexo.name = "sexo" 
+    select_sexo.required = true
+    
+    let option_hombre = document.createElement('option')
+    option_hombre.value = 1 
+    option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
+
+    let option_mujer = document.createElement('option')
+    option_mujer.value = 2 
+    option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
+
+    let option_otros = document.createElement('option')
+    option_otros.value = 3 
+    option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
+
+    select_sexo.appendChild(option_hombre)
+    select_sexo.appendChild(option_mujer)
+    select_sexo.appendChild(option_otros)
 
     caja_sexo.appendChild(titulo_sexo)
-    caja_sexo.appendChild(texto_sexo)
+    caja_sexo.appendChild(select_sexo)
 
     let caja_rol = document.createElement('div')
     caja_rol.id = "caja_rol"
 
-    let titulo_rol = document.createElement('h3')
+    let titulo_rol = document.createElement('label')
     titulo_rol.id = "titulo_rol"
+    titulo_rol.htmlFor = "rol"
     titulo_rol.innerHTML = buscarLiteral(literales, titulo_rol.id)
 
-    let texto_rol = document.createElement('p')
-    texto_rol.id = "texto_rol"
-    texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+    let select_rol = document.createElement('select')
+    select_rol.id = "rol"
+    select_rol.name = "rol" 
+    select_rol.required = true
+    
+    let option_bus_hombre = document.createElement('option')
+    option_bus_hombre.value = 1 
+    option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
 
-    caja_rol.appendChild(titulo_rol)
-    caja_rol.appendChild(texto_rol)
+    let option_bus_mujer = document.createElement('option')
+    option_bus_mujer.value = 2
+    option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
+
+    let option_bus_ambos = document.createElement('option')
+    option_bus_ambos.value = 3
+    option_bus_ambos.innerHTML = buscarLiteral(literales, select_rol.id + '_ambos') 
+
+    select_rol.appendChild(option_bus_hombre)
+    select_rol.appendChild(option_bus_mujer)
+    select_rol.appendChild(option_bus_ambos)
+
+    caja_sexo.appendChild(titulo_rol)
+    caja_sexo.appendChild(select_rol)
 
     caja_perfil.appendChild(caja_nombre)
     caja_perfil.appendChild(document.createElement('br'))
@@ -290,42 +338,42 @@ function cargarMain(literales) {
     caja_perfil.appendChild(document.createElement('br'))
     caja_perfil.appendChild(caja_rol)
     caja_perfil.appendChild(document.createElement('br'))
-    caja_perfil.appendChild(caja_sexo)
-    caja_perfil.appendChild(document.createElement('br'))
 
     let caja_botones_edicion = document.createElement('div')
     caja_botones_edicion.id = "caja_botones_edicion"
 
+    let boton_guardar = document.createElement('button')
+    boton_guardar.id = "boton_guardar"
+    boton_guardar.classList.add("botones_seccion1")
+    boton_guardar.classList.add("ocul")
+    boton_guardar.innerHTML = "guardar"
+    boton_guardar.onclick = e => {
+        e.preventDefault()
+            boton_edicion.classList = 'botones_seccion1 aparecer'
+            boton_guardar.classList = 'botones_seccion1 desaparecer'
+        }
+
     let boton_edicion = document.createElement('button')
     boton_edicion.id = "boton_edicion"
     boton_edicion.classList.add("botones_seccion1")
-    boton_edicion.innerHTML = buscarLiteral(literales, boton_edicion.id)
+    boton_edicion.innerHTML = "editar"
     boton_edicion.onclick = e => {
         e.preventDefault()
-        if (!boton_edicion.classList.contains("activo")) {
-            boton_edicion.classList.toggle("activo")
+            boton_guardar.classList = 'botones_seccion1 aparecer'
+            boton_edicion.classList = 'botones_seccion1 desaperecer'
         }
-        if (boton_añadir_publi.classList.contains("activo")) {
-            boton_añadir_publi.classList.toggle("activo")
-        }
-    }
 
-    let boton_añadir_publi = document.createElement('button')
-    boton_añadir_publi.id = "boton_añadir_publi"
-    boton_añadir_publi.classList.add("botones_seccion1")
-    boton_añadir_publi.innerHTML = buscarLiteral(literales, boton_añadir_publi.id)
-    boton_añadir_publi.onclick = e => {
+    let boton_anadir_publi = document.createElement('button')
+    boton_anadir_publi.id = "boton_anadir_publi"
+    boton_anadir_publi.classList.add("botones_seccion1")
+    boton_anadir_publi.innerHTML = buscarLiteral(literales, boton_anadir_publi.id)
+    boton_anadir_publi.onclick = e => {
         e.preventDefault()
-        if (!boton_añadir_publi.classList.contains("activo")) {
-            boton_añadir_publi.classList.toggle("activo")
-        }
-        if (boton_edicion.classList.contains("activo")) {
-            boton_edicion.classList.toggle("activo")
-        }
     }
 
+    caja_botones_edicion.appendChild(boton_guardar)
     caja_botones_edicion.appendChild(boton_edicion)
-    caja_botones_edicion.appendChild(boton_añadir_publi)
+    caja_botones_edicion.appendChild(boton_anadir_publi)
 
     div_section1.appendChild(img_perfil)
     div_section1.appendChild(caja_perfil)
