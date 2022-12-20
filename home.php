@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="front/css/home.css">
     <script src="front/js/jquery-3.6.0.min.js"></script>
     <script src="front/js/home.js" type="module"></script>
+    <script src="front/sweet/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="front/sweet/sweetalert2.css">
 </head>
 
 <body>

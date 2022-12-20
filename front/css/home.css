@@ -108,20 +108,21 @@ main::-webkit-scrollbar{
     justify-content: flex-start;
     align-items: center;
 }
-#flecha_izq{
-    width: 10%;
-    height: 15%;
-    cursor: pointer;
-}
 #img_recomendacion{
     height: 90%;
     width: 80%;
 }
 #flecha_der{
+    justify-items: end;
+}
+.flecha{
     width: 10%;
     height: 15%;
     cursor: pointer;
-    justify-items: end;
+}
+.flecha_desactivada{
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 #contenedor_datos_imagen{
     width: 100%;

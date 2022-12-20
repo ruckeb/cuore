@@ -38,7 +38,7 @@ function cargarCabecera(literales) {
     imagen_logo_cuore.src = "front/img/imgLogo/logo.png"
     imagen_logo_cuore.title = "Logo"
     imagen_logo_cuore.onclick = () => {
-        location.reload()
+        location.href = "home.php"
     }
 
     let div_botones_login = document.createElement('div')
@@ -369,6 +369,45 @@ function cargarMain(literales) {
     boton_anadir_publi.innerHTML = buscarLiteral(literales, boton_anadir_publi.id)
     boton_anadir_publi.onclick = e => {
         e.preventDefault()
+        Swal.fire({
+            showDenyButton: true,
+            confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+            denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+            html:   "<form>"+
+                        "<input id='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
+                        "<br>"+
+                        "<input id='texto' type='text'>"+
+                    "</form>",
+            preConfirm: () => {
+                const archivo = Swal.getPopup().querySelector('#archivo').value
+                const texto = Swal.getPopup().querySelector('#texto').value
+                if (!archivo) {
+                    Swal.showValidationMessage("hola")
+                } else {
+                    return {
+                        archivo: archivo,
+                        texto: texto
+                    }
+                }
+            }
+        })
+            .then( response => {
+                let url = '../../back/controladores/subirPublicacion.php'
+                let params = {
+                    method: 'POST',
+                    body: JSON.stringify(response)
+                }
+                fetch(url, params)
+                    .then(req => req.json())
+                    .then( respuesta => {
+                        console.log(respuesta)
+                        if (respuesta) {
+                            //alerta todo bien
+                        } else {
+                            //alerta error
+                        }
+                    })
+            })
     }
 
     caja_botones_edicion.appendChild(boton_guardar)
