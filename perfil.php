@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="front/css/all.css">
     <link rel="stylesheet" href="front/css/perfil.css">
     <script src="front/js/perfil.js" type="module"></script>
+    <script src="front/sweet/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="front/sweet/sweetalert2.css">
 </head>
 
 <body>
