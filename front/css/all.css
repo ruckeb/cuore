@@ -38,3 +38,22 @@ footer {
     color: rgb(245, 98, 135);
     overflow: hidden;
 }
+footer > #p1 {
+    width: 20%;
+}
+#cajaDirecciones{
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.1%;
+}
+footer img{
+    height: 4vh;
+}
+footer a {
+    width: 50%;
+    height: 100%;
+}
