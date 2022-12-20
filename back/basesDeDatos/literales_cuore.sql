@@ -45,7 +45,6 @@ VALUES
 ('index', 'noCoinciden', 'es', '!Las Contraseñas no coinciden, vuelve a intentarlo!'),
 ('index', 'coinciden', 'es', '!Las Contraseñas coinciden!'),
 ('index', 'registrar', 'es', 'Registrarse'),
-('index', 'p2', 'es', 'Proyecto por David Denche, Rubén López y Sara Ortigosa.'),
 ('index', 'server_error_1', 'es', 'El nick debe contener entre 2 y 50 carácteres: minúsculas, números, -, _.'),
 ('index', 'server_error_2', 'es', '¡Debe ser una fecha válida!'),
 ('index', 'server_error_3', 'es', 'El email debe tener un formato similar a: xxxx@xxxx.xxx'),
@@ -98,7 +97,6 @@ VALUES
 ('index', 'noCoinciden', 'en', 'The Passwords do not match, please try again!'),
 ('index', 'coinciden', 'en', 'The Passwords match!'),
 ('index', 'registrar', 'en', 'Check in'),
-('index', 'p2', 'en', 'Project by David Denche, Rubén López and Sara Ortigosa.'),
 ('index', 'server_error_1', 'en', 'The nick must contain between 2 and 50 characters: lowercase, numbers, -, _.'),
 ('index', 'server_error_2', 'en', 'Must be a valid date!'),
 ('index', 'server_error_3', 'en', 'The email must have a format similar to: xxxx@xxxx.xxx'),
@@ -151,7 +149,6 @@ VALUES
 ('index', 'noCoinciden', 'fr', 'Les mots de passe ne correspondent pas, veuillez réessayer!'),
 ('index', 'coinciden', 'fr', 'Les mots de passe correspondent!'),
 ('index', 'registrar', 'fr', 'Enregistrement'),
-('index', 'p2', 'fr', 'Projet de David Denche, Rubén López et Sara Ortigosa.'),
 ('index', 'server_error_1', 'fr', 'Le pseudo doit contenir entre 2 et 50 caractères : minuscules, chiffres, -, _.'),
 ('index', 'server_error_2', 'fr', 'Doit être une date valide!'),
 ('index', 'server_error_3', 'fr', "L'email doit avoir un format similaire à : xxxx@xxxx.xxx"),
@@ -204,7 +201,6 @@ VALUES
 ('index', 'noCoinciden', 'de', 'Die Passwörter stimmen nicht überein, bitte versuchen Sie es erneut!'),
 ('index', 'coinciden', 'de', 'Die Passwörter stimmen überein!'),
 ('index', 'registrar', 'de', 'Check-In'),
-('index', 'p2', 'de', 'Projekt von David Denche, Rubén López und Sara Ortigosa.'),
 ('index', 'server_error_1', 'de', 'Der Nick muss zwischen 2 und 50 Zeichen enthalten: Kleinbuchstaben, Zahlen, -, _.'),
 ('index', 'server_error_2', 'de', 'Muss ein gültiges Datum sein!'),
 ('index', 'server_error_3', 'de', 'Die E-Mail sollte ein ähnliches format haben wie: xxxx@xxxx.xxx'),
@@ -234,12 +230,11 @@ VALUES
 ('perfil', 'boton_guardar', 'es', 'EDITAR PUBLICACION'),
 ('perfil', 'boton_edicion', 'es', 'AÑADIR PUBLICACION'),
 ('perfil', 'boton_anadir_publi', 'es', 'GUARDAR PUBLICACION'),
-('perfil', 'p_menu1', 'es', 'CHAT PRIVADO')
-('perfil', 'p_menu2', 'es', '')
-('home', 'p_menu3', 'es', 'SUGERENCIAS A CUORE')
-('home', 'p_menu4', 'es', 'CONTACTANOS')
+('perfil', 'p_menu1', 'es', 'CHAT PRIVADO'),
+('perfil', 'p_menu2', 'es', ''),
+('perfil', 'p_menu3', 'es', 'SUGERENCIAS A CUORE'),
+('perfil', 'p_menu4', 'es', 'CONTACTANOS'),
 ('perfil', 'p_menu5', 'es', 'CERRAR SESION'),
-('perfil', 'p2', 'es', ''),
 ('perfil', 'titulo_nombre', 'en', 'Name:'),
 ('perfil', 'titulo_correo', 'en', 'Email:'),
 ('perfil', 'titulo_sexo', 'en', 'Sex:'),
@@ -249,12 +244,11 @@ VALUES
 ('perfil', 'boton_guardar', 'en', 'EDIT PUBLICATION'),
 ('perfil', 'boton_edicion', 'en', 'ADD PUBLICATION'),
 ('perfil', 'boton_anadir_publi', 'en', 'SAVE THE PUBLICATION'),
-('perfil', 'p_menu1', 'en', 'PRIVATE CHAT')
-('perfil', 'p_menu2', 'en', '')
-('home', 'p_menu3', 'en', 'SUGGESTIONS TO CUORE')
-('home', 'p_menu4', 'en', 'CONTACT US')
+('perfil', 'p_menu1', 'en', 'PRIVATE CHAT'),
+('perfil', 'p_menu2', 'en', ''),
+('perfil', 'p_menu3', 'en', 'SUGGESTIONS TO CUORE'),
+('perfil', 'p_menu4', 'en', 'CONTACT US'),
 ('perfil', 'p_menu5', 'en', 'SIGN OFF'),
-('perfil', 'p2', 'en', ''),
 ('perfil', 'titulo_nombre', 'fr', 'Nom:'),
 ('perfil', 'titulo_correo', 'fr', 'Email:'),
 ('perfil', 'titulo_sexo', 'fr', 'Sexe:'),
@@ -264,12 +258,11 @@ VALUES
 ('perfil', 'boton_guardar', 'fr', "PUBLICATION D'ÉDITION"),
 ('perfil', 'boton_edicion', 'fr', 'AJOUTER PUBLICATION'),
 ('perfil', 'boton_anadir_publi', 'fr', 'ENREGISTRER LA PUBLICATION'),
-('perfil', 'p_menu1', 'fr', 'DISCUSSION PRIVÉE')
-('perfil', 'p_menu2', 'fr', '')
-('home', 'p_menu3', 'fr', 'SUGGESTIONS POUR CUORE')
-('home', 'p_menu4', 'fr', 'NOUS CONTACTER')
+('perfil', 'p_menu1', 'fr', 'DISCUSSION PRIVÉE'),
+('perfil', 'p_menu2', 'fr', ''),
+('home', 'p_menu3', 'fr', 'SUGGESTIONS POUR CUORE'),
+('home', 'p_menu4', 'fr', 'NOUS CONTACTER'),
 ('perfil', 'p_menu5', 'fr', 'FERMER SESSION'),
-('perfil', 'p2', 'fr', ''),
 ('perfil', 'titulo_nombre', 'de', 'Name:'),
 ('perfil', 'titulo_correo', 'de', 'Email:'),
 ('perfil', 'titulo_sexo', 'de', 'Sex:'),
@@ -279,33 +272,28 @@ VALUES
 ('perfil', 'boton_guardar', 'de', 'VERÖFFENTLICHUNG BEARBEITEN'),
 ('perfil', 'boton_edicion', 'de', 'VERÖFFENTLICHUNG HINZUFÜGEN'),
 ('perfil', 'boton_anadir_publi', 'de', 'VERÖFFENTLICHUNG SPEICHERN'),
-('perfil', 'p_menu1', 'de', 'PRIVATER CHAT')
-('perfil', 'p_menu2', 'de', '')
-('home', 'p_menu3', 'de', 'VORSCHLÄGE ZU CUORE')
-('home', 'p_menu4', 'de', 'KONTAKTIERE UNS')
+('perfil', 'p_menu1', 'de', 'PRIVATER CHAT'),
+('perfil', 'p_menu2', 'de', ''),
+('perfil', 'p_menu3', 'de', 'VORSCHLÄGE ZU CUORE'),
+('perfil', 'p_menu4', 'de', 'KONTAKTIERE UNS'),
 ('perfil', 'p_menu5', 'de', 'ABMELDEN'),
-('perfil', 'p2', 'de', '');
-('home', 'p_menu1', 'es', 'IR A PERFIL')
-('home', 'p_menu2', 'es', 'CHAT PRIVADO')
-('home', 'p_menu3', 'es', 'SUGERENCIAS A CUORE')
-('home', 'p_menu4', 'es', 'CONTACTANOS')
+('home', 'p_menu1', 'es', 'IR A PERFIL'),
+('home', 'p_menu2', 'es', 'CHAT PRIVADO'),
+('home', 'p_menu3', 'es', 'SUGERENCIAS A CUORE'),
+('home', 'p_menu4', 'es', 'CONTACTANOS'),
 ('home', 'p_menu5', 'es', 'CERRAR SESION'),
-('home', 'p2', 'es', ''),
-('home', 'p_menu1', 'en', 'GO TO PROFILE')
-('home', 'p_menu2', 'en', 'PRIVATE CHAT')
-('home', 'p_menu3', 'en', 'SUGGESTIONS TO CUORE')
-('home', 'p_menu4', 'en', 'CONTACT US')
+('home', 'p_menu1', 'en', 'GO TO PROFILE'),
+('home', 'p_menu2', 'en', 'PRIVATE CHAT'),
+('home', 'p_menu3', 'en', 'SUGGESTIONS TO CUORE'),
+('home', 'p_menu4', 'en', 'CONTACT US'),
 ('home', 'p_menu5', 'en', 'SIGN OFF'),
-('home', 'p2', 'en', ''),
-('home', 'p_menu1', 'fr', 'ALLER AU PROFIL')
-('home', 'p_menu2', 'fr', 'DISCUSSION PRIVÉE')
-('home', 'p_menu3', 'fr', 'SUGGESTIONS POUR CUORE')
-('home', 'p_menu4', 'fr', 'NOUS CONTACTER')
+('home', 'p_menu1', 'fr', 'ALLER AU PROFIL'),
+('home', 'p_menu2', 'fr', 'DISCUSSION PRIVÉE'),
+('home', 'p_menu3', 'fr', 'SUGGESTIONS POUR CUORE'),
+('home', 'p_menu4', 'fr', 'NOUS CONTACTER'),
 ('home', 'p_menu5', 'fr', 'FERMER SESSION'),
-('home', 'p2', 'fr', ''),
-('home', 'p_menu1', 'de', 'ZUM PROFIL GEHEN')
-('home', 'p_menu2', 'de', 'PRIVATER CHAT')
-('home', 'p_menu3', 'de', 'VORSCHLÄGE ZU CUORE')
-('home', 'p_menu4', 'de', 'KONTAKTIERE UNS')
-('home', 'p_menu5', 'de', 'ABMELDEN'),
-('home', 'p2', 'de', '');
+('home', 'p_menu1', 'de', 'ZUM PROFIL GEHEN'),
+('home', 'p_menu2', 'de', 'PRIVATER CHAT'),
+('home', 'p_menu3', 'de', 'VORSCHLÄGE ZU CUORE'),
+('home', 'p_menu4', 'de', 'KONTAKTIERE UNS'),
+('home', 'p_menu5', 'de', 'ABMELDEN');
