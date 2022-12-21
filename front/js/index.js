@@ -202,8 +202,13 @@ function cargarMain(literales) {
     fondo_sin_formulario2.id = "fondo2"
     fondo_sin_formulario2.innerHTML = "ORE"
 
+    let fondo_sin_formulario3 = document.createElement('h2') 
+    fondo_sin_formulario3.id = "fondo3"
+    fondo_sin_formulario3.innerHTML = buscarLiteral(literales, fondo_sin_formulario3.id)
+
     div_animacion.appendChild(fondo_sin_formulario1)
     div_animacion.appendChild(fondo_sin_formulario2)
+    div_animacion.appendChild(fondo_sin_formulario3)
 
     let formulario_inicio = document.createElement('form')
     formulario_inicio.classList.add("ocultar")
@@ -472,7 +477,7 @@ function cargarMain(literales) {
     div_coinciden.classList.add("ocultar")
     div_coinciden.innerHTML = buscarLiteral(literales, div_coinciden.id)
 
-    //Certifico ser mayor de edad y aceptar las <a href="back/uploads/files/Español/condicionesDeUso.pdf" download>Condiciones Generales</a>. Descubre como tratamos tus datos en nuestra 
+    // Certifico ser mayor de edad y aceptar las <a href="back/uploads/files/Español/condicionesDeUso.pdf" download>Condiciones Generales</a>. Descubre como tratamos tus datos en nuestra 
     //<a href="back/uploads/files/Español/privacidadYprotecciónDeDatos.pdf" download>Política de privacidad</a>, <a href="back/uploads/files/Español/políticaUsoDeCookies.pdf" download>Política de uso de cookies</a> y 
     //<a href="back/uploads/files/Español/dondeSeVePerfil.pdf" download>normas relativas a la visibilidad de los perfiles</a>.
 

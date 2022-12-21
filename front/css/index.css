@@ -76,6 +76,7 @@ main {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
 }
 #fondo {
     width: 40%;
@@ -95,6 +96,16 @@ main {
     color: black;
     animation-name: fondo;
     animation-duration: 3.5s;
+}
+#fondo3 {
+    width: 100%;
+    font-size: 3vw;
+    font-family: "times new roman";
+    text-shadow: 7.5px 7.5px 7.5px grey;
+    color: black;
+    animation-name: fondo;
+    animation-duration: 3.5s;
+    text-align: center;
 }
 @keyframes fondo {
     from {
