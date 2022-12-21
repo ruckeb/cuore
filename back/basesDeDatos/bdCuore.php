@@ -249,3 +249,57 @@
             return 999; //Token de sesion ha expirado
         } 
     }
+
+    function getMiPerfilBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT u.nick, u.nombre, u.email, u.sexo, u.perfil_busqueda, u.imagen, p.id, p.texto, p.imagen as publi, p.creado
+                        FROM usuarios u 
+                        JOIN publicaciones p
+                        ON u.nick = p.nick_publicacion
+                        WHERE u.nick='$nick'
+                        ORDER BY p.creado DESC";
+                $filas = $db->query($sql);	
+                $contador = 0;
+                foreach ($filas as $fila) {
+                    if ($contador == 0) {
+                        $contador = $contador + 1;
+                        $usuario = array(
+                            'nick' => $fila['nick'],
+                            'nombre' => !is_null($fila['nombre']) ? $fila['nombre'] : '',
+                            'email' => $fila['email'],
+                            'sexo' => $fila['sexo'],
+                            'perfil_busqueda' => $fila['perfil_busqueda'],
+                            'imagen' => $fila['imagen'],
+                            'imagenes_publicadas' => array(),
+                            'videos_publicados' => array(),
+                        );
+                    }
+                    if (explode("/", $fila['publi'])[3] == "img") {
+                        $imagen = array(
+                            'id' => $fila['id'],
+                            'texto' => $fila['texto'],
+                            'publi' => $fila['publi'],
+                            'creado' => $fila['creado'],
+                        );
+                        array_push($usuario['imagenes_publicadas'], $imagen);
+                    } else {
+                        $video = array(
+                            'id' => $fila['id'],
+                            'texto' => $fila['texto'],
+                            'publi' => $fila['publi'],
+                            'creado' => $fila['creado'],
+                        );
+                        array_push($usuario['videos_publicados'], $video);
+                    }
+                }
+                return $usuario;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        } 
+    }
