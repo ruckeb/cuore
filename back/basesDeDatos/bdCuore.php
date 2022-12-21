@@ -150,12 +150,18 @@
                 $sql = "SELECT publi.id, nick, texto, imagen, creado, 
                         distanciaCoordenadas(X(ubicacion), Y(ubicacion), X(ubicacion_yo), Y(ubicacion_yo)) as distancia,
                         ABS(DATEDIFF(fecha_nacimiento, fecha_yo)) as dif_edad,
+                        labios_yo, pulgar_yo, fuego_yo, corazon_yo, dislike_yo,
                         labios, pulgares, fuegos, corazones, dislikes, c.id as id_comentario, 
                         c.fecha as fecha_comentario, c.comentario, c.nick_comenta
                         FROM (	
                             SELECT p.*, u.nick, u.ubicacion, u.fecha_nacimiento, 
                             (SELECT ubicacion FROM usuarios WHERE nick='$nick') as ubicacion_yo,
                             (SELECT fecha_nacimiento FROM usuarios WHERE nick='$nick') as fecha_yo,
+                            (SELECT COALESCE(SUM(labios), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as labios_yo,
+                            (SELECT COALESCE(SUM(pulgar), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as pulgar_yo,
+                            (SELECT COALESCE(SUM(fuego), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as fuego_yo,
+                            (SELECT COALESCE(SUM(corazon), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as corazon_yo,
+                            (SELECT COALESCE(SUM(dislike), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as dislike_yo,
                             COALESCE(SUM(r.labios), 0) as labios, COALESCE(SUM(r.pulgar), 0) as pulgares, 
                             COALESCE(SUM(r.fuego), 0) as fuegos, COALESCE(SUM(r.corazon), 0) as corazones, 
                             COALESCE(SUM(r.dislike), 0) as dislikes
@@ -196,6 +202,11 @@
                             'fuegos' => $recomendacion['fuegos'],
                             'corazones' => $recomendacion['corazones'],
                             'dislikes' => $recomendacion['dislikes'],
+                            'labios_yo' => $recomendacion['labios_yo'],
+                            'pulgar_yo' => $recomendacion['pulgar_yo'],
+                            'fuego_yo' => $recomendacion['fuego_yo'],
+                            'corazon_yo' => $recomendacion['corazon_yo'],
+                            'dislike_yo' => $recomendacion['dislike_yo'],
                             'comentarios' => array(),
                         );
                         $index = null;

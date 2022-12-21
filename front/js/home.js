@@ -211,6 +211,7 @@ function cargarMain(recomendaciones, index, literales) {
     let main = document.body.children[1]
     main.innerHTML = ""
 
+    console.log(recomendaciones)
     if (recomendaciones.length > 0) {
         let recomendacion = recomendaciones[index]
 
@@ -228,7 +229,7 @@ function cargarMain(recomendaciones, index, literales) {
             imagen_flecha_izq.onclick = e => {
                 e.preventDefault()
                 index = index - 1
-                cargarMain(recomendaciones, index)
+                cargarMain(recomendaciones, index, literales)
             }
         }
 
@@ -247,7 +248,7 @@ function cargarMain(recomendaciones, index, literales) {
             imagen_flecha_der.onclick = e => {
                 e.preventDefault()
                 index = index + 1
-                cargarMain(recomendaciones, index)
+                cargarMain(recomendaciones, index, literales)
             }
         }
     
@@ -310,13 +311,23 @@ function cargarMain(recomendaciones, index, literales) {
     
         let caja_fuego = document.createElement('div')
         caja_fuego.id = "caja_fuego"
+        if(recomendacion.fuego_yo == 1) {
+            caja_fuego.classList.add("activado")
+        } else {
+            caja_fuego.classList.remove("activado")
+        }
         caja_fuego.onclick = function(){
             
         }
     
         let logo_fuego = document.createElement('img')
         logo_fuego.id = "logo_fuego"
-        logo_fuego.src = "front/img/imgHome/fuego-desactivado.png"
+        if(recomendacion.fuego_yo == 1) {
+            logo_fuego.src = "front/img/imgHome/fuego-activado.png"
+        } else {
+            logo_fuego.src = "front/img/imgHome/fuego-desactivado.png"
+        }
+        
     
         let num_fuego = document.createElement('p')
         num_fuego.id = "num_fuego"
@@ -379,7 +390,7 @@ function cargarMain(recomendaciones, index, literales) {
         let caja_corazon = document.createElement('div')
         caja_corazon.id = "caja_corazon"
         caja_corazon.onclick = function(){
-            //fetch actualizarCorazones.php
+            //fetch actualizarCorazon.php
         }
     
         let logo_corazon = document.createElement('img')
