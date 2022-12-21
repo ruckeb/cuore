@@ -219,9 +219,19 @@ function cargarMain(literales) {
     let div_section1 = document.createElement('div')
     div_section1.id = "section1"
 
+    let caja_perfil_imagen = document.createElement('div')
+    caja_perfil_imagen.id = "caja_perfil_imagen"
+
     let img_perfil = document.createElement('img')
     img_perfil.id = "imgPerfil"
     img_perfil.src = "front/img/imgPerfil/perfil.png"
+
+    let usuario_nick = document.createElement('h1')
+    usuario_nick.id = "usuario_nick" 
+    usuario_nick.innerHTML = "Denche11"//usuario.nick
+
+    caja_perfil_imagen.appendChild(img_perfil)
+    caja_perfil_imagen.appendChild(usuario_nick)
 
     let caja_perfil = document.createElement('div')
     caja_perfil.id = "caja_perfil"
@@ -548,7 +558,7 @@ function cargarMain(literales) {
     caja_botones_edicion.appendChild(boton_edicion)
     caja_botones_edicion.appendChild(boton_anadir_publi)
 
-    div_section1.appendChild(img_perfil)
+    div_section1.appendChild(caja_perfil_imagen)
     div_section1.appendChild(caja_perfil)
     div_section1.appendChild(caja_botones_edicion)
 
@@ -697,7 +707,6 @@ function cargarMain(literales) {
     div_dis_vid.appendChild(div_caj_videos)
 
     main.appendChild(div_section1)
-    main.appendChild(document.createElement('hr'))
     main.appendChild(div_btn_img_vid)
     main.appendChild(div_dis_img)
     main.appendChild(div_dis_vid)
