@@ -2,6 +2,11 @@ img {
     width: 25%;
     height: auto;
 }
+footer img{
+    object-fit: contain;
+    width: 33%;
+    cursor: pointer;
+}
 #logo{
     height: 100%;
     object-fit: contain;
@@ -114,10 +119,10 @@ hr{
     border: 2px solid black;
 }
 #caja_perfil{
-    width: 57%;
+    width: 55%;
     height: 100%;
     margin: 2%;
-    margin-left: 5%;
+    margin-left: 2%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -140,7 +145,7 @@ hr{
     padding: 1%;
 }
 #caja_botones_edicion{
-    width: 15%;
+    width: 25%;
     height: 99%;
     padding: 1%;
     display: flex;
@@ -164,11 +169,12 @@ hr{
     }
 }
 .botones_seccion1{
+    width: 100%;
     border: 2px solid black;
-    padding: 1%;
+    padding: 2%;
     border-radius: 20px;
     background-color: #454545;
-    color: white;
+    font-size: 2vh;
     text-align: center;
     cursor: pointer;
 }
