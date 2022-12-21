@@ -300,6 +300,55 @@ function cargarMain(literales) {
     boton_cambiar_contra.innerHTML = buscarLiteral(literales, boton_cambiar_contra.id)
     boton_cambiar_contra.onclick = e => {
         e.preventDefault()
+        Swal.fire({
+            showDenyButton: true,
+            confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+            denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+            html:   "<form>"+
+                        "<label id='titulo_clave_antigua' for='clave_antigua'>"+
+                        buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
+                        "<input id='clave_antigua' type='password' name='clave_antigua'>"+
+                        "<br>"+
+                        "<label id='titulo_clave_nueva' for='clave_nueva'>"+
+                        buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
+                        "<input id='clave_nueva' type='password' name='clave_antigua'>"+
+                        "<br>"+
+                        "<label id='titulo_clave_nueva_conf' for='clave_nueva_confir'>"+
+                        buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
+                        "<input id='clave_nueva_confir' type='password' name='clave_antigua'>"+
+                    "</form>",
+            preConfirm: () => {
+                const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
+                const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
+                const clave_nueva_confir = Swal.getPopup().querySelector('#clave_nueva_confir').value
+                if (!clave_antigua) {
+                    Swal.showValidationMessage("hola")
+                } else {
+                    return {
+                        clave_antigua: clave_antigua,
+                        clave_nueva: clave_nueva,
+                        clave_nueva_confir: clave_nueva_confir
+                    }
+                }
+            }
+        })
+            .then( response => {
+                let url = '../../back/controladores/cambiarContrasena.php'
+                let params = {
+                    method: 'POST',
+                    body: JSON.stringify(response)
+                }
+                fetch(url, params)
+                    .then(req => req.json())
+                    .then( respuesta => {
+                        console.log(respuesta)
+                        if (respuesta) {
+                            //alerta todo bien
+                        } else {
+                            //alerta error
+                        }
+                    })
+            })
     }
 
     let boton_guardar = document.createElement('button')
@@ -732,6 +781,5 @@ function cargarFooter(literales) {
 
     footer.appendChild(p1)
     footer.appendChild(cajaDirecciones)
-
 
 }
