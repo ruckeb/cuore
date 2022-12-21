@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS reacciones (
     pulgar TINYINT(1) NOT NULL DEFAULT 0,
     fuego TINYINT(1) NOT NULL DEFAULT 0,
     corazon TINYINT(1) NOT NULL DEFAULT 0,
-    risa TINYINT(1) NOT NULL DEFAULT 0,    
+    dislike TINYINT(1) NOT NULL DEFAULT 0,    
     CONSTRAINT PK_reacciones PRIMARY KEY (id_publicacion, nick_reaccion),
     CONSTRAINT FK_reacciones_usuarios FOREIGN KEY (nick_reaccion) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT FK_reacciones_publicaciones FOREIGN KEY (id_publicacion) REFERENCES publicaciones (id) ON DELETE CASCADE ON UPDATE CASCADE

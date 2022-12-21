@@ -44,7 +44,7 @@ function obtenerUbicacion(literales) {
 
 function cargarLogin() {
     let bodyContent = {
-        id_html: 'login',
+        id_html: 'index',
     }
     let url = '../../back/controladores/cargarLiterales.php'
     let params = {
@@ -568,14 +568,80 @@ function cargarFooter(literales) {
     let footer = document.body.children[2]
 
     let p1 = document.createElement('p')
-    p1.id ="p1"
+    p1.id ="copyRight"
     p1.innerHTML = "© Copyright 2022"
+
+    let cajaDirecciones = document.createElement('div')
+    cajaDirecciones.id = "cajaDirecciones"
 
     let p2 = document.createElement('p')
     p2.id ="p2"
-    p2.innerHTML = buscarLiteral(literales, p2.id)
+    p2.innerHTML = "Cuore: "
+
+    let instagram = document.createElement('img')
+    instagram.src = "front/img/imgFooter/instagram.png"
+
+    let instagram_enlace = document.createElement('a')
+    instagram_enlace.id ="instagram_enlace"
+    instagram_enlace.targer = "_blank"
+    instagram_enlace.rel = "noopener noreferrer"
+    instagram_enlace.href = "https://www.instagram.com/cuore__soporte/"
+
+    instagram_enlace.appendChild(instagram)
+
+    let twitter = document.createElement('img')
+    twitter.src = "front/img/imgFooter/gorjeo.png"
+
+    let twitter_enlace = document.createElement('a')
+    twitter_enlace.id ="twitter_enlace"
+    twitter_enlace.targer = "_blank"
+    twitter_enlace.rel = "noopener noreferrer"
+    twitter_enlace.href = "https://twitter.com/cuore_soporte"
+
+    twitter_enlace.appendChild(twitter)
+
+    let gmail = document.createElement('img')
+    gmail.src = "front/img/imgFooter/gmail.png"
+
+    let gmail_enlace = document.createElement('a')
+    gmail_enlace.id ="gmail_enlace"
+    gmail_enlace.targer = "_blank"
+    gmail_enlace.rel = "noopener noreferrer"
+    gmail_enlace.href = "mailto:cuore.soporte@gmail.com"
+
+    gmail_enlace.appendChild(gmail)
+
+    let linkedin = document.createElement('img')
+    linkedin.src = "front/img/imgFooter/linkedin.png"
+
+    let linkedin_enlace = document.createElement('a')
+    linkedin_enlace.id ="linkedin_enlace"
+    linkedin_enlace.targer = "_blank"
+    linkedin_enlace.rel = "noopener noreferrer"
+    linkedin_enlace.href = "https://www.linkedin.com/in/cuore-soporte-80310525b/"
+
+    linkedin_enlace.appendChild(linkedin)
+
+    let maps = document.createElement('img')
+    maps.src = "front/img/imgFooter/marcador-de-posicion.png"
+
+    let maps_enlace = document.createElement('a')
+    maps_enlace.id ="maps_enlace"
+    maps_enlace.targer = "_blank"
+    maps_enlace.rel = "noopener noreferrer"
+    maps_enlace.href = "https://goo.gl/maps/gX2vJPVcAYoJWxxd8"
+
+    maps_enlace.appendChild(maps)
+
+    cajaDirecciones.appendChild(p2)
+    cajaDirecciones.appendChild(instagram_enlace)
+    cajaDirecciones.appendChild(twitter_enlace)
+    cajaDirecciones.appendChild(gmail_enlace)
+    cajaDirecciones.appendChild(linkedin_enlace)
+    cajaDirecciones.appendChild(maps_enlace)
 
     footer.appendChild(p1)
-    footer.appendChild(p2)
+    footer.appendChild(cajaDirecciones)
+
 
 }

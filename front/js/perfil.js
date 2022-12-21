@@ -38,7 +38,7 @@ function cargarCabecera(literales) {
     imagen_logo_cuore.src = "front/img/imgLogo/logo.png"
     imagen_logo_cuore.title = "Logo"
     imagen_logo_cuore.onclick = () => {
-        location.reload()
+        location.href = "home.php"
     }
 
     let div_botones_login = document.createElement('div')
@@ -231,17 +231,11 @@ function cargarMain(literales) {
 
     let titulo_nombre = document.createElement('label')
     titulo_nombre.id = "titulo_nombre"
-    titulo_nombre.htmlFor = "usuario"
     titulo_nombre.innerHTML = buscarLiteral(literales, titulo_nombre.id)
 
-    let texto_nombre = document.createElement('input')
+    var texto_nombre = document.createElement('p')
     texto_nombre.id = "texto_nombre"
-    texto_nombre.type = "text"
-    texto_nombre.name = "usuario"
-    texto_nombre.maxLength = 50
-    texto_nombre.pattern = "^[A-Za-z0-9_-]{2,50}"
-    texto_nombre.title = buscarLiteral(literales, texto_nombre.id + "_title")
-    texto_nombre.required = true
+    texto_nombre.innerHTML = buscarLiteral(literales, texto_nombre.id)
 
     caja_nombre.appendChild(titulo_nombre)
     caja_nombre.appendChild(texto_nombre)
@@ -251,17 +245,11 @@ function cargarMain(literales) {
 
     let titulo_correo = document.createElement('label')
     titulo_correo.id = "titulo_correo"
-    titulo_correo.htmlFor = "correo"
     titulo_correo.innerHTML = buscarLiteral(literales, titulo_correo.id)
 
-    let texto_correo = document.createElement('input')
+    let texto_correo = document.createElement('p')
     texto_correo.id = "texto_correo"
-    texto_correo.type = "email"
-    texto_correo.name = "email" 
-    texto_correo.minLength = 5
-    texto_correo.maxLength = 150
-    texto_correo.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-    texto_correo.title = buscarLiteral(literales, texto_correo.id + "_title")
+    texto_correo.innerHTML = buscarLiteral(literales, texto_correo.id)
 
     caja_correo.appendChild(titulo_correo)
     caja_correo.appendChild(texto_correo)
@@ -271,64 +259,28 @@ function cargarMain(literales) {
 
     let titulo_sexo = document.createElement('label')
     titulo_sexo.id = "titulo_sexo"
-    titulo_sexo.htmlFor = "sexo"
     titulo_sexo.innerHTML = buscarLiteral(literales, titulo_sexo.id)
 
-    let select_sexo = document.createElement('select')
-    select_sexo.id = "sexo"
-    select_sexo.name = "sexo" 
-    select_sexo.required = true
-    
-    let option_hombre = document.createElement('option')
-    option_hombre.value = 1 
-    option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
-
-    let option_mujer = document.createElement('option')
-    option_mujer.value = 2 
-    option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
-
-    let option_otros = document.createElement('option')
-    option_otros.value = 3 
-    option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
-
-    select_sexo.appendChild(option_hombre)
-    select_sexo.appendChild(option_mujer)
-    select_sexo.appendChild(option_otros)
+    let texto_sexo = document.createElement('p')
+    texto_sexo.id = "texto_sexo"
+    texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id) 
 
     caja_sexo.appendChild(titulo_sexo)
-    caja_sexo.appendChild(select_sexo)
+    caja_sexo.appendChild(texto_sexo)
 
     let caja_rol = document.createElement('div')
     caja_rol.id = "caja_rol"
 
     let titulo_rol = document.createElement('label')
     titulo_rol.id = "titulo_rol"
-    titulo_rol.htmlFor = "rol"
     titulo_rol.innerHTML = buscarLiteral(literales, titulo_rol.id)
 
-    let select_rol = document.createElement('select')
-    select_rol.id = "rol"
-    select_rol.name = "rol" 
-    select_rol.required = true
-    
-    let option_bus_hombre = document.createElement('option')
-    option_bus_hombre.value = 1 
-    option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
+    let texto_rol = document.createElement('p')
+    texto_rol.id = "texto_rol"
+    texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
 
-    let option_bus_mujer = document.createElement('option')
-    option_bus_mujer.value = 2
-    option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
-
-    let option_bus_ambos = document.createElement('option')
-    option_bus_ambos.value = 3
-    option_bus_ambos.innerHTML = buscarLiteral(literales, select_rol.id + '_ambos') 
-
-    select_rol.appendChild(option_bus_hombre)
-    select_rol.appendChild(option_bus_mujer)
-    select_rol.appendChild(option_bus_ambos)
-
-    caja_sexo.appendChild(titulo_rol)
-    caja_sexo.appendChild(select_rol)
+    caja_rol.appendChild(titulo_rol)
+    caja_rol.appendChild(texto_rol)
 
     caja_perfil.appendChild(caja_nombre)
     caja_perfil.appendChild(document.createElement('br'))
@@ -351,6 +303,24 @@ function cargarMain(literales) {
             e.preventDefault()
             boton_edicion.classList = 'botones_seccion1 aparecer'
             boton_guardar.classList = 'botones_seccion1 ocul'
+
+            //Guardado de perfil
+            let bodyContent = {
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                sexo: document.getElementById('sexo').value,
+                perfil_busqueda: document.getElementById('rol').value
+            }
+            let url = '../../back/controladores/actualizarPerfil.php'
+            let params = {
+                method: 'POST',
+                body: JSON.stringify(bodyContent)
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                    console.log(datos)
+                })
         }
 
     let boton_edicion = document.createElement('button')
@@ -361,6 +331,112 @@ function cargarMain(literales) {
             e.preventDefault()
             boton_guardar.classList = 'botones_seccion1 aparecer'
             boton_edicion.classList = 'botones_seccion1 ocul'
+
+            //Edición de campos de perfíl  
+            let texto_nombre = document.getElementById('texto_nombre')
+            let datos_nombre = texto_nombre.innerHTML
+            texto_nombre.remove()
+            texto_nombre = document.createElement('input')
+            texto_nombre.id = "nombre"
+            texto_nombre.classList.add('textos')
+            texto_nombre.type = "text"
+            texto_nombre.name = "usuario"
+            texto_nombre.maxLength = 50
+            texto_nombre.pattern = "^[A-Za-z0-9_-]{2,50}"
+            texto_nombre.value = datos_nombre
+            texto_nombre.required = true
+
+            caja_nombre.appendChild(texto_nombre)
+
+            let texto_correo = document.getElementById('texto_correo')
+            let datos_correo = texto_correo.innerHTML
+            texto_correo.remove()
+            texto_correo = document.createElement('input')
+            texto_correo.id = "texto_correo"
+            texto_correo.classList.add('textos')
+            texto_correo.type = "email"
+            texto_correo.name = "email" 
+            texto_correo.minLength = 5
+            texto_correo.maxLength = 150
+            texto_correo.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            texto_correo.title = datos_correo
+
+            caja_correo.appendChild(texto_correo)
+
+            let select_sexo = document.getElementById('texto_sexo')
+            let datos_sexo = select_sexo.innerHTML
+            texto_sexo.remove()
+            select_sexo = document.createElement('select')
+            select_sexo.id = "sexo"
+            select_sexo.classList.add('textos')
+            select_sexo.name = "sexo" 
+            select_sexo.required = true
+            
+            let option_hombre = document.createElement('option')
+            option_hombre.value = 1 
+            option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
+
+            let option_mujer = document.createElement('option')
+            option_mujer.value = 2 
+            option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
+
+            let option_otros = document.createElement('option')
+            option_otros.value = 3 
+            option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
+
+            if(datos_sexo == 1){
+                select_sexo.appendChild(option_hombre)
+                select_sexo.appendChild(option_mujer)
+                select_sexo.appendChild(option_otros)
+            }else if (datos_sexo == 2){
+                select_sexo.appendChild(option_mujer)
+                select_sexo.appendChild(option_hombre)
+                select_sexo.appendChild(option_otros)
+            }else{
+                select_sexo.appendChild(option_otros)
+                select_sexo.appendChild(option_hombre)
+                select_sexo.appendChild(option_mujer)
+            }
+
+            caja_sexo.appendChild(select_sexo)
+
+            let select_rol = document.getElementById('texto_rol')
+            let datos_rol = select_rol.innerHTML
+            texto_rol.remove()
+            select_rol = document.createElement('select')
+            select_rol.id = "rol"
+            select_rol.classList.add('textos')
+            select_rol.name = "rol" 
+            select_rol.required = true
+            
+            let option_bus_hombre = document.createElement('option')
+            option_bus_hombre.value = 1 
+            option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
+
+            let option_bus_mujer = document.createElement('option')
+            option_bus_mujer.value = 2
+            option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
+
+            let option_bus_ambos = document.createElement('option')
+            option_bus_ambos.value = 3
+            option_bus_ambos.innerHTML = buscarLiteral(literales, select_rol.id + '_ambos') 
+
+            
+            if(datos_sexo == 1){
+                select_rol.appendChild(option_bus_hombre)
+                select_rol.appendChild(option_bus_mujer)
+                select_rol.appendChild(option_bus_ambos)
+            }else if (datos_sexo == 2){
+                select_rol.appendChild(option_bus_mujer)
+                select_rol.appendChild(option_bus_hombre)
+                select_rol.appendChild(option_bus_ambos)
+            }else{
+                select_rol.appendChild(option_bus_ambos)
+                select_rol.appendChild(option_bus_hombre)
+                select_rol.appendChild(option_bus_mujer)
+            }
+
+            caja_rol.appendChild(select_rol)
         }
 
     let boton_anadir_publi = document.createElement('button')
@@ -369,6 +445,45 @@ function cargarMain(literales) {
     boton_anadir_publi.innerHTML = buscarLiteral(literales, boton_anadir_publi.id)
     boton_anadir_publi.onclick = e => {
         e.preventDefault()
+        Swal.fire({
+            showDenyButton: true,
+            confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+            denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+            html:   "<form>"+
+                        "<input id='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
+                        "<br>"+
+                        "<input id='texto' type='text'>"+
+                    "</form>",
+            preConfirm: () => {
+                const archivo = Swal.getPopup().querySelector('#archivo').value
+                const texto = Swal.getPopup().querySelector('#texto').value
+                if (!archivo) {
+                    Swal.showValidationMessage("hola")
+                } else {
+                    return {
+                        archivo: archivo,
+                        texto: texto
+                    }
+                }
+            }
+        })
+            .then( response => {
+                let url = '../../back/controladores/subirPublicacion.php'
+                let params = {
+                    method: 'POST',
+                    body: JSON.stringify(response)
+                }
+                fetch(url, params)
+                    .then(req => req.json())
+                    .then( respuesta => {
+                        console.log(respuesta)
+                        if (respuesta) {
+                            //alerta todo bien
+                        } else {
+                            //alerta error
+                        }
+                    })
+            })
     }
 
     caja_botones_edicion.appendChild(boton_guardar)

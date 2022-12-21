@@ -150,7 +150,7 @@
                 $sql = "SELECT publi.id, nick, texto, imagen, creado, 
                         distanciaCoordenadas(X(ubicacion), Y(ubicacion), X(ubicacion_yo), Y(ubicacion_yo)) as distancia,
                         ABS(DATEDIFF(fecha_nacimiento, fecha_yo)) as dif_edad,
-                        labios, pulgares, corazones, risas, c.id as id_comentario, 
+                        labios, pulgares, fuegos, corazones, dislikes, c.id as id_comentario, 
                         c.fecha as fecha_comentario, c.comentario, c.nick_comenta
                         FROM (	
                             SELECT p.*, u.nick, u.ubicacion, u.fecha_nacimiento, 
@@ -158,7 +158,7 @@
                             (SELECT fecha_nacimiento FROM usuarios WHERE nick='$nick') as fecha_yo,
                             COALESCE(SUM(r.labios), 0) as labios, COALESCE(SUM(r.pulgar), 0) as pulgares, 
                             COALESCE(SUM(r.fuego), 0) as fuegos, COALESCE(SUM(r.corazon), 0) as corazones, 
-                            COALESCE(SUM(r.risa), 0) as risas
+                            COALESCE(SUM(r.dislike), 0) as dislikes
                             FROM publicaciones p
                             LEFT JOIN usuarios u
                             ON u.nick = p.nick_publicacion
@@ -193,8 +193,9 @@
                             'dif_edad' => $recomendacion['dif_edad'],
                             'labios' => $recomendacion['labios'],
                             'pulgares' => $recomendacion['pulgares'],
+                            'fuegos' => $recomendacion['fuegos'],
                             'corazones' => $recomendacion['corazones'],
-                            'risas' => $recomendacion['risas'],
+                            'dislikes' => $recomendacion['dislikes'],
                             'comentarios' => array(),
                         );
                         $index = null;
