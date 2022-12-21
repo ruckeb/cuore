@@ -24,19 +24,18 @@ function cargarHome() {
     fetch(url, params)
         .then(req => req.json())
         .then( literales => {
+            let url2 = '../../back/controladores/getRecomendaciones.php'
+            let params2 = {
+                method: 'GET',
+            }
+            fetch(url2, params2)
+                .then(req => req.json())
+                .then( recomendaciones => {
+                    var index = 0
+                    cargarMain(recomendaciones, index, literales)
+                })
             cargarCabecera(literales)
             cargarFooter(literales)
-        })
-
-    let url2 = '../../back/controladores/getRecomendaciones.php'
-    let params2 = {
-        method: 'GET',
-    }
-    fetch(url2, params2)
-        .then(req => req.json())
-        .then( recomendaciones => {
-            var index = 0
-            cargarMain(recomendaciones, index)
         })
     
 }
@@ -208,7 +207,7 @@ function cargarCabecera(literales) {
 
 }
 
-function cargarMain(recomendaciones, index) {
+function cargarMain(recomendaciones, index, literales) {
     let main = document.body.children[1]
     main.innerHTML = ""
 

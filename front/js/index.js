@@ -44,7 +44,7 @@ function obtenerUbicacion(literales) {
 
 function cargarLogin() {
     let bodyContent = {
-        id_html: 'login',
+        id_html: 'index',
     }
     let url = '../../back/controladores/cargarLiterales.php'
     let params = {
