@@ -136,16 +136,24 @@ function cargarCabecera(literales) {
     let boton_menu1 = document.createElement('button')
     boton_menu1.id = "boton_menu1"
     boton_menu1.classList.add("btnMenu")
+    boton_menu1.onclick = (e) => {
+        e.preventDefault()
+        location.href = 'perfil.php' 
+    }
 
     let p_menu1 = document.createElement('p')
     p_menu1.id = "p_menu1"
     p_menu1.innerHTML = buscarLiteral(literales, p_menu1.id) //Caja1
-
+    
     boton_menu1.appendChild(p_menu1)
 
     let boton_menu2 = document.createElement('button')
     boton_menu2.id = "boton_menu2"
     boton_menu2.classList.add("btnMenu")
+    boton_menu2.onclick = (e) => {
+        e.preventDefault()
+         // location.href = 'chatPrivado.php' 
+    }
 
     let p_menu2 = document.createElement('p')
     p_menu2.id = "p_menu2"
@@ -156,6 +164,10 @@ function cargarCabecera(literales) {
     let boton_menu3 = document.createElement('button')
     boton_menu3.id = "boton_menu3"
     boton_menu3.classList.add("btnMenu")
+    boton_menu3.onclick = (e) => {
+        e.preventDefault()
+         // location.href = 'sugerenciasCuore.php' 
+    }
 
     let p_menu3 = document.createElement('p')
     p_menu3.id = "p_menu3"
@@ -166,6 +178,10 @@ function cargarCabecera(literales) {
     let boton_menu4 = document.createElement('button')
     boton_menu4.id = "boton_menu4"
     boton_menu4.classList.add("btnMenu")
+    boton_menu3.onclick = (e) => {
+        e.preventDefault()
+         // location.href = 'contactanos.php' 
+    }
 
     let p_menu4 = document.createElement('p')
     p_menu4.id = "p_menu4"
@@ -259,7 +275,7 @@ function cargarMain(recomendaciones, index, literales) {
         usuario_imagen.id = "usuario_imagen"
         usuario_imagen.innerHTML = recomendacion.nick
         usuario_imagen.onclick = () => {
-            //Fetch getPerfilUsuario
+            location.href = "perfil.php?usuario=" + this.innerHTML
         }
     
         let comentario_usuario_imagen = document.createElement('div')
@@ -292,7 +308,7 @@ function cargarMain(recomendaciones, index, literales) {
             usuario_comentario.classList.add('usuario_comentario')
             usuario_comentario.innerHTML = " " + comentario.nick_comentario + " "
             usuario_comentario.onclick = () => {
-                //Fetch getPerfilUsuario
+               location.href = "perfil.php?usuario=" + this.innerHTML.trim()
             }
         
             let texto_comentario = document.createElement('span')
@@ -317,7 +333,19 @@ function cargarMain(recomendaciones, index, literales) {
             caja_fuego.classList.remove("activado")
         }
         caja_fuego.onclick = function(){
-            
+            let bodyContent = {
+                id: recomendacion.id,
+            }
+            let url = '../../back/controladores/actualizarFuego.php'
+            let params = {
+                method: 'POST',
+                body: JSON.stringify(bodyContent)
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                  console.log(datos)
+                }) 
         }
     
         let logo_fuego = document.createElement('img')
@@ -339,7 +367,19 @@ function cargarMain(recomendaciones, index, literales) {
         let caja_like = document.createElement('div')
         caja_like.id = "caja_like"
         caja_like.onclick = function(){
-            
+            let bodyContent = {
+                id: recomendacion.id,
+            }
+            let url = '../../back/controladores/actualizarPulgar.php'
+            let params = {
+                method: 'POST',
+                body: JSON.stringify(bodyContent)
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                  console.log(datos)
+                })
         }
     
         let logo_like = document.createElement('img')
@@ -356,7 +396,19 @@ function cargarMain(recomendaciones, index, literales) {
         let caja_dislike = document.createElement('div')
         caja_dislike.id = "caja_dislike"
         caja_dislike.onclick = function(){
-            
+            let bodyContent = {
+                id: recomendacion.id,
+            }
+            let url = '../../back/controladores/actualizarDislike.php'
+            let params = {
+                method: 'POST',
+                body: JSON.stringify(bodyContent)
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                  console.log(datos)
+                })
         }
     
         let logo_dislike = document.createElement('img')
@@ -373,7 +425,19 @@ function cargarMain(recomendaciones, index, literales) {
         let caja_labio = document.createElement('div')
         caja_labio.id = "caja_labio"
         caja_labio.onclick = function(){
-            
+            let bodyContent = {
+                id: recomendacion.id,
+            }
+            let url = '../../back/controladores/actualizarLabio.php'
+            let params = {
+                method: 'POST',
+                body: JSON.stringify(bodyContent)
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                  console.log(datos)
+                })
         }
     
         let logo_labio = document.createElement('img')
@@ -390,7 +454,19 @@ function cargarMain(recomendaciones, index, literales) {
         let caja_corazon = document.createElement('div')
         caja_corazon.id = "caja_corazon"
         caja_corazon.onclick = function(){
-            //fetch actualizarCorazon.php
+            let bodyContent = {
+                id: recomendacion.id,
+            }
+            let url = '../../back/controladores/actualizarCorazon.php'
+            let params = {
+                method: 'POST',
+                body: JSON.stringify(bodyContent)
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                  console.log(datos)
+                })
         }
     
         let logo_corazon = document.createElement('img')
@@ -415,7 +491,19 @@ function cargarMain(recomendaciones, index, literales) {
         c_comentario_personal.placeholder = 'comentario...'
         c_comentario_personal.onkeypress = (e) => {
             if (e.keyCode == 13 && !e.shiftKey) {
-                //Fetch enviarComentario.php
+                let bodyContent = {
+                    id: recomendacion.id,
+                }
+                let url = '../../back/controladores/enviarComentario.php'
+                let params = {
+                    method: 'POST',
+                    body: JSON.stringify(bodyContent)
+                }
+                fetch(url, params)
+                    .then(req => req.json())
+                    .then( datos => {
+                      console.log(datos)
+                    })
             } 
         }
     
@@ -487,7 +575,7 @@ function cargarMain(recomendaciones, index, literales) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            // text: buscarLiteral(literales, "server_error_" + datos)
+            text: buscarLiteral(literales, "server_error_" + datos)
         })
     }
 

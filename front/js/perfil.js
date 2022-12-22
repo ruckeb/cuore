@@ -128,7 +128,7 @@ function cargarCabecera(literales) {
     boton_menu1.classList.add("btnMenu")
     boton_menu1.onclick = (e) => {
         e.preventDefault()
-       
+        // location.href = './chatPrivado.php' 
     }
 
     let p_menu1 = document.createElement('p')
@@ -142,7 +142,7 @@ function cargarCabecera(literales) {
     boton_menu2.classList.add("btnMenu")
     boton_menu2.onclick = (e) => {
         e.preventDefault()
-       
+        // location.href = './sugerenciasCuore.php' 
     }
 
     let p_menu2 = document.createElement('p')
@@ -156,7 +156,7 @@ function cargarCabecera(literales) {
     boton_menu3.classList.add("btnMenu")
     boton_menu3.onclick = (e) => {
         e.preventDefault()
-       
+        // location.href = './contactanos.php' 
     }
 
     let p_menu3 = document.createElement('p')
@@ -170,34 +170,19 @@ function cargarCabecera(literales) {
     boton_menu4.classList.add("btnMenu")
     boton_menu4.onclick = (e) => {
         e.preventDefault()
-       
+        location.href = 'back/controladores/cerrarSesion.php' 
     }
 
     let p_menu4 = document.createElement('p')
     p_menu4.id = "p_menu4"
     p_menu4.innerHTML = buscarLiteral(literales, p_menu4.id) //Caja4
 
-    boton_menu4.appendChild(p_menu4)
-
-    let boton_menu5 = document.createElement('button')
-    boton_menu5.id = "boton_menu5"
-    boton_menu5.classList.add("btnMenu")
-    boton_menu5.onclick = (e) => {
-        e.preventDefault()
-        location.href = 'back/controladores/cerrarSesion.php' 
-    }
-
-    let p_menu5 = document.createElement('p')
-    p_menu5.id = "p_menu5"
-    p_menu5.innerHTML = buscarLiteral(literales, p_menu5.id) //Caja5
-
-    boton_menu5.appendChild(p_menu5)
+    boton_menu4.appendChild(p_menu4)   
 
     div_tabla_menu.appendChild(boton_menu1)
     div_tabla_menu.appendChild(boton_menu2)
     div_tabla_menu.appendChild(boton_menu3)
     div_tabla_menu.appendChild(boton_menu4)
-    div_tabla_menu.appendChild(boton_menu5)
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
@@ -234,7 +219,7 @@ function cargarMain(literales) {
 
             let img_perfil = document.createElement('img')
             img_perfil.id = "imgPerfil"
-            img_perfil.src = "front/img/imgPerfil/perfil.png"
+            img_perfil.src = usuario.imagen
 
             let usuario_nick = document.createElement('h1')
             usuario_nick.id = "usuario_nick" 
@@ -284,15 +269,15 @@ function cargarMain(literales) {
             let texto_sexo = document.createElement('p')
             texto_sexo.id = "texto_sexo"
             if(usuario.sexo == 1){
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_hombre")
             }else if (usuario.sexo == 2){
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_mujer")
             }else if (usuario.sexo == 3){
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_intersexo_hombre")
             }else if (usuario.sexo == 4){
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_intersexo_mujer")
             }else{
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_otros")
             }
 
             caja_sexo.appendChild(titulo_sexo)
@@ -308,27 +293,27 @@ function cargarMain(literales) {
             let texto_rol = document.createElement('p')
             texto_rol.id = "texto_rol"
             if(usuario.perfil_busqueda == 1){
-                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_hombre")
             }else if ( usuario.perfil_busqueda == 2){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_mujer")
             }else if ( usuario.perfil_busqueda == 3){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_intersexo_hombre")
             }else if ( usuario.perfil_busqueda == 4){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_intersexo_mujer")
             }else if ( usuario.perfil_busqueda == 5){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_hombre_mujer")
             }else if ( usuario.perfil_busqueda == 6){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_hombre_intersexo_hombre")
             }else if ( usuario.perfil_busqueda == 7){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_hombre_intersexo_mujer")
             }else if ( usuario.perfil_busqueda == 8){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_mujer_intersexo_hombre")
             }else if ( usuario.perfil_busqueda == 9){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_mujer_intersexo_mujer")
             }else if ( usuario.perfil_busqueda == 10){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_intersexo_mujer_intersexo_hombre")
             }else{
-                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_todos")
             }
 
             caja_rol.appendChild(titulo_rol)
@@ -675,7 +660,19 @@ function cargarMain(literales) {
             let h2_boton_imagenes = document.createElement('h2')
             h2_boton_imagenes.id = "h2_boton_imagenes"
             h2_boton_imagenes.innerHTML = buscarLiteral(literales, h2_boton_imagenes.id)
-            h2_boton_imagenes.onmouseover = () =>{
+            h2_boton_imagenes.onclick = () =>{
+                div_caj_imagenes.innerHTML = ""
+                for (const imagen of usuario.imagenes_publicadas) {
+                    let caja_imagen = document.createElement('div')
+                    caja_imagen.classList.add('caja_imagen')
+                    caja_imagen.id = imagen.id
+                    let imagen_interior = document.createElement('img')
+                    imagen_interior.classList.add('imagen_interior')
+                    imagen_interior.src = imagen.publi
+
+                    caja_imagen.appendChild(imagen_interior)
+                    div_caj_imagenes.appendChild(caja_imagen)
+                }
                 div_dis_img.classList.remove("ocultar")
                 h2_boton_imagenes.classList.toggle("btnActivo")
                 if (!div_dis_vid.classList.contains("ocultar")){
@@ -684,6 +681,7 @@ function cargarMain(literales) {
                 if (h2_boton_videos.classList.contains("btnActivo")){
                     h2_boton_videos.classList.remove("btnActivo")
                 }
+
             }
 
             boton_imagenes.appendChild(h2_boton_imagenes)
@@ -694,7 +692,19 @@ function cargarMain(literales) {
             let h2_boton_videos = document.createElement('h2')
             h2_boton_videos.id = "h2_boton_videos"
             h2_boton_videos.innerHTML = buscarLiteral(literales, h2_boton_videos.id)
-            h2_boton_videos.onmouseover = () =>{
+            h2_boton_videos.onclick = () =>{
+                div_caj_videos.innerHTML = ""
+                for (const video of usuario.videos_publicados) {
+                    let caja_videos = document.createElement('div')
+                    caja_videos.classList.add('caja_videos')
+                    caja_videos.id = video.id
+                    let video_interior = document.createElement('video')
+                    video_interior.classList.add('video_interior')
+                    video_interior.src = video.publi
+
+                    caja_videos.appendChild(video_interior)
+                    div_caj_videos.appendChild(caja_videos)
+                }
                 div_dis_vid.classList.remove("ocultar")
                 h2_boton_videos.classList.toggle("btnActivo")
                 if (!div_dis_img.classList.contains("ocultar")){
@@ -717,46 +727,7 @@ function cargarMain(literales) {
             let div_caj_imagenes = document.createElement('div')
             div_caj_imagenes.id = "cajImagenes"
 
-            let imagen1 = document.createElement('img')
-            imagen1.src = "../img/imgImagenes/img1.png"
-            imagen1.classList.add("imagenes")
 
-            let imagen2 = document.createElement('img')
-            imagen2.src = "../img/imgImagenes/img2.png"
-            imagen2.classList.add("imagenes")
-            
-            let imagen3 = document.createElement('img')
-            imagen3.src = "../img/imgImagenes/img3.png"
-            imagen3.classList.add("imagenes")
-
-            let imagen4 = document.createElement('img')
-            imagen4.src = "../img/imgImagenes/img4.png"
-            imagen4.classList.add("imagenes")
-
-            let imagen5 = document.createElement('img')
-            imagen5.src = "../img/imgImagenes/img5.png"
-            imagen5.classList.add("imagenes")
-
-            let imagen6 = document.createElement('img')
-            imagen6.src = "../img/imgImagenes/img6.png"
-            imagen6.classList.add("imagenes")
-
-            let imagen7 = document.createElement('img')
-            imagen7.src = "../img/imgImagenes/img7.png"
-            imagen7.classList.add("imagenes")
-
-            let imagen8 = document.createElement('img')
-            imagen8.src = "../img/imgImagenes/img8.png"
-            imagen8.classList.add("imagenes")
-
-            div_caj_imagenes.appendChild(imagen1)
-            div_caj_imagenes.appendChild(imagen2)
-            div_caj_imagenes.appendChild(imagen3)
-            div_caj_imagenes.appendChild(imagen4)
-            div_caj_imagenes.appendChild(imagen5)
-            div_caj_imagenes.appendChild(imagen6)
-            div_caj_imagenes.appendChild(imagen7)
-            div_caj_imagenes.appendChild(imagen8)
 
             div_dis_img.appendChild(div_caj_imagenes)
 
@@ -767,46 +738,6 @@ function cargarMain(literales) {
             let div_caj_videos = document.createElement('div')
             div_caj_videos.id = "cajVideos"
 
-            let video1 = document.createElement('img')
-            video1.src = "../img/imgVideos/vid1.png"
-            video1.classList.add("videos")
-
-            let video2 = document.createElement('img')
-            video2.src = "../img/imgVideos/vid2.png"
-            video2.classList.add("videos")
-            
-            let video3 = document.createElement('img')
-            video3.src = "../img/imgVideos/vid3.png"
-            video3.classList.add("videos")
-
-            let video4 = document.createElement('img')
-            video4.src = "../img/imgVideos/vid4.png"
-            video4.classList.add("videos")
-
-            let video5 = document.createElement('img')
-            video5.src = "../img/imgVideos/vid5.png"
-            video5.classList.add("videos")
-
-            let video6 = document.createElement('img')
-            video6.src = "../img/imgVideos/vid6.png"
-            video6.classList.add("videos")
-
-            let video7 = document.createElement('img')
-            video7.src = "../img/imgVideos/vid7.png"
-            video7.classList.add("videos")
-
-            let video8 = document.createElement('img')
-            video8.src = "../img/imgVideos/vid8.png"
-            video8.classList.add("videos")
-
-            div_caj_videos.appendChild(video1)
-            div_caj_videos.appendChild(video2)
-            div_caj_videos.appendChild(video3)
-            div_caj_videos.appendChild(video4)
-            div_caj_videos.appendChild(video5)
-            div_caj_videos.appendChild(video6)
-            div_caj_videos.appendChild(video7)
-            div_caj_videos.appendChild(video8)
 
             div_dis_vid.appendChild(div_caj_videos)
 
