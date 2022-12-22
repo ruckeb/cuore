@@ -214,502 +214,514 @@ function cargarCabecera(literales) {
 }
 
 function cargarMain(literales) {
-    let main = document.body.children[1]
-
-    let div_section1 = document.createElement('div')
-    div_section1.id = "section1"
-
-    let caja_perfil_imagen = document.createElement('div')
-    caja_perfil_imagen.id = "caja_perfil_imagen"
-
-    let img_perfil = document.createElement('img')
-    img_perfil.id = "imgPerfil"
-    img_perfil.src = "front/img/imgPerfil/perfil.png"
-
-    let usuario_nick = document.createElement('h1')
-    usuario_nick.id = "usuario_nick" 
-    usuario_nick.innerHTML = "Denche11"//usuario.nick
-
-    caja_perfil_imagen.appendChild(img_perfil)
-    caja_perfil_imagen.appendChild(usuario_nick)
-
-    let caja_perfil = document.createElement('div')
-    caja_perfil.id = "caja_perfil"
-
-    let caja_nombre = document.createElement('div')
-    caja_nombre.id = "caja_nombre"
-
-    let titulo_nombre = document.createElement('label')
-    titulo_nombre.id = "titulo_nombre"
-    titulo_nombre.innerHTML = buscarLiteral(literales, titulo_nombre.id)
-
-    var texto_nombre = document.createElement('p')
-    texto_nombre.id = "texto_nombre"
-    texto_nombre.innerHTML = buscarLiteral(literales, texto_nombre.id)
-
-    caja_nombre.appendChild(titulo_nombre)
-    caja_nombre.appendChild(texto_nombre)
-
-    let caja_correo = document.createElement('div')
-    caja_correo.id = "caja_correo"
-
-    let titulo_correo = document.createElement('label')
-    titulo_correo.id = "titulo_correo"
-    titulo_correo.innerHTML = buscarLiteral(literales, titulo_correo.id)
-
-    let texto_correo = document.createElement('p')
-    texto_correo.id = "texto_correo"
-    texto_correo.innerHTML = buscarLiteral(literales, texto_correo.id)
-
-    caja_correo.appendChild(titulo_correo)
-    caja_correo.appendChild(texto_correo)
-
-    let caja_sexo = document.createElement('div')
-    caja_sexo.id = "caja_sexo"
-
-    let titulo_sexo = document.createElement('label')
-    titulo_sexo.id = "titulo_sexo"
-    titulo_sexo.innerHTML = buscarLiteral(literales, titulo_sexo.id)
-
-    let texto_sexo = document.createElement('p')
-    texto_sexo.id = "texto_sexo"
-    texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id) 
-
-    caja_sexo.appendChild(titulo_sexo)
-    caja_sexo.appendChild(texto_sexo)
-
-    let caja_rol = document.createElement('div')
-    caja_rol.id = "caja_rol"
-
-    let titulo_rol = document.createElement('label')
-    titulo_rol.id = "titulo_rol"
-    titulo_rol.innerHTML = buscarLiteral(literales, titulo_rol.id)
-
-    let texto_rol = document.createElement('p')
-    texto_rol.id = "texto_rol"
-    texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
-
-    caja_rol.appendChild(titulo_rol)
-    caja_rol.appendChild(texto_rol)
-
-    caja_perfil.appendChild(caja_nombre)
-    caja_perfil.appendChild(document.createElement('br'))
-    caja_perfil.appendChild(caja_correo)
-    caja_perfil.appendChild(document.createElement('br'))
-    caja_perfil.appendChild(caja_sexo)
-    caja_perfil.appendChild(document.createElement('br'))
-    caja_perfil.appendChild(caja_rol)
-    caja_perfil.appendChild(document.createElement('br'))
-
-    let caja_botones_edicion = document.createElement('div')
-    caja_botones_edicion.id = "caja_botones_edicion"
-
-    let boton_cambiar_contra = document.createElement('button')
-    boton_cambiar_contra.id = "boton_cambiar_contra"
-    boton_cambiar_contra.classList.add("botones_seccion1")
-    boton_cambiar_contra.innerHTML = buscarLiteral(literales, boton_cambiar_contra.id)
-    boton_cambiar_contra.onclick = e => {
-        e.preventDefault()
-        Swal.fire({
-            showDenyButton: true,
-            confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
-            denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
-            html:   "<form>"+
-                        "<label id='titulo_clave_antigua' for='clave_antigua'>"+
-                        buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
-                        "<input id='clave_antigua' type='password' name='clave_antigua'>"+
-                        "<br>"+
-                        "<label id='titulo_clave_nueva' for='clave_nueva'>"+
-                        buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
-                        "<input id='clave_nueva' type='password' name='clave_antigua'>"+
-                        "<br>"+
-                        "<label id='titulo_clave_nueva_conf' for='clave_nueva_confir'>"+
-                        buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
-                        "<input id='clave_nueva_confir' type='password' name='clave_antigua'>"+
-                    "</form>",
-            preConfirm: () => {
-                const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
-                const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
-                const clave_nueva_confir = Swal.getPopup().querySelector('#clave_nueva_confir').value
-                if (!clave_antigua) {
-                    Swal.showValidationMessage("hola")
-                } else {
-                    return {
-                        clave_antigua: clave_antigua,
-                        clave_nueva: clave_nueva,
-                        clave_nueva_confir: clave_nueva_confir
-                    }
-                }
-            }
-        })
-            .then( response => {
-                let url = '../../back/controladores/cambiarContrasena.php'
-                let params = {
-                    method: 'POST',
-                    body: JSON.stringify(response)
-                }
-                fetch(url, params)
-                    .then(req => req.json())
-                    .then( respuesta => {
-                        console.log(respuesta)
-                        if (respuesta) {
-                            //alerta todo bien
-                        } else {
-                            //alerta error
-                        }
-                    })
-            })
+    let url = '../../back/controladores/getMiPerfil.php'
+    let params = {
+        method: 'GET',
     }
+    fetch(url, params)
+        .then(req => req.json())
+        .then( usuario => {
+            console.log(usuario)
+            
+            //TODO CAMBIAR TODO ESTO UTILIZANDO LA VARIABLE USUARIO 
+            let main = document.body.children[1]
 
-    let boton_guardar = document.createElement('button')
-    boton_guardar.id = "boton_guardar"
-    boton_guardar.classList.add("botones_seccion1")
-    boton_guardar.classList.add("ocul")
-    boton_guardar.innerHTML = buscarLiteral(literales, boton_guardar.id)
-    boton_guardar.onclick = e => {
-            e.preventDefault()
-            boton_edicion.classList = 'botones_seccion1 aparecer'
-            boton_guardar.classList = 'botones_seccion1 ocul'
+            let div_section1 = document.createElement('div')
+            div_section1.id = "section1"
 
-            //Guardado de perfil
-            let bodyContent = {
-                nombre: document.getElementById('nombre').value,
-                email: document.getElementById('email').value,
-                sexo: document.getElementById('sexo').value,
-                perfil_busqueda: document.getElementById('rol').value
-            }
-            let url = '../../back/controladores/actualizarPerfil.php'
-            let params = {
-                method: 'POST',
-                body: JSON.stringify(bodyContent)
-            }
-            fetch(url, params)
-                .then(req => req.json())
-                .then( datos => {
-                    console.log(datos)
-                })
-        }
+            let caja_perfil_imagen = document.createElement('div')
+            caja_perfil_imagen.id = "caja_perfil_imagen"
 
-    let boton_edicion = document.createElement('button')
-    boton_edicion.id = "boton_edicion"
-    boton_edicion.classList.add("botones_seccion1")
-    boton_edicion.innerHTML = buscarLiteral(literales, boton_edicion.id)
-    boton_edicion.onclick = e => {
-            e.preventDefault()
-            boton_guardar.classList = 'botones_seccion1 aparecer'
-            boton_edicion.classList = 'botones_seccion1 ocul'
+            let img_perfil = document.createElement('img')
+            img_perfil.id = "imgPerfil"
+            img_perfil.src = "front/img/imgPerfil/perfil.png"
 
-            //Edición de campos de perfíl  
-            let texto_nombre = document.getElementById('texto_nombre')
-            let datos_nombre = texto_nombre.innerHTML
-            texto_nombre.remove()
-            texto_nombre = document.createElement('input')
-            texto_nombre.id = "nombre"
-            texto_nombre.classList.add('textos')
-            texto_nombre.type = "text"
-            texto_nombre.name = "usuario"
-            texto_nombre.maxLength = 50
-            texto_nombre.pattern = "^[A-Za-z0-9_-]{2,50}"
-            texto_nombre.value = datos_nombre
-            texto_nombre.required = true
+            let usuario_nick = document.createElement('h1')
+            usuario_nick.id = "usuario_nick" 
+            usuario_nick.innerHTML = "Denche11"//usuario.nick
 
+            caja_perfil_imagen.appendChild(img_perfil)
+            caja_perfil_imagen.appendChild(usuario_nick)
+
+            let caja_perfil = document.createElement('div')
+            caja_perfil.id = "caja_perfil"
+
+            let caja_nombre = document.createElement('div')
+            caja_nombre.id = "caja_nombre"
+
+            let titulo_nombre = document.createElement('label')
+            titulo_nombre.id = "titulo_nombre"
+            titulo_nombre.innerHTML = buscarLiteral(literales, titulo_nombre.id)
+
+            var texto_nombre = document.createElement('p')
+            texto_nombre.id = "texto_nombre"
+            texto_nombre.innerHTML = buscarLiteral(literales, texto_nombre.id)
+
+            caja_nombre.appendChild(titulo_nombre)
             caja_nombre.appendChild(texto_nombre)
 
-            let texto_correo = document.getElementById('texto_correo')
-            let datos_correo = texto_correo.innerHTML
-            texto_correo.remove()
-            texto_correo = document.createElement('input')
-            texto_correo.id = "texto_correo"
-            texto_correo.classList.add('textos')
-            texto_correo.type = "email"
-            texto_correo.name = "email" 
-            texto_correo.minLength = 5
-            texto_correo.maxLength = 150
-            texto_correo.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            texto_correo.title = datos_correo
+            let caja_correo = document.createElement('div')
+            caja_correo.id = "caja_correo"
 
+            let titulo_correo = document.createElement('label')
+            titulo_correo.id = "titulo_correo"
+            titulo_correo.innerHTML = buscarLiteral(literales, titulo_correo.id)
+
+            let texto_correo = document.createElement('p')
+            texto_correo.id = "texto_correo"
+            texto_correo.innerHTML = buscarLiteral(literales, texto_correo.id)
+
+            caja_correo.appendChild(titulo_correo)
             caja_correo.appendChild(texto_correo)
 
-            let select_sexo = document.getElementById('texto_sexo')
-            let datos_sexo = select_sexo.innerHTML
-            texto_sexo.remove()
-            select_sexo = document.createElement('select')
-            select_sexo.id = "sexo"
-            select_sexo.classList.add('textos')
-            select_sexo.name = "sexo" 
-            select_sexo.required = true
-            
-            let option_hombre = document.createElement('option')
-            option_hombre.value = 1 
-            option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
+            let caja_sexo = document.createElement('div')
+            caja_sexo.id = "caja_sexo"
 
-            let option_mujer = document.createElement('option')
-            option_mujer.value = 2 
-            option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
+            let titulo_sexo = document.createElement('label')
+            titulo_sexo.id = "titulo_sexo"
+            titulo_sexo.innerHTML = buscarLiteral(literales, titulo_sexo.id)
 
-            let option_otros = document.createElement('option')
-            option_otros.value = 3 
-            option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
+            let texto_sexo = document.createElement('p')
+            texto_sexo.id = "texto_sexo"
+            texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id) 
 
-            if(datos_sexo == 1){
-                select_sexo.appendChild(option_hombre)
-                select_sexo.appendChild(option_mujer)
-                select_sexo.appendChild(option_otros)
-            }else if (datos_sexo == 2){
-                select_sexo.appendChild(option_mujer)
-                select_sexo.appendChild(option_hombre)
-                select_sexo.appendChild(option_otros)
-            }else{
-                select_sexo.appendChild(option_otros)
-                select_sexo.appendChild(option_hombre)
-                select_sexo.appendChild(option_mujer)
-            }
+            caja_sexo.appendChild(titulo_sexo)
+            caja_sexo.appendChild(texto_sexo)
 
-            caja_sexo.appendChild(select_sexo)
+            let caja_rol = document.createElement('div')
+            caja_rol.id = "caja_rol"
 
-            let select_rol = document.getElementById('texto_rol')
-            let datos_rol = select_rol.innerHTML
-            texto_rol.remove()
-            select_rol = document.createElement('select')
-            select_rol.id = "rol"
-            select_rol.classList.add('textos')
-            select_rol.name = "rol" 
-            select_rol.required = true
-            
-            let option_bus_hombre = document.createElement('option')
-            option_bus_hombre.value = 1 
-            option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
+            let titulo_rol = document.createElement('label')
+            titulo_rol.id = "titulo_rol"
+            titulo_rol.innerHTML = buscarLiteral(literales, titulo_rol.id)
 
-            let option_bus_mujer = document.createElement('option')
-            option_bus_mujer.value = 2
-            option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
+            let texto_rol = document.createElement('p')
+            texto_rol.id = "texto_rol"
+            texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
 
-            let option_bus_ambos = document.createElement('option')
-            option_bus_ambos.value = 3
-            option_bus_ambos.innerHTML = buscarLiteral(literales, select_rol.id + '_ambos') 
+            caja_rol.appendChild(titulo_rol)
+            caja_rol.appendChild(texto_rol)
 
-            
-            if(datos_sexo == 1){
-                select_rol.appendChild(option_bus_hombre)
-                select_rol.appendChild(option_bus_mujer)
-                select_rol.appendChild(option_bus_ambos)
-            }else if (datos_sexo == 2){
-                select_rol.appendChild(option_bus_mujer)
-                select_rol.appendChild(option_bus_hombre)
-                select_rol.appendChild(option_bus_ambos)
-            }else{
-                select_rol.appendChild(option_bus_ambos)
-                select_rol.appendChild(option_bus_hombre)
-                select_rol.appendChild(option_bus_mujer)
-            }
+            caja_perfil.appendChild(caja_nombre)
+            caja_perfil.appendChild(document.createElement('br'))
+            caja_perfil.appendChild(caja_correo)
+            caja_perfil.appendChild(document.createElement('br'))
+            caja_perfil.appendChild(caja_sexo)
+            caja_perfil.appendChild(document.createElement('br'))
+            caja_perfil.appendChild(caja_rol)
+            caja_perfil.appendChild(document.createElement('br'))
 
-            caja_rol.appendChild(select_rol)
-        }
+            let caja_botones_edicion = document.createElement('div')
+            caja_botones_edicion.id = "caja_botones_edicion"
 
-    let boton_anadir_publi = document.createElement('button')
-    boton_anadir_publi.id = "boton_anadir_publi"
-    boton_anadir_publi.classList.add("botones_seccion1")
-    boton_anadir_publi.innerHTML = buscarLiteral(literales, boton_anadir_publi.id)
-    boton_anadir_publi.onclick = e => {
-        e.preventDefault()
-        Swal.fire({
-            showDenyButton: true,
-            confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
-            denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
-            html:   "<form>"+
-                        "<input id='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
-                        "<br>"+
-                        "<input id='texto' type='text'>"+
-                    "</form>",
-            preConfirm: () => {
-                const archivo = Swal.getPopup().querySelector('#archivo').value
-                const texto = Swal.getPopup().querySelector('#texto').value
-                if (!archivo) {
-                    Swal.showValidationMessage("hola")
-                } else {
-                    return {
-                        archivo: archivo,
-                        texto: texto
-                    }
-                }
-            }
-        })
-            .then( response => {
-                let url = '../../back/controladores/subirPublicacion.php'
-                let params = {
-                    method: 'POST',
-                    body: JSON.stringify(response)
-                }
-                fetch(url, params)
-                    .then(req => req.json())
-                    .then( respuesta => {
-                        console.log(respuesta)
-                        if (respuesta) {
-                            //alerta todo bien
+            let boton_cambiar_contra = document.createElement('button')
+            boton_cambiar_contra.id = "boton_cambiar_contra"
+            boton_cambiar_contra.classList.add("botones_seccion1")
+            boton_cambiar_contra.innerHTML = buscarLiteral(literales, boton_cambiar_contra.id)
+            boton_cambiar_contra.onclick = e => {
+                e.preventDefault()
+                Swal.fire({
+                    showDenyButton: true,
+                    confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+                    denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+                    html:   "<form>"+
+                                "<label id='titulo_clave_antigua' for='clave_antigua'>"+
+                                buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
+                                "<input id='clave_antigua' type='password' name='clave_antigua'>"+
+                                "<br>"+
+                                "<label id='titulo_clave_nueva' for='clave_nueva'>"+
+                                buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
+                                "<input id='clave_nueva' type='password' name='clave_antigua'>"+
+                                "<br>"+
+                                "<label id='titulo_clave_nueva_conf' for='clave_nueva_confir'>"+
+                                buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
+                                "<input id='clave_nueva_confir' type='password' name='clave_antigua'>"+
+                            "</form>",
+                    preConfirm: () => {
+                        const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
+                        const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
+                        const clave_nueva_confir = Swal.getPopup().querySelector('#clave_nueva_confir').value
+                        if (!clave_antigua) {
+                            Swal.showValidationMessage("hola")
                         } else {
-                            //alerta error
+                            return {
+                                clave_antigua: clave_antigua,
+                                clave_nueva: clave_nueva,
+                                clave_nueva_confir: clave_nueva_confir
+                            }
                         }
+                    }
+                })
+                    .then( response => {
+                        let url = '../../back/controladores/cambiarContrasena.php'
+                        let params = {
+                            method: 'POST',
+                            body: JSON.stringify(response)
+                        }
+                        fetch(url, params)
+                            .then(req => req.json())
+                            .then( respuesta => {
+                                console.log(respuesta)
+                                if (respuesta) {
+                                    //alerta todo bien
+                                } else {
+                                    //alerta error
+                                }
+                            })
                     })
-            })
-    }
+            }
 
-    caja_botones_edicion.appendChild(boton_cambiar_contra)
-    caja_botones_edicion.appendChild(boton_guardar)
-    caja_botones_edicion.appendChild(boton_edicion)
-    caja_botones_edicion.appendChild(boton_anadir_publi)
+            let boton_guardar = document.createElement('button')
+            boton_guardar.id = "boton_guardar"
+            boton_guardar.classList.add("botones_seccion1")
+            boton_guardar.classList.add("ocul")
+            boton_guardar.innerHTML = buscarLiteral(literales, boton_guardar.id)
+            boton_guardar.onclick = e => {
+                    e.preventDefault()
+                    boton_edicion.classList = 'botones_seccion1 aparecer'
+                    boton_guardar.classList = 'botones_seccion1 ocul'
 
-    div_section1.appendChild(caja_perfil_imagen)
-    div_section1.appendChild(caja_perfil)
-    div_section1.appendChild(caja_botones_edicion)
+                    //Guardado de perfil
+                    let bodyContent = {
+                        nombre: document.getElementById('nombre').value,
+                        email: document.getElementById('email').value,
+                        sexo: document.getElementById('sexo').value,
+                        perfil_busqueda: document.getElementById('rol').value
+                    }
+                    let url = '../../back/controladores/actualizarPerfil.php'
+                    let params = {
+                        method: 'POST',
+                        body: JSON.stringify(bodyContent)
+                    }
+                    fetch(url, params)
+                        .then(req => req.json())
+                        .then( datos => {
+                            console.log(datos)
+                        })
+                }
 
-    let div_btn_img_vid = document.createElement('div')
-    div_btn_img_vid.id = "btnImgVid"
+            let boton_edicion = document.createElement('button')
+            boton_edicion.id = "boton_edicion"
+            boton_edicion.classList.add("botones_seccion1")
+            boton_edicion.innerHTML = buscarLiteral(literales, boton_edicion.id)
+            boton_edicion.onclick = e => {
+                    e.preventDefault()
+                    boton_guardar.classList = 'botones_seccion1 aparecer'
+                    boton_edicion.classList = 'botones_seccion1 ocul'
 
-    let boton_imagenes = document.createElement('button')
-    boton_imagenes.id = "btnImagenes"
+                    //Edición de campos de perfíl  
+                    let texto_nombre = document.getElementById('texto_nombre')
+                    let datos_nombre = texto_nombre.innerHTML
+                    texto_nombre.remove()
+                    texto_nombre = document.createElement('input')
+                    texto_nombre.id = "nombre"
+                    texto_nombre.classList.add('textos')
+                    texto_nombre.type = "text"
+                    texto_nombre.name = "usuario"
+                    texto_nombre.maxLength = 50
+                    texto_nombre.pattern = "^[A-Za-z0-9_-]{2,50}"
+                    texto_nombre.value = datos_nombre
+                    texto_nombre.required = true
 
-    let h2_boton_imagenes = document.createElement('h2')
-    h2_boton_imagenes.id = "h2_boton_imagenes"
-    h2_boton_imagenes.innerHTML = buscarLiteral(literales, h2_boton_imagenes.id)
-    h2_boton_imagenes.onmouseover = () =>{
-        div_dis_img.classList.remove("ocultar")
-        h2_boton_imagenes.classList.toggle("btnActivo")
-        if (!div_dis_vid.classList.contains("ocultar")){
-            div_dis_vid.classList.add("ocultar")
-        }
-        if (h2_boton_videos.classList.contains("btnActivo")){
-            h2_boton_videos.classList.remove("btnActivo")
-        }
-    }
+                    caja_nombre.appendChild(texto_nombre)
 
-    boton_imagenes.appendChild(h2_boton_imagenes)
+                    let texto_correo = document.getElementById('texto_correo')
+                    let datos_correo = texto_correo.innerHTML
+                    texto_correo.remove()
+                    texto_correo = document.createElement('input')
+                    texto_correo.id = "texto_correo"
+                    texto_correo.classList.add('textos')
+                    texto_correo.type = "email"
+                    texto_correo.name = "email" 
+                    texto_correo.minLength = 5
+                    texto_correo.maxLength = 150
+                    texto_correo.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    texto_correo.title = datos_correo
 
-    let boton_videos = document.createElement('button')
-    boton_videos.id = "btnVideos"
+                    caja_correo.appendChild(texto_correo)
 
-    let h2_boton_videos = document.createElement('h2')
-    h2_boton_videos.id = "h2_boton_videos"
-    h2_boton_videos.innerHTML = buscarLiteral(literales, h2_boton_videos.id)
-    h2_boton_videos.onmouseover = () =>{
-        div_dis_vid.classList.remove("ocultar")
-        h2_boton_videos.classList.toggle("btnActivo")
-        if (!div_dis_img.classList.contains("ocultar")){
+                    let select_sexo = document.getElementById('texto_sexo')
+                    let datos_sexo = select_sexo.innerHTML
+                    texto_sexo.remove()
+                    select_sexo = document.createElement('select')
+                    select_sexo.id = "sexo"
+                    select_sexo.classList.add('textos')
+                    select_sexo.name = "sexo" 
+                    select_sexo.required = true
+                    
+                    let option_hombre = document.createElement('option')
+                    option_hombre.value = 1 
+                    option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
+
+                    let option_mujer = document.createElement('option')
+                    option_mujer.value = 2 
+                    option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
+
+                    let option_otros = document.createElement('option')
+                    option_otros.value = 3 
+                    option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
+
+                    if(datos_sexo == 1){
+                        select_sexo.appendChild(option_hombre)
+                        select_sexo.appendChild(option_mujer)
+                        select_sexo.appendChild(option_otros)
+                    }else if (datos_sexo == 2){
+                        select_sexo.appendChild(option_mujer)
+                        select_sexo.appendChild(option_hombre)
+                        select_sexo.appendChild(option_otros)
+                    }else{
+                        select_sexo.appendChild(option_otros)
+                        select_sexo.appendChild(option_hombre)
+                        select_sexo.appendChild(option_mujer)
+                    }
+
+                    caja_sexo.appendChild(select_sexo)
+
+                    let select_rol = document.getElementById('texto_rol')
+                    let datos_rol = select_rol.innerHTML
+                    texto_rol.remove()
+                    select_rol = document.createElement('select')
+                    select_rol.id = "rol"
+                    select_rol.classList.add('textos')
+                    select_rol.name = "rol" 
+                    select_rol.required = true
+                    
+                    let option_bus_hombre = document.createElement('option')
+                    option_bus_hombre.value = 1 
+                    option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
+
+                    let option_bus_mujer = document.createElement('option')
+                    option_bus_mujer.value = 2
+                    option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
+
+                    let option_bus_ambos = document.createElement('option')
+                    option_bus_ambos.value = 3
+                    option_bus_ambos.innerHTML = buscarLiteral(literales, select_rol.id + '_ambos') 
+
+                    
+                    if(datos_sexo == 1){
+                        select_rol.appendChild(option_bus_hombre)
+                        select_rol.appendChild(option_bus_mujer)
+                        select_rol.appendChild(option_bus_ambos)
+                    }else if (datos_sexo == 2){
+                        select_rol.appendChild(option_bus_mujer)
+                        select_rol.appendChild(option_bus_hombre)
+                        select_rol.appendChild(option_bus_ambos)
+                    }else{
+                        select_rol.appendChild(option_bus_ambos)
+                        select_rol.appendChild(option_bus_hombre)
+                        select_rol.appendChild(option_bus_mujer)
+                    }
+
+                    caja_rol.appendChild(select_rol)
+                }
+
+            let boton_anadir_publi = document.createElement('button')
+            boton_anadir_publi.id = "boton_anadir_publi"
+            boton_anadir_publi.classList.add("botones_seccion1")
+            boton_anadir_publi.innerHTML = buscarLiteral(literales, boton_anadir_publi.id)
+            boton_anadir_publi.onclick = e => {
+                e.preventDefault()
+                Swal.fire({
+                    showDenyButton: true,
+                    confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+                    denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+                    html:   "<form>"+
+                                "<input id='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
+                                "<br>"+
+                                "<input id='texto' type='text'>"+
+                            "</form>",
+                    preConfirm: () => {
+                        const archivo = Swal.getPopup().querySelector('#archivo').value
+                        const texto = Swal.getPopup().querySelector('#texto').value
+                        if (!archivo) {
+                            Swal.showValidationMessage("hola")
+                        } else {
+                            return {
+                                archivo: archivo,
+                                texto: texto
+                            }
+                        }
+                    }
+                })
+                    .then( response => {
+                        let url = '../../back/controladores/subirPublicacion.php'
+                        let params = {
+                            method: 'POST',
+                            body: JSON.stringify(response)
+                        }
+                        fetch(url, params)
+                            .then(req => req.json())
+                            .then( respuesta => {
+                                console.log(respuesta)
+                                if (respuesta) {
+                                    //alerta todo bien
+                                } else {
+                                    //alerta error
+                                }
+                            })
+                    })
+            }
+
+            caja_botones_edicion.appendChild(boton_cambiar_contra)
+            caja_botones_edicion.appendChild(boton_guardar)
+            caja_botones_edicion.appendChild(boton_edicion)
+            caja_botones_edicion.appendChild(boton_anadir_publi)
+
+            div_section1.appendChild(caja_perfil_imagen)
+            div_section1.appendChild(caja_perfil)
+            div_section1.appendChild(caja_botones_edicion)
+
+            let div_btn_img_vid = document.createElement('div')
+            div_btn_img_vid.id = "btnImgVid"
+
+            let boton_imagenes = document.createElement('button')
+            boton_imagenes.id = "btnImagenes"
+
+            let h2_boton_imagenes = document.createElement('h2')
+            h2_boton_imagenes.id = "h2_boton_imagenes"
+            h2_boton_imagenes.innerHTML = buscarLiteral(literales, h2_boton_imagenes.id)
+            h2_boton_imagenes.onmouseover = () =>{
+                div_dis_img.classList.remove("ocultar")
+                h2_boton_imagenes.classList.toggle("btnActivo")
+                if (!div_dis_vid.classList.contains("ocultar")){
+                    div_dis_vid.classList.add("ocultar")
+                }
+                if (h2_boton_videos.classList.contains("btnActivo")){
+                    h2_boton_videos.classList.remove("btnActivo")
+                }
+            }
+
+            boton_imagenes.appendChild(h2_boton_imagenes)
+
+            let boton_videos = document.createElement('button')
+            boton_videos.id = "btnVideos"
+
+            let h2_boton_videos = document.createElement('h2')
+            h2_boton_videos.id = "h2_boton_videos"
+            h2_boton_videos.innerHTML = buscarLiteral(literales, h2_boton_videos.id)
+            h2_boton_videos.onmouseover = () =>{
+                div_dis_vid.classList.remove("ocultar")
+                h2_boton_videos.classList.toggle("btnActivo")
+                if (!div_dis_img.classList.contains("ocultar")){
+                    div_dis_img.classList.add("ocultar")
+                }
+                if (h2_boton_imagenes.classList.contains("btnActivo")){
+                    h2_boton_imagenes.classList.remove("btnActivo")
+                }
+            }
+
+            boton_videos.appendChild(h2_boton_videos)
+
+            div_btn_img_vid.appendChild(boton_imagenes)
+            div_btn_img_vid.appendChild(boton_videos)
+
+            let div_dis_img = document.createElement('div')
+            div_dis_img.id = "disImg"
             div_dis_img.classList.add("ocultar")
-        }
-        if (h2_boton_imagenes.classList.contains("btnActivo")){
-            h2_boton_imagenes.classList.remove("btnActivo")
-        }
-    }
 
-    boton_videos.appendChild(h2_boton_videos)
+            let div_caj_imagenes = document.createElement('div')
+            div_caj_imagenes.id = "cajImagenes"
 
-    div_btn_img_vid.appendChild(boton_imagenes)
-    div_btn_img_vid.appendChild(boton_videos)
+            let imagen1 = document.createElement('img')
+            imagen1.src = "../img/imgImagenes/img1.png"
+            imagen1.classList.add("imagenes")
 
-    let div_dis_img = document.createElement('div')
-    div_dis_img.id = "disImg"
-    div_dis_img.classList.add("ocultar")
+            let imagen2 = document.createElement('img')
+            imagen2.src = "../img/imgImagenes/img2.png"
+            imagen2.classList.add("imagenes")
+            
+            let imagen3 = document.createElement('img')
+            imagen3.src = "../img/imgImagenes/img3.png"
+            imagen3.classList.add("imagenes")
 
-    let div_caj_imagenes = document.createElement('div')
-    div_caj_imagenes.id = "cajImagenes"
+            let imagen4 = document.createElement('img')
+            imagen4.src = "../img/imgImagenes/img4.png"
+            imagen4.classList.add("imagenes")
 
-    let imagen1 = document.createElement('img')
-    imagen1.src = "../img/imgImagenes/img1.png"
-    imagen1.classList.add("imagenes")
+            let imagen5 = document.createElement('img')
+            imagen5.src = "../img/imgImagenes/img5.png"
+            imagen5.classList.add("imagenes")
 
-    let imagen2 = document.createElement('img')
-    imagen2.src = "../img/imgImagenes/img2.png"
-    imagen2.classList.add("imagenes")
-    
-    let imagen3 = document.createElement('img')
-    imagen3.src = "../img/imgImagenes/img3.png"
-    imagen3.classList.add("imagenes")
+            let imagen6 = document.createElement('img')
+            imagen6.src = "../img/imgImagenes/img6.png"
+            imagen6.classList.add("imagenes")
 
-    let imagen4 = document.createElement('img')
-    imagen4.src = "../img/imgImagenes/img4.png"
-    imagen4.classList.add("imagenes")
+            let imagen7 = document.createElement('img')
+            imagen7.src = "../img/imgImagenes/img7.png"
+            imagen7.classList.add("imagenes")
 
-    let imagen5 = document.createElement('img')
-    imagen5.src = "../img/imgImagenes/img5.png"
-    imagen5.classList.add("imagenes")
+            let imagen8 = document.createElement('img')
+            imagen8.src = "../img/imgImagenes/img8.png"
+            imagen8.classList.add("imagenes")
 
-    let imagen6 = document.createElement('img')
-    imagen6.src = "../img/imgImagenes/img6.png"
-    imagen6.classList.add("imagenes")
+            div_caj_imagenes.appendChild(imagen1)
+            div_caj_imagenes.appendChild(imagen2)
+            div_caj_imagenes.appendChild(imagen3)
+            div_caj_imagenes.appendChild(imagen4)
+            div_caj_imagenes.appendChild(imagen5)
+            div_caj_imagenes.appendChild(imagen6)
+            div_caj_imagenes.appendChild(imagen7)
+            div_caj_imagenes.appendChild(imagen8)
 
-    let imagen7 = document.createElement('img')
-    imagen7.src = "../img/imgImagenes/img7.png"
-    imagen7.classList.add("imagenes")
+            div_dis_img.appendChild(div_caj_imagenes)
 
-    let imagen8 = document.createElement('img')
-    imagen8.src = "../img/imgImagenes/img8.png"
-    imagen8.classList.add("imagenes")
+            let div_dis_vid = document.createElement('div')
+            div_dis_vid.id = "disVid"
+            div_dis_vid.classList.add("ocultar")
 
-    div_caj_imagenes.appendChild(imagen1)
-    div_caj_imagenes.appendChild(imagen2)
-    div_caj_imagenes.appendChild(imagen3)
-    div_caj_imagenes.appendChild(imagen4)
-    div_caj_imagenes.appendChild(imagen5)
-    div_caj_imagenes.appendChild(imagen6)
-    div_caj_imagenes.appendChild(imagen7)
-    div_caj_imagenes.appendChild(imagen8)
+            let div_caj_videos = document.createElement('div')
+            div_caj_videos.id = "cajVideos"
 
-    div_dis_img.appendChild(div_caj_imagenes)
+            let video1 = document.createElement('img')
+            video1.src = "../img/imgVideos/vid1.png"
+            video1.classList.add("videos")
 
-    let div_dis_vid = document.createElement('div')
-    div_dis_vid.id = "disVid"
-    div_dis_vid.classList.add("ocultar")
+            let video2 = document.createElement('img')
+            video2.src = "../img/imgVideos/vid2.png"
+            video2.classList.add("videos")
+            
+            let video3 = document.createElement('img')
+            video3.src = "../img/imgVideos/vid3.png"
+            video3.classList.add("videos")
 
-    let div_caj_videos = document.createElement('div')
-    div_caj_videos.id = "cajVideos"
+            let video4 = document.createElement('img')
+            video4.src = "../img/imgVideos/vid4.png"
+            video4.classList.add("videos")
 
-    let video1 = document.createElement('img')
-    video1.src = "../img/imgVideos/vid1.png"
-    video1.classList.add("videos")
+            let video5 = document.createElement('img')
+            video5.src = "../img/imgVideos/vid5.png"
+            video5.classList.add("videos")
 
-    let video2 = document.createElement('img')
-    video2.src = "../img/imgVideos/vid2.png"
-    video2.classList.add("videos")
-    
-    let video3 = document.createElement('img')
-    video3.src = "../img/imgVideos/vid3.png"
-    video3.classList.add("videos")
+            let video6 = document.createElement('img')
+            video6.src = "../img/imgVideos/vid6.png"
+            video6.classList.add("videos")
 
-    let video4 = document.createElement('img')
-    video4.src = "../img/imgVideos/vid4.png"
-    video4.classList.add("videos")
+            let video7 = document.createElement('img')
+            video7.src = "../img/imgVideos/vid7.png"
+            video7.classList.add("videos")
 
-    let video5 = document.createElement('img')
-    video5.src = "../img/imgVideos/vid5.png"
-    video5.classList.add("videos")
+            let video8 = document.createElement('img')
+            video8.src = "../img/imgVideos/vid8.png"
+            video8.classList.add("videos")
 
-    let video6 = document.createElement('img')
-    video6.src = "../img/imgVideos/vid6.png"
-    video6.classList.add("videos")
+            div_caj_videos.appendChild(video1)
+            div_caj_videos.appendChild(video2)
+            div_caj_videos.appendChild(video3)
+            div_caj_videos.appendChild(video4)
+            div_caj_videos.appendChild(video5)
+            div_caj_videos.appendChild(video6)
+            div_caj_videos.appendChild(video7)
+            div_caj_videos.appendChild(video8)
 
-    let video7 = document.createElement('img')
-    video7.src = "../img/imgVideos/vid7.png"
-    video7.classList.add("videos")
+            div_dis_vid.appendChild(div_caj_videos)
 
-    let video8 = document.createElement('img')
-    video8.src = "../img/imgVideos/vid8.png"
-    video8.classList.add("videos")
+            main.appendChild(div_section1)
+            main.appendChild(div_btn_img_vid)
+            main.appendChild(div_dis_img)
+            main.appendChild(div_dis_vid)
 
-    div_caj_videos.appendChild(video1)
-    div_caj_videos.appendChild(video2)
-    div_caj_videos.appendChild(video3)
-    div_caj_videos.appendChild(video4)
-    div_caj_videos.appendChild(video5)
-    div_caj_videos.appendChild(video6)
-    div_caj_videos.appendChild(video7)
-    div_caj_videos.appendChild(video8)
-
-    div_dis_vid.appendChild(div_caj_videos)
-
-    main.appendChild(div_section1)
-    main.appendChild(div_btn_img_vid)
-    main.appendChild(div_dis_img)
-    main.appendChild(div_dis_vid)
+        })
 }
 
 function cargarFooter(literales) {
