@@ -150,12 +150,18 @@
                 $sql = "SELECT publi.id, nick, texto, imagen, creado, 
                         distanciaCoordenadas(X(ubicacion), Y(ubicacion), X(ubicacion_yo), Y(ubicacion_yo)) as distancia,
                         ABS(DATEDIFF(fecha_nacimiento, fecha_yo)) as dif_edad,
+                        labios_yo, pulgar_yo, fuego_yo, corazon_yo, dislike_yo,
                         labios, pulgares, fuegos, corazones, dislikes, c.id as id_comentario, 
                         c.fecha as fecha_comentario, c.comentario, c.nick_comenta
                         FROM (	
                             SELECT p.*, u.nick, u.ubicacion, u.fecha_nacimiento, 
                             (SELECT ubicacion FROM usuarios WHERE nick='$nick') as ubicacion_yo,
                             (SELECT fecha_nacimiento FROM usuarios WHERE nick='$nick') as fecha_yo,
+                            (SELECT COALESCE(SUM(labios), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as labios_yo,
+                            (SELECT COALESCE(SUM(pulgar), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as pulgar_yo,
+                            (SELECT COALESCE(SUM(fuego), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as fuego_yo,
+                            (SELECT COALESCE(SUM(corazon), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as corazon_yo,
+                            (SELECT COALESCE(SUM(dislike), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as dislike_yo,
                             COALESCE(SUM(r.labios), 0) as labios, COALESCE(SUM(r.pulgar), 0) as pulgares, 
                             COALESCE(SUM(r.fuego), 0) as fuegos, COALESCE(SUM(r.corazon), 0) as corazones, 
                             COALESCE(SUM(r.dislike), 0) as dislikes
@@ -196,6 +202,11 @@
                             'fuegos' => $recomendacion['fuegos'],
                             'corazones' => $recomendacion['corazones'],
                             'dislikes' => $recomendacion['dislikes'],
+                            'labios_yo' => $recomendacion['labios_yo'],
+                            'pulgar_yo' => $recomendacion['pulgar_yo'],
+                            'fuego_yo' => $recomendacion['fuego_yo'],
+                            'corazon_yo' => $recomendacion['corazon_yo'],
+                            'dislike_yo' => $recomendacion['dislike_yo'],
                             'comentarios' => array(),
                         );
                         $index = null;
@@ -231,6 +242,60 @@
                     }
                     return $resultado;
                 }
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        } 
+    }
+
+    function getMiPerfilBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT u.nick, u.nombre, u.email, u.sexo, u.perfil_busqueda, u.imagen, p.id, p.texto, p.imagen as publi, p.creado
+                        FROM usuarios u 
+                        JOIN publicaciones p
+                        ON u.nick = p.nick_publicacion
+                        WHERE u.nick='$nick'
+                        ORDER BY p.creado DESC";
+                $filas = $db->query($sql);	
+                $contador = 0;
+                foreach ($filas as $fila) {
+                    if ($contador == 0) {
+                        $contador = $contador + 1;
+                        $usuario = array(
+                            'nick' => $fila['nick'],
+                            'nombre' => !is_null($fila['nombre']) ? $fila['nombre'] : '',
+                            'email' => $fila['email'],
+                            'sexo' => $fila['sexo'],
+                            'perfil_busqueda' => $fila['perfil_busqueda'],
+                            'imagen' => $fila['imagen'],
+                            'imagenes_publicadas' => array(),
+                            'videos_publicados' => array(),
+                        );
+                    }
+                    if (explode("/", $fila['publi'])[3] == "img") {
+                        $imagen = array(
+                            'id' => $fila['id'],
+                            'texto' => $fila['texto'],
+                            'publi' => $fila['publi'],
+                            'creado' => $fila['creado'],
+                        );
+                        array_push($usuario['imagenes_publicadas'], $imagen);
+                    } else {
+                        $video = array(
+                            'id' => $fila['id'],
+                            'texto' => $fila['texto'],
+                            'publi' => $fila['publi'],
+                            'creado' => $fila['creado'],
+                        );
+                        array_push($usuario['videos_publicados'], $video);
+                    }
+                }
+                return $usuario;
             } catch (Exception $e) {
                 return $e->getMessage();
             }

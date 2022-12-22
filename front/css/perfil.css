@@ -2,6 +2,11 @@ img {
     width: 25%;
     height: auto;
 }
+footer img{
+    object-fit: contain;
+    width: 33%;
+    cursor: pointer;
+}
 #logo{
     height: 100%;
     object-fit: contain;
@@ -105,26 +110,33 @@ main{
 hr{
     border: 2px solid black;
 }
-#imgPerfil{
+#caja_perfil_imagen{
     width: 20%;
+    margin: 1%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+#imgPerfil{
+    width: 99%;
     height: 250px;
-    margin: 2%;
+    margin: 1%;
     background-size: cover;
     border-radius: 50%;
     border: 2px solid black;
 }
 #caja_perfil{
-    width: 57%;
+    width: 30%;
     height: 100%;
-    margin: 2%;
-    margin-left: 5%;
+    margin: 1%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
 }
 #caja_nombre, #caja_correo, #caja_sexo, #caja_rol{
-    width: 40%;
+    width: 82%;
     margin: 1%;
     border: 2px solid black;
     border-radius: 5px;
@@ -140,7 +152,7 @@ hr{
     padding: 1%;
 }
 #caja_botones_edicion{
-    width: 15%;
+    width: 50%;
     height: 99%;
     padding: 1%;
     display: flex;
@@ -164,13 +176,18 @@ hr{
     }
 }
 .botones_seccion1{
+    width: 100%;
     border: 2px solid black;
-    padding: 1%;
+    padding: 2%;
     border-radius: 20px;
-    background-color: #454545;
-    color: white;
+    background-color: rgb(245, 98, 135);
+    font-size: 2vh;
     text-align: center;
     cursor: pointer;
+}
+#boton_anadir_publi,#boton_edicion,#boton_guardar,#boton_cambiar_contra{
+    width: 100%;
+    padding: 1%;
 }
 .activo {
     background-color: rgb(245, 98, 135);  

@@ -211,6 +211,7 @@ function cargarMain(recomendaciones, index, literales) {
     let main = document.body.children[1]
     main.innerHTML = ""
 
+    console.log(recomendaciones)
     if (recomendaciones.length > 0) {
         let recomendacion = recomendaciones[index]
 
@@ -228,7 +229,7 @@ function cargarMain(recomendaciones, index, literales) {
             imagen_flecha_izq.onclick = e => {
                 e.preventDefault()
                 index = index - 1
-                cargarMain(recomendaciones, index)
+                cargarMain(recomendaciones, index, literales)
             }
         }
 
@@ -247,7 +248,7 @@ function cargarMain(recomendaciones, index, literales) {
             imagen_flecha_der.onclick = e => {
                 e.preventDefault()
                 index = index + 1
-                cargarMain(recomendaciones, index)
+                cargarMain(recomendaciones, index, literales)
             }
         }
     
@@ -310,13 +311,23 @@ function cargarMain(recomendaciones, index, literales) {
     
         let caja_fuego = document.createElement('div')
         caja_fuego.id = "caja_fuego"
+        if(recomendacion.fuego_yo == 1) {
+            caja_fuego.classList.add("activado")
+        } else {
+            caja_fuego.classList.remove("activado")
+        }
         caja_fuego.onclick = function(){
             
         }
     
         let logo_fuego = document.createElement('img')
         logo_fuego.id = "logo_fuego"
-        logo_fuego.src = "front/img/imgHome/fuego-desactivado.png"
+        if(recomendacion.fuego_yo == 1) {
+            logo_fuego.src = "front/img/imgHome/fuego-activado.png"
+        } else {
+            logo_fuego.src = "front/img/imgHome/fuego-desactivado.png"
+        }
+        
     
         let num_fuego = document.createElement('p')
         num_fuego.id = "num_fuego"
@@ -379,7 +390,7 @@ function cargarMain(recomendaciones, index, literales) {
         let caja_corazon = document.createElement('div')
         caja_corazon.id = "caja_corazon"
         caja_corazon.onclick = function(){
-            //fetch actualizarCorazones.php
+            //fetch actualizarCorazon.php
         }
     
         let logo_corazon = document.createElement('img')
@@ -476,7 +487,7 @@ function cargarMain(recomendaciones, index, literales) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: buscarLiteral(literales, "server_error_" + datos)
+            // text: buscarLiteral(literales, "server_error_" + datos)
         })
     }
 
@@ -484,18 +495,83 @@ function cargarMain(recomendaciones, index, literales) {
 
 }
 
-
 function cargarFooter(literales) {
     let footer = document.body.children[2]
 
     let p1 = document.createElement('p')
-    p1.id ="p1"
+    p1.id ="copyRight"
     p1.innerHTML = "© Copyright 2022"
+
+    let cajaDirecciones = document.createElement('div')
+    cajaDirecciones.id = "cajaDirecciones"
 
     let p2 = document.createElement('p')
     p2.id ="p2"
-    p2.innerHTML = buscarLiteral(literales, p2.id)
+    p2.innerHTML = "Cuore: "
+
+    let instagram = document.createElement('img')
+    instagram.src = "front/img/imgFooter/instagram.png"
+
+    let instagram_enlace = document.createElement('a')
+    instagram_enlace.id ="instagram_enlace"
+    instagram_enlace.targer = "_blank"
+    instagram_enlace.rel = "noopener noreferrer"
+    instagram_enlace.href = "https://www.instagram.com/cuore__soporte/"
+
+    instagram_enlace.appendChild(instagram)
+
+    let twitter = document.createElement('img')
+    twitter.src = "front/img/imgFooter/gorjeo.png"
+
+    let twitter_enlace = document.createElement('a')
+    twitter_enlace.id ="twitter_enlace"
+    twitter_enlace.targer = "_blank"
+    twitter_enlace.rel = "noopener noreferrer"
+    twitter_enlace.href = "https://twitter.com/cuore_soporte"
+
+    twitter_enlace.appendChild(twitter)
+
+    let gmail = document.createElement('img')
+    gmail.src = "front/img/imgFooter/gmail.png"
+
+    let gmail_enlace = document.createElement('a')
+    gmail_enlace.id ="gmail_enlace"
+    gmail_enlace.targer = "_blank"
+    gmail_enlace.rel = "noopener noreferrer"
+    gmail_enlace.href = "mailto:cuore.soporte@gmail.com"
+
+    gmail_enlace.appendChild(gmail)
+
+    let linkedin = document.createElement('img')
+    linkedin.src = "front/img/imgFooter/linkedin.png"
+
+    let linkedin_enlace = document.createElement('a')
+    linkedin_enlace.id ="linkedin_enlace"
+    linkedin_enlace.targer = "_blank"
+    linkedin_enlace.rel = "noopener noreferrer"
+    linkedin_enlace.href = "https://www.linkedin.com/in/cuore-soporte-80310525b/"
+
+    linkedin_enlace.appendChild(linkedin)
+
+    let maps = document.createElement('img')
+    maps.src = "front/img/imgFooter/marcador-de-posicion.png"
+
+    let maps_enlace = document.createElement('a')
+    maps_enlace.id ="maps_enlace"
+    maps_enlace.targer = "_blank"
+    maps_enlace.rel = "noopener noreferrer"
+    maps_enlace.href = "https://goo.gl/maps/gX2vJPVcAYoJWxxd8"
+
+    maps_enlace.appendChild(maps)
+
+    cajaDirecciones.appendChild(p2)
+    cajaDirecciones.appendChild(instagram_enlace)
+    cajaDirecciones.appendChild(twitter_enlace)
+    cajaDirecciones.appendChild(gmail_enlace)
+    cajaDirecciones.appendChild(linkedin_enlace)
+    cajaDirecciones.appendChild(maps_enlace)
 
     footer.appendChild(p1)
-    footer.appendChild(p2)
+    footer.appendChild(cajaDirecciones)
+
 }
