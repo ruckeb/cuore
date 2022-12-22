@@ -238,7 +238,7 @@ function cargarMain(literales) {
 
             let usuario_nick = document.createElement('h1')
             usuario_nick.id = "usuario_nick" 
-            usuario_nick.innerHTML = "Denche11"//usuario.nick
+            usuario_nick.innerHTML = usuario.nick
 
             caja_perfil_imagen.appendChild(img_perfil)
             caja_perfil_imagen.appendChild(usuario_nick)
@@ -255,7 +255,7 @@ function cargarMain(literales) {
 
             var texto_nombre = document.createElement('p')
             texto_nombre.id = "texto_nombre"
-            texto_nombre.innerHTML = buscarLiteral(literales, texto_nombre.id)
+            texto_nombre.innerHTML = usuario.nombre
 
             caja_nombre.appendChild(titulo_nombre)
             caja_nombre.appendChild(texto_nombre)
@@ -269,7 +269,7 @@ function cargarMain(literales) {
 
             let texto_correo = document.createElement('p')
             texto_correo.id = "texto_correo"
-            texto_correo.innerHTML = buscarLiteral(literales, texto_correo.id)
+            texto_correo.innerHTML = usuario.email
 
             caja_correo.appendChild(titulo_correo)
             caja_correo.appendChild(texto_correo)
@@ -283,7 +283,17 @@ function cargarMain(literales) {
 
             let texto_sexo = document.createElement('p')
             texto_sexo.id = "texto_sexo"
-            texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id) 
+            if(usuario.sexo == 1){
+                texto_sexo.innerHTML = buscarLiteral(literales,)
+            }else if (usuario.sexo == 2){
+                texto_sexo.innerHTML = buscarLiteral(literales,)
+            }else if (usuario.sexo == 3){
+                texto_sexo.innerHTML = buscarLiteral(literales,)
+            }else if (usuario.sexo == 4){
+                texto_sexo.innerHTML = buscarLiteral(literales,)
+            }else{
+                texto_sexo.innerHTML = buscarLiteral(literales,)
+            }
 
             caja_sexo.appendChild(titulo_sexo)
             caja_sexo.appendChild(texto_sexo)
@@ -297,7 +307,29 @@ function cargarMain(literales) {
 
             let texto_rol = document.createElement('p')
             texto_rol.id = "texto_rol"
-            texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+            if(usuario.perfil_busqueda == 1){
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 2){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 3){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 4){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 5){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 6){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 7){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 8){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 9){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else if ( usuario.perfil_busqueda == 10){
+                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+            }else{
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+            }
 
             caja_rol.appendChild(titulo_rol)
             caja_rol.appendChild(texto_rol)
@@ -452,29 +484,40 @@ function cargarMain(literales) {
                     let option_hombre = document.createElement('option')
                     option_hombre.value = 1 
                     option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
-
+                
                     let option_mujer = document.createElement('option')
                     option_mujer.value = 2 
                     option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
-
+                
+                    let option_intersexo_hombre = document.createElement('option')
+                    option_intersexo_hombre.value = 3 
+                    option_intersexo_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_intersexo_hombre')
+                
+                    let option_intersexo_mujer = document.createElement('option')
+                    option_intersexo_mujer.value = 4
+                    option_intersexo_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_intersexo_mujer')
+                
                     let option_otros = document.createElement('option')
-                    option_otros.value = 3 
+                    option_otros.value = 5
                     option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
 
-                    if(datos_sexo == 1){
-                        select_sexo.appendChild(option_hombre)
-                        select_sexo.appendChild(option_mujer)
-                        select_sexo.appendChild(option_otros)
-                    }else if (datos_sexo == 2){
-                        select_sexo.appendChild(option_mujer)
-                        select_sexo.appendChild(option_hombre)
-                        select_sexo.appendChild(option_otros)
-                    }else{
-                        select_sexo.appendChild(option_otros)
-                        select_sexo.appendChild(option_hombre)
-                        select_sexo.appendChild(option_mujer)
+                    if(datos_sexo == buscarLiteral(literales, select_sexo.id + '_hombre')){
+                        option_hombre.selected = true
+                    }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_mujer')){
+                        option_mujer.selected = true
+                    }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_intersexo_hombre')){
+                        option_intersexo_hombre.selected = true
+                    }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_intersexo_mujer')){
+                        option_intersexo_mujer.selected = true
+                    }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_otros')){
+                        option_otros.selected = true
                     }
-
+                    select_sexo.appendChild(option_hombre)
+                    select_sexo.appendChild(option_mujer)
+                    select_sexo.appendChild(option_intersexo_hombre)
+                    select_sexo.appendChild(option_intersexo_mujer)
+                    select_sexo.appendChild(option_otros)
+        
                     caja_sexo.appendChild(select_sexo)
 
                     let select_rol = document.getElementById('texto_rol')
@@ -489,29 +532,80 @@ function cargarMain(literales) {
                     let option_bus_hombre = document.createElement('option')
                     option_bus_hombre.value = 1 
                     option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
-
+                
                     let option_bus_mujer = document.createElement('option')
                     option_bus_mujer.value = 2
                     option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
-
-                    let option_bus_ambos = document.createElement('option')
-                    option_bus_ambos.value = 3
-                    option_bus_ambos.innerHTML = buscarLiteral(literales, select_rol.id + '_ambos') 
-
-                    
-                    if(datos_sexo == 1){
-                        select_rol.appendChild(option_bus_hombre)
-                        select_rol.appendChild(option_bus_mujer)
-                        select_rol.appendChild(option_bus_ambos)
-                    }else if (datos_sexo == 2){
-                        select_rol.appendChild(option_bus_mujer)
-                        select_rol.appendChild(option_bus_hombre)
-                        select_rol.appendChild(option_bus_ambos)
-                    }else{
-                        select_rol.appendChild(option_bus_ambos)
-                        select_rol.appendChild(option_bus_hombre)
-                        select_rol.appendChild(option_bus_mujer)
+                
+                    let option_bus_intersexo_hombre = document.createElement('option')
+                    option_bus_intersexo_hombre.value = 3 
+                    option_bus_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_hombre')
+                
+                    let option_bus_intersexo_mujer = document.createElement('option')
+                    option_bus_intersexo_mujer.value = 4
+                    option_bus_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_mujer')
+                
+                    let option_bus_hombre_mujer = document.createElement('option')
+                    option_bus_hombre_mujer.value = 5
+                    option_bus_hombre_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_mujer')
+                
+                    let option_bus_hombre_intersexo_hombre = document.createElement('option')
+                    option_bus_hombre_intersexo_hombre.value = 6
+                    option_bus_hombre_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_intersexo_hombre')
+                
+                    let option_bus_hombre_intersexo_mujer = document.createElement('option')
+                    option_bus_hombre_intersexo_mujer.value = 7
+                    option_bus_hombre_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_intersexo_mujer')
+                
+                    let option_bus_mujer_intersexo_hombre = document.createElement('option')
+                    option_bus_mujer_intersexo_hombre.value = 8
+                    option_bus_mujer_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer_intersexo_hombre')
+                
+                    let option_bus_mujer_intersexo_mujer = document.createElement('option')
+                    option_bus_mujer_intersexo_mujer.value = 9
+                    option_bus_mujer_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer_intersexo_mujer')
+                
+                    let option_bus_intersexo_hombre_intersexo_mujer = document.createElement('option')
+                    option_bus_intersexo_hombre_intersexo_mujer.value = 10
+                    option_bus_intersexo_hombre_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_hombre_intersexo_mujer')
+                
+                    let option_bus_todos = document.createElement('option')
+                    option_bus_todos.value = 11
+                    option_bus_todos.innerHTML = buscarLiteral(literales, select_rol.id + '_todos') 
+                
+                    if(datos_rol == buscarLiteral(literales, select_rol.id + '_hombre')){
+                        option_bus_hombre.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer')){
+                        option_bus_mujer.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_hombre')){
+                        option_bus_intersexo_hombre.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_mujer')){
+                        option_bus_intersexo_mujer.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_mujer')){
+                        option_bus_hombre_mujer.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_intersexo_hombre')){
+                        option_bus_hombre_intersexo_hombre.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_intersexo_mujer')){
+                        option_bus_hombre_intersexo_mujer.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer_intersexo_hombre')){
+                        option_bus_mujer_intersexo_hombre.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer_intersexo_mujer')){
+                        option_bus_mujer_intersexo_mujer.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_hombre_intersexo_mujer')){
+                        option_bus_intersexo_hombre_intersexo_mujer.selected = true
+                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_todos')){
+                        option_bus_todos.selected = true
                     }
+                    select_rol.appendChild(option_bus_hombre)
+                    select_rol.appendChild(option_bus_mujer)
+                    select_rol.appendChild(option_bus_intersexo_hombre)
+                    select_rol.appendChild(option_bus_intersexo_mujer)
+                    select_rol.appendChild(option_bus_hombre_mujer)
+                    select_rol.appendChild(option_bus_hombre_intersexo_mujer)
+                    select_rol.appendChild(option_bus_mujer_intersexo_hombre)
+                    select_rol.appendChild(option_bus_mujer_intersexo_mujer)
+                    select_rol.appendChild(option_bus_intersexo_hombre_intersexo_mujer)
+                    select_rol.appendChild(option_bus_todos)
 
                     caja_rol.appendChild(select_rol)
                 }

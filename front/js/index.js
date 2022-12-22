@@ -351,12 +351,22 @@ function cargarMain(literales) {
     option_mujer.value = 2 
     option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
 
+    let option_intersexo_hombre = document.createElement('option')
+    option_intersexo_hombre.value = 3 
+    option_intersexo_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_intersexo_hombre')
+
+    let option_intersexo_mujer = document.createElement('option')
+    option_intersexo_mujer.value = 4
+    option_intersexo_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_intersexo_mujer')
+
     let option_otros = document.createElement('option')
-    option_otros.value = 3 
+    option_otros.value = 5
     option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
 
     select_sexo.appendChild(option_hombre)
     select_sexo.appendChild(option_mujer)
+    select_sexo.appendChild(option_intersexo_hombre)
+    select_sexo.appendChild(option_intersexo_mujer)
     select_sexo.appendChild(option_otros)
 
     let label_busqueda = document.createElement('label')
@@ -377,13 +387,53 @@ function cargarMain(literales) {
     option_bus_mujer.value = 2
     option_bus_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_mujer')
 
-    let option_bus_ambos = document.createElement('option')
-    option_bus_ambos.value = 3
-    option_bus_ambos.innerHTML = buscarLiteral(literales, select_busqueda.id + '_ambos') 
+    let option_bus_intersexo_hombre = document.createElement('option')
+    option_bus_intersexo_hombre.value = 3 
+    option_bus_intersexo_hombre.innerHTML = buscarLiteral(literales, select_busqueda.id + '_intersexo_hombre')
+
+    let option_bus_intersexo_mujer = document.createElement('option')
+    option_bus_intersexo_mujer.value = 4
+    option_bus_intersexo_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_intersexo_mujer')
+
+    let option_bus_hombre_mujer = document.createElement('option')
+    option_bus_hombre_mujer.value = 5
+    option_bus_hombre_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_hombre_mujer')
+
+    let option_bus_hombre_intersexo_hombre = document.createElement('option')
+    option_bus_hombre_intersexo_hombre.value = 6
+    option_bus_hombre_intersexo_hombre.innerHTML = buscarLiteral(literales, select_busqueda.id + '_hombre_intersexo_hombre')
+
+    let option_bus_hombre_intersexo_mujer = document.createElement('option')
+    option_bus_hombre_intersexo_mujer.value = 7
+    option_bus_hombre_intersexo_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_hombre_intersexo_mujer')
+
+    let option_bus_mujer_intersexo_hombre = document.createElement('option')
+    option_bus_mujer_intersexo_hombre.value = 8
+    option_bus_mujer_intersexo_hombre.innerHTML = buscarLiteral(literales, select_busqueda.id + '_mujer_intersexo_hombre')
+
+    let option_bus_mujer_intersexo_mujer = document.createElement('option')
+    option_bus_mujer_intersexo_mujer.value = 9
+    option_bus_mujer_intersexo_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_mujer_intersexo_mujer')
+
+    let option_bus_intersexo_hombre_intersexo_mujer = document.createElement('option')
+    option_bus_intersexo_hombre_intersexo_mujer.value = 10
+    option_bus_intersexo_hombre_intersexo_mujer.innerHTML = buscarLiteral(literales, select_busqueda.id + '_intersexo_hombre_intersexo_mujer')
+
+    let option_bus_todos = document.createElement('option')
+    option_bus_todos.value = 11
+    option_bus_todos.innerHTML = buscarLiteral(literales, select_busqueda.id + '_todos') 
 
     select_busqueda.appendChild(option_bus_hombre)
     select_busqueda.appendChild(option_bus_mujer)
-    select_busqueda.appendChild(option_bus_ambos)
+    select_busqueda.appendChild(option_bus_intersexo_hombre)
+    select_busqueda.appendChild(option_bus_intersexo_mujer)
+    select_busqueda.appendChild(option_bus_hombre_mujer)
+    select_busqueda.appendChild(option_bus_hombre_intersexo_hombre)
+    select_busqueda.appendChild(option_bus_hombre_intersexo_mujer)
+    select_busqueda.appendChild(option_bus_mujer_intersexo_hombre)
+    select_busqueda.appendChild(option_bus_mujer_intersexo_mujer)
+    select_busqueda.appendChild(option_bus_intersexo_hombre_intersexo_mujer)
+    select_busqueda.appendChild(option_bus_todos)
 
     let label_imagen = document.createElement('label')
     label_imagen.id = "label_imagen"
