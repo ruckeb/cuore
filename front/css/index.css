@@ -71,7 +71,7 @@ main {
     overflow: hidden;
 }
 #animacion {
-    position: absolute;
+    height: 20%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -99,13 +99,17 @@ main {
 }
 #fondo3 {
     width: 100%;
-    font-size: 3vw;
+    height: 10%;
+    font-size: 3vh;
     font-family: "times new roman";
     text-shadow: 7.5px 7.5px 7.5px grey;
     color: black;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-wrap: wrap;
     animation-name: fondo;
     animation-duration: 3.5s;
-    text-align: center;
 }
 @keyframes fondo {
     from {
@@ -115,6 +119,16 @@ main {
         opacity: 1;
     }
 }
+@keyframes fondo3 {
+    from {
+        
+    }
+  
+    to {
+        
+    
+    }
+  }
 #ojo_contrasena{
     width: 2%;
 }

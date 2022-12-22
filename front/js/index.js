@@ -143,6 +143,7 @@ function cargarCabecera(literales) {
     boton_registrarse.innerHTML = buscarLiteral(literales, boton_registrarse.id)
     boton_registrarse.onclick = e => {
         e.preventDefault()
+        
         if (!boton_registrarse.classList.contains("activo")) {
             boton_registrarse.classList.toggle("activo")
             formulario_registro.classList.toggle("ocultar")
@@ -208,7 +209,6 @@ function cargarMain(literales) {
 
     div_animacion.appendChild(fondo_sin_formulario1)
     div_animacion.appendChild(fondo_sin_formulario2)
-    div_animacion.appendChild(fondo_sin_formulario3)
 
     let formulario_inicio = document.createElement('form')
     formulario_inicio.classList.add("ocultar")
@@ -477,7 +477,15 @@ function cargarMain(literales) {
     div_coinciden.classList.add("ocultar")
     div_coinciden.innerHTML = buscarLiteral(literales, div_coinciden.id)
 
-    // Certifico ser mayor de edad y aceptar las <a href="back/uploads/files/Español/condicionesDeUso.pdf" download>Condiciones Generales</a>. Descubre como tratamos tus datos en nuestra 
+
+    //let mayor_edad = document.createElement('label')
+    //mayor_edad.id = "mayor_edad"
+    //mayor_edad.htmlFor = "Certifico ser mayor de edad y aceptar las" 
+    //<a href="back/uploads/files/Español/privacidadYprotecciónDeDatos.pdf">"Política de privacidad"</a>
+    //<a href="back/uploads/files/Español/políticaUsoDeCookies.pdf">"Política de uso de cookies"</a>
+    //<a href="back/uploads/files/Español/dondeSeVePerfil.pdf">"normas relativas a la visibilidad de los perfiles"</a>
+    //mayor_edad.innerHTML = buscarLiteral(literales, mayor_edad.id)
+    //<a href="back/uploads/files/Español/condicionesDeUso.pdf" download>Condiciones Generales</a>. Descubre como tratamos tus datos en nuestra 
     //<a href="back/uploads/files/Español/privacidadYprotecciónDeDatos.pdf" download>Política de privacidad</a>, <a href="back/uploads/files/Español/políticaUsoDeCookies.pdf" download>Política de uso de cookies</a> y 
     //<a href="back/uploads/files/Español/dondeSeVePerfil.pdf" download>normas relativas a la visibilidad de los perfiles</a>.
 
@@ -560,6 +568,7 @@ function cargarMain(literales) {
 
 
     main.appendChild(div_animacion)
+    main.appendChild(fondo_sin_formulario3) 
     main.appendChild(formulario_inicio)
     main.appendChild(formulario_registro)
 }
@@ -642,6 +651,5 @@ function cargarFooter(literales) {
 
     footer.appendChild(p1)
     footer.appendChild(cajaDirecciones)
-
 
 }
