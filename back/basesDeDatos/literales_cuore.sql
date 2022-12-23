@@ -241,6 +241,8 @@ VALUES
 ('index', 'error_ubicacion', 'de', 'Um fortzufahren, ist eine genehmigung für den Standort erforderlich.'),
 ('index', 'registrado_correctamente', 'de', 'Vielen dank für die registrierung!\nMelden sie sich an, um fortzufahren.'),
 ('index', 'correcto', 'de', 'Erfolg'),
+-----------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 ('perfil', 'titulo_nombre', 'es', 'Nombre: '),
 ('perfil', 'titulo_correo', 'es', 'Correo: '),
 ('perfil', 'titulo_sexo', 'es', 'Sexo: '),
@@ -248,8 +250,21 @@ VALUES
 ('perfil', 'sexo_hombre', 'es', 'Hombre'),
 ('perfil', 'sexo_mujer', 'es', 'Mujer'),
 ('perfil', 'sexo_otros', 'es', 'Otro'),
-('perfil', 'sexo_intersexo_hombre', 'es', 'IntersexoHombre'),
-('perfil', 'sexo_intersexo_mujer', 'es', 'IntersexoMujer'),
+('perfil', 'sexo_intersexo_hombre', 'es', 'Intersexo Hombre'),
+('perfil', 'sexo_intersexo_mujer', 'es', 'Intersexo Mujer'),
+
+('perfil', 'sexo_hombre_mujer', 'es', 'IntersexoMujer'),
+('perfil', 'sexo_hombre_intersexo_hombre', 'es', 'IntersexoMujer'),
+('perfil', 'sexo_hombre_intersexo_mujer', 'es', 'IntersexoMujer'),
+('perfil', 'sexo_mujer_intersexo_hombre', 'es', 'IntersexoMujer'),
+('perfil', 'sexo_mujer_intersexo_mujer', 'es', 'IntersexoMujer'),
+('perfil', 'sexo_intersexo_hombre_intersexo_mujer', 'es', 'IntersexoMujer'),
+('perfil', 'sexo_intersexo_mujer_intersexo_hombre', 'es', 'IntersexoMujer'),
+('perfil', 'sexo_todos', 'es', 'Todos'),
+
+
+
+
 ('perfil', 'titulo_rol', 'es', 'Perfíl Búsqueda: '),
 ('perfil', 'h2_boton_imagenes', 'es', 'TUS IMÁGENES'),
 ('perfil', 'h2_boton_videos', 'es', 'TUS VÍDEOS'),
@@ -263,6 +278,7 @@ VALUES
 ('perfil', 'p_menu2', 'es', 'SUGERENCIAS A CUORE'),
 ('perfil', 'p_menu3', 'es', 'CONTACTANOS'),
 ('perfil', 'p_menu4', 'es', 'CERRAR SESION'),
+
 ('perfil', 'titulo_nombre', 'en', 'Name: '),
 ('perfil', 'titulo_correo', 'en', 'Email: '),
 ('perfil', 'titulo_sexo', 'en', 'Sex: '),
@@ -285,6 +301,7 @@ VALUES
 ('perfil', 'p_menu2', 'en', 'SUGGESTIONS TO CUORE'),
 ('perfil', 'p_menu3', 'en', 'CONTACT US'),
 ('perfil', 'p_menu4', 'en', 'SIGN OFF'),
+
 ('perfil', 'titulo_nombre', 'fr', 'Nom: '),
 ('perfil', 'titulo_correo', 'fr', 'Email: '),
 ('perfil', 'titulo_sexo', 'fr', 'Sexe: '),
@@ -307,6 +324,7 @@ VALUES
 ('perfil', 'p_menu2', 'fr', 'SUGGESTIONS POUR CUORE'),
 ('perfil', 'p_menu3', 'fr', 'NOUS CONTACTER'),
 ('perfil', 'p_menu4', 'fr', 'FERMER SESSION'),
+
 ('perfil', 'titulo_nombre', 'de', 'Name: '),
 ('perfil', 'titulo_correo', 'de', 'Email: '),
 ('perfil', 'titulo_sexo', 'de', 'Sex: '),
@@ -329,6 +347,8 @@ VALUES
 ('perfil', 'p_menu2', 'de', 'VORSCHLÄGE ZU CUORE'),
 ('perfil', 'p_menu3', 'de', 'KONTAKTIERE UNS'),
 ('perfil', 'p_menu4', 'de', 'ABMELDEN'),
+
+
 ('home', 'p_menu1', 'es', 'IR A PERFIL'),
 ('home', 'p_menu2', 'es', 'CHAT PRIVADO'),
 ('home', 'p_menu3', 'es', 'SUGERENCIAS A CUORE'),
