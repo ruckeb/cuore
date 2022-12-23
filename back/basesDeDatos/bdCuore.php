@@ -269,11 +269,13 @@
         } 
     }
 
-    function getMiPerfilBBDD(){
+    function getPerfilBBDD($nick){
         if (validateToken()) {
             try {
                 $db = getConnection();
-                $nick = $_SESSION['usuario'];
+                if(is_null($nick)){
+                    $nick = $_SESSION['usuario'];
+                }
                 $sql = "SELECT u.nick, u.nombre, u.email, u.sexo, u.perfil_busqueda, u.imagen, p.id, p.texto, p.imagen as publi, p.creado
                         FROM usuarios u 
                         JOIN publicaciones p
