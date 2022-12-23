@@ -32,3 +32,7 @@
             }
         }
     } 
+
+    function borrarFicheroServidor($ruta){
+        unlink($_SERVER['DOCUMENT_ROOT'].$ruta);
+    }

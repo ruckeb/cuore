@@ -147,42 +147,61 @@
             try {
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
-                $sql = "SELECT publi.id, nick, texto, imagen, creado, 
-                        distanciaCoordenadas(X(ubicacion), Y(ubicacion), X(ubicacion_yo), Y(ubicacion_yo)) as distancia,
-                        ABS(DATEDIFF(fecha_nacimiento, fecha_yo)) as dif_edad,
-                        labios_yo, pulgar_yo, fuego_yo, corazon_yo, dislike_yo,
-                        labios, pulgares, fuegos, corazones, dislikes, c.id as id_comentario, 
-                        c.fecha as fecha_comentario, c.comentario, c.nick_comenta
-                        FROM (	
-                            SELECT p.*, u.nick, u.ubicacion, u.fecha_nacimiento, 
-                            (SELECT ubicacion FROM usuarios WHERE nick='$nick') as ubicacion_yo,
-                            (SELECT fecha_nacimiento FROM usuarios WHERE nick='$nick') as fecha_yo,
-                            (SELECT COALESCE(SUM(labios), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as labios_yo,
-                            (SELECT COALESCE(SUM(pulgar), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as pulgar_yo,
-                            (SELECT COALESCE(SUM(fuego), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as fuego_yo,
-                            (SELECT COALESCE(SUM(corazon), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as corazon_yo,
-                            (SELECT COALESCE(SUM(dislike), 0) FROM reacciones WHERE nick_reaccion='$nick' AND p.id=reacciones.id_publicacion) as dislike_yo,
-                            COALESCE(SUM(r.labios), 0) as labios, COALESCE(SUM(r.pulgar), 0) as pulgares, 
-                            COALESCE(SUM(r.fuego), 0) as fuegos, COALESCE(SUM(r.corazon), 0) as corazones, 
-                            COALESCE(SUM(r.dislike), 0) as dislikes
-                            FROM publicaciones p
-                            LEFT JOIN usuarios u
-                            ON u.nick = p.nick_publicacion
-                            LEFT JOIN reacciones r
-                            ON r.id_publicacion = p.id
-                            WHERE (nick_publicacion, creado) IN (
-                                SELECT nick_publicacion, MAX(creado)
-                                FROM publicaciones
-                                WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
-                                GROUP BY nick_publicacion
-                            )
-                            AND SUBSTRING_INDEX(SUBSTRING_INDEX(p.imagen, '/', -2), '/', 1) = 'img'
-                            AND u.nick != '$nick'
-                            GROUP BY p.id
-                        ) publi
+                $sql = "SELECT recomen.id, nick, texto, imagen, creado, distancia, dif_edad, total_labios, total_pulgares, total_fuegos, total_corazones, total_dislikes,
+                        labios_yo, pulgar_yo, fuego_yo, corazon_yo, dislike_yo, c.id AS id_comentario, nick_comenta, fecha, comentario
+                        FROM
+                        (
+                            SELECT id, nick, texto, imagen, creado, distancia, dif_edad, messirve, sexo, logged_nick, perfil_busqueda,
+                            (SELECT COALESCE(SUM(labios), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as labios_yo,
+                            (SELECT COALESCE(SUM(pulgar), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as pulgar_yo,
+                            (SELECT COALESCE(SUM(fuego), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as fuego_yo,
+                            (SELECT COALESCE(SUM(corazon), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as corazon_yo,
+                            (SELECT COALESCE(SUM(dislike), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as dislike_yo,
+                            COALESCE(SUM(r.labios), 0) as total_labios, COALESCE(SUM(r.pulgar), 0) as total_pulgares, 
+                            COALESCE(SUM(r.fuego), 0) as total_fuegos, COALESCE(SUM(r.corazon), 0) as total_corazones, 
+                            COALESCE(SUM(r.dislike), 0) as total_dislikes
+                            FROM
+                            (
+                                SELECT u.nick, u.sexo, logged.nick as logged_nick, logged.perfil_busqueda,
+                                CASE 
+                                    WHEN logged.perfil_busqueda <5 AND logged.perfil_busqueda = u.sexo THEN 1
+                                    WHEN logged.perfil_busqueda = 5 AND (u.sexo = 1 OR u.sexo = 2) THEN 1
+                                    WHEN logged.perfil_busqueda = 6 AND (u.sexo = 1 OR u.sexo = 3) THEN 1
+                                    WHEN logged.perfil_busqueda = 7 AND (u.sexo = 1 OR u.sexo = 4) THEN 1
+                                    WHEN logged.perfil_busqueda = 8 AND (u.sexo = 2 OR u.sexo = 3) THEN 1
+                                    WHEN logged.perfil_busqueda = 9 AND (u.sexo = 2 OR u.sexo = 4) THEN 1
+                                    WHEN logged.perfil_busqueda = 10 AND (u.sexo = 3 OR u.sexo = 4) THEN 1
+                                    WHEN logged.perfil_busqueda = 11 THEN 1
+                                    ELSE 0
+                                END as messirve,
+                                distanciaCoordenadas(X(u.ubicacion), Y(u.ubicacion), X(logged.ubicacion), Y(logged.ubicacion)) as distancia,
+                                ABS(DATEDIFF(u.fecha_nacimiento, logged.fecha_nacimiento)) as dif_edad
+                                FROM usuarios u
+                                JOIN usuarios logged
+                                WHERE logged.nick = '$nick'
+                                AND u.nick != logged.nick
+                            ) usuarios_r
+                            JOIN 
+                            (
+                                SELECT *
+                                FROM publicaciones p
+                                WHERE 
+                                (p.nick_publicacion, p.creado) IN (
+                                    SELECT nick_publicacion, MAX(creado)
+                                    FROM publicaciones
+                                    WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
+                                    GROUP BY nick_publicacion)
+                                AND SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
+                            ) ultima_publicacion
+                            ON usuarios_r.nick = ultima_publicacion.nick_publicacion
+                            LEFT JOIN reacciones r 
+                            ON r.id_publicacion=ultima_publicacion.id
+                            WHERE messirve=1
+                            GROUP BY id
+                        ) recomen
                         LEFT JOIN comentarios c
-                        ON c.id_publicacion = publi.id
-                        ORDER BY distancia, dif_edad, fecha_comentario DESC";
+                        ON c.id_publicacion= recomen.id
+                        ORDER BY distancia, dif_edad, fecha DESC";
                 $recomendaciones = $db->query($sql);	
                 if($recomendaciones === FALSE){		
                     return 507; //No existen recomendaciones disponibles
@@ -197,11 +216,11 @@
                             'creado' => $recomendacion['creado'],
                             'distancia' => $recomendacion['distancia'],
                             'dif_edad' => $recomendacion['dif_edad'],
-                            'labios' => $recomendacion['labios'],
-                            'pulgares' => $recomendacion['pulgares'],
-                            'fuegos' => $recomendacion['fuegos'],
-                            'corazones' => $recomendacion['corazones'],
-                            'dislikes' => $recomendacion['dislikes'],
+                            'labios' => $recomendacion['total_labios'],
+                            'pulgares' => $recomendacion['total_pulgares'],
+                            'fuegos' => $recomendacion['total_fuegos'],
+                            'corazones' => $recomendacion['total_corazones'],
+                            'dislikes' => $recomendacion['total_dislikes'],
                             'labios_yo' => $recomendacion['labios_yo'],
                             'pulgar_yo' => $recomendacion['pulgar_yo'],
                             'fuego_yo' => $recomendacion['fuego_yo'],
@@ -220,7 +239,7 @@
                             if (isset($recomendacion['id_comentario'])) {
                                 $comentario = array(
                                     'id_comentario' => $recomendacion['id_comentario'],
-                                    'fecha_comentario' => $recomendacion['fecha_comentario'],
+                                    'fecha_comentario' => $recomendacion['fecha'],
                                     'nick_comentario' => $recomendacion['nick_comenta'],
                                     'comentario' => $recomendacion['comentario'],
                                 );
@@ -231,7 +250,7 @@
                             if (isset($recomendacion['id_comentario'])) {
                                 $comentario = array(
                                     'id_comentario' => $recomendacion['id_comentario'],
-                                    'fecha_comentario' => $recomendacion['fecha_comentario'],
+                                    'fecha_comentario' => $recomendacion['fecha'],
                                     'nick_comentario' => $recomendacion['nick_comenta'],
                                     'comentario' => $recomendacion['comentario'],
                                 );
@@ -250,11 +269,13 @@
         } 
     }
 
-    function getMiPerfilBBDD(){
+    function getPerfilBBDD($nick){
         if (validateToken()) {
             try {
                 $db = getConnection();
-                $nick = $_SESSION['usuario'];
+                if(is_null($nick)){
+                    $nick = $_SESSION['usuario'];
+                }
                 $sql = "SELECT u.nick, u.nombre, u.email, u.sexo, u.perfil_busqueda, u.imagen, p.id, p.texto, p.imagen as publi, p.creado
                         FROM usuarios u 
                         JOIN publicaciones p

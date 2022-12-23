@@ -199,11 +199,21 @@ function cargarCabecera(literales) {
 }
 
 function cargarMain(literales) {
-    let url = '../../back/controladores/getMiPerfil.php'
+    let url_fetch 
+    let url_actual = new URL(location.href);
+    let nick = url_actual.searchParams.get("usuario");
+    let mi_perfil = false
+    if (nick!=null) {
+        url_fetch = '../../back/controladores/getPerfil.php?usuario='+nick
+    } else {
+        url_fetch = '../../back/controladores/getPerfil.php'
+        mi_perfil = true
+    }
+
     let params = {
         method: 'GET',
     }
-    fetch(url, params)
+    fetch(url_fetch, params)
         .then(req => req.json())
         .then( usuario => {
             console.log(usuario)
