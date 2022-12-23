@@ -275,7 +275,7 @@ function cargarMain(recomendaciones, index, literales) {
         usuario_imagen.id = "usuario_imagen"
         usuario_imagen.innerHTML = recomendacion.nick
         usuario_imagen.onclick = () => {
-            location.href = "perfil.php?usuario=" + this.innerHTML
+            location.href = "perfil.php?usuario=" + recomendacion.nick
         }
     
         let comentario_usuario_imagen = document.createElement('div')
@@ -308,7 +308,7 @@ function cargarMain(recomendaciones, index, literales) {
             usuario_comentario.classList.add('usuario_comentario')
             usuario_comentario.innerHTML = " " + comentario.nick_comentario + " "
             usuario_comentario.onclick = () => {
-               location.href = "perfil.php?usuario=" + this.innerHTML.trim()
+               location.href = "perfil.php?usuario=" + usuario_comentario.innerHTML.trim()
             }
         
             let texto_comentario = document.createElement('span')
