@@ -80,10 +80,6 @@ button{
     border-collapse: collapse;
     background-color: #454545;
 }
-#disMenu :hover{
-    width: 100%;
-    background-color: #6b6868;
-}
 p{
     font-size: 25px;
     padding-left: 5%;
