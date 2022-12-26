@@ -411,10 +411,10 @@ function cargarMain(literales) {
                         console.log("cloc")
                         //Guardado de perfil
                         let bodyContent = {
-                            nombre: document.getElementById('nombre').value,
+                            nombre: document.getElementById('texto_nombre').value,
                             email: document.getElementById('texto_correo').value,
-                            sexo: document.getElementById('sexo').value,
-                            perfil_busqueda: document.getElementById('rol').value
+                            sexo: document.getElementById('texto_sexo').value,
+                            perfil_busqueda: document.getElementById('texto_rol').value
                         }
                         let url = '../../back/controladores/actualizarPerfil.php'
                         let params = {
