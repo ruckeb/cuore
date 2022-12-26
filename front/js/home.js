@@ -345,9 +345,7 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                    if (datos === true) {
-                        location.reload()
-                      } else {
+                    if (datos !== true) {
                         //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
                       }
                 }) 
@@ -389,9 +387,7 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                    if (datos === true) {
-                        location.reload()
-                      } else {
+                    if (datos !== true) {
                         //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
                       }
                 })
@@ -432,9 +428,7 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                    if (datos === true) {
-                        location.reload()
-                      } else {
+                    if (datos !== true) {
                         //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
                       }
                 })
@@ -457,7 +451,7 @@ function cargarMain(recomendaciones, index, literales) {
     
         let caja_labio = document.createElement('div')
         caja_labio.id = "caja_labio"
-        if(recomendacion.labio_yo == 1) {
+        if(recomendacion.labios_yo == 1) {
             caja_labio.classList.add("activado")
         } else {
             caja_labio.classList.remove("activado")
@@ -475,9 +469,7 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                    if (datos === true) {
-                        location.reload()
-                      } else {
+                    if (datos !== true) {
                         //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
                       }
                 })
@@ -519,9 +511,7 @@ function cargarMain(recomendaciones, index, literales) {
                 .then(req => req.json())
                 .then( datos => {
                   console.log(datos)
-                  if (datos === true) {
-                    location.reload()
-                  } else {
+                  if (datos !== true) {
                     //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
                   }
                 })
