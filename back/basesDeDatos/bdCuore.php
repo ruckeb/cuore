@@ -257,7 +257,9 @@
                                 array_push($resultado[$index]['comentarios'], $comentario);
                             }
                         }
-                        
+                    }
+                    if (empty($resultado)) {
+                        return 510; //no existen recomendaciones
                     }
                     return $resultado;
                 }
@@ -323,4 +325,112 @@
         } else {
             return 999; //Token de sesion ha expirado
         } 
+    }
+
+    function actualizarReaccionBBDD($datos){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $id_publicacion = $datos->id;
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT *
+                        FROM reacciones
+                        WHERE id_publicacion=$id_publicacion
+                        AND nick_reaccion='$nick'";
+                $reacciones = $db->query($sql);	
+                switch ($datos->reaccion) {
+                    case "fuego":
+                        if($reacciones->rowCount() === 1){	
+                            $fuego_anterior = 0;	
+                            foreach ($reacciones as $reaccion) {
+                                $fuego_anterior = $reaccion['fuego'];
+                            }	
+                            $fuego_actual = $fuego_anterior==0?1:0;
+                            $sql = "UPDATE reacciones
+                                    SET fuego = $fuego_actual
+                                    WHERE id_publicacion = '$id_publicacion'
+                                    AND nick_reaccion = '$nick'";
+                        } else {
+                            $sql = "INSERT INTO reacciones (id_publicacion, nick_reaccion, fuego)
+                                    VALUES ('$id_publicacion','$nick', 1)";
+                        }
+                        break;
+                    case "corazon":
+                        if($reacciones->rowCount() === 1){	
+                            $corazon_anterior = 0;	
+                            foreach ($reacciones as $reaccion) {
+                                $corazon_anterior = $reaccion['corazon'];
+                            }	
+                            $corazon_actual = $corazon_anterior==0?1:0;
+                            $sql = "UPDATE reacciones
+                                    SET corazon = $corazon_actual
+                                    WHERE id_publicacion = '$id_publicacion'
+                                    AND nick_reaccion = '$nick'";
+                        } else {
+                            $sql = "INSERT INTO reacciones (id_publicacion, nick_reaccion, corazon)
+                                    VALUES ('$id_publicacion','$nick', 1)";
+                        }
+                        break;
+                    case "pulgar":
+                        if($reacciones->rowCount() === 1){	
+                            $pulgar_anterior = 0;	
+                            foreach ($reacciones as $reaccion) {
+                                $pulgar_anterior = $reaccion['pulgar'];
+                            }	
+                            $pulgar_actual = $pulgar_anterior==0?1:0;
+                            $sql = "UPDATE reacciones
+                                    SET pulgar = $pulgar_actual
+                                    WHERE id_publicacion = '$id_publicacion'
+                                    AND nick_reaccion = '$nick'";
+                        } else {
+                            $sql = "INSERT INTO reacciones (id_publicacion, nick_reaccion, pulgar)
+                                    VALUES ('$id_publicacion','$nick', 1)";
+                        }
+                        break;
+                    case "dislike":
+                        if($reacciones->rowCount() === 1){	
+                            $dislike_anterior = 0;	
+                            foreach ($reacciones as $reaccion) {
+                                $dislike_anterior = $reaccion['dislike'];
+                            }	
+                            $dislike_actual = $dislike_anterior==0?1:0;
+                            $sql = "UPDATE reacciones
+                                    SET dislike = $dislike_actual
+                                    WHERE id_publicacion = '$id_publicacion'
+                                    AND nick_reaccion = '$nick'";
+                        } else {
+                            $sql = "INSERT INTO reacciones (id_publicacion, nick_reaccion, dislike)
+                                    VALUES ('$id_publicacion','$nick', 1)";
+                        }
+                        break;
+                    case "labios":
+                        if($reacciones->rowCount() === 1){	
+                            $labios_anterior = 0;	
+                            foreach ($reacciones as $reaccion) {
+                                $labios_anterior = $reaccion['labios'];
+                            }	
+                            $labios_actual = $labios_anterior==0?1:0;
+                            $sql = "UPDATE reacciones
+                                    SET labios = $labios_actual
+                                    WHERE id_publicacion = '$id_publicacion'
+                                    AND nick_reaccion = '$nick'";
+                        } else {
+                            $sql = "INSERT INTO reacciones (id_publicacion, nick_reaccion, labios)
+                                    VALUES ('$id_publicacion','$nick', 1)";
+                        }
+                        break;
+                    default:
+                        return 511; //Error actualizando la reaccion
+                }
+
+                if ($db->query($sql) === FALSE) {
+                    return 511; //Error actualizando la reaccion
+                }
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
     }

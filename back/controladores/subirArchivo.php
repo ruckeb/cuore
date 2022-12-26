@@ -28,7 +28,7 @@
                 subirVideoAlServidor($archivo, $usuario);
             }
             else {
-                return 509;
+                return 509; //formato no permitido
             }
         }
     } 
