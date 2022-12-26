@@ -425,6 +425,9 @@ function cargarMain(literales) {
                             .then(req => req.json())
                             .then( datos => {
                                 console.log(datos)
+                                if (datos === true) {
+                                    location.reload()
+                                }
                             })
                     }
 
@@ -442,7 +445,7 @@ function cargarMain(literales) {
                         let datos_nombre = texto_nombre.innerHTML
                         texto_nombre.remove()
                         texto_nombre = document.createElement('input')
-                        texto_nombre.id = "nombre"
+                        texto_nombre.id = "texto_nombre"
                         texto_nombre.classList.add('textos')
                         texto_nombre.type = "text"
                         texto_nombre.name = "usuario"
@@ -472,7 +475,7 @@ function cargarMain(literales) {
                         let datos_sexo = select_sexo.innerHTML
                         texto_sexo.remove()
                         select_sexo = document.createElement('select')
-                        select_sexo.id = "sexo"
+                        select_sexo.id = "texto_sexo"
                         select_sexo.classList.add('textos')
                         select_sexo.name = "sexo" 
                         select_sexo.required = true
@@ -520,7 +523,7 @@ function cargarMain(literales) {
                         let datos_rol = select_rol.innerHTML
                         texto_rol.remove()
                         select_rol = document.createElement('select')
-                        select_rol.id = "rol"
+                        select_rol.id = "texto_rol"
                         select_rol.classList.add('textos')
                         select_rol.name = "rol" 
                         select_rol.required = true

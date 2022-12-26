@@ -142,6 +142,7 @@ hr{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
 }
 .textos{
@@ -198,6 +199,8 @@ hr{
 }
 #texto_nombre,#texto_correo,#texto_sexo,#texto_rol{
     font-size: 1vw;
+    width: 50%;
+    text-align: right;
 }
 #btnImgVid{
     display: flex;
