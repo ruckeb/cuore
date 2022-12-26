@@ -434,3 +434,35 @@
             return 999; //Token de sesion ha expirado
         }
     }
+
+    function actualizarPerfilBBDD($datos){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $nombre = $datos->nombre;
+                $email = $datos->email;
+                $sexo = $datos->sexo;
+                $perfil_busqueda = $datos->perfil_busqueda;
+                $sql = "SELECT *
+                        FROM usuarios
+                        WHERE nick!='$nick'
+                        AND email='$email'";
+                $usuarios = $db->query($sql);	
+                if($usuarios->rowCount() === 1){
+                    return 513;//El email introducido pertenece a otro usuario
+                }
+                $sql = "UPDATE usuarios
+                        SET nombre='$nombre', email='$email', sexo='$sexo', perfil_busqueda='$perfil_busqueda'
+                        WHERE nick = '$nick'";
+                if ($db->query($sql) === FALSE) {
+                    return 512; //Error actualizando el perfil
+                }
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
