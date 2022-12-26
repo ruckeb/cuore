@@ -13,6 +13,7 @@ window.onload = ()=>{
 }
 
 function cargarHome() {
+    cargarFooter()
     let bodyContent = {
         id_html: 'home',
     }
@@ -35,7 +36,6 @@ function cargarHome() {
                     cargarMain(recomendaciones, index, literales)
                 })
             cargarCabecera(literales)
-            cargarFooter(literales)
         })
     
 }
@@ -335,8 +335,9 @@ function cargarMain(recomendaciones, index, literales) {
         caja_fuego.onclick = function(){
             let bodyContent = {
                 id: recomendacion.id,
+                reaccion: 'fuego',
             }
-            let url = '../../back/controladores/actualizarFuego.php'
+            let url = '../../back/controladores/actualizarReaccion.php'
             let params = {
                 method: 'POST',
                 body: JSON.stringify(bodyContent)
@@ -344,7 +345,11 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                  console.log(datos)
+                    if (datos === true) {
+                        location.reload()
+                      } else {
+                        //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                      }
                 }) 
         }
     
@@ -366,11 +371,17 @@ function cargarMain(recomendaciones, index, literales) {
     
         let caja_like = document.createElement('div')
         caja_like.id = "caja_like"
+        if(recomendacion.pulgar_yo == 1) {
+            caja_like.classList.add("activado")
+        } else {
+            caja_like.classList.remove("activado")
+        }
         caja_like.onclick = function(){
             let bodyContent = {
                 id: recomendacion.id,
+                reaccion: 'pulgar',
             }
-            let url = '../../back/controladores/actualizarPulgar.php'
+            let url = '../../back/controladores/actualizarReaccion.php'
             let params = {
                 method: 'POST',
                 body: JSON.stringify(bodyContent)
@@ -378,13 +389,21 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                  console.log(datos)
+                    if (datos === true) {
+                        location.reload()
+                      } else {
+                        //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                      }
                 })
         }
     
         let logo_like = document.createElement('img')
         logo_like.id = "logo_like"
-        logo_like.src = "front/img/imgHome/me-gusta-desactivado.png"
+        if(recomendacion.pulgar_yo == 1) {
+            logo_like.src = "front/img/imgHome/me-gusta-activado.png"
+        } else {
+            logo_like.src = "front/img/imgHome/me-gusta-desactivado.png"
+        }
     
         let num_like = document.createElement('p')
         num_like.id = "num_like"
@@ -395,11 +414,17 @@ function cargarMain(recomendaciones, index, literales) {
     
         let caja_dislike = document.createElement('div')
         caja_dislike.id = "caja_dislike"
+        if(recomendacion.dislike_yo == 1) {
+            caja_dislike.classList.add("activado")
+        } else {
+            caja_dislike.classList.remove("activado")
+        }
         caja_dislike.onclick = function(){
             let bodyContent = {
                 id: recomendacion.id,
+                reaccion: 'dislike',
             }
-            let url = '../../back/controladores/actualizarDislike.php'
+            let url = '../../back/controladores/actualizarReaccion.php'
             let params = {
                 method: 'POST',
                 body: JSON.stringify(bodyContent)
@@ -407,13 +432,21 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                  console.log(datos)
+                    if (datos === true) {
+                        location.reload()
+                      } else {
+                        //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                      }
                 })
         }
     
         let logo_dislike = document.createElement('img')
         logo_dislike.id = "logo_dislike"
-        logo_dislike.src = "front/img/imgHome/no-me-gusta-desactivado.png"
+        if(recomendacion.dislike_yo == 1) {
+            logo_dislike.src = "front/img/imgHome/no-me-gusta-activado.png"
+        } else {
+            logo_dislike.src = "front/img/imgHome/no-me-gusta-desactivado.png"
+        }
     
         let num_dislike = document.createElement('p')
         num_dislike.id = "num_dislike"
@@ -424,11 +457,17 @@ function cargarMain(recomendaciones, index, literales) {
     
         let caja_labio = document.createElement('div')
         caja_labio.id = "caja_labio"
+        if(recomendacion.labio_yo == 1) {
+            caja_labio.classList.add("activado")
+        } else {
+            caja_labio.classList.remove("activado")
+        }
         caja_labio.onclick = function(){
             let bodyContent = {
                 id: recomendacion.id,
+                reaccion: 'labios',
             }
-            let url = '../../back/controladores/actualizarLabio.php'
+            let url = '../../back/controladores/actualizarReaccion.php'
             let params = {
                 method: 'POST',
                 body: JSON.stringify(bodyContent)
@@ -436,13 +475,21 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                  console.log(datos)
+                    if (datos === true) {
+                        location.reload()
+                      } else {
+                        //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                      }
                 })
         }
     
         let logo_labio = document.createElement('img')
         logo_labio.id = "logo_labio"
-        logo_labio.src = "front/img/imgHome/labios-desactivado.png"
+        if(recomendacion.labios_yo == 1) {
+            logo_labio.src = "front/img/imgHome/labios-activado.png"
+        } else {
+            logo_labio.src = "front/img/imgHome/labios-desactivado.png"
+        }
     
         let num_labio = document.createElement('p')
         num_labio.id = "num_labio"
@@ -453,11 +500,17 @@ function cargarMain(recomendaciones, index, literales) {
     
         let caja_corazon = document.createElement('div')
         caja_corazon.id = "caja_corazon"
+        if(recomendacion.corazon_yo == 1) {
+            caja_corazon.classList.add("activado")
+        } else {
+            caja_corazon.classList.remove("activado")
+        }
         caja_corazon.onclick = function(){
             let bodyContent = {
                 id: recomendacion.id,
+                reaccion: 'corazon',
             }
-            let url = '../../back/controladores/actualizarCorazon.php'
+            let url = '../../back/controladores/actualizarReaccion.php'
             let params = {
                 method: 'POST',
                 body: JSON.stringify(bodyContent)
@@ -466,12 +519,21 @@ function cargarMain(recomendaciones, index, literales) {
                 .then(req => req.json())
                 .then( datos => {
                   console.log(datos)
+                  if (datos === true) {
+                    location.reload()
+                  } else {
+                    //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                  }
                 })
         }
     
         let logo_corazon = document.createElement('img')
         logo_corazon.id = "logo_corazon"
-        logo_corazon.src = "front/img/imgHome/corazon-desactivado.png"
+        if(recomendacion.corazon_yo == 1) {
+            logo_corazon.src = "front/img/imgHome/corazon-activado.png"
+        } else {
+            logo_corazon.src = "front/img/imgHome/corazon-desactivado.png"
+        }
     
         let num_corazon = document.createElement('p')
         num_corazon.id = "num_corazon"
@@ -488,7 +550,7 @@ function cargarMain(recomendaciones, index, literales) {
         
         let c_comentario_personal = document.createElement('textarea')
         c_comentario_personal.id = 'c_comentario_personal'
-        c_comentario_personal.placeholder = 'comentario...'
+        c_comentario_personal.placeholder = buscarLiteral(literales, c_comentario_personal.id)
         c_comentario_personal.onkeypress = (e) => {
             if (e.keyCode == 13 && !e.shiftKey) {
                 let bodyContent = {
@@ -583,7 +645,7 @@ function cargarMain(recomendaciones, index, literales) {
 
 }
 
-function cargarFooter(literales) {
+function cargarFooter() {
     let footer = document.body.children[2]
 
     let p1 = document.createElement('p')

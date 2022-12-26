@@ -13,6 +13,7 @@ window.onload = ()=>{
 }
 
 function cargarPerfil() {
+    cargarFooter()
     let bodyContent = {
         id_html: 'perfil',
     }
@@ -26,9 +27,8 @@ function cargarPerfil() {
         .then( literales => {
             cargarCabecera(literales)
             cargarMain(literales)
-            cargarFooter(literales)
         })
-}
+    }
 
 function cargarCabecera(literales) {
     let header = document.body.children[0]
@@ -619,6 +619,8 @@ function cargarMain(literales) {
                         html:   "<form>"+
                                     "<input id='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
                                     "<br>"+
+                                    "<label id='texto_imagen' for='texto'>"+
+                                    buscarLiteral(literales, 'texto_imagen')+ "</label>"+
                                     "<input id='texto' type='text'>"+
                                 "</form>",
                         preConfirm: () => {
@@ -644,7 +646,7 @@ function cargarMain(literales) {
                                 .then(req => req.json())
                                 .then( respuesta => {
                                     console.log(respuesta)
-                                    if (respuesta) {
+                                    if (respuesta === true) {
                                         //alerta todo bien
                                     } else {
                                         //alerta error
@@ -761,7 +763,7 @@ function cargarMain(literales) {
         })
 }
 
-function cargarFooter(literales) {
+function cargarFooter() {
     let footer = document.body.children[2]
 
     let p1 = document.createElement('p')

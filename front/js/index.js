@@ -43,6 +43,7 @@ function obtenerUbicacion(literales) {
 }
 
 function cargarLogin() {
+    cargarFooter()
     let bodyContent = {
         id_html: 'index',
     }
@@ -57,7 +58,6 @@ function cargarLogin() {
             obtenerUbicacion(literales)
             cargarCabecera(literales)
             cargarMain(literales)
-            cargarFooter(literales)
         })
 }
 
@@ -657,7 +657,7 @@ function cargarMain(literales) {
     main.appendChild(formulario_registro)
 }
 
-function cargarFooter(literales) {
+function cargarFooter() {
     let footer = document.body.children[2]
 
     let p1 = document.createElement('p')
