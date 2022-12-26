@@ -80,10 +80,6 @@ button{
     border-collapse: collapse;
     background-color: #454545;
 }
-#disMenu :hover{
-    width: 100%;
-    background-color: #6b6868;
-}
 p{
     font-size: 25px;
     padding-left: 5%;
@@ -125,9 +121,10 @@ hr{
     background-size: cover;
     border-radius: 50%;
     border: 2px solid black;
+    object-fit: fill;
 }
 #caja_perfil{
-    width: 30%;
+    width: 40%;
     height: 100%;
     margin: 1%;
     display: flex;
@@ -145,6 +142,7 @@ hr{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
 }
 .textos{
@@ -152,7 +150,7 @@ hr{
     padding: 1%;
 }
 #caja_botones_edicion{
-    width: 50%;
+    width: 40%;
     height: 99%;
     padding: 1%;
     display: flex;
@@ -187,7 +185,9 @@ hr{
 }
 #boton_anadir_publi,#boton_edicion,#boton_guardar,#boton_cambiar_contra{
     width: 100%;
+    height: auto;
     padding: 1%;
+    
 }
 .activo {
     background-color: rgb(245, 98, 135);  
@@ -199,6 +199,8 @@ hr{
 }
 #texto_nombre,#texto_correo,#texto_sexo,#texto_rol{
     font-size: 1vw;
+    width: 50%;
+    text-align: right;
 }
 #btnImgVid{
     display: flex;
@@ -227,6 +229,13 @@ hr{
 h2{
     font-size: 20px;
 }
+#disImg,#disVid{
+    width: 100%;
+    height: auto;
+    border: 1px solid rgb(231, 85, 109);
+    border-collapse: collapse;
+    background-color: #454545;
+}
 #cajImagenes, #cajVideos{
     display: flex;
     flex-direction: row;
@@ -234,6 +243,18 @@ h2{
     align-items: flex-start;
     flex-wrap: wrap;
     width: 100%;
+    height: 100%;
+}
+.caja_imagen{
+    width: 25%;
+    height: 45%;
+}
+.imagen_interior,.video_interior{
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgb(231, 85, 109);
+    border-collapse: collapse;
+    object-fit: fill;
 }
 .videos{
     width: 25%;

@@ -108,6 +108,7 @@ VALUES
 ('index', 'label_busqueda', 'en', 'Search profile:'),
 ('index', 'busqueda_hombre', 'en', 'Men'),
 ('index', 'busqueda_mujer', 'en', 'Women'),
+<<<<<<< HEAD
 ('index', 'busqueda_intersexo_hombre', 'en', 'Male Intersex'),
 ('index', 'busqueda_intersexo_mujer', 'en', 'Female Intersex'),
 ('index', 'busqueda_hombre_mujer', 'en', 'Man - Woman'),
@@ -117,6 +118,9 @@ VALUES
 ('index', 'busqueda_mujer_intersexo_mujer', 'en', 'Woman _ Intersex'),
 ('index', 'busqueda_intersexo_hombre_ intersexo_mujer', 'en', 'Male Intersex - Female Intersex'),
 ('index', 'busqueda_todos', 'en', 'Everybody'),
+=======
+('index', 'busqueda_ambos', 'en', 'Everybody'),
+>>>>>>> 0539149e68214ccf8c17cf1788059a40c1d7db7b
 ('index', 'label_imagen', 'en', 'Image:'),
 ('index', 'imagen_title', 'en', 'Only images with extension: .jpg, .jpeg, .png are allowed.'),
 ('index', 'label_video', 'en', 'Video presentation:'),

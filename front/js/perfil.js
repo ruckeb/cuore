@@ -13,6 +13,7 @@ window.onload = ()=>{
 }
 
 function cargarPerfil() {
+    cargarFooter()
     let bodyContent = {
         id_html: 'perfil',
     }
@@ -26,9 +27,8 @@ function cargarPerfil() {
         .then( literales => {
             cargarCabecera(literales)
             cargarMain(literales)
-            cargarFooter(literales)
         })
-}
+    }
 
 function cargarCabecera(literales) {
     let header = document.body.children[0]
@@ -128,7 +128,7 @@ function cargarCabecera(literales) {
     boton_menu1.classList.add("btnMenu")
     boton_menu1.onclick = (e) => {
         e.preventDefault()
-       
+        // location.href = './chatPrivado.php' 
     }
 
     let p_menu1 = document.createElement('p')
@@ -142,7 +142,7 @@ function cargarCabecera(literales) {
     boton_menu2.classList.add("btnMenu")
     boton_menu2.onclick = (e) => {
         e.preventDefault()
-       
+        // location.href = './sugerenciasCuore.php' 
     }
 
     let p_menu2 = document.createElement('p')
@@ -156,7 +156,7 @@ function cargarCabecera(literales) {
     boton_menu3.classList.add("btnMenu")
     boton_menu3.onclick = (e) => {
         e.preventDefault()
-       
+        // location.href = './contactanos.php' 
     }
 
     let p_menu3 = document.createElement('p')
@@ -170,34 +170,19 @@ function cargarCabecera(literales) {
     boton_menu4.classList.add("btnMenu")
     boton_menu4.onclick = (e) => {
         e.preventDefault()
-       
+        location.href = 'back/controladores/cerrarSesion.php' 
     }
 
     let p_menu4 = document.createElement('p')
     p_menu4.id = "p_menu4"
     p_menu4.innerHTML = buscarLiteral(literales, p_menu4.id) //Caja4
 
-    boton_menu4.appendChild(p_menu4)
-
-    let boton_menu5 = document.createElement('button')
-    boton_menu5.id = "boton_menu5"
-    boton_menu5.classList.add("btnMenu")
-    boton_menu5.onclick = (e) => {
-        e.preventDefault()
-        location.href = 'back/controladores/cerrarSesion.php' 
-    }
-
-    let p_menu5 = document.createElement('p')
-    p_menu5.id = "p_menu5"
-    p_menu5.innerHTML = buscarLiteral(literales, p_menu5.id) //Caja5
-
-    boton_menu5.appendChild(p_menu5)
+    boton_menu4.appendChild(p_menu4)   
 
     div_tabla_menu.appendChild(boton_menu1)
     div_tabla_menu.appendChild(boton_menu2)
     div_tabla_menu.appendChild(boton_menu3)
     div_tabla_menu.appendChild(boton_menu4)
-    div_tabla_menu.appendChild(boton_menu5)
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
@@ -214,11 +199,21 @@ function cargarCabecera(literales) {
 }
 
 function cargarMain(literales) {
-    let url = '../../back/controladores/getMiPerfil.php'
+    let url_fetch 
+    let url_actual = new URL(location.href);
+    let nick = url_actual.searchParams.get("usuario");
+    let mi_perfil = false
+    if (nick!=null) {
+        url_fetch = '../../back/controladores/getPerfil.php?usuario='+nick
+    } else {
+        url_fetch = '../../back/controladores/getPerfil.php'
+        mi_perfil = true
+    }
+
     let params = {
         method: 'GET',
     }
-    fetch(url, params)
+    fetch(url_fetch, params)
         .then(req => req.json())
         .then( usuario => {
             console.log(usuario)
@@ -234,7 +229,7 @@ function cargarMain(literales) {
 
             let img_perfil = document.createElement('img')
             img_perfil.id = "imgPerfil"
-            img_perfil.src = "front/img/imgPerfil/perfil.png"
+            img_perfil.src = usuario.imagen
 
             let usuario_nick = document.createElement('h1')
             usuario_nick.id = "usuario_nick" 
@@ -284,15 +279,15 @@ function cargarMain(literales) {
             let texto_sexo = document.createElement('p')
             texto_sexo.id = "texto_sexo"
             if(usuario.sexo == 1){
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_hombre")
             }else if (usuario.sexo == 2){
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_mujer")
             }else if (usuario.sexo == 3){
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_intersexo_hombre")
             }else if (usuario.sexo == 4){
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_intersexo_mujer")
             }else{
-                texto_sexo.innerHTML = buscarLiteral(literales,)
+                texto_sexo.innerHTML = buscarLiteral(literales, texto_sexo.id + "_otros")
             }
 
             caja_sexo.appendChild(titulo_sexo)
@@ -308,27 +303,27 @@ function cargarMain(literales) {
             let texto_rol = document.createElement('p')
             texto_rol.id = "texto_rol"
             if(usuario.perfil_busqueda == 1){
-                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_hombre")
             }else if ( usuario.perfil_busqueda == 2){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_mujer")
             }else if ( usuario.perfil_busqueda == 3){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_intersexo_hombre")
             }else if ( usuario.perfil_busqueda == 4){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_intersexo_mujer")
             }else if ( usuario.perfil_busqueda == 5){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_hombre_mujer")
             }else if ( usuario.perfil_busqueda == 6){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_hombre_intersexo_hombre")
             }else if ( usuario.perfil_busqueda == 7){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_hombre_intersexo_mujer")
             }else if ( usuario.perfil_busqueda == 8){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_mujer_intersexo_hombre")
             }else if ( usuario.perfil_busqueda == 9){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_mujer_intersexo_mujer")
             }else if ( usuario.perfil_busqueda == 10){
-                texto_rol.innerHTML = buscarLiteral(literales,texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_intersexo_mujer_intersexo_hombre")
             }else{
-                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id)
+                texto_rol.innerHTML = buscarLiteral(literales, texto_rol.id + "_todos")
             }
 
             caja_rol.appendChild(titulo_rol)
@@ -346,321 +341,328 @@ function cargarMain(literales) {
             let caja_botones_edicion = document.createElement('div')
             caja_botones_edicion.id = "caja_botones_edicion"
 
-            let boton_cambiar_contra = document.createElement('button')
-            boton_cambiar_contra.id = "boton_cambiar_contra"
-            boton_cambiar_contra.classList.add("botones_seccion1")
-            boton_cambiar_contra.innerHTML = buscarLiteral(literales, boton_cambiar_contra.id)
-            boton_cambiar_contra.onclick = e => {
-                e.preventDefault()
-                Swal.fire({
-                    showDenyButton: true,
-                    confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
-                    denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
-                    html:   "<form>"+
-                                "<label id='titulo_clave_antigua' for='clave_antigua'>"+
-                                buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
-                                "<input id='clave_antigua' type='password' name='clave_antigua'>"+
-                                "<br>"+
-                                "<label id='titulo_clave_nueva' for='clave_nueva'>"+
-                                buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
-                                "<input id='clave_nueva' type='password' name='clave_antigua'>"+
-                                "<br>"+
-                                "<label id='titulo_clave_nueva_conf' for='clave_nueva_confir'>"+
-                                buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
-                                "<input id='clave_nueva_confir' type='password' name='clave_antigua'>"+
-                            "</form>",
-                    preConfirm: () => {
-                        const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
-                        const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
-                        const clave_nueva_confir = Swal.getPopup().querySelector('#clave_nueva_confir').value
-                        if (!clave_antigua) {
-                            Swal.showValidationMessage("hola")
-                        } else {
-                            return {
-                                clave_antigua: clave_antigua,
-                                clave_nueva: clave_nueva,
-                                clave_nueva_confir: clave_nueva_confir
+            if (mi_perfil===true) {
+                let boton_cambiar_contra = document.createElement('button')
+                boton_cambiar_contra.id = "boton_cambiar_contra"
+                boton_cambiar_contra.classList.add("botones_seccion1")
+                boton_cambiar_contra.innerHTML = buscarLiteral(literales, boton_cambiar_contra.id)
+                boton_cambiar_contra.onclick = e => {
+                    e.preventDefault()
+                    Swal.fire({
+                        showDenyButton: true,
+                        confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+                        denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+                        html:   "<form>"+
+                                    "<label id='titulo_clave_antigua' for='clave_antigua'>"+
+                                    buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
+                                    "<input id='clave_antigua' type='password' name='clave_antigua'>"+
+                                    "<br>"+
+                                    "<label id='titulo_clave_nueva' for='clave_nueva'>"+
+                                    buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
+                                    "<input id='clave_nueva' type='password' name='clave_antigua'>"+
+                                    "<br>"+
+                                    "<label id='titulo_clave_nueva_conf' for='clave_nueva_confir'>"+
+                                    buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
+                                    "<input id='clave_nueva_confir' type='password' name='clave_antigua'>"+
+                                "</form>",
+                        preConfirm: () => {
+                            const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
+                            const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
+                            const clave_nueva_confir = Swal.getPopup().querySelector('#clave_nueva_confir').value
+                            if (!clave_antigua) {
+                                Swal.showValidationMessage("hola")
+                            } else {
+                                return {
+                                    clave_antigua: clave_antigua,
+                                    clave_nueva: clave_nueva,
+                                    clave_nueva_confir: clave_nueva_confir
+                                }
                             }
                         }
-                    }
-                })
-                    .then( response => {
-                        let url = '../../back/controladores/cambiarContrasena.php'
-                        let params = {
-                            method: 'POST',
-                            body: JSON.stringify(response)
-                        }
-                        fetch(url, params)
-                            .then(req => req.json())
-                            .then( respuesta => {
-                                console.log(respuesta)
-                                if (respuesta) {
-                                    //alerta todo bien
-                                } else {
-                                    //alerta error
-                                }
-                            })
                     })
-            }
-
-            let boton_guardar = document.createElement('button')
-            boton_guardar.id = "boton_guardar"
-            boton_guardar.classList.add("botones_seccion1")
-            boton_guardar.classList.add("ocul")
-            boton_guardar.innerHTML = buscarLiteral(literales, boton_guardar.id)
-            boton_guardar.onclick = e => {
-                    e.preventDefault()
-                    boton_edicion.classList = 'botones_seccion1 aparecer'
-                    boton_guardar.classList = 'botones_seccion1 ocul'
-
-                    //Guardado de perfil
-                    let bodyContent = {
-                        nombre: document.getElementById('nombre').value,
-                        email: document.getElementById('email').value,
-                        sexo: document.getElementById('sexo').value,
-                        perfil_busqueda: document.getElementById('rol').value
-                    }
-                    let url = '../../back/controladores/actualizarPerfil.php'
-                    let params = {
-                        method: 'POST',
-                        body: JSON.stringify(bodyContent)
-                    }
-                    fetch(url, params)
-                        .then(req => req.json())
-                        .then( datos => {
-                            console.log(datos)
+                        .then( response => {
+                            let url = '../../back/controladores/cambiarContrasena.php'
+                            let params = {
+                                method: 'POST',
+                                body: JSON.stringify(response)
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( respuesta => {
+                                    console.log(respuesta)
+                                    if (respuesta) {
+                                        //alerta todo bien
+                                    } else {
+                                        //alerta error
+                                    }
+                                })
                         })
                 }
 
-            let boton_edicion = document.createElement('button')
-            boton_edicion.id = "boton_edicion"
-            boton_edicion.classList.add("botones_seccion1")
-            boton_edicion.innerHTML = buscarLiteral(literales, boton_edicion.id)
-            boton_edicion.onclick = e => {
-                    e.preventDefault()
-                    boton_guardar.classList = 'botones_seccion1 aparecer'
-                    boton_edicion.classList = 'botones_seccion1 ocul'
-
-                    //Edición de campos de perfíl  
-                    let texto_nombre = document.getElementById('texto_nombre')
-                    let datos_nombre = texto_nombre.innerHTML
-                    texto_nombre.remove()
-                    texto_nombre = document.createElement('input')
-                    texto_nombre.id = "nombre"
-                    texto_nombre.classList.add('textos')
-                    texto_nombre.type = "text"
-                    texto_nombre.name = "usuario"
-                    texto_nombre.maxLength = 50
-                    texto_nombre.pattern = "^[A-Za-z0-9_-]{2,50}"
-                    texto_nombre.value = datos_nombre
-                    texto_nombre.required = true
-
-                    caja_nombre.appendChild(texto_nombre)
-
-                    let texto_correo = document.getElementById('texto_correo')
-                    let datos_correo = texto_correo.innerHTML
-                    texto_correo.remove()
-                    texto_correo = document.createElement('input')
-                    texto_correo.id = "texto_correo"
-                    texto_correo.classList.add('textos')
-                    texto_correo.type = "email"
-                    texto_correo.name = "email" 
-                    texto_correo.minLength = 5
-                    texto_correo.maxLength = 150
-                    texto_correo.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                    texto_correo.title = datos_correo
-
-                    caja_correo.appendChild(texto_correo)
-
-                    let select_sexo = document.getElementById('texto_sexo')
-                    let datos_sexo = select_sexo.innerHTML
-                    texto_sexo.remove()
-                    select_sexo = document.createElement('select')
-                    select_sexo.id = "sexo"
-                    select_sexo.classList.add('textos')
-                    select_sexo.name = "sexo" 
-                    select_sexo.required = true
-                    
-                    let option_hombre = document.createElement('option')
-                    option_hombre.value = 1 
-                    option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
-                
-                    let option_mujer = document.createElement('option')
-                    option_mujer.value = 2 
-                    option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
-                
-                    let option_intersexo_hombre = document.createElement('option')
-                    option_intersexo_hombre.value = 3 
-                    option_intersexo_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_intersexo_hombre')
-                
-                    let option_intersexo_mujer = document.createElement('option')
-                    option_intersexo_mujer.value = 4
-                    option_intersexo_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_intersexo_mujer')
-                
-                    let option_otros = document.createElement('option')
-                    option_otros.value = 5
-                    option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
-
-                    if(datos_sexo == buscarLiteral(literales, select_sexo.id + '_hombre')){
-                        option_hombre.selected = true
-                    }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_mujer')){
-                        option_mujer.selected = true
-                    }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_intersexo_hombre')){
-                        option_intersexo_hombre.selected = true
-                    }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_intersexo_mujer')){
-                        option_intersexo_mujer.selected = true
-                    }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_otros')){
-                        option_otros.selected = true
-                    }
-                    select_sexo.appendChild(option_hombre)
-                    select_sexo.appendChild(option_mujer)
-                    select_sexo.appendChild(option_intersexo_hombre)
-                    select_sexo.appendChild(option_intersexo_mujer)
-                    select_sexo.appendChild(option_otros)
-        
-                    caja_sexo.appendChild(select_sexo)
-
-                    let select_rol = document.getElementById('texto_rol')
-                    let datos_rol = select_rol.innerHTML
-                    texto_rol.remove()
-                    select_rol = document.createElement('select')
-                    select_rol.id = "rol"
-                    select_rol.classList.add('textos')
-                    select_rol.name = "rol" 
-                    select_rol.required = true
-                    
-                    let option_bus_hombre = document.createElement('option')
-                    option_bus_hombre.value = 1 
-                    option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
-                
-                    let option_bus_mujer = document.createElement('option')
-                    option_bus_mujer.value = 2
-                    option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
-                
-                    let option_bus_intersexo_hombre = document.createElement('option')
-                    option_bus_intersexo_hombre.value = 3 
-                    option_bus_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_hombre')
-                
-                    let option_bus_intersexo_mujer = document.createElement('option')
-                    option_bus_intersexo_mujer.value = 4
-                    option_bus_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_mujer')
-                
-                    let option_bus_hombre_mujer = document.createElement('option')
-                    option_bus_hombre_mujer.value = 5
-                    option_bus_hombre_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_mujer')
-                
-                    let option_bus_hombre_intersexo_hombre = document.createElement('option')
-                    option_bus_hombre_intersexo_hombre.value = 6
-                    option_bus_hombre_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_intersexo_hombre')
-                
-                    let option_bus_hombre_intersexo_mujer = document.createElement('option')
-                    option_bus_hombre_intersexo_mujer.value = 7
-                    option_bus_hombre_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_intersexo_mujer')
-                
-                    let option_bus_mujer_intersexo_hombre = document.createElement('option')
-                    option_bus_mujer_intersexo_hombre.value = 8
-                    option_bus_mujer_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer_intersexo_hombre')
-                
-                    let option_bus_mujer_intersexo_mujer = document.createElement('option')
-                    option_bus_mujer_intersexo_mujer.value = 9
-                    option_bus_mujer_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer_intersexo_mujer')
-                
-                    let option_bus_intersexo_hombre_intersexo_mujer = document.createElement('option')
-                    option_bus_intersexo_hombre_intersexo_mujer.value = 10
-                    option_bus_intersexo_hombre_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_hombre_intersexo_mujer')
-                
-                    let option_bus_todos = document.createElement('option')
-                    option_bus_todos.value = 11
-                    option_bus_todos.innerHTML = buscarLiteral(literales, select_rol.id + '_todos') 
-                
-                    if(datos_rol == buscarLiteral(literales, select_rol.id + '_hombre')){
-                        option_bus_hombre.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer')){
-                        option_bus_mujer.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_hombre')){
-                        option_bus_intersexo_hombre.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_mujer')){
-                        option_bus_intersexo_mujer.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_mujer')){
-                        option_bus_hombre_mujer.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_intersexo_hombre')){
-                        option_bus_hombre_intersexo_hombre.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_intersexo_mujer')){
-                        option_bus_hombre_intersexo_mujer.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer_intersexo_hombre')){
-                        option_bus_mujer_intersexo_hombre.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer_intersexo_mujer')){
-                        option_bus_mujer_intersexo_mujer.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_hombre_intersexo_mujer')){
-                        option_bus_intersexo_hombre_intersexo_mujer.selected = true
-                    }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_todos')){
-                        option_bus_todos.selected = true
-                    }
-                    select_rol.appendChild(option_bus_hombre)
-                    select_rol.appendChild(option_bus_mujer)
-                    select_rol.appendChild(option_bus_intersexo_hombre)
-                    select_rol.appendChild(option_bus_intersexo_mujer)
-                    select_rol.appendChild(option_bus_hombre_mujer)
-                    select_rol.appendChild(option_bus_hombre_intersexo_mujer)
-                    select_rol.appendChild(option_bus_mujer_intersexo_hombre)
-                    select_rol.appendChild(option_bus_mujer_intersexo_mujer)
-                    select_rol.appendChild(option_bus_intersexo_hombre_intersexo_mujer)
-                    select_rol.appendChild(option_bus_todos)
-
-                    caja_rol.appendChild(select_rol)
-                }
-
-            let boton_anadir_publi = document.createElement('button')
-            boton_anadir_publi.id = "boton_anadir_publi"
-            boton_anadir_publi.classList.add("botones_seccion1")
-            boton_anadir_publi.innerHTML = buscarLiteral(literales, boton_anadir_publi.id)
-            boton_anadir_publi.onclick = e => {
-                e.preventDefault()
-                Swal.fire({
-                    showDenyButton: true,
-                    confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
-                    denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
-                    html:   "<form>"+
-                                "<input id='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
-                                "<br>"+
-                                "<input id='texto' type='text'>"+
-                            "</form>",
-                    preConfirm: () => {
-                        const archivo = Swal.getPopup().querySelector('#archivo').value
-                        const texto = Swal.getPopup().querySelector('#texto').value
-                        if (!archivo) {
-                            Swal.showValidationMessage("hola")
-                        } else {
-                            return {
-                                archivo: archivo,
-                                texto: texto
-                            }
+                let boton_guardar = document.createElement('button')
+                boton_guardar.id = "boton_guardar"
+                boton_guardar.classList.add("botones_seccion1")
+                boton_guardar.classList.add("ocul")
+                boton_guardar.innerHTML = buscarLiteral(literales, boton_guardar.id)
+                boton_guardar.onclick = e => {
+                        e.preventDefault()
+                        boton_edicion.classList = 'botones_seccion1 aparecer'
+                        boton_guardar.classList = 'botones_seccion1 ocul'
+                        console.log("cloc")
+                        //Guardado de perfil
+                        let bodyContent = {
+                            nombre: document.getElementById('texto_nombre').value,
+                            email: document.getElementById('texto_correo').value,
+                            sexo: document.getElementById('texto_sexo').value,
+                            perfil_busqueda: document.getElementById('texto_rol').value
                         }
-                    }
-                })
-                    .then( response => {
-                        let url = '../../back/controladores/subirPublicacion.php'
+                        let url = '../../back/controladores/actualizarPerfil.php'
                         let params = {
                             method: 'POST',
-                            body: JSON.stringify(response)
+                            body: JSON.stringify(bodyContent)
                         }
                         fetch(url, params)
                             .then(req => req.json())
-                            .then( respuesta => {
-                                console.log(respuesta)
-                                if (respuesta) {
-                                    //alerta todo bien
-                                } else {
-                                    //alerta error
+                            .then( datos => {
+                                console.log(datos)
+                                if (datos === true) {
+                                    location.reload()
                                 }
                             })
-                    })
-            }
+                    }
 
-            caja_botones_edicion.appendChild(boton_cambiar_contra)
-            caja_botones_edicion.appendChild(boton_guardar)
-            caja_botones_edicion.appendChild(boton_edicion)
-            caja_botones_edicion.appendChild(boton_anadir_publi)
+                let boton_edicion = document.createElement('button')
+                boton_edicion.id = "boton_edicion"
+                boton_edicion.classList.add("botones_seccion1")
+                boton_edicion.innerHTML = buscarLiteral(literales, boton_edicion.id)
+                boton_edicion.onclick = e => {
+                        e.preventDefault()
+                        boton_guardar.classList = 'botones_seccion1 aparecer'
+                        boton_edicion.classList = 'botones_seccion1 ocul'
+
+                        //Edición de campos de perfíl  
+                        let texto_nombre = document.getElementById('texto_nombre')
+                        let datos_nombre = texto_nombre.innerHTML
+                        texto_nombre.remove()
+                        texto_nombre = document.createElement('input')
+                        texto_nombre.id = "texto_nombre"
+                        texto_nombre.classList.add('textos')
+                        texto_nombre.type = "text"
+                        texto_nombre.name = "usuario"
+                        texto_nombre.maxLength = 50
+                        texto_nombre.pattern = "^[A-Za-z0-9_-]{2,50}"
+                        texto_nombre.value = datos_nombre
+                        texto_nombre.required = true
+
+                        caja_nombre.appendChild(texto_nombre)
+
+                        let texto_correo = document.getElementById('texto_correo')
+                        let datos_correo = texto_correo.innerHTML
+                        texto_correo.remove()
+                        texto_correo = document.createElement('input')
+                        texto_correo.id = "texto_correo"
+                        texto_correo.classList.add('textos')
+                        texto_correo.type = "email"
+                        texto_correo.name = "email" 
+                        texto_correo.minLength = 5
+                        texto_correo.maxLength = 150
+                        texto_correo.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                        texto_correo.value = datos_correo
+
+                        caja_correo.appendChild(texto_correo)
+
+                        let select_sexo = document.getElementById('texto_sexo')
+                        let datos_sexo = select_sexo.innerHTML
+                        texto_sexo.remove()
+                        select_sexo = document.createElement('select')
+                        select_sexo.id = "texto_sexo"
+                        select_sexo.classList.add('textos')
+                        select_sexo.name = "sexo" 
+                        select_sexo.required = true
+                        
+                        let option_hombre = document.createElement('option')
+                        option_hombre.value = 1 
+                        option_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_hombre') 
+                    
+                        let option_mujer = document.createElement('option')
+                        option_mujer.value = 2 
+                        option_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_mujer')
+                    
+                        let option_intersexo_hombre = document.createElement('option')
+                        option_intersexo_hombre.value = 3 
+                        option_intersexo_hombre.innerHTML = buscarLiteral(literales, select_sexo.id + '_intersexo_hombre')
+                    
+                        let option_intersexo_mujer = document.createElement('option')
+                        option_intersexo_mujer.value = 4
+                        option_intersexo_mujer.innerHTML = buscarLiteral(literales, select_sexo.id + '_intersexo_mujer')
+                    
+                        let option_otros = document.createElement('option')
+                        option_otros.value = 5
+                        option_otros.innerHTML = buscarLiteral(literales, select_sexo.id + '_otros') 
+
+                        if(datos_sexo == buscarLiteral(literales, select_sexo.id + '_hombre')){
+                            option_hombre.selected = true
+                        }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_mujer')){
+                            option_mujer.selected = true
+                        }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_intersexo_hombre')){
+                            option_intersexo_hombre.selected = true
+                        }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_intersexo_mujer')){
+                            option_intersexo_mujer.selected = true
+                        }else if (datos_sexo == buscarLiteral(literales, select_sexo.id + '_otros')){
+                            option_otros.selected = true
+                        }
+                        select_sexo.appendChild(option_hombre)
+                        select_sexo.appendChild(option_mujer)
+                        select_sexo.appendChild(option_intersexo_hombre)
+                        select_sexo.appendChild(option_intersexo_mujer)
+                        select_sexo.appendChild(option_otros)
+            
+                        caja_sexo.appendChild(select_sexo)
+
+                        let select_rol = document.getElementById('texto_rol')
+                        let datos_rol = select_rol.innerHTML
+                        texto_rol.remove()
+                        select_rol = document.createElement('select')
+                        select_rol.id = "texto_rol"
+                        select_rol.classList.add('textos')
+                        select_rol.name = "rol" 
+                        select_rol.required = true
+                        
+                        let option_bus_hombre = document.createElement('option')
+                        option_bus_hombre.value = 1 
+                        option_bus_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre') 
+                    
+                        let option_bus_mujer = document.createElement('option')
+                        option_bus_mujer.value = 2
+                        option_bus_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer')
+                    
+                        let option_bus_intersexo_hombre = document.createElement('option')
+                        option_bus_intersexo_hombre.value = 3 
+                        option_bus_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_hombre')
+                    
+                        let option_bus_intersexo_mujer = document.createElement('option')
+                        option_bus_intersexo_mujer.value = 4
+                        option_bus_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_mujer')
+                    
+                        let option_bus_hombre_mujer = document.createElement('option')
+                        option_bus_hombre_mujer.value = 5
+                        option_bus_hombre_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_mujer')
+                    
+                        let option_bus_hombre_intersexo_hombre = document.createElement('option')
+                        option_bus_hombre_intersexo_hombre.value = 6
+                        option_bus_hombre_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_intersexo_hombre')
+                    
+                        let option_bus_hombre_intersexo_mujer = document.createElement('option')
+                        option_bus_hombre_intersexo_mujer.value = 7
+                        option_bus_hombre_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_hombre_intersexo_mujer')
+                    
+                        let option_bus_mujer_intersexo_hombre = document.createElement('option')
+                        option_bus_mujer_intersexo_hombre.value = 8
+                        option_bus_mujer_intersexo_hombre.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer_intersexo_hombre')
+                    
+                        let option_bus_mujer_intersexo_mujer = document.createElement('option')
+                        option_bus_mujer_intersexo_mujer.value = 9
+                        option_bus_mujer_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_mujer_intersexo_mujer')
+                    
+                        let option_bus_intersexo_hombre_intersexo_mujer = document.createElement('option')
+                        option_bus_intersexo_hombre_intersexo_mujer.value = 10
+                        option_bus_intersexo_hombre_intersexo_mujer.innerHTML = buscarLiteral(literales, select_rol.id + '_intersexo_hombre_intersexo_mujer')
+                    
+                        let option_bus_todos = document.createElement('option')
+                        option_bus_todos.value = 11
+                        option_bus_todos.innerHTML = buscarLiteral(literales, select_rol.id + '_todos') 
+                    
+                        if(datos_rol == buscarLiteral(literales, select_rol.id + '_hombre')){
+                            option_bus_hombre.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer')){
+                            option_bus_mujer.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_hombre')){
+                            option_bus_intersexo_hombre.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_mujer')){
+                            option_bus_intersexo_mujer.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_mujer')){
+                            option_bus_hombre_mujer.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_intersexo_hombre')){
+                            option_bus_hombre_intersexo_hombre.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_hombre_intersexo_mujer')){
+                            option_bus_hombre_intersexo_mujer.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer_intersexo_hombre')){
+                            option_bus_mujer_intersexo_hombre.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_mujer_intersexo_mujer')){
+                            option_bus_mujer_intersexo_mujer.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_intersexo_hombre_intersexo_mujer')){
+                            option_bus_intersexo_hombre_intersexo_mujer.selected = true
+                        }else if (datos_rol == buscarLiteral(literales, select_rol.id + '_todos')){
+                            option_bus_todos.selected = true
+                        }
+                        select_rol.appendChild(option_bus_hombre)
+                        select_rol.appendChild(option_bus_mujer)
+                        select_rol.appendChild(option_bus_intersexo_hombre)
+                        select_rol.appendChild(option_bus_intersexo_mujer)
+                        select_rol.appendChild(option_bus_hombre_mujer)
+                        select_rol.appendChild(option_bus_hombre_intersexo_mujer)
+                        select_rol.appendChild(option_bus_mujer_intersexo_hombre)
+                        select_rol.appendChild(option_bus_mujer_intersexo_mujer)
+                        select_rol.appendChild(option_bus_intersexo_hombre_intersexo_mujer)
+                        select_rol.appendChild(option_bus_todos)
+
+                        caja_rol.appendChild(select_rol)
+                    }
+
+                let boton_anadir_publi = document.createElement('button')
+                boton_anadir_publi.id = "boton_anadir_publi"
+                boton_anadir_publi.classList.add("botones_seccion1")
+                boton_anadir_publi.innerHTML = buscarLiteral(literales, boton_anadir_publi.id)
+                boton_anadir_publi.onclick = e => {
+                    e.preventDefault()
+                    Swal.fire({
+                        showDenyButton: true,
+                        confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+                        denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+                        html:   "<form>"+
+                                    "<input id='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
+                                    "<br>"+
+                                    "<label id='texto_imagen' for='texto'>"+
+                                    buscarLiteral(literales, 'texto_imagen')+ "</label>"+
+                                    "<input id='texto' type='text'>"+
+                                "</form>",
+                        preConfirm: () => {
+                            const archivo = Swal.getPopup().querySelector('#archivo').value
+                            const texto = Swal.getPopup().querySelector('#texto').value
+                            if (!archivo) {
+                                Swal.showValidationMessage("hola")
+                            } else {
+                                return {
+                                    archivo: archivo,
+                                    texto: texto
+                                }
+                            }
+                        }
+                    })
+                        .then( response => {
+                            let url = '../../back/controladores/subirPublicacion.php'
+                            let params = {
+                                method: 'POST',
+                                body: JSON.stringify(response)
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( respuesta => {
+                                    console.log(respuesta)
+                                    if (respuesta === true) {
+                                        //alerta todo bien
+                                    } else {
+                                        //alerta error
+                                    }
+                                })
+                        })
+                }
+
+                caja_botones_edicion.appendChild(boton_cambiar_contra)
+                caja_botones_edicion.appendChild(boton_guardar)
+                caja_botones_edicion.appendChild(boton_edicion)
+                caja_botones_edicion.appendChild(boton_anadir_publi)
+            }
 
             div_section1.appendChild(caja_perfil_imagen)
             div_section1.appendChild(caja_perfil)
@@ -675,7 +677,19 @@ function cargarMain(literales) {
             let h2_boton_imagenes = document.createElement('h2')
             h2_boton_imagenes.id = "h2_boton_imagenes"
             h2_boton_imagenes.innerHTML = buscarLiteral(literales, h2_boton_imagenes.id)
-            h2_boton_imagenes.onmouseover = () =>{
+            h2_boton_imagenes.onclick = () =>{
+                div_caj_imagenes.innerHTML = ""
+                for (const imagen of usuario.imagenes_publicadas) {
+                    let caja_imagen = document.createElement('div')
+                    caja_imagen.classList.add('caja_imagen')
+                    caja_imagen.id = imagen.id
+                    let imagen_interior = document.createElement('img')
+                    imagen_interior.classList.add('imagen_interior')
+                    imagen_interior.src = imagen.publi
+
+                    caja_imagen.appendChild(imagen_interior)
+                    div_caj_imagenes.appendChild(caja_imagen)
+                }
                 div_dis_img.classList.remove("ocultar")
                 h2_boton_imagenes.classList.toggle("btnActivo")
                 if (!div_dis_vid.classList.contains("ocultar")){
@@ -684,6 +698,7 @@ function cargarMain(literales) {
                 if (h2_boton_videos.classList.contains("btnActivo")){
                     h2_boton_videos.classList.remove("btnActivo")
                 }
+
             }
 
             boton_imagenes.appendChild(h2_boton_imagenes)
@@ -694,7 +709,19 @@ function cargarMain(literales) {
             let h2_boton_videos = document.createElement('h2')
             h2_boton_videos.id = "h2_boton_videos"
             h2_boton_videos.innerHTML = buscarLiteral(literales, h2_boton_videos.id)
-            h2_boton_videos.onmouseover = () =>{
+            h2_boton_videos.onclick = () =>{
+                div_caj_videos.innerHTML = ""
+                for (const video of usuario.videos_publicados) {
+                    let caja_videos = document.createElement('div')
+                    caja_videos.classList.add('caja_videos')
+                    caja_videos.id = video.id
+                    let video_interior = document.createElement('video')
+                    video_interior.classList.add('video_interior')
+                    video_interior.src = video.publi
+
+                    caja_videos.appendChild(video_interior)
+                    div_caj_videos.appendChild(caja_videos)
+                }
                 div_dis_vid.classList.remove("ocultar")
                 h2_boton_videos.classList.toggle("btnActivo")
                 if (!div_dis_img.classList.contains("ocultar")){
@@ -717,46 +744,7 @@ function cargarMain(literales) {
             let div_caj_imagenes = document.createElement('div')
             div_caj_imagenes.id = "cajImagenes"
 
-            let imagen1 = document.createElement('img')
-            imagen1.src = "../img/imgImagenes/img1.png"
-            imagen1.classList.add("imagenes")
 
-            let imagen2 = document.createElement('img')
-            imagen2.src = "../img/imgImagenes/img2.png"
-            imagen2.classList.add("imagenes")
-            
-            let imagen3 = document.createElement('img')
-            imagen3.src = "../img/imgImagenes/img3.png"
-            imagen3.classList.add("imagenes")
-
-            let imagen4 = document.createElement('img')
-            imagen4.src = "../img/imgImagenes/img4.png"
-            imagen4.classList.add("imagenes")
-
-            let imagen5 = document.createElement('img')
-            imagen5.src = "../img/imgImagenes/img5.png"
-            imagen5.classList.add("imagenes")
-
-            let imagen6 = document.createElement('img')
-            imagen6.src = "../img/imgImagenes/img6.png"
-            imagen6.classList.add("imagenes")
-
-            let imagen7 = document.createElement('img')
-            imagen7.src = "../img/imgImagenes/img7.png"
-            imagen7.classList.add("imagenes")
-
-            let imagen8 = document.createElement('img')
-            imagen8.src = "../img/imgImagenes/img8.png"
-            imagen8.classList.add("imagenes")
-
-            div_caj_imagenes.appendChild(imagen1)
-            div_caj_imagenes.appendChild(imagen2)
-            div_caj_imagenes.appendChild(imagen3)
-            div_caj_imagenes.appendChild(imagen4)
-            div_caj_imagenes.appendChild(imagen5)
-            div_caj_imagenes.appendChild(imagen6)
-            div_caj_imagenes.appendChild(imagen7)
-            div_caj_imagenes.appendChild(imagen8)
 
             div_dis_img.appendChild(div_caj_imagenes)
 
@@ -767,46 +755,6 @@ function cargarMain(literales) {
             let div_caj_videos = document.createElement('div')
             div_caj_videos.id = "cajVideos"
 
-            let video1 = document.createElement('img')
-            video1.src = "../img/imgVideos/vid1.png"
-            video1.classList.add("videos")
-
-            let video2 = document.createElement('img')
-            video2.src = "../img/imgVideos/vid2.png"
-            video2.classList.add("videos")
-            
-            let video3 = document.createElement('img')
-            video3.src = "../img/imgVideos/vid3.png"
-            video3.classList.add("videos")
-
-            let video4 = document.createElement('img')
-            video4.src = "../img/imgVideos/vid4.png"
-            video4.classList.add("videos")
-
-            let video5 = document.createElement('img')
-            video5.src = "../img/imgVideos/vid5.png"
-            video5.classList.add("videos")
-
-            let video6 = document.createElement('img')
-            video6.src = "../img/imgVideos/vid6.png"
-            video6.classList.add("videos")
-
-            let video7 = document.createElement('img')
-            video7.src = "../img/imgVideos/vid7.png"
-            video7.classList.add("videos")
-
-            let video8 = document.createElement('img')
-            video8.src = "../img/imgVideos/vid8.png"
-            video8.classList.add("videos")
-
-            div_caj_videos.appendChild(video1)
-            div_caj_videos.appendChild(video2)
-            div_caj_videos.appendChild(video3)
-            div_caj_videos.appendChild(video4)
-            div_caj_videos.appendChild(video5)
-            div_caj_videos.appendChild(video6)
-            div_caj_videos.appendChild(video7)
-            div_caj_videos.appendChild(video8)
 
             div_dis_vid.appendChild(div_caj_videos)
 
@@ -818,7 +766,7 @@ function cargarMain(literales) {
         })
 }
 
-function cargarFooter(literales) {
+function cargarFooter() {
     let footer = document.body.children[2]
 
     let p1 = document.createElement('p')
