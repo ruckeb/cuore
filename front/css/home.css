@@ -99,14 +99,13 @@ main{
     scrollbar-width: none;  /* Firefox */
 }
 /* para ocultar la barra de scroll Chrome, Safari y Opera*/
-main::-webkit-scrollbar{
+main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
     display: none;
 }
 #c_recomendaciones_img{
     width: 60%;
-    height: 100%;
-    padding-top: 3%;
-    padding-bottom: 2%;
+    height: 96%;
+    margin: 0.7%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -116,6 +115,7 @@ main::-webkit-scrollbar{
 #img_recomendacion{
     height: 90%;
     width: 80%;
+    object-fit: contain;
 }
 #flecha_der{
     justify-items: end;
@@ -157,10 +157,8 @@ main::-webkit-scrollbar{
 }
 #c_img_click{
     width: 40%;
-    height: 100%;
+    height: 90%;
     margin-right: 2%;
-    padding-top: 2%; 
-    padding-bottom: 1%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -168,12 +166,14 @@ main::-webkit-scrollbar{
 }
 #contenedor_comentarios{
     width: 95%;
-    height: 70%;
+    height: 60%;
     padding: 2%;
     background-color: #6b6868;
     border: 1px solid rgb(245, 98, 135);
     border-collapse: collapse;
     overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
     word-break: keep-all;
 }
 .comentarios{
@@ -216,11 +216,14 @@ main::-webkit-scrollbar{
 
 #c_comentario_personal{
     width: 95%;
-    height: 20%;
+    height: 16%;
     padding: 2%;
     background-color: #454545;
     border: 1px solid rgb(245, 98, 135);
     color: rgb(245, 98, 135);
     border-collapse: collapse;
     resize: none;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
 }
