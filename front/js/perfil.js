@@ -216,7 +216,6 @@ function cargarMain(literales) {
     fetch(url_fetch, params)
         .then(req => req.json())
         .then( usuario => {
-            console.log(usuario)
             
             //TODO CAMBIAR TODO ESTO UTILIZANDO LA VARIABLE USUARIO 
             let main = document.body.children[1]
@@ -406,9 +405,6 @@ function cargarMain(literales) {
                 boton_guardar.innerHTML = buscarLiteral(literales, boton_guardar.id)
                 boton_guardar.onclick = e => {
                         e.preventDefault()
-                        boton_edicion.classList = 'botones_seccion1 aparecer'
-                        boton_guardar.classList = 'botones_seccion1 ocul'
-                        console.log("cloc")
                         //Guardado de perfil
                         let bodyContent = {
                             nombre: document.getElementById('texto_nombre').value,
@@ -424,7 +420,6 @@ function cargarMain(literales) {
                         fetch(url, params)
                             .then(req => req.json())
                             .then( datos => {
-                                console.log(datos)
                                 if (datos === true) {
                                     location.reload()
                                 }
