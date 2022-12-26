@@ -527,23 +527,54 @@ function cargarMain(literales) {
     div_coinciden.classList.add("ocultar")
     div_coinciden.innerHTML = buscarLiteral(literales, div_coinciden.id)
 
+    let input_check1 = document.createElement('input')
+    input_check1.id = "check1"
+    input_check1.type = "checkbox"
+    input_check1.name = "check1" 
+    input_check1.required = true
 
-    //let mayor_edad = document.createElement('label')
-    //mayor_edad.id = "mayor_edad"
-    //mayor_edad.htmlFor = "Certifico ser mayor de edad y aceptar las" 
-    //<a href="back/uploads/files/Español/privacidadYprotecciónDeDatos.pdf">"Política de privacidad"</a>
-    //<a href="back/uploads/files/Español/políticaUsoDeCookies.pdf">"Política de uso de cookies"</a>
-    //<a href="back/uploads/files/Español/dondeSeVePerfil.pdf">"normas relativas a la visibilidad de los perfiles"</a>
-    //mayor_edad.innerHTML = buscarLiteral(literales, mayor_edad.id)
-    //<a href="back/uploads/files/Español/condicionesDeUso.pdf" download>Condiciones Generales</a>. Descubre como tratamos tus datos en nuestra 
-    //<a href="back/uploads/files/Español/privacidadYprotecciónDeDatos.pdf" download>Política de privacidad</a>, <a href="back/uploads/files/Español/políticaUsoDeCookies.pdf" download>Política de uso de cookies</a> y 
-    //<a href="back/uploads/files/Español/dondeSeVePerfil.pdf" download>normas relativas a la visibilidad de los perfiles</a>.
+    let label_check1 = document.createElement('label')
+    label_check1.id = "label_check1"
+    label_check1.htmlFor = "check1"
+    label_check1.innerHTML = " " 
+                            + buscarLiteral(literales, label_check1.id + '_1')
+                            + buscarLiteral(literales, label_check1.id + '_2')
+                            + buscarLiteral(literales, label_check1.id + '_3')  
 
-    //Doy mi consentimiento para el procesamiento de mis <a href="back/uploads/files/Español/datosSensibles.pdf" download>datos confidenciales</a> y para el uso de 
-    //<a href="back/uploads/files/Español/mensajesQueEnvioRecibo.pdf" download>filtros de mensajes seguros</a> por Cuore para brindarme el servicio.
-
-    //Deseo recibir por correo electrónico ofertas comerciales relativas a los productos y servicios ofrecidos por los socios de Cuore S.L. Ver nuestros <a href="back/uploads/files/Español/colaboraciones.pdf" download>socios</a>.
+    let div_check1 = document.createElement('div')
+    div_check1.appendChild(input_check1)
+    div_check1.appendChild(label_check1)
     
+    let input_check2 = document.createElement('input')
+    input_check2.id = "check2"
+    input_check2.type = "checkbox"
+    input_check2.name = "check2" 
+    input_check2.required = true
+
+    let label_check2 = document.createElement('label')
+    label_check2.id = "label_check2"
+    label_check2.htmlFor = "check2"
+    label_check2.innerHTML = " " 
+                            + buscarLiteral(literales, label_check2.id + '_1')
+                            + buscarLiteral(literales, label_check2.id + '_2')
+
+    let div_check2 = document.createElement('div')
+    div_check2.appendChild(input_check2)
+    div_check2.appendChild(label_check2)
+
+    let input_check3 = document.createElement('input')
+    input_check3.id = "check3"
+    input_check3.type = "checkbox"
+    input_check3.name = "check3" 
+
+    let label_check3 = document.createElement('label')
+    label_check3.id = "label_check3"
+    label_check3.htmlFor = "check3"
+    label_check3.innerHTML = " " + buscarLiteral(literales, label_check3.id)
+
+    let div_check3 = document.createElement('div')
+    div_check3.appendChild(input_check3)
+    div_check3.appendChild(label_check3)
 
     let boton_enviar_registro = document.createElement('button')
     boton_enviar_registro.id = "registrar"
@@ -614,6 +645,9 @@ function cargarMain(literales) {
     formulario_registro.appendChild(div_repetir_clave_ojo)
     formulario_registro.appendChild(div_coinciden)
     formulario_registro.appendChild(div_no_coinciden)
+    formulario_registro.appendChild(div_check1)
+    formulario_registro.appendChild(div_check2)
+    formulario_registro.appendChild(div_check3)
     formulario_registro.appendChild(boton_enviar_registro)
 
 

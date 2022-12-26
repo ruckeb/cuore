@@ -24,9 +24,7 @@
 }
 form{
     width: 70%;
-    max-height: 100%;
-    margin-top: 1%;
-    margin-bottom: 1%;
+    max-height: 85%;
     padding: 1%;
     z-index: 1;
     border: 2px ridge rgb(41, 57, 82);
@@ -38,9 +36,13 @@ form{
     align-items: center;
     overflow-y: scroll;
     gap: 10px;
+    position: absolute;
     /* para ocultar la barra de scroll */
     -ms-overflow-style: none;  /* IE y Edge */
     scrollbar-width: none;  /* Firefox */
+}
+form>div{
+    max-width: 25%;
 }
 /* para ocultar la barra de scroll Chrome, Safari y Opera*/
 form::-webkit-scrollbar{
@@ -69,14 +71,16 @@ main {
     flex-direction: column;
     justify-content: space-around;
     overflow: hidden;
+    position: relative;
 }
 #animacion {
-    height: 20%;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
+    position: relative;
+    z-index: -1;
 }
 #fondo {
     width: 40%;
@@ -99,8 +103,7 @@ main {
 }
 #fondo3 {
     width: 100%;
-    height: 10%;
-    font-size: 3vh;
+    font-size: 2vw;
     font-family: "times new roman";
     text-shadow: 7.5px 7.5px 7.5px grey;
     color: black;
@@ -110,6 +113,8 @@ main {
     flex-wrap: wrap;
     animation-name: fondo;
     animation-duration: 3.5s;
+    position: relative;
+    z-index: -1;
 }
 @keyframes fondo {
     from {
@@ -119,16 +124,6 @@ main {
         opacity: 1;
     }
 }
-@keyframes fondo3 {
-    from {
-        
-    }
-  
-    to {
-        
-    
-    }
-  }
 #ojo_contrasena{
     width: 2%;
 }
