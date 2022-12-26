@@ -114,7 +114,8 @@ main {
     animation-name: fondo;
     animation-duration: 3.5s;
     position: relative;
-    z-index: -1;}
+    z-index: -1;
+}
 @keyframes fondo {
     from {
         opacity: 0;
@@ -123,16 +124,6 @@ main {
         opacity: 1;
     }
 }
-@keyframes fondo3 {
-    from {
-        
-    }
-  
-    to {
-        
-    
-    }
-  }
 #ojo_contrasena{
     width: 2%;
 }
