@@ -21,7 +21,7 @@
         }
     }
 
-    function registrarUsuarioBBDD($nick, $fecha_nacimiento, $email, $sexo, $perfil_busqueda, $clave, $ruta_imagen, $ruta_video, $latitud, $longitud){
+    function registrarUsuarioBBDD($nick, $fecha_nacimiento, $email, $sexo, $perfil_busqueda, $clave, $ruta_imagen_usuario, $ruta_video_usuario, $ruta_imagen_publicacion, $ruta_video_publicacion, $latitud, $longitud){
         try {
             $db = getConnection();
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -50,8 +50,8 @@
             $sql->bindParam(':email', $email);
             $sql->bindParam(':sexo', $sexo);
             $sql->bindParam(':perfil_busqueda', $perfil_busqueda);
-            $sql->bindParam(':imagen', $ruta_imagen);
-            $sql->bindParam(':video_present', $ruta_video);
+            $sql->bindParam(':imagen', $ruta_imagen_usuario);
+            $sql->bindParam(':video_present', $ruta_video_usuario);
             $clave_cifrada = password_hash($clave, PASSWORD_BCRYPT);
             $sql->bindParam(':clave', $clave_cifrada);
             $ubicacion = "POINT($latitud $longitud)";
@@ -59,14 +59,14 @@
             $sql->execute();
 
             $sql = "INSERT INTO publicaciones (nick_publicacion, imagen)
-                    VALUES ('$nick', '$ruta_imagen')";
+                    VALUES ('$nick', '$ruta_imagen_publicacion')";
             if ($db->query($sql) === FALSE) {
                 $db->rollback();  
                 return 507; //Error insertando la imagen
             }
 
             $sql = "INSERT INTO publicaciones (nick_publicacion, imagen)
-                    VALUES ('$nick', '$ruta_video')";
+                    VALUES ('$nick', '$ruta_video_publicacion')";
             if ($db->query($sql) === FALSE) {
                 $db->rollback();  
                 return 508; //Error insertando el video
@@ -459,6 +459,33 @@
                     return 512; //Error actualizando el perfil
                 }
                 return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function actualizarImagenPerfilBBDD($ruta_imagen){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT *
+                        FROM usuarios
+                        WHERE nick='$nick'";
+                $usuarios = $db->query($sql);
+                foreach ($usuarios as $usuario) {
+                    $imagen_antigua = $usuario['imagen'];
+                }
+                $sql = "UPDATE usuarios
+                        SET imagen='$ruta_imagen'
+                        WHERE nick = '$nick'";
+                if ($db->query($sql) === FALSE) {
+                    return 514; //Error actualizando la imagen
+                }  
+                return $imagen_antigua;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
