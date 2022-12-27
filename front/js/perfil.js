@@ -337,10 +337,34 @@ function cargarMain(literales) {
             caja_perfil.appendChild(caja_rol)
             caja_perfil.appendChild(document.createElement('br'))
 
-            let caja_botones_edicion = document.createElement('div')
-            caja_botones_edicion.id = "caja_botones_edicion"
+            let caja_publi_edicion = document.createElement('div')
+            caja_publi_edicion.id = "caja_publi_edicion"
+
+            let caja_publicidad = document.createElement('div')
+            caja_publicidad.id = 'caja_publicidad'
+
+            let publicidad = document.createElement('a')
+            publicidad.id = 'publicidad'
+            publicidad.href = 'https://www.garciabaquero.com/'
+            publicidad.target = 'video_publi'
+            
+            let video_publi = document.createElement('iframe')
+            video_publi.id = 'video_publi'
+            video_publi.name = 'video_publi'
+            video_publi.src = "https://www.youtube.com/embed/tng-ioQfeuc"
+            video_publi.allow = 'autoplay'
+            video_publi.allow = 'muted'
+
+            publicidad.appendChild(video_publi)
+            caja_publicidad.appendChild(publicidad)
+            caja_publi_edicion.appendChild(caja_publicidad)
 
             if (mi_perfil===true) {
+
+                let caja_botones_edicion = document.createElement('div')
+                caja_botones_edicion.id = "caja_botones_edicion"
+
+
                 let boton_cambiar_contra = document.createElement('button')
                 boton_cambiar_contra.id = "boton_cambiar_contra"
                 boton_cambiar_contra.classList.add("botones_seccion1")
@@ -352,32 +376,36 @@ function cargarMain(literales) {
                         confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
                         denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
                         html:   "<form>"+
-                                    "<label id='titulo_clave_antigua' for='clave_antigua'>"+
-                                    buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
-                                    "<input id='clave_antigua' type='password' name='clave_antigua'>"+
-                                    "<br>"+
-                                    "<label id='titulo_clave_nueva' for='clave_nueva'>"+
-                                    buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
-                                    "<input id='clave_nueva' type='password' name='clave_nueva'>"+
-                                    "<br>"+
-                                    "<label id='titulo_clave_nueva_conf' for='clave_nueva_confir'>"+
-                                    buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
-                                    "<input id='clave_nueva_confir' type='password' name='clave_nueva_confir'>"+
+                                    "<div class = 'padre_de_todos' >"+
+                                        "<label id = 'titulo_clave_antigua' for = 'clave_antigua'>"+
+                                        buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
+                                        "<input id = 'clave_antigua' type = 'password' name = 'clave_antigua'>"+      
+                                    "</div>"+ 
+                                    "<div class = 'padre_de_todos'>"+
+                                        "<label id = 'titulo_clave_nueva' for = 'clave_nueva'>"+
+                                        buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
+                                        "<input id = 'clave_nueva' type = 'password' name = 'clave_nueva'>"+
+                                    "</div>"+
+                                    "<div class = 'padre_de_todos' >"+
+                                        "<label id = 'titulo_clave_nueva_conf' for = 'clave_nueva_confir'>"+
+                                        buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
+                                        "<input id = 'clave_nueva_confir' type = 'password' name = 'clave_nueva_confir'>"+
+                                    "</div>"+
                                 "</form>",
                         preConfirm: () => {
                             const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
                             const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
                             const clave_nueva_confir = Swal.getPopup().querySelector('#clave_nueva_confir').value
                             if (!clave_antigua) {
-                                Swal.showValidationMessage("valor clave antigua")
+                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_1'))
                             } else if (!clave_nueva) {
-                                Swal.showValidationMessage("valor clave nueva")
+                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_2'))
                             } else if (!clave_nueva_confir) {
-                                Swal.showValidationMessage("valor repite")
+                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_3'))
                             } else if (clave_nueva != clave_nueva_confir) {
-                                Swal.showValidationMessage("valor no coincide")
+                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_4'))
                             } else if (!new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$").test(clave_nueva)) {
-                                Swal.showValidationMessage("expresion regular")
+                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_5'))
                             } else {
                                 return {
                                     clave_antigua: clave_antigua,
@@ -635,18 +663,20 @@ function cargarMain(literales) {
                         showDenyButton: true,
                         confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
                         denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
-                        html:   "<form>"+
-                                    "<input id='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
-                                    "<br>"+
-                                    "<label id='texto_imagen' for='texto'>"+
-                                    buscarLiteral(literales, 'texto_imagen')+ "</label>"+
-                                    "<input id='texto' type='text'>"+
+                        html:   "<form id = 'form_anadir_publi'>"+
+                                    "<input id='archivo' name = 'archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
+                                    "<div id = 'padre_anadir_publi'>"+
+                                        "<label id='texto_imagen' for='texto'>"+
+                                        buscarLiteral(literales, 'texto_imagen')+ 
+                                        "</label>"+
+                                        "<input id='texto' type='textarea'>"+
+                                    "</div>"+
                                 "</form>",
                         preConfirm: () => {
                             const archivo = Swal.getPopup().querySelector('#archivo').value
                             const texto = Swal.getPopup().querySelector('#texto').value
                             if (!archivo) {
-                                Swal.showValidationMessage("hola")
+                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_6'))
                             } else {
                                 return {
                                     archivo: archivo,
@@ -667,8 +697,21 @@ function cargarMain(literales) {
                                     console.log(respuesta)
                                     if (respuesta === true) {
                                         //alerta todo bien
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'publicacion_anadida_correctamente'),
+                                            title: buscarLiteral(literales, 'correcto'),
+                                            icon: "success",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                        })
                                     } else {
                                         //alerta error
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + respuesta)
+                                        })
                                     }
                                 })
                         })
@@ -678,11 +721,14 @@ function cargarMain(literales) {
                 caja_botones_edicion.appendChild(boton_guardar)
                 caja_botones_edicion.appendChild(boton_edicion)
                 caja_botones_edicion.appendChild(boton_anadir_publi)
+
+                caja_publi_edicion.appendChild(caja_botones_edicion)
+
             }
 
             div_section1.appendChild(caja_perfil_imagen)
             div_section1.appendChild(caja_perfil)
-            div_section1.appendChild(caja_botones_edicion)
+            div_section1.appendChild(caja_publi_edicion)
 
             let div_btn_img_vid = document.createElement('div')
             div_btn_img_vid.id = "btnImgVid"
