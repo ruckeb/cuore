@@ -610,10 +610,13 @@ function cargarMain(literales) {
                             text: buscarLiteral(literales, 'registrado_correctamente'),
                             title: buscarLiteral(literales, 'correcto'),
                             icon: "success",
-                            timer: 5000,
+                            timer: 3000,
                             timerProgressBar: true,
                             showConfirmButton: false,
-                          });
+                        })    
+                            .then(function () {
+                                document.getElementById("iniciar_sesion").click()
+                            })
                     } else {
                         Swal.fire({
                             icon: 'error',
