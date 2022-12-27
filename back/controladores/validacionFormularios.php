@@ -58,3 +58,11 @@
         }
         return 0;
     }
+
+    function validarNuevaContrasena($datos){
+        if (!preg_match("/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$/", $datos->clave_nueva) ||
+            strlen($datos->clave_nueva) > 20 || strlen($datos->clave_nueva) < 8) {
+            return 4; //La clave debe contener al menos una mayúscula, una minúscula y un número, además no puede contener espacios
+        }
+        return 0;
+    }

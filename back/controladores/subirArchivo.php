@@ -31,8 +31,24 @@
                 return 509; //formato no permitido
             }
         }
-    } 
+    }
 
     function borrarFicheroServidor($ruta){
-        unlink($_SERVER['DOCUMENT_ROOT'].$ruta);
+        if (file_exists($_SERVER['DOCUMENT_ROOT'].$ruta)) {
+            unlink($_SERVER['DOCUMENT_ROOT'].$ruta);        
+        }
     }
+
+    function copiarImagen($origen, $usuario){
+        $extension = substr($origen, strrpos($origen, "."));
+        $destino = '/back/uploads/img/'.uniqid($usuario, true).$extension;
+        copy($_SERVER['DOCUMENT_ROOT'].$origen, $_SERVER['DOCUMENT_ROOT'].$destino);
+        return $destino; 
+    } 
+
+    function copiarVideo($origen, $usuario){
+        $extension = substr($origen, strrpos($origen, "."));
+        $destino = '/back/uploads/vid/'.uniqid($usuario, true).$extension;
+        copy($_SERVER['DOCUMENT_ROOT'].$origen, $_SERVER['DOCUMENT_ROOT'].$destino);
+        return $destino; 
+    } 

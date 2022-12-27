@@ -358,18 +358,26 @@ function cargarMain(literales) {
                                     "<br>"+
                                     "<label id='titulo_clave_nueva' for='clave_nueva'>"+
                                     buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
-                                    "<input id='clave_nueva' type='password' name='clave_antigua'>"+
+                                    "<input id='clave_nueva' type='password' name='clave_nueva'>"+
                                     "<br>"+
                                     "<label id='titulo_clave_nueva_conf' for='clave_nueva_confir'>"+
                                     buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
-                                    "<input id='clave_nueva_confir' type='password' name='clave_antigua'>"+
+                                    "<input id='clave_nueva_confir' type='password' name='clave_nueva_confir'>"+
                                 "</form>",
                         preConfirm: () => {
                             const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
                             const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
                             const clave_nueva_confir = Swal.getPopup().querySelector('#clave_nueva_confir').value
                             if (!clave_antigua) {
-                                Swal.showValidationMessage("hola")
+                                Swal.showValidationMessage("valor clave antigua")
+                            } else if (!clave_nueva) {
+                                Swal.showValidationMessage("valor clave nueva")
+                            } else if (!clave_nueva_confir) {
+                                Swal.showValidationMessage("valor repite")
+                            } else if (clave_nueva != clave_nueva_confir) {
+                                Swal.showValidationMessage("valor no coincide")
+                            } else if (!new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$").test(clave_nueva)) {
+                                Swal.showValidationMessage("expresion regular")
                             } else {
                                 return {
                                     clave_antigua: clave_antigua,
@@ -383,16 +391,29 @@ function cargarMain(literales) {
                             let url = '../../back/controladores/cambiarContrasena.php'
                             let params = {
                                 method: 'POST',
-                                body: JSON.stringify(response)
+                                body: JSON.stringify(response.value)
                             }
                             fetch(url, params)
                                 .then(req => req.json())
                                 .then( respuesta => {
                                     console.log(respuesta)
-                                    if (respuesta) {
+                                    if (respuesta === true) {
                                         //alerta todo bien
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'contrasena_actualziada_correctamente'),
+                                            title: buscarLiteral(literales, 'correcto'),
+                                            icon: "success",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                        })
                                     } else {
                                         //alerta error
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + respuesta)
+                                        })
                                     }
                                 })
                         })

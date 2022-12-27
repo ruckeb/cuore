@@ -7,12 +7,16 @@
     $datos = json_decode($_REQUEST['bodyContent']);
     $codigo_error = validarFormularioRegistro($datos, $imagen, $video);
     if ($codigo_error == 0) {
-        $ruta_imagen = subirImagenAlServidor($imagen, $datos->nick);
-        $ruta_video = subirVideoAlServidor($video, $datos->nick);
-        $codigo_error = registrarUsuarioBBDD($datos->nick, $datos->fecha_nacimiento, $datos->email, $datos->sexo, $datos->perfil_busqueda, $datos->clave, $ruta_imagen, $ruta_video, $datos->latitud, $datos->longitud);
+        $ruta_imagen_usuario = subirImagenAlServidor($imagen, $datos->nick);
+        $ruta_imagen_publicacion = copiarImagen($ruta_imagen_usuario, $datos->nick);  
+        $ruta_video_usuario = subirVideoAlServidor($video, $datos->nick);
+        $ruta_video_publicacion = copiarVideo($ruta_video_usuario, $datos->nick);
+        $codigo_error = registrarUsuarioBBDD($datos->nick, $datos->fecha_nacimiento, $datos->email, $datos->sexo, $datos->perfil_busqueda, $datos->clave, $ruta_imagen_usuario, $ruta_video_usuario, $ruta_imagen_publicacion, $ruta_video_publicacion, $datos->latitud, $datos->longitud);
         if ($codigo_error != 0) {
-            borrarFicheroServidor($ruta_imagen);
-            borrarFicheroServidor($ruta_video);
+            borrarFicheroServidor($ruta_imagen_usuario);
+            borrarFicheroServidor($ruta_imagen_publicacion);
+            borrarFicheroServidor($ruta_video_usuario);
+            borrarFicheroServidor($ruta_video_publicacion);
         }
         $codigo_error = $codigo_error;
     }
