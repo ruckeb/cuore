@@ -227,7 +227,6 @@ function cargarMain(recomendaciones, index, literales) {
     let main = document.body.children[1]
     main.innerHTML = ""
 
-    console.log(recomendaciones)
     if (recomendaciones.length > 0) {
         let recomendacion = recomendaciones[index]
 
@@ -510,7 +509,6 @@ function cargarMain(recomendaciones, index, literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                  console.log(datos)
                   if (datos !== true) {
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
                   }

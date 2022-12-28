@@ -348,7 +348,6 @@ function cargarMain(literales) {
             
             let publicidad = document.createElement('a')
             publicidad.id = 'publicidad'
-            publicidad.href = 'https://www.garciabaquero.com/'
             publicidad.target = 'video_publi'
             
             let video_publi = document.createElement('video')
@@ -360,11 +359,27 @@ function cargarMain(literales) {
             video_publi.innerHTML = buscarLiteral(literales, video_publi.id) // tu navegador no soporta el video
 
             let random = Math.ceil(Math.random() * 5);
-            console.log(random)
             let source_publi = document.createElement('source')
             source_publi.src = "../back/uploads/publi/" + random + "publi.mp4"
             source_publi.type = 'video/mp4'
 
+            switch (random) {
+                case 1:
+                    publicidad.href ='https://www.garciabaquero.com/'
+                    break;
+                case 2:
+                    publicidad.href ='https://www.dior.com/es_es'
+                    break;
+                case 3:
+                    publicidad.href ='https://www.lancome.es/'
+                    break;
+                case 4:
+                    publicidad.href ='https://www.pacorabanne.com/es/es/fragrance/homepageFragrance?utm_source=adwords&utm_medium=paid_search_brand&utm_content=conversion&utm_bu=fragrance&utm_mkbr=brd_esp&utm_campaign=PR_ESP_Brand_SPA_ALL_Global_CONS&utm_term=paco%20rabanne&utm_clicktype=main_ad&gclsrc=aw.ds&gclid=CjwKCAiA76-dBhByEiwAA0_s9S8Nf3XYA08IRKXbMeUAZChKVOfQRkLE8w9xK_xqijkpfR2qNovN2BoCqaIQAvD_BwE'
+                    break;
+                default:
+                    publicidad.href ='https://www.nivea.com/'
+                    break;
+            } 
 
             video_publi.appendChild(source_publi)
             publicidad.appendChild(video_publi)
@@ -436,7 +451,6 @@ function cargarMain(literales) {
                             fetch(url, params)
                                 .then(req => req.json())
                                 .then( respuesta => {
-                                    console.log(respuesta)
                                     if (respuesta === true) {
                                         //alerta todo bien
                                         Swal.fire({
@@ -709,7 +723,6 @@ function cargarMain(literales) {
                             fetch(url, params)
                                 .then(req => req.json())
                                 .then( respuesta => {
-                                    console.log(respuesta)
                                     if (respuesta === true) {
                                         //alerta todo bien
                                         Swal.fire({
@@ -761,21 +774,51 @@ function cargarMain(literales) {
                     let caja_imagen = document.createElement('div')
                     caja_imagen.classList.add('caja_imagen')
                     caja_imagen.id = imagen.id
+
                     let imagen_interior = document.createElement('img')
                     imagen_interior.classList.add('imagen_interior')
                     imagen_interior.src = imagen.publi
 
                     caja_imagen.appendChild(imagen_interior)
                     div_caj_imagenes.appendChild(caja_imagen)
-                }
-                div_dis_img.classList.remove("ocultar")
-                h2_boton_imagenes.classList.toggle("btnActivo")
-                if (!div_dis_vid.classList.contains("ocultar")){
-                    div_dis_vid.classList.add("ocultar")
-                }
 
-                if (h2_boton_videos.classList.contains("btnActivo")){
-                    h2_boton_videos.classList.remove("btnActivo")
+                    if (mi_perfil === true) {
+                        let x = document.createElement('img')
+                        x.classList.add('x')
+                        x.src = "front/img/imgPerfil/cancelar.png"
+                        x.onclick = () => {
+                            let bodyContent = {
+                                imagen: imagen.publi
+
+                            }
+                            let url = '../../back/controladores/borrarPublicacion.php'
+                            let params = {
+                                method: 'POST',
+                                body: JSON.stringify(bodyContent)
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( datos => {
+                                    if (datos === true) {
+                                        location.reload()
+                                    }
+                                })
+                        }
+
+                        caja_imagen.appendChild(x)
+                    }
+                }
+                h2_boton_imagenes.classList.toggle("btnActivo")
+                h2_boton_videos.classList.remove("btnActivo")
+                div_dis_vid.classList.add("ocultar")
+                // if (!div_dis_vid.classList.contains("ocultar")){
+                //     div_dis_vid.classList.add("ocultar")
+                // }
+
+                if (h2_boton_imagenes.classList.contains("btnActivo")){
+                    div_dis_img.classList.remove("ocultar")
+                }else{
+                    div_dis_img.classList.add("ocultar")
                 }
 
             }
@@ -798,20 +841,48 @@ function cargarMain(literales) {
                     let video_interior = document.createElement('video')
                     video_interior.classList.add('video_interior')
                     video_interior.src = video.publi
+                    video_interior.controls = true
 
+                    if (mi_perfil === true) {
+                        let x = document.createElement('img')
+                        x.classList.add('x')
+                        x.src = "front/img/imgPerfil/cancelar.png"
+                        x.onclick = () => {
+                            let bodyContent = {
+                                video: video.publi
+
+                            }
+                            let url = '../../back/controladores/borrarPublicacion.php'
+                            let params = {
+                                method: 'POST',
+                                body: JSON.stringify(bodyContent)
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( datos => {
+                                    if (datos === true) {
+                                        location.reload()
+                                    }
+                                })
+                        }
+
+                        caja_videos.appendChild(x)
+                    }
                     caja_videos.appendChild(video_interior)
                     div_caj_videos.appendChild(caja_videos)
                 }
 
-                div_dis_vid.classList.remove("ocultar")
                 h2_boton_videos.classList.toggle("btnActivo")
+                h2_boton_imagenes.classList.remove("btnActivo")
+                div_dis_img.classList.add("ocultar")
+                // if (!div_dis_vid.classList.contains("ocultar")){
+                //     div_dis_img.classList.add("ocultar")
+                // }
 
-                if (!div_dis_img.classList.contains("ocultar")){
-                    div_dis_img.classList.add("ocultar")
-                }
-
-                if (h2_boton_imagenes.classList.contains("btnActivo")){
-                    h2_boton_imagenes.classList.remove("btnActivo")
+                if (h2_boton_videos.classList.contains("btnActivo")){
+                    div_dis_vid.classList.remove("ocultar")
+                }else{
+                    div_dis_vid.classList.add("ocultar")
                 }
             }
 
