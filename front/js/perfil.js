@@ -342,19 +342,28 @@ function cargarMain(literales) {
 
             let caja_publicidad = document.createElement('div')
             caja_publicidad.id = 'caja_publicidad'
-
+            
             let publicidad = document.createElement('a')
             publicidad.id = 'publicidad'
             publicidad.href = 'https://www.garciabaquero.com/'
             publicidad.target = 'video_publi'
             
-            let video_publi = document.createElement('iframe')
+            let video_publi = document.createElement('video')
             video_publi.id = 'video_publi'
-            video_publi.name = 'video_publi'
-            video_publi.src = "https://www.youtube.com/embed/tng-ioQfeuc"
-            video_publi.allow = 'autoplay'
-            video_publi.allow = 'muted'
+            video_publi.autoplay = true
+            video_publi.muted = true
+            video_publi.disablePictureInPicture = true
+            video_publi.loop = true
+            video_publi.innerHTML = buscarLiteral(literales, video_publi.id) // tu navegador no soporta el video
 
+            let random = Math.ceil(Math.random() * 5);
+            console.log(random)
+            let source_publi = document.createElement('source')
+            source_publi.src = "../back/uploads/publi/" + random + "publi.mp4"
+            source_publi.type = 'video/mp4'
+
+
+            video_publi.appendChild(source_publi)
             publicidad.appendChild(video_publi)
             caja_publicidad.appendChild(publicidad)
             caja_publi_edicion.appendChild(caja_publicidad)
@@ -757,6 +766,7 @@ function cargarMain(literales) {
                 if (!div_dis_vid.classList.contains("ocultar")){
                     div_dis_vid.classList.add("ocultar")
                 }
+
                 if (h2_boton_videos.classList.contains("btnActivo")){
                     h2_boton_videos.classList.remove("btnActivo")
                 }
@@ -777,6 +787,7 @@ function cargarMain(literales) {
                     let caja_videos = document.createElement('div')
                     caja_videos.classList.add('caja_videos')
                     caja_videos.id = video.id
+
                     let video_interior = document.createElement('video')
                     video_interior.classList.add('video_interior')
                     video_interior.src = video.publi
@@ -784,11 +795,14 @@ function cargarMain(literales) {
                     caja_videos.appendChild(video_interior)
                     div_caj_videos.appendChild(caja_videos)
                 }
+
                 div_dis_vid.classList.remove("ocultar")
                 h2_boton_videos.classList.toggle("btnActivo")
+
                 if (!div_dis_img.classList.contains("ocultar")){
                     div_dis_img.classList.add("ocultar")
                 }
+
                 if (h2_boton_imagenes.classList.contains("btnActivo")){
                     h2_boton_imagenes.classList.remove("btnActivo")
                 }
