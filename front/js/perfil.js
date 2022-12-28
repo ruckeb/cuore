@@ -342,7 +342,10 @@ function cargarMain(literales) {
 
             let caja_publicidad = document.createElement('div')
             caja_publicidad.id = 'caja_publicidad'
-                        
+            if (mi_perfil!==true) {
+                caja_publicidad.classList.add("center")
+            }
+            
             let publicidad = document.createElement('a')
             publicidad.id = 'publicidad'
             publicidad.target = 'video_publi'
@@ -686,8 +689,8 @@ function cargarMain(literales) {
                         showDenyButton: true,
                         confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
                         denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
-                        html:   "<form id = 'form_anadir_publi' enctype = 'multipart/form-data'>"+
-                                    "<input id='archivo' name = 'archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
+                        html:   "<form id ='form_anadir_publi' name='form_anadir_publi' enctype='multipart/form-data'>"+
+                                    "<input id='archivo' name='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
                                     "<div id = 'padre_anadir_publi'>"+
                                         "<label id='texto_imagen' for='texto'>"+
                                         buscarLiteral(literales, 'texto_imagen')+ 
@@ -709,10 +712,13 @@ function cargarMain(literales) {
                         }
                     })
                         .then( response => {
+                            let data = new FormData()
+                            data.append('archivo', document.forms.form_anadir_publi.archivo.files[0])
+                            data.append('bodyContent', JSON.stringify(response.value))
                             let url = '../../back/controladores/subirPublicacion.php'
                             let params = {
                                 method: 'POST',
-                                body: JSON.stringify(response)
+                                body: data
                             }
                             fetch(url, params)
                                 .then(req => req.json())
@@ -727,6 +733,7 @@ function cargarMain(literales) {
                                             timerProgressBar: true,
                                             showConfirmButton: false,
                                         })
+                                            .then( () => location.reload())
                                     } else {
                                         //alerta error
                                         Swal.fire({
@@ -767,6 +774,7 @@ function cargarMain(literales) {
                     let caja_imagen = document.createElement('div')
                     caja_imagen.classList.add('caja_imagen')
                     caja_imagen.id = imagen.id
+
                     let imagen_interior = document.createElement('img')
                     imagen_interior.classList.add('imagen_interior')
                     imagen_interior.src = imagen.publi
@@ -800,15 +808,17 @@ function cargarMain(literales) {
                         caja_imagen.appendChild(x)
                     }
                 }
-                div_dis_img.classList.remove("ocultar")
                 h2_boton_imagenes.classList.toggle("btnActivo")
-                if (!div_dis_vid.classList.contains("ocultar")){
-                    div_dis_vid.classList.add("ocultar")
-                }
+                h2_boton_videos.classList.remove("btnActivo")
+                div_dis_vid.classList.add("ocultar")
+                // if (!div_dis_vid.classList.contains("ocultar")){
+                //     div_dis_vid.classList.add("ocultar")
+                // }
 
-                if (h2_boton_videos.classList.contains("btnActivo")){
-                    h2_boton_videos.classList.remove("btnActivo")
-                    div_dis_vid.appendChild("ocultar")
+                if (h2_boton_imagenes.classList.contains("btnActivo")){
+                    div_dis_img.classList.remove("ocultar")
+                }else{
+                    div_dis_img.classList.add("ocultar")
                 }
 
             }
@@ -833,20 +843,46 @@ function cargarMain(literales) {
                     video_interior.src = video.publi
                     video_interior.controls = true
 
+                    if (mi_perfil === true) {
+                        let x = document.createElement('img')
+                        x.classList.add('x')
+                        x.src = "front/img/imgPerfil/cancelar.png"
+                        x.onclick = () => {
+                            let bodyContent = {
+                                video: video.publi
+
+                            }
+                            let url = '../../back/controladores/borrarPublicacion.php'
+                            let params = {
+                                method: 'POST',
+                                body: JSON.stringify(bodyContent)
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( datos => {
+                                    if (datos === true) {
+                                        location.reload()
+                                    }
+                                })
+                        }
+
+                        caja_videos.appendChild(x)
+                    }
                     caja_videos.appendChild(video_interior)
                     div_caj_videos.appendChild(caja_videos)
                 }
 
-                div_dis_vid.classList.remove("ocultar")
                 h2_boton_videos.classList.toggle("btnActivo")
+                h2_boton_imagenes.classList.remove("btnActivo")
+                div_dis_img.classList.add("ocultar")
+                // if (!div_dis_vid.classList.contains("ocultar")){
+                //     div_dis_img.classList.add("ocultar")
+                // }
 
-                if (!div_dis_img.classList.contains("ocultar")){
-                    div_dis_img.classList.add("ocultar")
-                }
-
-                if (h2_boton_imagenes.classList.contains("btnActivo")){
-                    h2_boton_imagenes.classList.remove("btnActivo")
-                    div_dis_img.classList.add("ocultar")
+                if (h2_boton_videos.classList.contains("btnActivo")){
+                    div_dis_vid.classList.remove("ocultar")
+                }else{
+                    div_dis_vid.classList.add("ocultar")
                 }
             }
 

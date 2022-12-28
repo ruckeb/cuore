@@ -2,8 +2,7 @@
     require_once '../basesDeDatos/bdCuore.php';
     require_once './subirArchivo.php';
     $imagen = $_FILES['imagen'];
-    session_start();
-    $ruta_imagen = subirImagenAlServidor($imagen, $_SESSION['usuario']);
+    $ruta_imagen = subirImagenAlServidor($imagen);
     $actualizado = actualizarImagenPerfilBBDD($ruta_imagen);
     if (is_string($actualizado)) {
         borrarFicheroServidor($actualizado);

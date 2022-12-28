@@ -515,9 +515,29 @@
                             return 515; //Error actualizando la contraseña
                         }  
                     } else {
-                        return 516; //La contraseña actual no es correcta
+                        return 504; //La contraseña actual no es correcta
                     }
                 }
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function subirPublicacionBBDD($ruta_archivo, $datos) {
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $texto = $datos->texto;
+                $sql = "INSERT INTO publicaciones (nick_publicacion, texto, imagen)
+                        VALUES ('$nick','$texto','$ruta_archivo')";
+                if ($db->query($sql) === FALSE) {
+                    return 516; //Error subiendo la publicación
+                }  
                 return true;
             } catch (Exception $e) {
                 return $e->getMessage();
