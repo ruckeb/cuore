@@ -346,7 +346,7 @@ function cargarMain(recomendaciones, index, literales) {
                 .then(req => req.json())
                 .then( datos => {
                     if (datos !== true) {
-                        //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                        Swal.showValidationMessage(buscarLiteral(literales, 'validation_7'))
                       }
                 }) 
         }
@@ -388,7 +388,7 @@ function cargarMain(recomendaciones, index, literales) {
                 .then(req => req.json())
                 .then( datos => {
                     if (datos !== true) {
-                        //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                        Swal.showValidationMessage(buscarLiteral(literales, 'validation_8'))
                       }
                 })
         }
@@ -429,7 +429,7 @@ function cargarMain(recomendaciones, index, literales) {
                 .then(req => req.json())
                 .then( datos => {
                     if (datos !== true) {
-                        //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                        Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
                       }
                 })
         }
@@ -470,7 +470,7 @@ function cargarMain(recomendaciones, index, literales) {
                 .then(req => req.json())
                 .then( datos => {
                     if (datos !== true) {
-                        //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                        Swal.showValidationMessage(buscarLiteral(literales, 'validation_10'))
                       }
                 })
         }
@@ -512,7 +512,7 @@ function cargarMain(recomendaciones, index, literales) {
                 .then( datos => {
                   console.log(datos)
                   if (datos !== true) {
-                    //swal de error --> dentro de el me tiene que devolver lo que me devuelva sara con buscarliterales
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
                   }
                 })
         }
