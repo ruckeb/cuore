@@ -342,10 +342,9 @@ function cargarMain(literales) {
 
             let caja_publicidad = document.createElement('div')
             caja_publicidad.id = 'caja_publicidad'
-            
+                        
             let publicidad = document.createElement('a')
             publicidad.id = 'publicidad'
-            publicidad.href = 'https://www.garciabaquero.com/'
             publicidad.target = 'video_publi'
             
             let video_publi = document.createElement('video')
@@ -357,11 +356,27 @@ function cargarMain(literales) {
             video_publi.innerHTML = buscarLiteral(literales, video_publi.id) // tu navegador no soporta el video
 
             let random = Math.ceil(Math.random() * 5);
-            console.log(random)
             let source_publi = document.createElement('source')
             source_publi.src = "../back/uploads/publi/" + random + "publi.mp4"
             source_publi.type = 'video/mp4'
 
+            switch (random) {
+                case 1:
+                    publicidad.href ='https://www.garciabaquero.com/'
+                    break;
+                case 2:
+                    publicidad.href ='https://www.dior.com/es_es'
+                    break;
+                case 3:
+                    publicidad.href ='https://www.lancome.es/'
+                    break;
+                case 4:
+                    publicidad.href ='https://www.pacorabanne.com/es/es/fragrance/homepageFragrance?utm_source=adwords&utm_medium=paid_search_brand&utm_content=conversion&utm_bu=fragrance&utm_mkbr=brd_esp&utm_campaign=PR_ESP_Brand_SPA_ALL_Global_CONS&utm_term=paco%20rabanne&utm_clicktype=main_ad&gclsrc=aw.ds&gclid=CjwKCAiA76-dBhByEiwAA0_s9S8Nf3XYA08IRKXbMeUAZChKVOfQRkLE8w9xK_xqijkpfR2qNovN2BoCqaIQAvD_BwE'
+                    break;
+                default:
+                    publicidad.href ='https://www.nivea.com/'
+                    break;
+            } 
 
             video_publi.appendChild(source_publi)
             publicidad.appendChild(video_publi)
@@ -433,7 +448,6 @@ function cargarMain(literales) {
                             fetch(url, params)
                                 .then(req => req.json())
                                 .then( respuesta => {
-                                    console.log(respuesta)
                                     if (respuesta === true) {
                                         //alerta todo bien
                                         Swal.fire({
@@ -672,7 +686,7 @@ function cargarMain(literales) {
                         showDenyButton: true,
                         confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
                         denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
-                        html:   "<form id = 'form_anadir_publi'>"+
+                        html:   "<form id = 'form_anadir_publi' enctype = 'multipart/form-data'>"+
                                     "<input id='archivo' name = 'archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
                                     "<div id = 'padre_anadir_publi'>"+
                                         "<label id='texto_imagen' for='texto'>"+
@@ -703,7 +717,6 @@ function cargarMain(literales) {
                             fetch(url, params)
                                 .then(req => req.json())
                                 .then( respuesta => {
-                                    console.log(respuesta)
                                     if (respuesta === true) {
                                         //alerta todo bien
                                         Swal.fire({
@@ -760,6 +773,32 @@ function cargarMain(literales) {
 
                     caja_imagen.appendChild(imagen_interior)
                     div_caj_imagenes.appendChild(caja_imagen)
+
+                    if (mi_perfil === true) {
+                        let x = document.createElement('img')
+                        x.classList.add('x')
+                        x.src = "front/img/imgPerfil/cancelar.png"
+                        x.onclick = () => {
+                            let bodyContent = {
+                                imagen: imagen.publi
+
+                            }
+                            let url = '../../back/controladores/borrarPublicacion.php'
+                            let params = {
+                                method: 'POST',
+                                body: JSON.stringify(bodyContent)
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( datos => {
+                                    if (datos === true) {
+                                        location.reload()
+                                    }
+                                })
+                        }
+
+                        caja_imagen.appendChild(x)
+                    }
                 }
                 div_dis_img.classList.remove("ocultar")
                 h2_boton_imagenes.classList.toggle("btnActivo")
@@ -769,6 +808,7 @@ function cargarMain(literales) {
 
                 if (h2_boton_videos.classList.contains("btnActivo")){
                     h2_boton_videos.classList.remove("btnActivo")
+                    div_dis_vid.appendChild("ocultar")
                 }
 
             }
@@ -791,6 +831,7 @@ function cargarMain(literales) {
                     let video_interior = document.createElement('video')
                     video_interior.classList.add('video_interior')
                     video_interior.src = video.publi
+                    video_interior.controls = true
 
                     caja_videos.appendChild(video_interior)
                     div_caj_videos.appendChild(caja_videos)
@@ -805,6 +846,7 @@ function cargarMain(literales) {
 
                 if (h2_boton_imagenes.classList.contains("btnActivo")){
                     h2_boton_imagenes.classList.remove("btnActivo")
+                    div_dis_img.classList.add("ocultar")
                 }
             }
 
