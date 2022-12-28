@@ -342,6 +342,9 @@ function cargarMain(literales) {
 
             let caja_publicidad = document.createElement('div')
             caja_publicidad.id = 'caja_publicidad'
+            if (mi_perfil!==true) {
+                caja_publicidad.classList.add("center")
+            }
             
             let publicidad = document.createElement('a')
             publicidad.id = 'publicidad'
@@ -672,8 +675,8 @@ function cargarMain(literales) {
                         showDenyButton: true,
                         confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
                         denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
-                        html:   "<form id = 'form_anadir_publi'>"+
-                                    "<input id='archivo' name = 'archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
+                        html:   "<form id ='form_anadir_publi' name='form_anadir_publi' enctype='multipart/form-data'>"+
+                                    "<input id='archivo' name='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
                                     "<div id = 'padre_anadir_publi'>"+
                                         "<label id='texto_imagen' for='texto'>"+
                                         buscarLiteral(literales, 'texto_imagen')+ 
@@ -695,10 +698,13 @@ function cargarMain(literales) {
                         }
                     })
                         .then( response => {
+                            let data = new FormData()
+                            data.append('archivo', document.forms.form_anadir_publi.archivo.files[0])
+                            data.append('bodyContent', JSON.stringify(response.value))
                             let url = '../../back/controladores/subirPublicacion.php'
                             let params = {
                                 method: 'POST',
-                                body: JSON.stringify(response)
+                                body: data
                             }
                             fetch(url, params)
                                 .then(req => req.json())
@@ -714,6 +720,7 @@ function cargarMain(literales) {
                                             timerProgressBar: true,
                                             showConfirmButton: false,
                                         })
+                                            .then( () => location.reload())
                                     } else {
                                         //alerta error
                                         Swal.fire({

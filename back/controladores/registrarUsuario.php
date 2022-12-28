@@ -7,10 +7,10 @@
     $datos = json_decode($_REQUEST['bodyContent']);
     $codigo_error = validarFormularioRegistro($datos, $imagen, $video);
     if ($codigo_error == 0) {
-        $ruta_imagen_usuario = subirImagenAlServidor($imagen, $datos->nick);
-        $ruta_imagen_publicacion = copiarImagen($ruta_imagen_usuario, $datos->nick);  
-        $ruta_video_usuario = subirVideoAlServidor($video, $datos->nick);
-        $ruta_video_publicacion = copiarVideo($ruta_video_usuario, $datos->nick);
+        $ruta_imagen_usuario = subirImagenAlServidor($imagen);
+        $ruta_imagen_publicacion = copiarImagen($ruta_imagen_usuario);  
+        $ruta_video_usuario = subirVideoAlServidor($video);
+        $ruta_video_publicacion = copiarVideo($ruta_video_usuario);
         $codigo_error = registrarUsuarioBBDD($datos->nick, $datos->fecha_nacimiento, $datos->email, $datos->sexo, $datos->perfil_busqueda, $datos->clave, $ruta_imagen_usuario, $ruta_video_usuario, $ruta_imagen_publicacion, $ruta_video_publicacion, $datos->latitud, $datos->longitud);
         if ($codigo_error != 0) {
             borrarFicheroServidor($ruta_imagen_usuario);
