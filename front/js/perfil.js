@@ -402,6 +402,12 @@ function cargarMain(literales) {
                         showDenyButton: true,
                         confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
                         denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        },
                         html:   "<form>"+
                                     "<div class = 'padre_de_todos' >"+
                                         "<label id = 'titulo_clave_antigua' for = 'clave_antigua'>"+
@@ -460,13 +466,25 @@ function cargarMain(literales) {
                                             timer: 2000,
                                             timerProgressBar: true,
                                             showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
                                         })
                                     } else {
                                         //alerta error
                                         Swal.fire({
                                             icon: 'error',
                                             title: 'Oops...',
-                                            text: buscarLiteral(literales, "server_error_" + respuesta)
+                                            text: buscarLiteral(literales, "server_error_" + respuesta),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
                                         })
                                     }
                                 })
@@ -689,6 +707,12 @@ function cargarMain(literales) {
                         showDenyButton: true,
                         confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
                         denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        },
                         html:   "<form id ='form_anadir_publi' name='form_anadir_publi' enctype='multipart/form-data'>"+
                                     "<input id='archivo' name='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
                                     "<div id = 'padre_anadir_publi'>"+
@@ -732,6 +756,12 @@ function cargarMain(literales) {
                                             timer: 2000,
                                             timerProgressBar: true,
                                             showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
                                         })
                                             .then( () => location.reload())
                                     } else {
@@ -739,7 +769,13 @@ function cargarMain(literales) {
                                         Swal.fire({
                                             icon: 'error',
                                             title: 'Oops...',
-                                            text: buscarLiteral(literales, "server_error_" + respuesta)
+                                            text: buscarLiteral(literales, "server_error_" + respuesta),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
                                         })
                                     }
                                 })
@@ -769,7 +805,7 @@ function cargarMain(literales) {
             h2_boton_imagenes.id = "h2_boton_imagenes"
             h2_boton_imagenes.innerHTML = buscarLiteral(literales, h2_boton_imagenes.id)
             h2_boton_imagenes.onclick = () =>{
-                div_caj_imagenes.innerHTML = ""
+                div_dis_img.innerHTML = ""
                 for (const imagen of usuario.imagenes_publicadas) {
                     let caja_imagen = document.createElement('div')
                     caja_imagen.classList.add('caja_imagen')
@@ -778,31 +814,78 @@ function cargarMain(literales) {
                     let imagen_interior = document.createElement('img')
                     imagen_interior.classList.add('imagen_interior')
                     imagen_interior.src = imagen.publi
+                    imagen_interior.onclick = () => {
+                        console.log("imagen")
+                    }
 
                     caja_imagen.appendChild(imagen_interior)
-                    div_caj_imagenes.appendChild(caja_imagen)
+
+                    div_dis_img.appendChild(caja_imagen)
 
                     if (mi_perfil === true) {
                         let x = document.createElement('img')
                         x.classList.add('x')
                         x.src = "front/img/imgPerfil/cancelar.png"
-                        x.onclick = () => {
-                            let bodyContent = {
-                                imagen: imagen.publi
-
-                            }
-                            let url = '../../back/controladores/borrarPublicacion.php'
-                            let params = {
-                                method: 'POST',
-                                body: JSON.stringify(bodyContent)
-                            }
-                            fetch(url, params)
-                                .then(req => req.json())
-                                .then( datos => {
-                                    if (datos === true) {
-                                        location.reload()
+                        x.onclick = (e) => {
+                            Swal.fire({
+                                title: buscarLiteral(literales, 'titulo_borrar'), //estas seguro?
+                                text: buscarLiteral(literales, 'texto_borrar'), //no podrás deshacer esta acción
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: buscarLiteral(literales, 'confirmar_alerta'),
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                },
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                    let bodyContent = {
+                                        id: e.target.parentNode.id
                                     }
-                                })
+                                    let url = '../../back/controladores/borrarPublicacion.php'
+                                    let params = {
+                                        method: 'POST',
+                                        body: JSON.stringify(bodyContent)
+                                    }
+                                    fetch(url, params)
+                                        .then(req => req.json())
+                                        .then( datos => {
+                                            if (datos === true) {
+                                                e.target.parentNode.remove()
+                                                Swal.fire({
+                                                    text: buscarLiteral(literales, 'publicacion_borrada_correctamente'), //borrado correctamente
+                                                    title: buscarLiteral(literales, 'correcto'),
+                                                    icon: "success",
+                                                    timer: 2000,
+                                                    timerProgressBar: true,
+                                                    showConfirmButton: false,
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                            } else {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Oops...',
+                                                    text: buscarLiteral(literales, "server_error_" + datos),
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                            }
+                                        })
+                                }
+                              })
                         }
 
                         caja_imagen.appendChild(x)
@@ -811,9 +894,6 @@ function cargarMain(literales) {
                 h2_boton_imagenes.classList.toggle("btnActivo")
                 h2_boton_videos.classList.remove("btnActivo")
                 div_dis_vid.classList.add("ocultar")
-                // if (!div_dis_vid.classList.contains("ocultar")){
-                //     div_dis_vid.classList.add("ocultar")
-                // }
 
                 if (h2_boton_imagenes.classList.contains("btnActivo")){
                     div_dis_img.classList.remove("ocultar")
@@ -832,11 +912,11 @@ function cargarMain(literales) {
             h2_boton_videos.id = "h2_boton_videos"
             h2_boton_videos.innerHTML = buscarLiteral(literales, h2_boton_videos.id)
             h2_boton_videos.onclick = () =>{
-                div_caj_videos.innerHTML = ""
+                div_dis_vid.innerHTML = ""
                 for (const video of usuario.videos_publicados) {
-                    let caja_videos = document.createElement('div')
-                    caja_videos.classList.add('caja_videos')
-                    caja_videos.id = video.id
+                    let caja_video = document.createElement('div')
+                    caja_video.classList.add('caja_video')
+                    caja_video.id = video.id
 
                     let video_interior = document.createElement('video')
                     video_interior.classList.add('video_interior')
@@ -847,37 +927,77 @@ function cargarMain(literales) {
                         let x = document.createElement('img')
                         x.classList.add('x')
                         x.src = "front/img/imgPerfil/cancelar.png"
-                        x.onclick = () => {
-                            let bodyContent = {
-                                video: video.publi
-
-                            }
-                            let url = '../../back/controladores/borrarPublicacion.php'
-                            let params = {
-                                method: 'POST',
-                                body: JSON.stringify(bodyContent)
-                            }
-                            fetch(url, params)
-                                .then(req => req.json())
-                                .then( datos => {
-                                    if (datos === true) {
-                                        location.reload()
+                        x.onclick = (e) => {
+                            Swal.fire({
+                                title: buscarLiteral(literales, 'titulo_borrar'), //estas seguro?
+                                text: buscarLiteral(literales, 'texto_borrar'), //no podrás deshacer esta acción
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: buscarLiteral(literales, 'confirmar_alerta'),
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                },
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                    let bodyContent = {
+                                        id: e.target.parentNode.id
                                     }
-                                })
+                                    let url = '../../back/controladores/borrarPublicacion.php'
+                                    let params = {
+                                        method: 'POST',
+                                        body: JSON.stringify(bodyContent)
+                                    }
+                                    fetch(url, params)
+                                        .then(req => req.json())
+                                        .then( datos => {
+                                            if (datos === true) {
+                                                e.target.parentNode.remove()
+                                                Swal.fire({
+                                                    text: buscarLiteral(literales, 'publicacion_borrada_correctamente'), //borrado correctamente
+                                                    title: buscarLiteral(literales, 'correcto'),
+                                                    icon: "success",
+                                                    timer: 2000,
+                                                    timerProgressBar: true,
+                                                    showConfirmButton: false,
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                            } else {
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Oops...',
+                                                    text: buscarLiteral(literales, "server_error_" + datos),
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                            }
+                                        })
+                                }
+                              })
                         }
 
-                        caja_videos.appendChild(x)
+                        caja_video.appendChild(x)
                     }
-                    caja_videos.appendChild(video_interior)
-                    div_caj_videos.appendChild(caja_videos)
+                    caja_video.appendChild(video_interior)
+                    div_dis_vid.appendChild(caja_video)
                 }
 
                 h2_boton_videos.classList.toggle("btnActivo")
                 h2_boton_imagenes.classList.remove("btnActivo")
                 div_dis_img.classList.add("ocultar")
-                // if (!div_dis_vid.classList.contains("ocultar")){
-                //     div_dis_img.classList.add("ocultar")
-                // }
 
                 if (h2_boton_videos.classList.contains("btnActivo")){
                     div_dis_vid.classList.remove("ocultar")
@@ -892,18 +1012,11 @@ function cargarMain(literales) {
             div_btn_img_vid.appendChild(boton_videos)
 
             let div_dis_img = document.createElement('div')
-            div_dis_img.id = "disImg"
+            div_dis_img.classList.add("disImg")
             div_dis_img.classList.add("ocultar")
 
-            let div_caj_imagenes = document.createElement('div')
-            div_caj_imagenes.id = "cajImagenes"
-
-
-
-            div_dis_img.appendChild(div_caj_imagenes)
-
             let div_dis_vid = document.createElement('div')
-            div_dis_vid.id = "disVid"
+            div_dis_vid.classList.add("disVid")
             div_dis_vid.classList.add("ocultar")
 
             let div_caj_videos = document.createElement('div')
