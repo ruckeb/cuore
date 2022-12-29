@@ -307,6 +307,7 @@ function cargarMain(recomendaciones, index, literales) {
     
         for (const comentario of recomendacion.comentarios) {
             let parrafo_comentario = document.createElement('p')
+            parrafo_comentario.id = comentario.id_comentario
             parrafo_comentario.classList.add('comentarios')
         
             let fecha_comentario = document.createElement('span')
@@ -338,6 +339,31 @@ function cargarMain(recomendaciones, index, literales) {
                 eliminar_comentario.onclick = (e) => {
                     e.target.parentNode.remove()
                     //fetch eliminar comentario
+                    let bodyContent = {
+                        id: comentario.id_comentario,
+                    }
+                    let url = '../../back/controladores/borrarComentario.php'
+                    let params = {
+                        method: 'POST',
+                        body: JSON.stringify(bodyContent)
+                    }
+                    fetch(url, params)
+                        .then(req => req.json())
+                        .then( datos => {
+                            if (datos !== true) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: buscarLiteral(literales, "server_error_" + datos),
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                              }
+                        }) 
                 }
 
                 parrafo_comentario.appendChild(eliminar_comentario)
@@ -567,7 +593,8 @@ function cargarMain(recomendaciones, index, literales) {
         c_comentario_personal.onkeyup = (e) => {
             if (e.keyCode == 13 && e.shiftKey) {
                 let bodyContent = {
-                    id: recomendacion.id,
+                    id_publicacion: recomendacion.id,
+                    comentario: e.target.value,
                 }
                 let url = '../../back/controladores/enviarComentario.php'
                 let params = {

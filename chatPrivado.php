@@ -1,7 +1,7 @@
 <?php
     session_start();
     if (!isset($_SESSION['token']) || !isset($_COOKIE['token']) || $_SESSION['token'] != $_COOKIE['token']) {
-        header("Location: index.html");
+        //header("Location: index.html");
     }
 ?>
 <!DOCTYPE html>
@@ -13,8 +13,9 @@
     <title>Cuore</title>
     <link rel="icon" type="image/x-icon" href="front/img/imgLogo/logo.png">
     <link rel="stylesheet" href="front/css/all.css">
-    <link rel="stylesheet" href="front/css/perfil.css">
-    <script src="front/js/perfil.js" type="module"></script>
+    <link rel="stylesheet" href="front/css/chatPrivado.css">
+    <script src="front/js/jquery-3.6.0.min.js"></script>
+    <script src="front/js/chatPrivado.js" type="module"></script>
     <script src="front/sweet/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="front/sweet/sweetalert2.css">
 </head>

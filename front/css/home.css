@@ -189,7 +189,7 @@ main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
 .eliminar_comentario{
     cursor: pointer;
     text-decoration: underline;
-    color: red;
+    color: rgb(245, 98, 135);
 }
 #contenedor_reacciones{
     width: 95%;

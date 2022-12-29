@@ -119,14 +119,18 @@ hr{
     text-align: center;
     align-items: center;
 }
+#caja_perfil_imagen > input{
+    display: none;
+}
 #imgPerfil{
     width: 99%;
-    height: 250px;
+    height: auto;
     margin: 1%;
     background-size: cover;
     border-radius: 50%;
     border: 2px solid black;
     object-fit: fill;
+    cursor: pointer;
 }
 #caja_perfil{
     width: 40%;
@@ -311,7 +315,7 @@ h2{
 .caja_imagen::after,.caja_video::after{
     content: "";
     display: block;
-    padding-bottom: 10%; /* The padding depends on the width, not on the height, so with a padding-bottom of 100% you will get a square */
+    padding-bottom: 100%; /* The padding depends on the width, not on the height, so with a padding-bottom of 100% you will get a square */
 }
 .imagen_interior,.video_interior{
     position: absolute;
