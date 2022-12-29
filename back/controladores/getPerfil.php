@@ -7,3 +7,9 @@
     $perfil = getPerfilBBDD($nick);
     $json = json_encode($perfil);
     echo $json;
+
+/* 
+    CODIGOS DE ERROR 
+    999
+
+*/

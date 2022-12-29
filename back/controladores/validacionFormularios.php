@@ -35,7 +35,6 @@
             return 9; //El usuario debe ser mayor de edad
         }
         return 0;
-        /*nombre [a-zA-ZñÑáéíóúÁÉÍÓÚàèìòùâêîôûäëïöüçÇ]{2,50}*/
     }
 
     function mayorDeEdad($fecha_nacimiento) {
@@ -63,6 +62,57 @@
         if (!preg_match("/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$/", $datos->clave_nueva) ||
             strlen($datos->clave_nueva) > 20 || strlen($datos->clave_nueva) < 8) {
             return 4; //La clave debe contener al menos una mayúscula, una minúscula y un número, además no puede contener espacios
+        }
+        return 0;
+    }
+
+    function validarActualizarPerfil($datos){
+        if (strlen($datos->nombre) > 50) {
+            return 11; //El número máximo de caracteres es 50
+        }
+        if (!preg_match("/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $datos->email) ||
+            strlen($datos->email) > 150 || strlen($datos->email) < 5) {
+            return 3; //El email debe tener el formato xxx@xxx.xxx
+        }
+        if ($datos->sexo < 1 || $datos->sexo > 5) {
+           return 12; //Sexo incorrecto
+        }
+        if ($datos->perfil_busqueda < 1 || $datos->perfil_busqueda > 11) {
+            return 13; //Perfil búsqueda incorrecto
+        }
+        return 0;
+    }
+
+    function validarImagenPerfil($imagen){
+        $extension = substr($imagen['name'], strrpos($imagen['name'], "."));
+        if (!(strtolower($extension) == ".png" 
+            || strtolower($extension) == ".jpg" 
+            || strtolower($extension) == ".jpeg")) {
+            return 509;
+        }
+        return 0;
+    }
+
+    function validarEnviarComentario($datos){
+        $texto_comentario = $datos->comentario;
+        if (strlen($texto_comentario) > 255) {
+            return 10; //El número máximo de caracteres es 255
+        }
+        return 0;
+    }
+
+    function validarSubirPublicacion($imagen, $datos){
+        $extension = substr($imagen['name'], strrpos($imagen['name'], "."));
+        if (!(strtolower($extension) == ".png" 
+            || strtolower($extension) == ".jpg" 
+            || strtolower($extension) == ".jpeg"
+            || strtolower($extension) == ".mp4"
+            || strtolower($extension) == ".ogv"
+            || strtolower($extension) == ".webm")) {
+            return 509; //Formato no permitido
+        }
+        if (strlen($datos->texto) > 255) {
+            return 10;
         }
         return 0;
     }

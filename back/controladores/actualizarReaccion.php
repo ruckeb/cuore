@@ -5,3 +5,10 @@
     $perfil = actualizarReaccionBBDD($reaccion);
     $json = json_encode($perfil);
     echo $json;
+
+/* 
+    CODIGOS DE ERROR 
+    511
+    999
+
+*/
