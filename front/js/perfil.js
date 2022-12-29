@@ -128,7 +128,7 @@ function cargarCabecera(literales) {
     boton_menu1.classList.add("btnMenu")
     boton_menu1.onclick = (e) => {
         e.preventDefault()
-        // location.href = './chatPrivado.php' 
+        location.href = './chatPrivado.php' 
     }
 
     let p_menu1 = document.createElement('p')
@@ -243,7 +243,7 @@ function cargarMain(literales) {
             img_input.name = "imgInput" 
             img_input.accept = ".PNG,.JPG,.JPEG"
             img_input.required = true
-            img_input.onclick  = () => {
+            img_input.onchange  = (e) => {
                 let data = new FormData()
                 data.append('imagen', img_input.files[0])
                 let url = '../../back/controladores/actualizarImagenPerfil.php'
@@ -254,9 +254,21 @@ function cargarMain(literales) {
                 fetch(url, params)
                 .then(req => req.json())
                 .then( datos => {
-                    if (datos == 0) {
-                       console.log(datos)
-                        }
+                    if (typeof datos == "number") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + datos),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    } else {
+                        e.target.parentNode.children[0].children[0].src = datos
+                    }
                     })
             }
             caja_perfil_imagen.appendChild(img_label)
@@ -904,6 +916,7 @@ function cargarMain(literales) {
                                         .then( datos => {
                                             if (datos === true) {
                                                 e.target.parentNode.remove()
+                                                //usuario.imagenes_publicadas --> mirar como se borra del array
                                                 Swal.fire({
                                                     text: buscarLiteral(literales, 'publicacion_borrada_correctamente'), //borrado correctamente
                                                     title: buscarLiteral(literales, 'correcto'),
@@ -1005,6 +1018,7 @@ function cargarMain(literales) {
                                         .then( datos => {
                                             if (datos === true) {
                                                 e.target.parentNode.remove()
+                                                  //usuario.videos_publicadas --> mirar como se borra del array
                                                 Swal.fire({
                                                     text: buscarLiteral(literales, 'publicacion_borrada_correctamente'), //borrado correctamente
                                                     title: buscarLiteral(literales, 'correcto'),

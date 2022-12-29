@@ -128,7 +128,7 @@ function cargarCabecera(literales) {
     boton_menu1.classList.add("btnMenu")
     boton_menu1.onclick = (e) => {
         e.preventDefault()
-        // location.href = './chatPrivado.php' 
+        location.href = './perfil.php' 
     }
 
     let p_menu1 = document.createElement('p')
@@ -199,6 +199,17 @@ function cargarCabecera(literales) {
 }
 
 function cargarMain(literales) {
+    let url_fetch 
+    let url_actual = new URL(location.href);
+    let nick = url_actual.searchParams.get("usuario");
+    let mi_perfil = false
+    if (nick!=null) {
+        url_fetch = '../../back/controladores/getPerfil.php?usuario='+nick
+    } else {
+        url_fetch = '../../back/controladores/getPerfil.php'
+        mi_perfil = true
+    }
+    
     let main = document.body.children[1]
     main.innerHTML = ""
 

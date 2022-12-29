@@ -204,7 +204,7 @@
                         ORDER BY distancia, dif_edad, fecha DESC";
                 $recomendaciones = $db->query($sql);	
                 if($recomendaciones === FALSE){		
-                    return 507; //No existen recomendaciones disponibles
+                    return 510; //No existen recomendaciones disponibles
                 } else{
                     $resultado = array();
                     foreach ($recomendaciones as $recomendacion) {
@@ -527,7 +527,7 @@
         }
     }
 
-    function subirPublicacionBBDD($ruta_archivo, $datos) {
+    function subirPublicacionBBDD($ruta_archivo, $datos){
         if (validateToken()) {
             try {
                 $db = getConnection();
@@ -537,6 +537,65 @@
                         VALUES ('$nick','$texto','$ruta_archivo')";
                 if ($db->query($sql) === FALSE) {
                     return 516; //Error subiendo la publicación
+                }  
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function borrarComentarioBBDD($comentario){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $id = $comentario->id;
+                $sql = "DELETE FROM comentarios WHERE id=$id AND nick_comenta='$nick'";
+                if ($db->query($sql) === FALSE) {
+                    return 517; //Error borrando el comentario
+                }  
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function borrarPublicacionBBDD($publicacion){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $id = $publicacion->id;
+                $sql = "DELETE FROM publicaciones WHERE id=$id AND nick_publicacion='$nick'";
+                if ($db->query($sql) === FALSE) {
+                    return 518; //Error borrando publicacion
+                }  
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function enviarComentarioBBDD($comentario){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $id_publicacion = $comentario->id_publicacion;
+                $texto = $comentario->comentario?$comentario->comentario:"";
+                $sql = "INSERT INTO comentarios (id_publicacion, nick_comenta, comentario)
+                        VALUES ($id_publicacion, '$nick', '$texto')";
+                if ($db->query($sql) === FALSE) {
+                    return 519; //Error enviando el comentario
                 }  
                 return true;
             } catch (Exception $e) {

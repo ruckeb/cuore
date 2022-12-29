@@ -22,3 +22,16 @@
     }
     $json = json_encode($codigo_error);
     echo $json;
+
+
+/* 
+    CODIGOS DE ERROR 
+    1
+    4
+    503
+    504
+    505
+    506
+    999
+
+*/
