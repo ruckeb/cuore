@@ -314,6 +314,11 @@ h2{
     padding-bottom: 10%; /* The padding depends on the width, not on the height, so with a padding-bottom of 100% you will get a square */
 }
 .imagen_interior,.video_interior{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%; /* This if for the object-fit */
     height: 100%; /* This if for the object-fit */
     object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
