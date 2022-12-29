@@ -115,14 +115,18 @@ hr{
     text-align: center;
     align-items: center;
 }
+#caja_perfil_imagen > input{
+    display: none;
+}
 #imgPerfil{
     width: 99%;
-    height: 250px;
+    height: auto;
     margin: 1%;
     background-size: cover;
     border-radius: 50%;
     border: 2px solid black;
     object-fit: fill;
+    cursor: pointer;
 }
 #caja_perfil{
     width: 40%;
@@ -286,6 +290,7 @@ h2{
 }
 .disImg,.disVid{
     width: 100%;
+    height: auto;
     background-color: #454545;
     display: flex;
     flex-wrap: wrap;
@@ -293,6 +298,7 @@ h2{
 }
 .caja_imagen,.caja_video{
     width: 24%;
+    /* height: 17%; */
     position: relative;
     margin: 1% 0 0 1%;
 }

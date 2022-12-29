@@ -226,15 +226,46 @@ function cargarMain(literales) {
             let caja_perfil_imagen = document.createElement('div')
             caja_perfil_imagen.id = "caja_perfil_imagen"
 
+            let img_label = document.createElement('label')
+            img_label.id = "imgLabel"
+            img_label.htmlFor = "imgInput"
+
             let img_perfil = document.createElement('img')
             img_perfil.id = "imgPerfil"
+            img_perfil.alt = buscarLiteral(literales, img_perfil.id)
             img_perfil.src = usuario.imagen
+
+            img_label.appendChild(img_perfil)
+
+            let img_input = document.createElement('input')
+            img_input.id = "imgInput"
+            img_input.type = "file"
+            img_input.name = "imgInput" 
+            img_input.accept = ".PNG,.JPG,.JPEG"
+            img_input.required = true
+            img_input.onclick  = () => {
+                let data = new FormData()
+                data.append('imagen', img_input.files[0])
+                let url = '../../back/controladores/registrarUsuario.php'
+                let params = {
+                    method: 'POST',
+                    body: data
+                }
+                fetch(url, params)
+                .then(req => req.json())
+                .then( datos => {
+                    if (datos == 0) {
+                       console.log(datos)
+                        }
+                    })
+            }
+            caja_perfil_imagen.appendChild(img_label)
+            caja_perfil_imagen.appendChild(img_input)
 
             let usuario_nick = document.createElement('h1')
             usuario_nick.id = "usuario_nick" 
             usuario_nick.innerHTML = usuario.nick
 
-            caja_perfil_imagen.appendChild(img_perfil)
             caja_perfil_imagen.appendChild(usuario_nick)
 
             let caja_perfil = document.createElement('div')
@@ -363,6 +394,23 @@ function cargarMain(literales) {
             source_publi.src = "../back/uploads/publi/" + random + "publi.mp4"
             source_publi.type = 'video/mp4'
 
+            switch (random) {
+                case 1:
+                    publicidad.href ='https://www.garciabaquero.com/'
+                    break;
+                case 2:
+                    publicidad.href ='https://www.dior.com/es_es'
+                    break;
+                case 3:
+                    publicidad.href ='https://www.lancome.es/'
+                    break;
+                case 4:
+                    publicidad.href ='https://www.pacorabanne.com/es/es/fragrance/homepageFragrance?utm_source=adwords&utm_medium=paid_search_brand&utm_content=conversion&utm_bu=fragrance&utm_mkbr=brd_esp&utm_campaign=PR_ESP_Brand_SPA_ALL_Global_CONS&utm_term=paco%20rabanne&utm_clicktype=main_ad&gclsrc=aw.ds&gclid=CjwKCAiA76-dBhByEiwAA0_s9S8Nf3XYA08IRKXbMeUAZChKVOfQRkLE8w9xK_xqijkpfR2qNovN2BoCqaIQAvD_BwE'
+                    break;
+                default:
+                    publicidad.href ='https://www.nivea.com/'
+                    break;
+            } 
             switch (random) {
                 case 1:
                     publicidad.href ='https://www.garciabaquero.com/'
@@ -1029,9 +1077,9 @@ function cargarMain(literales) {
             main.appendChild(div_btn_img_vid)
             main.appendChild(div_dis_img)
             main.appendChild(div_dis_vid)
-
         })
 }
+
 
 function cargarFooter() {
     let footer = document.body.children[2]

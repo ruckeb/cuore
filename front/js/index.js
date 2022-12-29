@@ -649,7 +649,7 @@ function cargarMain(literales) {
                         })
                     }
                 })
-        }
+           }
     }
 
     formulario_registro.appendChild(label_nick)
