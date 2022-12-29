@@ -128,7 +128,7 @@ function cargarCabecera(literales) {
     boton_menu1.classList.add("btnMenu")
     boton_menu1.onclick = (e) => {
         e.preventDefault()
-        // location.href = './chatPrivado.php' 
+        location.href = './chatPrivado.php' 
     }
 
     let p_menu1 = document.createElement('p')
@@ -916,6 +916,7 @@ function cargarMain(literales) {
                                         .then( datos => {
                                             if (datos === true) {
                                                 e.target.parentNode.remove()
+                                                //usuario.imagenes_publicadas --> mirar como se borra del array
                                                 Swal.fire({
                                                     text: buscarLiteral(literales, 'publicacion_borrada_correctamente'), //borrado correctamente
                                                     title: buscarLiteral(literales, 'correcto'),
@@ -1017,6 +1018,7 @@ function cargarMain(literales) {
                                         .then( datos => {
                                             if (datos === true) {
                                                 e.target.parentNode.remove()
+                                                  //usuario.videos_publicadas --> mirar como se borra del array
                                                 Swal.fire({
                                                     text: buscarLiteral(literales, 'publicacion_borrada_correctamente'), //borrado correctamente
                                                     title: buscarLiteral(literales, 'correcto'),
