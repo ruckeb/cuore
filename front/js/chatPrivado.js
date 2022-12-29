@@ -218,8 +218,7 @@ function cargarMain(literales) {
     imagen_buscador.id = "imagen_buscador"
     imagen_buscador.src = "front/img/imgChatPrivado/lupa.png"
 
-    input_buscador.appendChild(imagen_buscador)
-
+    caja_buscador.appendChild(imagen_buscador)
     caja_buscador.appendChild(input_buscador)
 
     let caja_usuarios = document.createElement('div')
@@ -236,6 +235,11 @@ function cargarMain(literales) {
     nick_usuario.id = "nick_usuario"
     // nick_usuario.innerHTML = usuario.nick 
 
+    caja_usuario.appendChild(imagen_usuario)
+    caja_usuario.appendChild(nick_usuario)
+
+    caja_usuarios.appendChild(caja_usuario)
+
     bloque1.appendChild(caja_buscador)
     bloque1.appendChild(caja_usuarios)
 
@@ -245,7 +249,7 @@ function cargarMain(literales) {
     let chat = document.createElement('div')
     chat.id = "chat"
 
-    let comentario_chatPrivado = document.createElement('div')
+    let comentario_chatPrivado = document.createElement('textarea')
     comentario_chatPrivado.id = "comentario"
     comentario_chatPrivado.placeholder = buscarLiteral(literales, comentario_chatPrivado.id)
 

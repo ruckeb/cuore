@@ -246,7 +246,7 @@ function cargarMain(literales) {
             img_input.onclick  = () => {
                 let data = new FormData()
                 data.append('imagen', img_input.files[0])
-                let url = '../../back/controladores/registrarUsuario.php'
+                let url = '../../back/controladores/actualizarImagenPerfil.php'
                 let params = {
                     method: 'POST',
                     body: data
