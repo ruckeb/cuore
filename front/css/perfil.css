@@ -47,9 +47,6 @@ footer img{
     height: 40px;
     margin-left: 55%;
 }
-.ocultar{
-    display: none;
-}
 button{
     height: 40px;
     width: 150px;
@@ -94,6 +91,10 @@ main{
     overflow-y: scroll;
     -ms-overflow-style: none;  /* IE y Edge */
     scrollbar-width: none;  /* Firefox */
+}
+/* para ocultar la barra de scroll Chrome, Safari y Opera*/
+main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
+    display: none;
 }
 /* para ocultar la barra de scroll Chrome, Safari y Opera*/
 main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
@@ -287,35 +288,35 @@ form{
 h2{
     font-size: 20px;
 }
-#disImg,#disVid{
+.disImg,.disVid{
     width: 100%;
     height: auto;
-    border-collapse: collapse;
     background-color: #454545;
-}
-#cajImagenes, #cajVideos{
-    width: 100%;
-    height: auto;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
     flex-wrap: wrap;
-    gap: 1%;
-    padding: 1%;
+    justify-content: flex-start;
 }
-.caja_imagen,.caja_videos{
-    width: 23.7%;
-    height: 45%;
+.caja_imagen,.caja_video{
+    width: 24%;
+    /* height: 17%; */
     position: relative;
+    margin: 1% 0 0 1%;
+}
+.caja_imagen{
+    cursor: pointer;
+}
+.caja_video>.x{
+    cursor: pointer;
+}
+.caja_imagen::after,.caja_video::after{
+    content: "";
+    display: block;
+    padding-bottom: 10%; /* The padding depends on the width, not on the height, so with a padding-bottom of 100% you will get a square */
 }
 .imagen_interior,.video_interior{
-    width: 100%;
-    height: 100%;
-    margin: 1%;
-    border-collapse: collapse;
-    object-fit: fill;
-    cursor: pointer;
+    width: 100%; /* This if for the object-fit */
+    height: 100%; /* This if for the object-fit */
+    object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
 }
 .videos{
     width: 25%;
@@ -331,4 +332,7 @@ h2{
 }
 .center{
     align-self: center;
+}
+.ocultar{
+    display: none;
 }

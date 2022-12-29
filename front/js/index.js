@@ -32,7 +32,13 @@ function obtenerUbicacion(literales) {
             title: 'Oops...',
             text: buscarLiteral(literales, "error_ubicacion"),
             allowOutsideClick: false,
-            allowEscapeKey: false
+            allowEscapeKey: false,
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
         }).then(function () {
             location.reload()
         })
@@ -280,7 +286,13 @@ function cargarMain(literales) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: buscarLiteral(literales, "server_error_" + datos)
+                            text: buscarLiteral(literales, "server_error_" + datos),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
                         })
                     }
                 })
@@ -613,6 +625,12 @@ function cargarMain(literales) {
                             timer: 3000,
                             timerProgressBar: true,
                             showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
                         })    
                             .then(function () {
                                 document.getElementById("iniciar_sesion").click()
@@ -621,7 +639,13 @@ function cargarMain(literales) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
-                            text: buscarLiteral(literales, "server_error_" + datos)
+                            text: buscarLiteral(literales, "server_error_" + datos),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
                         })
                     }
                 })

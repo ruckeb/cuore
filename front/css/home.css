@@ -186,6 +186,11 @@ main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
     cursor: pointer;
     color: rgb(245, 98, 135);
 }
+.eliminar_comentario{
+    cursor: pointer;
+    text-decoration: underline;
+    color: red;
+}
 #contenedor_reacciones{
     width: 95%;
     height: 10%;

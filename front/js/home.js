@@ -11,6 +11,16 @@ window.onload = ()=>{
     cargarHome()
 
 }
+var usuario_logueado
+let url = '../../back/controladores/getUsuarioLogeado.php'
+let params = {
+    method: 'GET',
+}
+fetch(url, params)
+    .then(req => req.json())
+    .then( usuario => {
+        usuario_logueado = usuario.usuario
+    })
 
 function cargarHome() {
     cargarFooter()
@@ -317,6 +327,21 @@ function cargarMain(recomendaciones, index, literales) {
             parrafo_comentario.appendChild(fecha_comentario)
             parrafo_comentario.appendChild(usuario_comentario)
             parrafo_comentario.appendChild(texto_comentario)
+
+            console.log(usuario_logueado)
+            console.log(comentario.nick_comentario)
+            if(usuario_logueado == comentario.nick_comentario) {
+                texto_comentario.innerHTML = texto_comentario.innerHTML + " "
+                let eliminar_comentario = document.createElement('span')
+                eliminar_comentario.classList.add('eliminar_comentario')
+                eliminar_comentario.innerHTML = buscarLiteral(literales, 'eliminar_comentario')
+                eliminar_comentario.onclick = (e) => {
+                    e.target.parentNode.remove()
+                    //fetch eliminar comentario
+                }
+
+                parrafo_comentario.appendChild(eliminar_comentario)
+            }
         
             contenedor_comentarios.appendChild(parrafo_comentario)
         }
@@ -539,8 +564,8 @@ function cargarMain(recomendaciones, index, literales) {
         let c_comentario_personal = document.createElement('textarea')
         c_comentario_personal.id = 'c_comentario_personal'
         c_comentario_personal.placeholder = buscarLiteral(literales, c_comentario_personal.id)
-        c_comentario_personal.onkeypress = (e) => {
-            if (e.keyCode == 13 && !e.shiftKey) {
+        c_comentario_personal.onkeyup = (e) => {
+            if (e.keyCode == 13 && e.shiftKey) {
                 let bodyContent = {
                     id: recomendacion.id,
                 }
@@ -554,6 +579,38 @@ function cargarMain(recomendaciones, index, literales) {
                     .then( datos => {
                       console.log(datos)
                     })
+                let parrafo_comentario = document.createElement('p')
+                parrafo_comentario.classList.add('comentarios')
+            
+                let fecha_comentario = document.createElement('span')
+                fecha_comentario.classList.add('fecha_comentario')
+                let fecha_actual = new Date()
+                fecha_comentario.innerHTML = ("0" + fecha_actual.getFullYear()).slice(-4) + "-" + 
+                                            ("0" + fecha_actual.getMonth()).slice(-2) + "-" +
+                                            ("0" + fecha_actual.getDay()).slice(-2) + " " + 
+                                            ("0" + fecha_actual.getHours()).slice(-2) + ":" + 
+                                            ("0" + fecha_actual.getMinutes()).slice(-2) + ":" + 
+                                            ("0" + fecha_actual.getSeconds()).slice(-2)
+            
+                let usuario_comentario = document.createElement('span')
+                usuario_comentario.classList.add('usuario_comentario')
+                console.log(usuario_logueado)
+                usuario_comentario.innerHTML = " " + usuario_logueado + " "
+                usuario_comentario.onclick = () => {
+                    location.href = "perfil.php?usuario=" + usuario_comentario.innerHTML.trim()
+                }
+            
+                let texto_comentario = document.createElement('span')
+                texto_comentario.classList.add('texto_comentario')
+                texto_comentario.innerHTML = c_comentario_personal.value
+                
+                parrafo_comentario.appendChild(fecha_comentario)
+                parrafo_comentario.appendChild(usuario_comentario)
+                parrafo_comentario.appendChild(texto_comentario)
+            
+                // contenedor_comentarios.appendChild(parrafo_comentario)
+                contenedor_comentarios.insertBefore(parrafo_comentario, contenedor_comentarios.children[0]); 
+                e.target.value = ""
             } 
         }
     
@@ -625,7 +682,13 @@ function cargarMain(recomendaciones, index, literales) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: buscarLiteral(literales, "server_error_" + datos)
+            text: buscarLiteral(literales, "server_error_" + recomendaciones),
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
         })
     }
 
