@@ -96,10 +96,6 @@ main{
 main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
     display: none;
 }
-/* para ocultar la barra de scroll Chrome, Safari y Opera*/
-main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
-    display: none;
-}
 #section1{
     display: flex;
     flex-direction: row;
