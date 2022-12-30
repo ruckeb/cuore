@@ -41,6 +41,15 @@ function cargarCabecera(literales) {
         location.href = "home.php"
     }
 
+    let boton_premium = document.createElement('button')
+    boton_premium.id = "boton_premium"
+    boton_premium.classList.add("boton_cabecera")
+    boton_premium.innerHTML = buscarLiteral(literales, boton_premium.id)
+    boton_premium.onclick = e => {
+        e.preventDefault()
+       
+    }
+
     let div_botones_login = document.createElement('div')
     div_botones_login.id = "botones_login"
 
@@ -186,6 +195,7 @@ function cargarCabecera(literales) {
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
+    div_botones_login.appendChild(boton_premium)
     div_botones_login.appendChild(boton_espana)
     div_botones_login.appendChild(boton_reino_unido)
     div_botones_login.appendChild(boton_francia)

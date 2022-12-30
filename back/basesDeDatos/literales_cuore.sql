@@ -347,6 +347,7 @@ VALUES
 ('perfil', 'imgPerfil', 'es', 'Añadir Foto Perfíl'),
 ('perfil', 'texto_imagen', 'es', 'Comentario: '),
 ('perfil', 'texto_correo', 'es', 'Mensaje: '),
+('perfil', 'boton_premium', 'es', 'HAZTE PREMIUM'),
 ('perfil', 'p_menu1', 'es', 'CHAT PRIVADO'),
 ('perfil', 'p_menu2', 'es', 'SUGERENCIAS A CUORE'),
 ('perfil', 'p_menu3', 'es', 'CONTACTANOS'),
