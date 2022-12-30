@@ -642,3 +642,58 @@
             return 999; //Token de sesion ha expirado
         }
     }
+
+    function getUsuariosChatBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT u.imagen, u.nick
+                        FROM mensajes m
+                        LEFT JOIN usuarios u
+                        ON m.nick_destino=u.nick
+                        WHERE m.nick_origen='$nick'
+                        OR m.nick_destino='$nick'
+                        AND u.nick!='$nick'";
+                $usuarios = $db->query($sql);
+                $resultado = array();
+                foreach ($usuarios as $usuario) {
+                    array_push($resultado, $usuario);
+                }
+                if (empty($resultado)) {
+                    return 521; //No existen más usuarios premium
+                }
+                return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getUsuariosPremiumBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT nick, imagen 
+                        FROM usuarios 
+                        WHERE premium=1
+                        AND nick!='$nick'";
+                $usuarios = $db->query($sql);
+                $resultado = array();
+                foreach ($usuarios as $usuario) {
+                    array_push($resultado, $usuario);
+                }
+                if (empty($resultado)) {
+                    return 521; //No existen más usuarios premium
+                }
+                return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
