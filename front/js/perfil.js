@@ -783,9 +783,9 @@ function cargarMain(literales) {
                                     "</div>"+
                                 "</form>",
                         preConfirm: () => {
-                            const archivo = Swal.getPopup().querySelector('#archivo').value
+                            const archivo = Swal.getPopup().querySelector('#archivo')
                             const texto = Swal.getPopup().querySelector('#texto').value
-                            if (!archivo) {
+                            if (!archivo.value) {
                                 Swal.showValidationMessage(buscarLiteral(literales, 'validation_6'))
                             } else {
                                 return {
@@ -796,9 +796,12 @@ function cargarMain(literales) {
                         }
                     })
                         .then( response => {
+                            let bodyContent = {
+                                texto: response.value.texto
+                            }
                             let data = new FormData()
-                            data.append('archivo', document.forms.form_anadir_publi.archivo.files[0])
-                            data.append('bodyContent', JSON.stringify(response.value))
+                            data.append('archivo', response.value.archivo.files[0])
+                            data.append('bodyContent', JSON.stringify(bodyContent))
                             let url = '../../back/controladores/subirPublicacion.php'
                             let params = {
                                 method: 'POST',
@@ -915,6 +918,13 @@ function cargarMain(literales) {
                                         .then(req => req.json())
                                         .then( datos => {
                                             if (datos === true) {
+                                                for (let i = 0; i < usuario.imagenes_publicadas.length; i++) {
+                                                    const element = usuario.imagenes_publicadas[i];
+                                                    if (element.id == e.target.parentNode.id) {
+                                                        usuario.imagenes_publicadas.splice(i, 1);
+                                                        break;
+                                                    }
+                                                }
                                                 e.target.parentNode.remove()
                                                 //usuario.imagenes_publicadas --> mirar como se borra del array
                                                 Swal.fire({
@@ -1017,6 +1027,13 @@ function cargarMain(literales) {
                                         .then(req => req.json())
                                         .then( datos => {
                                             if (datos === true) {
+                                                for (let i = 0; i < usuario.videos_publicados.length; i++) {
+                                                    const element = usuario.videos_publicados[i];
+                                                    if (element.id == e.target.parentNode.id) {
+                                                        usuario.videos_publicados.splice(i, 1);
+                                                        break;
+                                                    }
+                                                }
                                                 e.target.parentNode.remove()
                                                   //usuario.videos_publicadas --> mirar como se borra del array
                                                 Swal.fire({
