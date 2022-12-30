@@ -877,8 +877,8 @@ function cargarMain(literales) {
                     let imagen_interior = document.createElement('img')
                     imagen_interior.classList.add('imagen_interior')
                     imagen_interior.src = imagen.publi
-                    imagen_interior.onclick = () => {
-                        console.log("imagen")
+                    imagen_interior.onclick = (e) => {
+                        location.href = 'home.php?id=' + e.target.parentNode.id
                     }
 
                     caja_imagen.appendChild(imagen_interior)
