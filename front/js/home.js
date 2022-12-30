@@ -261,7 +261,6 @@ function cargarMain(recomendaciones, index, literales) {
         fetch(url, params)
             .then(req => req.json())
             .then( publicacion => {
-                console.log(publicacion)
                 
                 let c_recomendaciones_img = document.createElement('div')
                 c_recomendaciones_img.id = "c_recomendaciones_img"

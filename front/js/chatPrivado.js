@@ -8,11 +8,24 @@ window.onload = ()=>{
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
 
-    cargarPerfil()
-
+    var usuario_logueado
+    let url = '../../back/controladores/getUsuarioLogeado.php'
+    let params = {
+        method: 'GET',
+    }
+    fetch(url, params)
+        .then(req => req.json())
+        .then( usuario => {
+            usuario_logueado = usuario
+            if (usuario_logueado.premium == 0) {
+                //TO-DO sweet alert no puedes acceder a esta zona si no eres un usuario premium
+            } else {
+                cargarChat()
+            }
+        })
 }
 
-function cargarPerfil() {
+function cargarChat() {
     cargarFooter()
     let bodyContent = {
         id_html: 'perfil',
@@ -199,17 +212,26 @@ function cargarCabecera(literales) {
 }
 
 function cargarMain(literales) {
-    let url_fetch 
-    let url_actual = new URL(location.href);
-    let nick = url_actual.searchParams.get("usuario");
-    let mi_perfil = false
-    if (nick!=null) {
-        url_fetch = '../../back/controladores/getPerfil.php?usuario='+nick
-    } else {
-        url_fetch = '../../back/controladores/getPerfil.php'
-        mi_perfil = true
+    let url = '../../back/controladores/getUsuariosPremium.php'
+    let params = {
+        method: 'GET',
     }
+    fetch(url, params)
+        .then(req => req.json())
+        .then( usuarios => {
+            cargarBuscador(usuarios)
+        })
     
+    let url2 = '../../back/controladores/getUsuariosChat.php'
+    let params2 = {
+        method: 'GET',
+    }
+    fetch(url2, params2)
+        .then(req => req.json())
+        .then( usuarios => {
+            cargarUsuarios(usuarios)
+        })
+
     let main = document.body.children[1]
     main.innerHTML = ""
 
@@ -235,22 +257,6 @@ function cargarMain(literales) {
     let caja_usuarios = document.createElement('div')
     caja_usuarios.id = "caja_usuarios"
 
-    let caja_usuario = document.createElement('div')
-    caja_usuario.id = "caja_usuario"
-
-    let imagen_usuario = document.createElement('img')
-    imagen_usuario.id = "imagen_usuario"
-    // imagen_usuario.src = usuario.imagen
-
-    let nick_usuario = document.createElement('h1')
-    nick_usuario.id = "nick_usuario"
-    // nick_usuario.innerHTML = usuario.nick 
-
-    caja_usuario.appendChild(imagen_usuario)
-    caja_usuario.appendChild(nick_usuario)
-
-    caja_usuarios.appendChild(caja_usuario)
-
     bloque1.appendChild(caja_buscador)
     bloque1.appendChild(caja_usuarios)
 
@@ -269,6 +275,51 @@ function cargarMain(literales) {
 
     main.appendChild(bloque1)
     main.appendChild(bloque2)
+}
+
+function cargarBuscador(usuarios) {
+    let buscador = document.getElementById("caja_buscador")
+    let usuarios_buscador = document.createElement('div')
+    usuarios_buscador.id = "usuarios_buscador" 
+    buscador.appendChild(usuarios_buscador)
+    for (const usuario of usuarios) {
+        let caja_usuario = document.createElement('div')
+        caja_usuario.id = "caja_usuario"
+
+        let imagen_usuario = document.createElement('img')
+        imagen_usuario.id = "imagen_usuario"
+        imagen_usuario.src = usuario.imagen
+
+        let nick_usuario = document.createElement('h1')
+        nick_usuario.id = "nick_usuario"
+        nick_usuario.innerHTML = usuario.nick 
+
+        caja_usuario.appendChild(imagen_usuario)
+        caja_usuario.appendChild(nick_usuario)
+
+        usuarios_buscador.appendChild(caja_usuario)
+    }
+}
+
+function cargarUsuarios(usuarios) {
+    let caja = document.getElementById("caja_usuarios")
+    for (const usuario of usuarios) {
+        let caja_usuario = document.createElement('div')
+        caja_usuario.id = "caja_usuario"
+
+        let imagen_usuario = document.createElement('img')
+        imagen_usuario.id = "imagen_usuario"
+        imagen_usuario.src = usuario.imagen
+
+        let nick_usuario = document.createElement('h1')
+        nick_usuario.id = "nick_usuario"
+        nick_usuario.innerHTML = usuario.nick 
+
+        caja_usuario.appendChild(imagen_usuario)
+        caja_usuario.appendChild(nick_usuario)
+
+        caja.appendChild(caja_usuario)
+    }
 }
 
 
