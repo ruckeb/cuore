@@ -47,7 +47,139 @@ function cargarCabecera(literales) {
     boton_premium.innerHTML = buscarLiteral(literales, boton_premium.id)
     boton_premium.onclick = e => {
         e.preventDefault()
-       
+        Swal.fire({
+            showDenyButton: true,
+            confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+            denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            },
+            html:   "<form>"+
+                        "<div class = 'caja_premium'>"+
+                        "<h5 id = 'titulo_premium'>"+
+                        buscarLiteral(literales, 'titulo_premium')+ "</h5>"+  
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_nombre_completo' for = 'text_nombre_completo'>"+
+                            buscarLiteral(literales, 'titulo_nombre_completo')+ "</label>"+
+                            "<input id = 'text_nombre_completo' type = 'text' name = 'text_nombre_completo' autocomplete = 'off'>"+      
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_isbn' for = 'text_isbn'>"+
+                            buscarLiteral(literales, 'titulo_isbn')+ "</label>"+
+                            "<input id = 'text_isbn' type = 'text' name = 'text_isbn' autocomplete = 'off'>"+      
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_caducidad' for = 'texto_caducidad'>"+
+                            buscarLiteral(literales, 'titulo_caducidad')+ "</label>"+
+                                "<div class= 'grupo-select'>"+
+                                    "<select name='mes' id='selectMes'>"+
+                                        "<option selected>12</option>"+
+                                        "<option selected>11</option>"+
+                                        "<option selected>10</option>"+
+                                        "<option selected>09</option>"+
+                                        "<option selected>08</option>"+
+                                        "<option selected>07</option>"+
+                                        "<option selected>06</option>"+
+                                        "<option selected>05</option>"+
+                                        "<option selected>04</option>"+
+                                        "<option selected>03</option>"+
+                                        "<option selected>02</option>"+
+                                        "<option selected>01</option>"+
+                                    "</select>"+
+                                    "<i class='fas fa-angle-down'></i>"+
+                                "</div>"+
+                                "<div class='grupo-select'>"+
+                                    "<select name='year' class='selectYear'>"+
+                                        "<option selected>40</option>"+
+                                        "<option selected>39</option>"+
+                                        "<option selected>38</option>"+
+                                        "<option selected>37</option>"+
+                                        "<option selected>36</option>"+
+                                        "<option selected>35</option>"+
+                                        "<option selected>34</option>"+
+                                        "<option selected>33</option>"+
+                                        "<option selected>32</option>"+
+                                        "<option selected>31</option>"+
+                                        "<option selected>30</option>"+
+                                        "<option selected>29</option>"+
+                                        "<option selected>28</option>"+
+                                        "<option selected>27</option>"+
+                                        "<option selected>26</option>"+
+                                        "<option selected>25</option>"+
+                                        "<option selected>24</option>"+
+                                        "<option selected>23</option>"+
+                                    "</select>"+
+                                "	<i class='fas fa-angle-down'></i>"+
+                                "</div>"+
+                            "<label id = 'titulo_cvv' for = 'texto_cvv'>"+
+                            buscarLiteral(literales, 'titulo_cvv')+ "</label>"+
+                            "<input id = 'texto_cvv' type = 'password' name = 'texto_cvv' autocomplete = 'off'>"+
+                        "</div>"+
+                    "</form>",
+            preConfirm: () => {
+                const text_isbn = Swal.getPopup().querySelector('#text_isbn').value
+                const texto_caducidad = Swal.getPopup().querySelector('#texto_caducidad').value
+                const texto_cvv = Swal.getPopup().querySelector('#texto_cvv').value
+                if (!text_isbn) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_7'))
+                } else if (!texto_caducidad) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_8'))
+                } else if (!texto_cvv) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
+                } else {
+                    return {
+                        text_isbn: text_isbn,
+                        texto_caducidad: texto_caducidad,
+                        texto_cvv: texto_cvv
+                    }
+                }
+            }
+        })
+            .then( response => {
+                let url = '../../back/controladores/enviarPago.php'
+                let params = {
+                    method: 'POST',
+                    body: JSON.stringify(response.value)
+                }
+                fetch(url, params)
+                    .then(req => req.json())
+                    .then( respuesta => {
+                        if (respuesta === true) {
+                            //alerta todo bien
+                            Swal.fire({
+                                text: buscarLiteral(literales, 'pago_realizado_correctamente'),
+                                title: buscarLiteral(literales, 'correcto'),
+                                icon: "success",
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                            })
+                        } else {
+                            //alerta error
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: buscarLiteral(literales, "server_error_" + respuesta),
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                            })
+                        }
+                    })
+            })
     }
 
     let div_botones_login = document.createElement('div')
@@ -787,8 +919,7 @@ function cargarMain(literales) {
                                     "<input id='archivo' name='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
                                     "<div id = 'padre_anadir_publi'>"+
                                         "<label id='texto_imagen' for='texto'>"+
-                                        buscarLiteral(literales, 'texto_imagen')+ 
-                                        "</label>"+
+                                        buscarLiteral(literales, 'texto_imagen')+ "</label>"+
                                         "<input id='texto' type='textarea'>"+
                                     "</div>"+
                                 "</form>",
