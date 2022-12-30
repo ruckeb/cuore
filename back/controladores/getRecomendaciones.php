@@ -1,6 +1,10 @@
 <?php
     require_once '../basesDeDatos/bdCuore.php';
-    $recomendaciones = getRecomendacionesBBDD();
+    $id = null;
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+    }
+    $recomendaciones = getRecomendacionesBBDD($id);
     $json = json_encode($recomendaciones);
     echo $json;
 
