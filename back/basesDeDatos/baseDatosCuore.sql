@@ -11,11 +11,13 @@ INSERT INTO sexos (sexo)
 VALUES 
 ('Hombre'),
 ('Mujer'),
+('Intersexo hombre'),
+('Intersexo mujer'),
 ('Otro');
 
 CREATE TABLE IF NOT EXISTS busquedas (
     id INT UNSIGNED AUTO_INCREMENT,
-    busqueda VARCHAR(19) NOT NULL,
+    busqueda VARCHAR(32) NOT NULL,
     CONSTRAINT PK_busquedas PRIMARY KEY (id)
 );
 
@@ -23,7 +25,15 @@ INSERT INTO busquedas (busqueda)
 VALUES 
 ('Hombres'),
 ('Mujeres'),
-('Ambos');
+('Intersexo hombre'),
+('Intersexo mujer'),
+('Hombres-Mujeres'),
+('Hombres-Intersexo hombre'),
+('Hombres-Intersexo mujer'),
+('Mujeres-Intersexo hombre'),
+('Mujeres-Intersexo mujer'),
+('Intersexo hombre-Intersexo mujer'),
+('Todos');
 
 CREATE TABLE IF NOT EXISTS usuarios (
     nick VARCHAR(50),
@@ -36,6 +46,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     video_present VARCHAR(255) NOT NULL,
     clave VARCHAR(60) NOT NULL,
     ubicacion POINT NOT NULL,
+    premium TINYINT(1) NOT NULL DEFAULT 0,
     CONSTRAINT PK_usuarios PRIMARY KEY (nick),
     CONSTRAINT FK_usarios_sexos FOREIGN KEY (sexo) REFERENCES sexos (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT FK_usarios_busquedas FOREIGN KEY (perfil_busqueda) REFERENCES busquedas (id) ON DELETE CASCADE ON UPDATE CASCADE
