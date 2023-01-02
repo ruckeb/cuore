@@ -193,14 +193,20 @@ main{
 }
 
 #chat{
-    width: 100%;
+    width: 98%;
     height: 80%;
+    padding: 1%;
     border-bottom: 1px solid rgb(245, 98, 135);
     border-collapse: collapse;
+    overflow-y: scroll;
+}
+
+#chat>p{
+    margin-top: 1%;
 }
 
 #comentario{
-    width: 100%;
+    width: 98%;
     height: 20%;
     padding: 1%;
     border: none;

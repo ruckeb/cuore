@@ -77,41 +77,41 @@ function cargarCabecera(literales) {
                             buscarLiteral(literales, 'titulo_caducidad')+ "</label>"+
                                 "<div class= 'grupo-select'>"+
                                     "<select name='mes' id='selectMes'>"+
-                                        "<option selected>12</option>"+
-                                        "<option selected>11</option>"+
-                                        "<option selected>10</option>"+
-                                        "<option selected>09</option>"+
-                                        "<option selected>08</option>"+
-                                        "<option selected>07</option>"+
-                                        "<option selected>06</option>"+
-                                        "<option selected>05</option>"+
-                                        "<option selected>04</option>"+
-                                        "<option selected>03</option>"+
-                                        "<option selected>02</option>"+
-                                        "<option selected>01</option>"+
+                                        "<option value=12>12</option>"+
+                                        "<option value=11>11</option>"+
+                                        "<option value=10>10</option>"+
+                                        "<option value=9>09</option>"+
+                                        "<option value=8>08</option>"+
+                                        "<option value=7>07</option>"+
+                                        "<option value=6>06</option>"+
+                                        "<option value=5>05</option>"+
+                                        "<option value=4>04</option>"+
+                                        "<option value=3>03</option>"+
+                                        "<option value=2>02</option>"+
+                                        "<option value=1 selected>01</option>"+
                                     "</select>"+
                                     "<i class='fas fa-angle-down'></i>"+
-                                "</div>"+
+                                "</div>"+"<span>/</span>"+
                                 "<div class='grupo-select'>"+
-                                    "<select name='year' class='selectYear'>"+
-                                        "<option selected>40</option>"+
-                                        "<option selected>39</option>"+
-                                        "<option selected>38</option>"+
-                                        "<option selected>37</option>"+
-                                        "<option selected>36</option>"+
-                                        "<option selected>35</option>"+
-                                        "<option selected>34</option>"+
-                                        "<option selected>33</option>"+
-                                        "<option selected>32</option>"+
-                                        "<option selected>31</option>"+
-                                        "<option selected>30</option>"+
-                                        "<option selected>29</option>"+
-                                        "<option selected>28</option>"+
-                                        "<option selected>27</option>"+
-                                        "<option selected>26</option>"+
-                                        "<option selected>25</option>"+
-                                        "<option selected>24</option>"+
-                                        "<option selected>23</option>"+
+                                    "<select name='year' id='selectYear'>"+
+                                        "<option value=40>40</option>"+
+                                        "<option value=39>39</option>"+
+                                        "<option value=38>38</option>"+
+                                        "<option value=37>37</option>"+
+                                        "<option value=36>36</option>"+
+                                        "<option value=35>35</option>"+
+                                        "<option value=34>34</option>"+
+                                        "<option value=33>33</option>"+
+                                        "<option value=32>32</option>"+
+                                        "<option value=31>31</option>"+
+                                        "<option value=30>30</option>"+
+                                        "<option value=29>29</option>"+
+                                        "<option value=28>28</option>"+
+                                        "<option value=27>27</option>"+
+                                        "<option value=26>26</option>"+
+                                        "<option value=25>25</option>"+
+                                        "<option value=24>24</option>"+
+                                        "<option value=23 selected>23</option>"+
                                     "</select>"+
                                 "	<i class='fas fa-angle-down'></i>"+
                                 "</div>"+
@@ -121,19 +121,25 @@ function cargarCabecera(literales) {
                         "</div>"+
                     "</form>",
             preConfirm: () => {
+                const text_nombre_completo = Swal.getPopup().querySelector('#text_nombre_completo').value
                 const text_isbn = Swal.getPopup().querySelector('#text_isbn').value
-                const texto_caducidad = Swal.getPopup().querySelector('#texto_caducidad').value
+                const mes = Swal.getPopup().querySelector('#selectMes').value
+                const anyo = Swal.getPopup().querySelector('#selectYear').value
                 const texto_cvv = Swal.getPopup().querySelector('#texto_cvv').value
-                if (!text_isbn) {
+                if (!text_nombre_completo) {
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_7'))
-                } else if (!texto_caducidad) {
+                } else if (!text_isbn) {
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_8'))
-                } else if (!texto_cvv) {
+                } else if (!mes || !anyo) {
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
+                } else if (!texto_cvv) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_10'))
                 } else {
                     return {
+                        text_nombre_completo: text_nombre_completo,
                         text_isbn: text_isbn,
-                        texto_caducidad: texto_caducidad,
+                        mes: mes,
+                        anyo: anyo,
                         texto_cvv: texto_cvv
                     }
                 }

@@ -547,6 +547,30 @@
         }
     }
 
+    function enviarMensajeBBDD($mensaje){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $usuario_destino = $mensaje->usuario_destino;
+                $texto = $mensaje->texto;
+                $sql = "INSERT INTO mensajes (nick_origen, nick_destino, texto)
+                        VALUES ('$nick', '$usuario_destino', '$texto')";
+                if ($db->query($sql) === FALSE) {
+                    return 520; //Error insertando el mensaje
+                }  
+                $lastId = $db->lastInsertId();
+                return array(
+                    'id' => $lastId
+                );
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
     function getUsuarioLogeadoBBDD(){
         if (validateToken()) {
             try {
@@ -648,7 +672,7 @@
             try {
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
-                $sql = "SELECT u.imagen, u.nick
+                $sql = "SELECT DISTINCT u.imagen, u.nick
                         FROM mensajes m
                         LEFT JOIN usuarios u
                         ON m.nick_destino=u.nick
@@ -659,9 +683,6 @@
                 $resultado = array();
                 foreach ($usuarios as $usuario) {
                     array_push($resultado, $usuario);
-                }
-                if (empty($resultado)) {
-                    return 521; //No existen más usuarios premium
                 }
                 return $resultado;
             } catch (Exception $e) {
@@ -686,8 +707,30 @@
                 foreach ($usuarios as $usuario) {
                     array_push($resultado, $usuario);
                 }
-                if (empty($resultado)) {
-                    return 521; //No existen más usuarios premium
+                return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function cargarMensajesBBDD($datos){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $nick_destino = $datos->nick_destino;
+                $sql = "SELECT * 
+                        FROM mensajes
+                        WHERE nick_origen IN ('$nick', '$nick_destino')
+                        AND nick_destino IN ('$nick', '$nick_destino')
+                        ORDER BY creado";
+                $mensajes = $db->query($sql);
+                $resultado = array();
+                foreach ($mensajes as $mensaje) {
+                    array_push($resultado, $mensaje);
                 }
                 return $resultado;
             } catch (Exception $e) {
