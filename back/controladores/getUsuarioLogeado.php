@@ -1,4 +1,5 @@
 <?php
-    session_start();
-    $json = json_encode(array("usuario"=>$_SESSION['usuario']));
+    require_once '../basesDeDatos/bdCuore.php';
+    $usuario = getUsuarioLogeadoBBDD();
+    $json = json_encode($usuario);
     echo $json;

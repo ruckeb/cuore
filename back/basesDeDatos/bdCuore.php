@@ -142,127 +142,65 @@
         }
     }
 
-    function getRecomendacionesBBDD(){
+    function getRecomendacionesBBDD($id){
         if (validateToken()) {
             try {
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
-                $sql = "SELECT recomen.id, nick, texto, imagen, creado, distancia, dif_edad, total_labios, total_pulgares, total_fuegos, total_corazones, total_dislikes,
-                        labios_yo, pulgar_yo, fuego_yo, corazon_yo, dislike_yo, c.id AS id_comentario, nick_comenta, fecha, comentario
-                        FROM
+                if (is_null($id)) {
+                    $sql = "SELECT id FROM
                         (
-                            SELECT id, nick, texto, imagen, creado, distancia, dif_edad, messirve, sexo, logged_nick, perfil_busqueda,
-                            (SELECT COALESCE(SUM(labios), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as labios_yo,
-                            (SELECT COALESCE(SUM(pulgar), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as pulgar_yo,
-                            (SELECT COALESCE(SUM(fuego), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as fuego_yo,
-                            (SELECT COALESCE(SUM(corazon), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as corazon_yo,
-                            (SELECT COALESCE(SUM(dislike), 0) FROM reacciones WHERE nick_reaccion=logged_nick AND id=id_publicacion) as dislike_yo,
-                            COALESCE(SUM(r.labios), 0) as total_labios, COALESCE(SUM(r.pulgar), 0) as total_pulgares, 
-                            COALESCE(SUM(r.fuego), 0) as total_fuegos, COALESCE(SUM(r.corazon), 0) as total_corazones, 
-                            COALESCE(SUM(r.dislike), 0) as total_dislikes
-                            FROM
-                            (
-                                SELECT u.nick, u.sexo, logged.nick as logged_nick, logged.perfil_busqueda,
-                                CASE 
-                                    WHEN logged.perfil_busqueda <5 AND logged.perfil_busqueda = u.sexo THEN 1
-                                    WHEN logged.perfil_busqueda = 5 AND (u.sexo = 1 OR u.sexo = 2) THEN 1
-                                    WHEN logged.perfil_busqueda = 6 AND (u.sexo = 1 OR u.sexo = 3) THEN 1
-                                    WHEN logged.perfil_busqueda = 7 AND (u.sexo = 1 OR u.sexo = 4) THEN 1
-                                    WHEN logged.perfil_busqueda = 8 AND (u.sexo = 2 OR u.sexo = 3) THEN 1
-                                    WHEN logged.perfil_busqueda = 9 AND (u.sexo = 2 OR u.sexo = 4) THEN 1
-                                    WHEN logged.perfil_busqueda = 10 AND (u.sexo = 3 OR u.sexo = 4) THEN 1
-                                    WHEN logged.perfil_busqueda = 11 THEN 1
-                                    ELSE 0
-                                END as messirve,
-                                distanciaCoordenadas(X(u.ubicacion), Y(u.ubicacion), X(logged.ubicacion), Y(logged.ubicacion)) as distancia,
-                                ABS(DATEDIFF(u.fecha_nacimiento, logged.fecha_nacimiento)) as dif_edad
-                                FROM usuarios u
-                                JOIN usuarios logged
-                                WHERE logged.nick = '$nick'
-                                AND u.nick != logged.nick
-                            ) usuarios_r
-                            JOIN 
-                            (
-                                SELECT *
-                                FROM publicaciones p
-                                WHERE 
-                                (p.nick_publicacion, p.creado) IN (
-                                    SELECT nick_publicacion, MAX(creado)
-                                    FROM publicaciones
-                                    WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
-                                    GROUP BY nick_publicacion)
-                                AND SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
-                            ) ultima_publicacion
-                            ON usuarios_r.nick = ultima_publicacion.nick_publicacion
-                            LEFT JOIN reacciones r 
-                            ON r.id_publicacion=ultima_publicacion.id
-                            WHERE messirve=1
-                            GROUP BY id
-                        ) recomen
-                        LEFT JOIN comentarios c
-                        ON c.id_publicacion= recomen.id
-                        ORDER BY distancia, dif_edad, fecha DESC";
+                            SELECT u.nick, u.sexo, logged.nick as logged_nick, logged.perfil_busqueda,
+                            CASE 
+                                WHEN logged.perfil_busqueda <5 AND logged.perfil_busqueda = u.sexo THEN 1
+                                WHEN logged.perfil_busqueda = 5 AND (u.sexo = 1 OR u.sexo = 2) THEN 1
+                                WHEN logged.perfil_busqueda = 6 AND (u.sexo = 1 OR u.sexo = 3) THEN 1
+                                WHEN logged.perfil_busqueda = 7 AND (u.sexo = 1 OR u.sexo = 4) THEN 1
+                                WHEN logged.perfil_busqueda = 8 AND (u.sexo = 2 OR u.sexo = 3) THEN 1
+                                WHEN logged.perfil_busqueda = 9 AND (u.sexo = 2 OR u.sexo = 4) THEN 1
+                                WHEN logged.perfil_busqueda = 10 AND (u.sexo = 3 OR u.sexo = 4) THEN 1
+                                WHEN logged.perfil_busqueda = 11 THEN 1
+                                ELSE 0
+                            END as messirve,
+                            distanciaCoordenadas(X(u.ubicacion), Y(u.ubicacion), X(logged.ubicacion), Y(logged.ubicacion)) as distancia,
+                            ABS(DATEDIFF(u.fecha_nacimiento, logged.fecha_nacimiento)) as dif_edad
+                            FROM usuarios u
+                            JOIN usuarios logged
+                            WHERE logged.nick = '$nick'
+                            AND u.nick != logged.nick
+                        ) usuarios_r
+                        JOIN 
+                        (
+                            SELECT *
+                            FROM publicaciones p
+                            WHERE 
+                            (p.nick_publicacion, p.creado) IN (
+                                SELECT nick_publicacion, MAX(creado)
+                                FROM publicaciones
+                                WHERE SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
+                                GROUP BY nick_publicacion)
+                            AND SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
+                        ) ultima_publicacion
+                        ON usuarios_r.nick = ultima_publicacion.nick_publicacion
+                        WHERE messirve=1
+                        GROUP BY id
+                        ORDER BY distancia, dif_edad, creado DESC";
+                } else {
+                    $sql = "SELECT id 
+                            FROM publicaciones
+                            WHERE nick_publicacion IN (SELECT nick_publicacion FROM publicaciones WHERE id=$id)
+                            AND SUBSTRING_INDEX(SUBSTRING_INDEX(imagen, '/', -2), '/', 1) = 'img'
+                            ORDER BY creado DESC";
+                }
                 $recomendaciones = $db->query($sql);	
                 if($recomendaciones === FALSE){		
                     return 510; //No existen recomendaciones disponibles
-                } else{
-                    $resultado = array();
-                    foreach ($recomendaciones as $recomendacion) {
-                        $recomen = array(
-                            'id' => $recomendacion['id'],
-                            'nick' => $recomendacion['nick'],
-                            'texto' => $recomendacion['texto'],
-                            'imagen' => $recomendacion['imagen'],
-                            'creado' => $recomendacion['creado'],
-                            'distancia' => $recomendacion['distancia'],
-                            'dif_edad' => $recomendacion['dif_edad'],
-                            'labios' => $recomendacion['total_labios'],
-                            'pulgares' => $recomendacion['total_pulgares'],
-                            'fuegos' => $recomendacion['total_fuegos'],
-                            'corazones' => $recomendacion['total_corazones'],
-                            'dislikes' => $recomendacion['total_dislikes'],
-                            'labios_yo' => $recomendacion['labios_yo'],
-                            'pulgar_yo' => $recomendacion['pulgar_yo'],
-                            'fuego_yo' => $recomendacion['fuego_yo'],
-                            'corazon_yo' => $recomendacion['corazon_yo'],
-                            'dislike_yo' => $recomendacion['dislike_yo'],
-                            'comentarios' => array(),
-                        );
-                        $index = null;
-                        foreach ($resultado as $key => $value) {
-                            if ($value['id'] == $recomendacion['id']) {
-                                $index = $key;
-                                break;
-                            }
-                        }
-                        if (!isset($index)) {
-                            if (isset($recomendacion['id_comentario'])) {
-                                $comentario = array(
-                                    'id_comentario' => $recomendacion['id_comentario'],
-                                    'fecha_comentario' => $recomendacion['fecha'],
-                                    'nick_comentario' => $recomendacion['nick_comenta'],
-                                    'comentario' => $recomendacion['comentario'],
-                                );
-                                array_push($recomen['comentarios'], $comentario);
-                            }
-                            array_push($resultado, $recomen);
-                        } else {
-                            if (isset($recomendacion['id_comentario'])) {
-                                $comentario = array(
-                                    'id_comentario' => $recomendacion['id_comentario'],
-                                    'fecha_comentario' => $recomendacion['fecha'],
-                                    'nick_comentario' => $recomendacion['nick_comenta'],
-                                    'comentario' => $recomendacion['comentario'],
-                                );
-                                array_push($resultado[$index]['comentarios'], $comentario);
-                            }
-                        }
-                    }
-                    if (empty($resultado)) {
-                        return 510; //no existen recomendaciones
-                    }
-                    return $resultado;
+                } 
+                $resultado = array();
+                foreach ($recomendaciones as $recomendacion) {
+                    array_push($resultado, $recomendacion);
                 }
+                return $resultado;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -597,7 +535,204 @@
                 if ($db->query($sql) === FALSE) {
                     return 519; //Error enviando el comentario
                 }  
-                return true;
+                $lastId = $db->lastInsertId();
+                return array(
+                    'id' => $lastId
+                );
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function enviarMensajeBBDD($mensaje){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $usuario_destino = $mensaje->usuario_destino;
+                $texto = $mensaje->texto;
+                $sql = "INSERT INTO mensajes (nick_origen, nick_destino, texto)
+                        VALUES ('$nick', '$usuario_destino', '$texto')";
+                if ($db->query($sql) === FALSE) {
+                    return 520; //Error insertando el mensaje
+                }  
+                $lastId = $db->lastInsertId();
+                return array(
+                    'id' => $lastId
+                );
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getUsuarioLogeadoBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT nick, premium FROM usuarios WHERE nick='$nick'";
+                $usuarios = $db->query($sql);
+                if($usuarios->rowCount() === 1){		
+                    foreach ($usuarios as $usuario) {
+                        return $usuario;
+                    }
+                }
+                return 520; //error usuario logueado
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getPublicacionBBDD($id){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT publi.*, c.id as id_comentario, c.nick_comenta, c.fecha, c.comentario
+                        FROM
+                        (SELECT id, nick_publicacion, texto, imagen, creado, 
+                        COALESCE(SUM(labios), 0) as total_labios, 
+                        COALESCE(SUM(pulgar), 0) as total_pulgares,
+                        COALESCE(SUM(fuego), 0) as total_fuegos, 
+                        COALESCE(SUM(corazon), 0) as total_corazones,
+                        COALESCE(SUM(dislike), 0) as total_dislikes,
+                        (SELECT COALESCE(SUM(labios), 0) FROM reacciones WHERE nick_reaccion='$nick' and id_publicacion=p.id) as labios_yo,
+                        (SELECT COALESCE(SUM(pulgar), 0) FROM reacciones WHERE nick_reaccion='$nick' and id_publicacion=p.id) as pulgar_yo,
+                        (SELECT COALESCE(SUM(fuego) , 0) FROM reacciones WHERE nick_reaccion='$nick' and id_publicacion=p.id) as fuego_yo,
+                        (SELECT COALESCE(SUM(corazon) , 0) FROM reacciones WHERE nick_reaccion='$nick' and id_publicacion=p.id) as corazon_yo,
+                        (SELECT COALESCE(SUM(dislike) , 0) FROM reacciones WHERE nick_reaccion='$nick' and id_publicacion=p.id) as dislike_yo
+                        FROM publicaciones p
+                        LEFT JOIN
+                        reacciones r
+                        ON r.id_publicacion = p.id
+                        WHERE p.id=$id
+                        GROUP BY p.id) publi
+                        LEFT JOIN comentarios c
+                        ON c.id_publicacion=publi.id
+                        ORDER BY c.fecha DESC";
+                $publicaciones = $db->query($sql);
+                $resultado = array();
+                $contador = 0;
+                foreach ($publicaciones as $publicacion) {
+                    if ($contador==0) {
+                        $resultado = array(
+                            'id' => $publicacion['id'],
+                            'nick' => $publicacion['nick_publicacion'],
+                            'texto' => $publicacion['texto'],
+                            'imagen' => $publicacion['imagen'],
+                            'fecha' => $publicacion['creado'],
+                            'labios' => $publicacion['total_labios'],
+                            'pulgares' => $publicacion['total_pulgares'],
+                            'fuegos' => $publicacion['total_fuegos'],
+                            'corazones' => $publicacion['total_corazones'],
+                            'dislikes' => $publicacion['total_dislikes'],
+                            'labios_yo' => $publicacion['labios_yo'],
+                            'pulgar_yo' => $publicacion['pulgar_yo'],
+                            'fuego_yo' => $publicacion['fuego_yo'],
+                            'corazon_yo' => $publicacion['corazon_yo'],
+                            'dislike_yo' => $publicacion['dislike_yo'],
+                            'comentarios' => array()
+                        );
+                        $contador++;
+                    }
+                    if (!is_null($publicacion['id_comentario'])) {
+                        $comentario = array(
+                            'id_comentario' => $publicacion['id_comentario'],
+                            'nick_comentario' => $publicacion['nick_comenta'],
+                            'fecha_comentario' => $publicacion['fecha'],
+                            'comentario' => $publicacion['comentario']
+    
+                        );
+                        array_push($resultado['comentarios'], $comentario);
+                    }
+                }
+                if (empty($resultado)) {
+                    return 521; //No existe la publicacion indicada
+                }
+                return $resultado; 
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getUsuariosChatBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT DISTINCT u.imagen, u.nick
+                        FROM mensajes m
+                        LEFT JOIN usuarios u
+                        ON m.nick_destino=u.nick
+                        WHERE m.nick_origen='$nick'
+                        OR m.nick_destino='$nick'
+                        AND u.nick!='$nick'";
+                $usuarios = $db->query($sql);
+                $resultado = array();
+                foreach ($usuarios as $usuario) {
+                    array_push($resultado, $usuario);
+                }
+                return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getUsuariosPremiumBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT nick, imagen 
+                        FROM usuarios 
+                        WHERE premium=1
+                        AND nick!='$nick'";
+                $usuarios = $db->query($sql);
+                $resultado = array();
+                foreach ($usuarios as $usuario) {
+                    array_push($resultado, $usuario);
+                }
+                return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function cargarMensajesBBDD($datos){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $nick_destino = $datos->nick_destino;
+                $sql = "SELECT * 
+                        FROM mensajes
+                        WHERE nick_origen IN ('$nick', '$nick_destino')
+                        AND nick_destino IN ('$nick', '$nick_destino')
+                        ORDER BY creado";
+                $mensajes = $db->query($sql);
+                $resultado = array();
+                foreach ($mensajes as $mensaje) {
+                    array_push($resultado, $mensaje);
+                }
+                return $resultado;
             } catch (Exception $e) {
                 return $e->getMessage();
             }

@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS mensajes (
     nick_origen VARCHAR(50) NOT NULL, 
     nick_destino VARCHAR(50) NOT NULL,                    
     texto VARCHAR (500) NOT NULL,
-    creado DATETIME NOT NULL DEFAULT current_timestamp,
+    fecha DATETIME NOT NULL DEFAULT current_timestamp,
     CONSTRAINT PK_mensajes PRIMARY KEY (idMensaje),
     CONSTRAINT FK_mensajes_usuarios_origen FOREIGN KEY (nick_origen) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT FK_mensajes_usuarios_destino FOREIGN KEY (nick_destino) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE

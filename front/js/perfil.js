@@ -41,6 +41,153 @@ function cargarCabecera(literales) {
         location.href = "home.php"
     }
 
+    let boton_premium = document.createElement('button')
+    boton_premium.id = "boton_premium"
+    boton_premium.classList.add("boton_cabecera")
+    boton_premium.innerHTML = buscarLiteral(literales, boton_premium.id)
+    boton_premium.onclick = e => {
+        e.preventDefault()
+        Swal.fire({
+            showDenyButton: true,
+            confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+            denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            },
+            html:   "<form>"+
+                        "<div class = 'caja_premium'>"+
+                        "<h5 id = 'titulo_premium'>"+
+                        buscarLiteral(literales, 'titulo_premium')+ "</h5>"+  
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_nombre_completo' for = 'text_nombre_completo'>"+
+                            buscarLiteral(literales, 'titulo_nombre_completo')+ "</label>"+
+                            "<input id = 'text_nombre_completo' type = 'text' name = 'text_nombre_completo' autocomplete = 'off'>"+      
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_isbn' for = 'text_isbn'>"+
+                            buscarLiteral(literales, 'titulo_isbn')+ "</label>"+
+                            "<input id = 'text_isbn' type = 'text' name = 'text_isbn' autocomplete = 'off'>"+      
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_caducidad' for = 'texto_caducidad'>"+
+                            buscarLiteral(literales, 'titulo_caducidad')+ "</label>"+
+                                "<div class= 'grupo-select'>"+
+                                    "<select name='mes' id='selectMes'>"+
+                                        "<option value=12>12</option>"+
+                                        "<option value=11>11</option>"+
+                                        "<option value=10>10</option>"+
+                                        "<option value=9>09</option>"+
+                                        "<option value=8>08</option>"+
+                                        "<option value=7>07</option>"+
+                                        "<option value=6>06</option>"+
+                                        "<option value=5>05</option>"+
+                                        "<option value=4>04</option>"+
+                                        "<option value=3>03</option>"+
+                                        "<option value=2>02</option>"+
+                                        "<option value=1 selected>01</option>"+
+                                    "</select>"+
+                                    "<i class='fas fa-angle-down'></i>"+
+                                "</div>"+"<span>/</span>"+
+                                "<div class='grupo-select'>"+
+                                    "<select name='year' id='selectYear'>"+
+                                        "<option value=40>40</option>"+
+                                        "<option value=39>39</option>"+
+                                        "<option value=38>38</option>"+
+                                        "<option value=37>37</option>"+
+                                        "<option value=36>36</option>"+
+                                        "<option value=35>35</option>"+
+                                        "<option value=34>34</option>"+
+                                        "<option value=33>33</option>"+
+                                        "<option value=32>32</option>"+
+                                        "<option value=31>31</option>"+
+                                        "<option value=30>30</option>"+
+                                        "<option value=29>29</option>"+
+                                        "<option value=28>28</option>"+
+                                        "<option value=27>27</option>"+
+                                        "<option value=26>26</option>"+
+                                        "<option value=25>25</option>"+
+                                        "<option value=24>24</option>"+
+                                        "<option value=23 selected>23</option>"+
+                                    "</select>"+
+                                "	<i class='fas fa-angle-down'></i>"+
+                                "</div>"+
+                            "<label id = 'titulo_cvv' for = 'texto_cvv'>"+
+                            buscarLiteral(literales, 'titulo_cvv')+ "</label>"+
+                            "<input id = 'texto_cvv' type = 'password' name = 'texto_cvv' autocomplete = 'off'>"+
+                        "</div>"+
+                    "</form>",
+            preConfirm: () => {
+                const text_nombre_completo = Swal.getPopup().querySelector('#text_nombre_completo').value
+                const text_isbn = Swal.getPopup().querySelector('#text_isbn').value
+                const mes = Swal.getPopup().querySelector('#selectMes').value
+                const anyo = Swal.getPopup().querySelector('#selectYear').value
+                const texto_cvv = Swal.getPopup().querySelector('#texto_cvv').value
+                if (!text_nombre_completo) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_7'))
+                } else if (!text_isbn) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_8'))
+                } else if (!mes || !anyo) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
+                } else if (!texto_cvv) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_10'))
+                } else {
+                    return {
+                        text_nombre_completo: text_nombre_completo,
+                        text_isbn: text_isbn,
+                        mes: mes,
+                        anyo: anyo,
+                        texto_cvv: texto_cvv
+                    }
+                }
+            }
+        })
+            .then( response => {
+                let url = '../../back/controladores/enviarPago.php'
+                let params = {
+                    method: 'POST',
+                    body: JSON.stringify(response.value)
+                }
+                fetch(url, params)
+                    .then(req => req.json())
+                    .then( respuesta => {
+                        if (respuesta === true) {
+                            //alerta todo bien
+                            Swal.fire({
+                                text: buscarLiteral(literales, 'pago_realizado_correctamente'),
+                                title: buscarLiteral(literales, 'correcto'),
+                                icon: "success",
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                            })
+                        } else {
+                            //alerta error
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: buscarLiteral(literales, "server_error_" + respuesta),
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                            })
+                        }
+                    })
+            })
+    }
+
     let div_botones_login = document.createElement('div')
     div_botones_login.id = "botones_login"
 
@@ -186,6 +333,7 @@ function cargarCabecera(literales) {
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
+    div_botones_login.appendChild(boton_premium)
     div_botones_login.appendChild(boton_espana)
     div_botones_login.appendChild(boton_reino_unido)
     div_botones_login.appendChild(boton_francia)
@@ -777,8 +925,7 @@ function cargarMain(literales) {
                                     "<input id='archivo' name='archivo' type='file' accept='.PNG,.JPG,.JPEG,.MP4,.OGV,.WEBM'>"+
                                     "<div id = 'padre_anadir_publi'>"+
                                         "<label id='texto_imagen' for='texto'>"+
-                                        buscarLiteral(literales, 'texto_imagen')+ 
-                                        "</label>"+
+                                        buscarLiteral(literales, 'texto_imagen')+ "</label>"+
                                         "<input id='texto' type='textarea'>"+
                                     "</div>"+
                                 "</form>",
@@ -877,8 +1024,8 @@ function cargarMain(literales) {
                     let imagen_interior = document.createElement('img')
                     imagen_interior.classList.add('imagen_interior')
                     imagen_interior.src = imagen.publi
-                    imagen_interior.onclick = () => {
-                        console.log("imagen")
+                    imagen_interior.onclick = (e) => {
+                        location.href = 'home.php?id=' + e.target.parentNode.id
                     }
 
                     caja_imagen.appendChild(imagen_interior)
@@ -926,6 +1073,7 @@ function cargarMain(literales) {
                                                     }
                                                 }
                                                 e.target.parentNode.remove()
+                                                //usuario.imagenes_publicadas --> mirar como se borra del array
                                                 Swal.fire({
                                                     text: buscarLiteral(literales, 'publicacion_borrada_correctamente'), //borrado correctamente
                                                     title: buscarLiteral(literales, 'correcto'),
@@ -1034,6 +1182,7 @@ function cargarMain(literales) {
                                                     }
                                                 }
                                                 e.target.parentNode.remove()
+                                                  //usuario.videos_publicadas --> mirar como se borra del array
                                                 Swal.fire({
                                                     text: buscarLiteral(literales, 'publicacion_borrada_correctamente'), //borrado correctamente
                                                     title: buscarLiteral(literales, 'correcto'),

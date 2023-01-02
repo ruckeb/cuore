@@ -1,5 +1,7 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
-
+var interval
+var usu_dest
+var usuario_logueado
 window.onload = ()=>{
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
@@ -8,11 +10,23 @@ window.onload = ()=>{
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
 
-    cargarPerfil()
-
+    let url = '../../back/controladores/getUsuarioLogeado.php'
+    let params = {
+        method: 'GET',
+    }
+    fetch(url, params)
+        .then(req => req.json())
+        .then( usuario => {
+            usuario_logueado = usuario
+            if (usuario_logueado.premium == 0) {
+                //TO-DO sweet alert no puedes acceder a esta zona si no eres un usuario premium
+            } else {
+                cargarChat()
+            }
+        })
 }
 
-function cargarPerfil() {
+function cargarChat() {
     cargarFooter()
     let bodyContent = {
         id_html: 'perfil',
@@ -199,17 +213,26 @@ function cargarCabecera(literales) {
 }
 
 function cargarMain(literales) {
-    let url_fetch 
-    let url_actual = new URL(location.href);
-    let nick = url_actual.searchParams.get("usuario");
-    let mi_perfil = false
-    if (nick!=null) {
-        url_fetch = '../../back/controladores/getPerfil.php?usuario='+nick
-    } else {
-        url_fetch = '../../back/controladores/getPerfil.php'
-        mi_perfil = true
+    let url = '../../back/controladores/getUsuariosPremium.php'
+    let params = {
+        method: 'GET',
     }
+    fetch(url, params)
+        .then(req => req.json())
+        .then( usuarios => {
+            cargarBuscador(usuarios)
+        })
     
+    let url2 = '../../back/controladores/getUsuariosChat.php'
+    let params2 = {
+        method: 'GET',
+    }
+    fetch(url2, params2)
+        .then(req => req.json())
+        .then( usuarios => {
+            cargarUsuarios(usuarios)
+        })
+
     let main = document.body.children[1]
     main.innerHTML = ""
 
@@ -235,22 +258,6 @@ function cargarMain(literales) {
     let caja_usuarios = document.createElement('div')
     caja_usuarios.id = "caja_usuarios"
 
-    let caja_usuario = document.createElement('div')
-    caja_usuario.id = "caja_usuario"
-
-    let imagen_usuario = document.createElement('img')
-    imagen_usuario.id = "imagen_usuario"
-    // imagen_usuario.src = usuario.imagen
-
-    let nick_usuario = document.createElement('h1')
-    nick_usuario.id = "nick_usuario"
-    // nick_usuario.innerHTML = usuario.nick 
-
-    caja_usuario.appendChild(imagen_usuario)
-    caja_usuario.appendChild(nick_usuario)
-
-    caja_usuarios.appendChild(caja_usuario)
-
     bloque1.appendChild(caja_buscador)
     bloque1.appendChild(caja_usuarios)
 
@@ -263,12 +270,177 @@ function cargarMain(literales) {
     let comentario_chatPrivado = document.createElement('textarea')
     comentario_chatPrivado.id = "comentario"
     comentario_chatPrivado.placeholder = buscarLiteral(literales, comentario_chatPrivado.id)
+    comentario_chatPrivado.disabled = true
+    comentario_chatPrivado.onkeyup = (e) => {
+        if (e.keyCode == 13 && e.shiftKey) {
+            let bodyContent = {
+                usuario_destino: usu_dest,
+                texto: e.target.value,
+            }
+            let url = '../../back/controladores/enviarMensaje.php'
+            let params = {
+                method: 'POST',
+                body: JSON.stringify(bodyContent)
+            }
+            fetch(url, params)
+                .then(req => req.json())
+                .then( datos => { 
+                    if (datos.id) {
+
+                        let parrafo_chat = document.createElement('p')
+                        parrafo_chat.id = datos.id
+                    
+                        let fecha_chat = document.createElement('span')
+                        fecha_chat.classList.add('fecha_chat')
+                        let fecha_actual = new Date()
+                        fecha_chat.innerHTML = ("0" + fecha_actual.getFullYear()).slice(-4) + "-" + 
+                                                    ("0" + (fecha_actual.getMonth() + 1)).slice(-2) + "-" +
+                                                    ("0" + fecha_actual.getDate()).slice(-2) + " " + 
+                                                    ("0" + fecha_actual.getHours()).slice(-2) + ":" + 
+                                                    ("0" + fecha_actual.getMinutes()).slice(-2) + ":" + 
+                                                    ("0" + fecha_actual.getSeconds()).slice(-2)
+                    
+                        let usuario_origen = document.createElement('span')
+                        usuario_origen.classList.add('usuario_origen')
+                        usuario_origen.innerHTML = " " + usuario_logueado.nick + ": "
+                        usuario_origen.onclick = () => {
+                            location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
+                        }
+                    
+                        let texto_mensaje = document.createElement('span')
+                        texto_mensaje.classList.add('texto_mensaje')
+                        texto_mensaje.innerHTML = comentario_chatPrivado.value
+                        
+                        parrafo_chat.appendChild(fecha_chat)
+                        parrafo_chat.appendChild(usuario_origen)
+                        parrafo_chat.appendChild(texto_mensaje)
+
+                        chat.appendChild(parrafo_chat); 
+                        e.target.value = ""
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + datos),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
+                })
+        }
+    }
 
     bloque2.appendChild(chat)
     bloque2.appendChild(comentario_chatPrivado)
 
     main.appendChild(bloque1)
     main.appendChild(bloque2)
+}
+
+function cargarBuscador(usuarios) {
+    let buscador = document.getElementById("caja_buscador")
+    let usuarios_buscador = document.createElement('div')
+    usuarios_buscador.id = "usuarios_buscador" 
+    buscador.appendChild(usuarios_buscador)
+    for (const usuario of usuarios) {
+        let caja_usuario = document.createElement('div')
+        caja_usuario.id = "caja_usuario"
+        caja_usuario.onclick = () => {
+            cargarChatDe(usuario.nick)
+        }
+
+        let imagen_usuario = document.createElement('img')
+        imagen_usuario.id = "imagen_usuario"
+        imagen_usuario.src = usuario.imagen
+
+        let nick_usuario = document.createElement('h1')
+        nick_usuario.id = "nick_usuario"
+        nick_usuario.innerHTML = usuario.nick 
+
+        caja_usuario.appendChild(imagen_usuario)
+        caja_usuario.appendChild(nick_usuario)
+
+        usuarios_buscador.appendChild(caja_usuario)
+    }
+}
+
+function cargarUsuarios(usuarios) {
+    let caja = document.getElementById("caja_usuarios")
+    for (const usuario of usuarios) {
+        let caja_usuario = document.createElement('div')
+        caja_usuario.id = "caja_usuario"
+        caja_usuario.onclick = () => {
+            /*if (interval) {
+                clearInterval(interval)
+            }*/
+            usu_dest = usuario.nick
+            cargarChatDe(usuario.nick)
+           /* interval = setInterval(() =>{cargarChatDe(usuario.nick)}, 1000)*/
+        }
+
+        let imagen_usuario = document.createElement('img')
+        imagen_usuario.id = "imagen_usuario"
+        imagen_usuario.src = usuario.imagen
+
+        let nick_usuario = document.createElement('h1')
+        nick_usuario.id = "nick_usuario"
+        nick_usuario.innerHTML = usuario.nick 
+
+        caja_usuario.appendChild(imagen_usuario)
+        caja_usuario.appendChild(nick_usuario)
+
+        caja.appendChild(caja_usuario)
+    }
+}
+
+function cargarChatDe(nick) {
+    document.getElementById('comentario').removeAttribute('disabled')
+    let bodyContent = {
+        nick_destino: nick,
+    }
+    let url = '../../back/controladores/cargarMensajes.php'
+    let params = {
+        method: 'POST',
+        body: JSON.stringify(bodyContent)
+    }
+    fetch(url, params)
+        .then(req => req.json())
+        .then( mensajes => {
+            let chat = document.getElementById('chat')
+            chat.innerHTML = ""
+
+            for (const mensaje of mensajes) {
+                let parrafo_chat = document.createElement('p')
+                parrafo_chat.id = mensaje.idMensaje
+
+                let fecha_chat = document.createElement('span')
+                fecha_chat.classList.add('fecha_chat')
+                fecha_chat.innerHTML = mensaje.creado
+
+                let usuario_origen = document.createElement('span')
+                usuario_origen.classList.add('usuario_origen')
+                usuario_origen.innerHTML = " " + mensaje.nick_origen + ": "
+                usuario_origen.onclick = () => {
+                    location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
+                }
+
+                let texto_mensaje = document.createElement('span')
+                texto_mensaje.classList.add('texto_chat')
+                texto_mensaje.innerHTML = mensaje.texto
+
+                parrafo_chat.appendChild(fecha_chat)
+                parrafo_chat.appendChild(usuario_origen)
+                parrafo_chat.appendChild(texto_mensaje)
+
+                chat.appendChild(parrafo_chat)
+
+            }
+            chat.scrollTop = chat.scrollHeight;
+        })
 }
 
 
