@@ -583,7 +583,7 @@
                         return $usuario;
                     }
                 }
-                return 520; //error usuario logueado
+                return 522; //error usuario logueado
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -672,13 +672,14 @@
             try {
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
-                $sql = "SELECT DISTINCT u.imagen, u.nick
+                $sql = "SELECT DISTINCT u.nick, u.imagen
+                        FROM 
+                        (SELECT * 
                         FROM mensajes m
-                        LEFT JOIN usuarios u
-                        ON m.nick_destino=u.nick
-                        WHERE m.nick_origen='$nick'
-                        OR m.nick_destino='$nick'
-                        AND u.nick!='$nick'";
+                        WHERE '$nick' IN (m.nick_origen, m.nick_destino)) j
+                        JOIN usuarios u
+                        ON u.nick = j.nick_origen
+                        WHERE u.nick!='$nick'";
                 $usuarios = $db->query($sql);
                 $resultado = array();
                 foreach ($usuarios as $usuario) {

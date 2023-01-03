@@ -261,116 +261,458 @@ function cargarMain(recomendaciones, index, literales) {
         fetch(url, params)
             .then(req => req.json())
             .then( publicacion => {
+                if (publicacion.id) {
+                    let c_recomendaciones_img = document.createElement('div')
+                    c_recomendaciones_img.id = "c_recomendaciones_img"
                 
-                let c_recomendaciones_img = document.createElement('div')
-                c_recomendaciones_img.id = "c_recomendaciones_img"
-            
-                let imagen_flecha_izq = document.createElement('img')
-                imagen_flecha_izq.id = "flecha_izq"
-                imagen_flecha_izq.classList.add("flecha")
-                imagen_flecha_izq.src = "front/img/imgHome/flecha-izq-negro-rosa.png"
-                if (index == 0) {
-                    imagen_flecha_izq.onclick = () => {}
-                    imagen_flecha_izq.classList.add("flecha_desactivada")
-                } else {
-                    imagen_flecha_izq.onclick = e => {
-                        e.preventDefault()
-                        index = index - 1
-                        cargarMain(recomendaciones, index, literales)
+                    let imagen_flecha_izq = document.createElement('img')
+                    imagen_flecha_izq.id = "flecha_izq"
+                    imagen_flecha_izq.classList.add("flecha")
+                    imagen_flecha_izq.src = "front/img/imgHome/flecha-izq-negro-rosa.png"
+                    if (index == 0) {
+                        imagen_flecha_izq.onclick = () => {}
+                        imagen_flecha_izq.classList.add("flecha_desactivada")
+                    } else {
+                        imagen_flecha_izq.onclick = e => {
+                            e.preventDefault()
+                            index = index - 1
+                            cargarMain(recomendaciones, index, literales)
+                        }
                     }
-                }
 
-                let img_recomendacion = document.createElement('img')
-                img_recomendacion.id = "img_recomendacion"
-                img_recomendacion.src = publicacion.imagen
-            
-                let imagen_flecha_der = document.createElement('img')
-                imagen_flecha_der.id = "flecha_der"
-                imagen_flecha_der.classList.add("flecha")
-                imagen_flecha_der.src = "front/img/imgHome/flecha-der-negro-rosa.png"
-                if (index == recomendaciones.length - 1) {
-                    imagen_flecha_der.onclick = () => {}
-                    imagen_flecha_der.classList.add("flecha_desactivada")
-                } else {
-                    imagen_flecha_der.onclick = e => {
-                        e.preventDefault()
-                        index = index + 1
-                        cargarMain(recomendaciones, index, literales)
-                    }
-                }
-            
-                let contenedor_datos_imagen = document.createElement('div')
-                contenedor_datos_imagen.id = "contenedor_datos_imagen"
-            
-                let usuario_imagen = document.createElement('p')
-                usuario_imagen.id = "usuario_imagen"
-                usuario_imagen.innerHTML = publicacion.nick
-                usuario_imagen.onclick = () => {
-                    location.href = "perfil.php?usuario=" + publicacion.nick
-                }
-            
-                let comentario_usuario_imagen = document.createElement('div')
-                comentario_usuario_imagen.id = "comentario_usuario_imagen"
-                comentario_usuario_imagen.innerHTML = publicacion.texto ? publicacion.texto : ""
-            
-                contenedor_datos_imagen.appendChild(usuario_imagen)
-                contenedor_datos_imagen.appendChild(comentario_usuario_imagen)
-            
-                c_recomendaciones_img.appendChild(imagen_flecha_izq)
-                c_recomendaciones_img.appendChild(img_recomendacion)
-                c_recomendaciones_img.appendChild(imagen_flecha_der)
-                c_recomendaciones_img.appendChild(contenedor_datos_imagen)
-            
-                let c_img_click = document.createElement('div')
-                c_img_click.id = "c_img_click"
-            
-                let contenedor_comentarios = document.createElement('div')
-                contenedor_comentarios.id = "contenedor_comentarios"
-            
-                for (const comentario of publicacion.comentarios) {
-                    let parrafo_comentario = document.createElement('p')
-                    parrafo_comentario.id = comentario.id_comentario
-                    parrafo_comentario.classList.add('comentarios')
+                    let img_recomendacion = document.createElement('img')
+                    img_recomendacion.id = "img_recomendacion"
+                    img_recomendacion.src = publicacion.imagen
                 
-                    let fecha_comentario = document.createElement('span')
-                    fecha_comentario.classList.add('fecha_comentario')
-                    fecha_comentario.innerHTML = comentario.fecha_comentario
-                
-                    let usuario_comentario = document.createElement('span')
-                    usuario_comentario.classList.add('usuario_comentario')
-                    usuario_comentario.innerHTML = " " + comentario.nick_comentario + " "
-                    usuario_comentario.onclick = () => {
-                        location.href = "perfil.php?usuario=" + usuario_comentario.innerHTML.trim()
+                    let imagen_flecha_der = document.createElement('img')
+                    imagen_flecha_der.id = "flecha_der"
+                    imagen_flecha_der.classList.add("flecha")
+                    imagen_flecha_der.src = "front/img/imgHome/flecha-der-negro-rosa.png"
+                    if (index == recomendaciones.length - 1) {
+                        imagen_flecha_der.onclick = () => {}
+                        imagen_flecha_der.classList.add("flecha_desactivada")
+                    } else {
+                        imagen_flecha_der.onclick = e => {
+                            e.preventDefault()
+                            index = index + 1
+                            cargarMain(recomendaciones, index, literales)
+                        }
                     }
                 
-                    let texto_comentario = document.createElement('span')
-                    texto_comentario.classList.add('texto_comentario')
-                    texto_comentario.innerHTML = comentario.comentario
+                    let contenedor_datos_imagen = document.createElement('div')
+                    contenedor_datos_imagen.id = "contenedor_datos_imagen"
+                
+                    let usuario_imagen = document.createElement('p')
+                    usuario_imagen.id = "usuario_imagen"
+                    usuario_imagen.innerHTML = publicacion.nick
+                    usuario_imagen.onclick = () => {
+                        location.href = "perfil.php?usuario=" + publicacion.nick
+                    }
+                
+                    let comentario_usuario_imagen = document.createElement('div')
+                    comentario_usuario_imagen.id = "comentario_usuario_imagen"
+                    comentario_usuario_imagen.innerHTML = publicacion.texto ? publicacion.texto : ""
+                
+                    contenedor_datos_imagen.appendChild(usuario_imagen)
+                    contenedor_datos_imagen.appendChild(comentario_usuario_imagen)
+                
+                    c_recomendaciones_img.appendChild(imagen_flecha_izq)
+                    c_recomendaciones_img.appendChild(img_recomendacion)
+                    c_recomendaciones_img.appendChild(imagen_flecha_der)
+                    c_recomendaciones_img.appendChild(contenedor_datos_imagen)
+                
+                    let c_img_click = document.createElement('div')
+                    c_img_click.id = "c_img_click"
+                
+                    let contenedor_comentarios = document.createElement('div')
+                    contenedor_comentarios.id = "contenedor_comentarios"
+                
+                    for (const comentario of publicacion.comentarios) {
+                        let parrafo_comentario = document.createElement('p')
+                        parrafo_comentario.id = comentario.id_comentario
+                        parrafo_comentario.classList.add('comentarios')
                     
-                    parrafo_comentario.appendChild(fecha_comentario)
-                    parrafo_comentario.appendChild(usuario_comentario)
-                    parrafo_comentario.appendChild(texto_comentario)
+                        let fecha_comentario = document.createElement('span')
+                        fecha_comentario.classList.add('fecha_comentario')
+                        fecha_comentario.innerHTML = comentario.fecha_comentario
+                    
+                        let usuario_comentario = document.createElement('span')
+                        usuario_comentario.classList.add('usuario_comentario')
+                        usuario_comentario.innerHTML = " " + comentario.nick_comentario + " "
+                        usuario_comentario.onclick = () => {
+                            location.href = "perfil.php?usuario=" + usuario_comentario.innerHTML.trim()
+                        }
+                    
+                        let texto_comentario = document.createElement('span')
+                        texto_comentario.classList.add('texto_comentario')
+                        texto_comentario.innerHTML = comentario.comentario
+                        
+                        parrafo_comentario.appendChild(fecha_comentario)
+                        parrafo_comentario.appendChild(usuario_comentario)
+                        parrafo_comentario.appendChild(texto_comentario)
 
-                    if(usuario_logueado.nick == comentario.nick_comentario) {
-                        texto_comentario.innerHTML = texto_comentario.innerHTML + " "
-                        let eliminar_comentario = document.createElement('span')
-                        eliminar_comentario.classList.add('eliminar_comentario')
-                        eliminar_comentario.innerHTML = buscarLiteral(literales, 'eliminar_comentario')
-                        eliminar_comentario.onclick = (e) => {
-                            e.target.parentNode.remove()
-                            //fetch eliminar comentario
-                            let bodyContent = {
-                                id: comentario.id_comentario,
+                        if(usuario_logueado.nick == comentario.nick_comentario) {
+                            texto_comentario.innerHTML = texto_comentario.innerHTML + " "
+                            let eliminar_comentario = document.createElement('span')
+                            eliminar_comentario.classList.add('eliminar_comentario')
+                            eliminar_comentario.innerHTML = buscarLiteral(literales, 'eliminar_comentario')
+                            eliminar_comentario.onclick = (e) => {
+                                e.target.parentNode.remove()
+                                //fetch eliminar comentario
+                                let bodyContent = {
+                                    id: comentario.id_comentario,
+                                }
+                                let url = '../../back/controladores/borrarComentario.php'
+                                let params = {
+                                    method: 'POST',
+                                    body: JSON.stringify(bodyContent)
+                                }
+                                fetch(url, params)
+                                    .then(req => req.json())
+                                    .then( datos => {
+                                        if (datos !== true) {
+                                            if (datos == 999) {
+                                                Swal.fire({
+                                                    text: buscarLiteral(literales, 'server_error_' + datos),
+                                                    title: 'Oops...',
+                                                    icon: "error",
+                                                    timer: 2000,
+                                                    timerProgressBar: true,
+                                                    showConfirmButton: false,
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                                .then(()=>{
+                                                    location.href = 'index.html'
+                                                })
+                                            }else{
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Oops...',
+                                                    text: buscarLiteral(literales, "server_error_" + datos),
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                            }
+        
+                                        }
+                                    }) 
                             }
-                            let url = '../../back/controladores/borrarComentario.php'
+
+                            parrafo_comentario.appendChild(eliminar_comentario)
+                        }
+                    
+                        contenedor_comentarios.appendChild(parrafo_comentario)
+                    }
+                
+                    let contenedor_reacciones = document.createElement('div')
+                    contenedor_reacciones.id = "contenedor_reacciones"
+                
+                    let caja_fuego = document.createElement('div')
+                    caja_fuego.id = "caja_fuego"
+                    if(publicacion.fuego_yo == 1) {
+                        caja_fuego.classList.add("activado")
+                    } else {
+                        caja_fuego.classList.remove("activado")
+                    }
+                    caja_fuego.onclick = function(){
+                        let bodyContent = {
+                            id: publicacion.id,
+                            reaccion: 'fuego',
+                        }
+                        let url = '../../back/controladores/actualizarReaccion.php'
+                        let params = {
+                            method: 'POST',
+                            body: JSON.stringify(bodyContent)
+                        }
+                        fetch(url, params)
+                            .then(req => req.json())
+                            .then( datos => {
+                                if (datos !== true) {
+                                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_7'))
+                                }
+                            }) 
+                    }
+                
+                    let logo_fuego = document.createElement('img')
+                    logo_fuego.id = "logo_fuego"
+                    if(publicacion.fuego_yo == 1) {
+                        logo_fuego.src = "front/img/imgHome/fuego-activado.png"
+                    } else {
+                        logo_fuego.src = "front/img/imgHome/fuego-desactivado.png"
+                    }
+                    
+                
+                    let num_fuego = document.createElement('p')
+                    num_fuego.id = "num_fuego"
+                    num_fuego.innerHTML = publicacion.fuegos
+                
+                    caja_fuego.appendChild(logo_fuego)
+                    caja_fuego.appendChild(num_fuego)
+                
+                    let caja_like = document.createElement('div')
+                    caja_like.id = "caja_like"
+                    if(publicacion.pulgar_yo == 1) {
+                        caja_like.classList.add("activado")
+                    } else {
+                        caja_like.classList.remove("activado")
+                    }
+                    caja_like.onclick = function(){
+                        let bodyContent = {
+                            id: publicacion.id,
+                            reaccion: 'pulgar',
+                        }
+                        let url = '../../back/controladores/actualizarReaccion.php'
+                        let params = {
+                            method: 'POST',
+                            body: JSON.stringify(bodyContent)
+                        }
+                        fetch(url, params)
+                            .then(req => req.json())
+                            .then( datos => {
+                                if (datos !== true) {
+                                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_8'))
+                                }
+                            })
+                    }
+                
+                    let logo_like = document.createElement('img')
+                    logo_like.id = "logo_like"
+                    if(publicacion.pulgar_yo == 1) {
+                        logo_like.src = "front/img/imgHome/me-gusta-activado.png"
+                    } else {
+                        logo_like.src = "front/img/imgHome/me-gusta-desactivado.png"
+                    }
+                
+                    let num_like = document.createElement('p')
+                    num_like.id = "num_like"
+                    num_like.innerHTML = publicacion.pulgares
+                
+                    caja_like.appendChild(logo_like)
+                    caja_like.appendChild(num_like)
+                
+                    let caja_dislike = document.createElement('div')
+                    caja_dislike.id = "caja_dislike"
+                    if(publicacion.dislike_yo == 1) {
+                        caja_dislike.classList.add("activado")
+                    } else {
+                        caja_dislike.classList.remove("activado")
+                    }
+                    caja_dislike.onclick = function(){
+                        let bodyContent = {
+                            id: publicacion.id,
+                            reaccion: 'dislike',
+                        }
+                        let url = '../../back/controladores/actualizarReaccion.php'
+                        let params = {
+                            method: 'POST',
+                            body: JSON.stringify(bodyContent)
+                        }
+                        fetch(url, params)
+                            .then(req => req.json())
+                            .then( datos => {
+                                if (datos !== true) {
+                                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
+                                }
+                            })
+                    }
+                
+                    let logo_dislike = document.createElement('img')
+                    logo_dislike.id = "logo_dislike"
+                    if(publicacion.dislike_yo == 1) {
+                        logo_dislike.src = "front/img/imgHome/no-me-gusta-activado.png"
+                    } else {
+                        logo_dislike.src = "front/img/imgHome/no-me-gusta-desactivado.png"
+                    }
+                
+                    let num_dislike = document.createElement('p')
+                    num_dislike.id = "num_dislike"
+                    num_dislike.innerHTML = publicacion.dislikes
+                
+                    caja_dislike.appendChild(logo_dislike)
+                    caja_dislike.appendChild(num_dislike)
+                
+                    let caja_labio = document.createElement('div')
+                    caja_labio.id = "caja_labio"
+                    if(publicacion.labios_yo == 1) {
+                        caja_labio.classList.add("activado")
+                    } else {
+                        caja_labio.classList.remove("activado")
+                    }
+                    caja_labio.onclick = function(){
+                        let bodyContent = {
+                            id: publicacion.id,
+                            reaccion: 'labios',
+                        }
+                        let url = '../../back/controladores/actualizarReaccion.php'
+                        let params = {
+                            method: 'POST',
+                            body: JSON.stringify(bodyContent)
+                        }
+                        fetch(url, params)
+                            .then(req => req.json())
+                            .then( datos => {
+                                if (datos !== true) {
+                                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_10'))
+                                }
+                            })
+                    }
+                
+                    let logo_labio = document.createElement('img')
+                    logo_labio.id = "logo_labio"
+                    if(publicacion.labios_yo == 1) {
+                        logo_labio.src = "front/img/imgHome/labios-activado.png"
+                    } else {
+                        logo_labio.src = "front/img/imgHome/labios-desactivado.png"
+                    }
+                
+                    let num_labio = document.createElement('p')
+                    num_labio.id = "num_labio"
+                    num_labio.innerHTML = publicacion.labios
+                
+                    caja_labio.appendChild(logo_labio)
+                    caja_labio.appendChild(num_labio)
+                
+                    let caja_corazon = document.createElement('div')
+                    caja_corazon.id = "caja_corazon"
+                    if(publicacion.corazon_yo == 1) {
+                        caja_corazon.classList.add("activado")
+                    } else {
+                        caja_corazon.classList.remove("activado")
+                    }
+                    caja_corazon.onclick = function(){
+                        let bodyContent = {
+                            id: publicacion.id,
+                            reaccion: 'corazon',
+                        }
+                        let url = '../../back/controladores/actualizarReaccion.php'
+                        let params = {
+                            method: 'POST',
+                            body: JSON.stringify(bodyContent)
+                        }
+                        fetch(url, params)
+                            .then(req => req.json())
+                            .then( datos => {
+                            if (datos !== true) {
+                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
+                            }
+                            })
+                    }
+                
+                    let logo_corazon = document.createElement('img')
+                    logo_corazon.id = "logo_corazon"
+                    if(publicacion.corazon_yo == 1) {
+                        logo_corazon.src = "front/img/imgHome/corazon-activado.png"
+                    } else {
+                        logo_corazon.src = "front/img/imgHome/corazon-desactivado.png"
+                    }
+                
+                    let num_corazon = document.createElement('p')
+                    num_corazon.id = "num_corazon"
+                    num_corazon.innerHTML = publicacion.corazones
+                
+                    caja_corazon.appendChild(logo_corazon)
+                    caja_corazon.appendChild(num_corazon)
+                
+                    contenedor_reacciones.appendChild(caja_fuego)
+                    contenedor_reacciones.appendChild(caja_like)
+                    contenedor_reacciones.appendChild(caja_dislike)
+                    contenedor_reacciones.appendChild(caja_labio)
+                    contenedor_reacciones.appendChild(caja_corazon)
+                    
+                    let c_comentario_personal = document.createElement('textarea')
+                    c_comentario_personal.id = 'c_comentario_personal'
+                    c_comentario_personal.placeholder = buscarLiteral(literales, c_comentario_personal.id)
+                    c_comentario_personal.onkeyup = (e) => {
+                        if (e.keyCode == 13 && e.shiftKey) {
+                            let bodyContent = {
+                                id_publicacion: publicacion.id,
+                                comentario: e.target.value,
+                            }
+                            let url = '../../back/controladores/enviarComentario.php'
                             let params = {
                                 method: 'POST',
                                 body: JSON.stringify(bodyContent)
                             }
                             fetch(url, params)
                                 .then(req => req.json())
-                                .then( datos => {
-                                    if (datos !== true) {
+                                .then( datos => { 
+                                    if (datos.id) {
+                                        let parrafo_comentario = document.createElement('p')
+                                        parrafo_comentario.classList.add('comentarios')
+                                        parrafo_comentario.id = datos.id
+                                    
+                                        let fecha_comentario = document.createElement('span')
+                                        fecha_comentario.classList.add('fecha_comentario')
+                                        let fecha_actual = new Date()
+                                        fecha_comentario.innerHTML = ("0" + fecha_actual.getFullYear()).slice(-4) + "-" + 
+                                                                    ("0" + (fecha_actual.getMonth() + 1)).slice(-2) + "-" +
+                                                                    ("0" + fecha_actual.getDate()).slice(-2) + " " + 
+                                                                    ("0" + fecha_actual.getHours()).slice(-2) + ":" + 
+                                                                    ("0" + fecha_actual.getMinutes()).slice(-2) + ":" + 
+                                                                    ("0" + fecha_actual.getSeconds()).slice(-2)
+                                    
+                                        let usuario_comentario = document.createElement('span')
+                                        usuario_comentario.classList.add('usuario_comentario')
+                                        usuario_comentario.innerHTML = " " + usuario_logueado.nick + " "
+                                        usuario_comentario.onclick = () => {
+                                            location.href = "perfil.php?usuario=" + usuario_comentario.innerHTML.trim()
+                                        }
+                                    
+                                        let texto_comentario = document.createElement('span')
+                                        texto_comentario.classList.add('texto_comentario')
+                                        texto_comentario.innerHTML = c_comentario_personal.value
+
+                                        texto_comentario.innerHTML = texto_comentario.innerHTML + " "
+                                        let eliminar_comentario = document.createElement('span')
+                                        eliminar_comentario.classList.add('eliminar_comentario')
+                                        eliminar_comentario.innerHTML = buscarLiteral(literales, 'eliminar_comentario')
+                                        eliminar_comentario.onclick = (e) => {
+                                            e.target.parentNode.remove()
+                                            //fetch eliminar comentario
+                                            let bodyContent = {
+                                                id: e.target.parentNode.id,
+                                            }
+                                            let url = '../../back/controladores/borrarComentario.php'
+                                            let params = {
+                                                method: 'POST',
+                                                body: JSON.stringify(bodyContent)
+                                            }
+                                            fetch(url, params)
+                                                .then(req => req.json())
+                                                .then( datos => {
+                                                    if (datos !== true) {
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Oops...',
+                                                            text: buscarLiteral(literales, "server_error_" + datos),
+                                                            showClass: {
+                                                                popup: 'animate__animated animate__fadeInDown'
+                                                            },
+                                                            hideClass: {
+                                                                popup: 'animate__animated animate__fadeOutUp'
+                                                            }
+                                                        })
+                                                    }
+                                                }) 
+                                        }
+                                        
+                                        parrafo_comentario.appendChild(fecha_comentario)
+                                        parrafo_comentario.appendChild(usuario_comentario)
+                                        parrafo_comentario.appendChild(texto_comentario)
+                                        parrafo_comentario.appendChild(eliminar_comentario)
+
+                                        contenedor_comentarios.insertBefore(parrafo_comentario, contenedor_comentarios.children[0]); 
+                                        e.target.value = ""
+                                    } else {
                                         Swal.fire({
                                             icon: 'error',
                                             title: 'Oops...',
@@ -383,411 +725,140 @@ function cargarMain(recomendaciones, index, literales) {
                                             }
                                         })
                                     }
-                                }) 
-                        }
-
-                        parrafo_comentario.appendChild(eliminar_comentario)
+                                })
+                        } 
                     }
                 
-                    contenedor_comentarios.appendChild(parrafo_comentario)
-                }
-            
-                let contenedor_reacciones = document.createElement('div')
-                contenedor_reacciones.id = "contenedor_reacciones"
-            
-                let caja_fuego = document.createElement('div')
-                caja_fuego.id = "caja_fuego"
-                if(publicacion.fuego_yo == 1) {
-                    caja_fuego.classList.add("activado")
-                } else {
-                    caja_fuego.classList.remove("activado")
-                }
-                caja_fuego.onclick = function(){
-                    let bodyContent = {
-                        id: publicacion.id,
-                        reaccion: 'fuego',
-                    }
-                    let url = '../../back/controladores/actualizarReaccion.php'
-                    let params = {
-                        method: 'POST',
-                        body: JSON.stringify(bodyContent)
-                    }
-                    fetch(url, params)
-                        .then(req => req.json())
-                        .then( datos => {
-                            if (datos !== true) {
-                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_7'))
-                            }
-                        }) 
-                }
-            
-                let logo_fuego = document.createElement('img')
-                logo_fuego.id = "logo_fuego"
-                if(publicacion.fuego_yo == 1) {
-                    logo_fuego.src = "front/img/imgHome/fuego-activado.png"
-                } else {
-                    logo_fuego.src = "front/img/imgHome/fuego-desactivado.png"
-                }
+                    c_img_click.appendChild(contenedor_comentarios)
+                    c_img_click.appendChild(document.createElement('hr'))
+                    c_img_click.appendChild(contenedor_reacciones)
+                    c_img_click.appendChild(document.createElement('hr'))
+                    c_img_click.appendChild(c_comentario_personal)
                 
-            
-                let num_fuego = document.createElement('p')
-                num_fuego.id = "num_fuego"
-                num_fuego.innerHTML = publicacion.fuegos
-            
-                caja_fuego.appendChild(logo_fuego)
-                caja_fuego.appendChild(num_fuego)
-            
-                let caja_like = document.createElement('div')
-                caja_like.id = "caja_like"
-                if(publicacion.pulgar_yo == 1) {
-                    caja_like.classList.add("activado")
-                } else {
-                    caja_like.classList.remove("activado")
-                }
-                caja_like.onclick = function(){
-                    let bodyContent = {
-                        id: publicacion.id,
-                        reaccion: 'pulgar',
-                    }
-                    let url = '../../back/controladores/actualizarReaccion.php'
-                    let params = {
-                        method: 'POST',
-                        body: JSON.stringify(bodyContent)
-                    }
-                    fetch(url, params)
-                        .then(req => req.json())
-                        .then( datos => {
-                            if (datos !== true) {
-                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_8'))
-                            }
-                        })
-                }
-            
-                let logo_like = document.createElement('img')
-                logo_like.id = "logo_like"
-                if(publicacion.pulgar_yo == 1) {
-                    logo_like.src = "front/img/imgHome/me-gusta-activado.png"
-                } else {
-                    logo_like.src = "front/img/imgHome/me-gusta-desactivado.png"
-                }
-            
-                let num_like = document.createElement('p')
-                num_like.id = "num_like"
-                num_like.innerHTML = publicacion.pulgares
-            
-                caja_like.appendChild(logo_like)
-                caja_like.appendChild(num_like)
-            
-                let caja_dislike = document.createElement('div')
-                caja_dislike.id = "caja_dislike"
-                if(publicacion.dislike_yo == 1) {
-                    caja_dislike.classList.add("activado")
-                } else {
-                    caja_dislike.classList.remove("activado")
-                }
-                caja_dislike.onclick = function(){
-                    let bodyContent = {
-                        id: publicacion.id,
-                        reaccion: 'dislike',
-                    }
-                    let url = '../../back/controladores/actualizarReaccion.php'
-                    let params = {
-                        method: 'POST',
-                        body: JSON.stringify(bodyContent)
-                    }
-                    fetch(url, params)
-                        .then(req => req.json())
-                        .then( datos => {
-                            if (datos !== true) {
-                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
-                            }
-                        })
-                }
-            
-                let logo_dislike = document.createElement('img')
-                logo_dislike.id = "logo_dislike"
-                if(publicacion.dislike_yo == 1) {
-                    logo_dislike.src = "front/img/imgHome/no-me-gusta-activado.png"
-                } else {
-                    logo_dislike.src = "front/img/imgHome/no-me-gusta-desactivado.png"
-                }
-            
-                let num_dislike = document.createElement('p')
-                num_dislike.id = "num_dislike"
-                num_dislike.innerHTML = publicacion.dislikes
-            
-                caja_dislike.appendChild(logo_dislike)
-                caja_dislike.appendChild(num_dislike)
-            
-                let caja_labio = document.createElement('div')
-                caja_labio.id = "caja_labio"
-                if(publicacion.labios_yo == 1) {
-                    caja_labio.classList.add("activado")
-                } else {
-                    caja_labio.classList.remove("activado")
-                }
-                caja_labio.onclick = function(){
-                    let bodyContent = {
-                        id: publicacion.id,
-                        reaccion: 'labios',
-                    }
-                    let url = '../../back/controladores/actualizarReaccion.php'
-                    let params = {
-                        method: 'POST',
-                        body: JSON.stringify(bodyContent)
-                    }
-                    fetch(url, params)
-                        .then(req => req.json())
-                        .then( datos => {
-                            if (datos !== true) {
-                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_10'))
-                            }
-                        })
-                }
-            
-                let logo_labio = document.createElement('img')
-                logo_labio.id = "logo_labio"
-                if(publicacion.labios_yo == 1) {
-                    logo_labio.src = "front/img/imgHome/labios-activado.png"
-                } else {
-                    logo_labio.src = "front/img/imgHome/labios-desactivado.png"
-                }
-            
-                let num_labio = document.createElement('p')
-                num_labio.id = "num_labio"
-                num_labio.innerHTML = publicacion.labios
-            
-                caja_labio.appendChild(logo_labio)
-                caja_labio.appendChild(num_labio)
-            
-                let caja_corazon = document.createElement('div')
-                caja_corazon.id = "caja_corazon"
-                if(publicacion.corazon_yo == 1) {
-                    caja_corazon.classList.add("activado")
-                } else {
-                    caja_corazon.classList.remove("activado")
-                }
-                caja_corazon.onclick = function(){
-                    let bodyContent = {
-                        id: publicacion.id,
-                        reaccion: 'corazon',
-                    }
-                    let url = '../../back/controladores/actualizarReaccion.php'
-                    let params = {
-                        method: 'POST',
-                        body: JSON.stringify(bodyContent)
-                    }
-                    fetch(url, params)
-                        .then(req => req.json())
-                        .then( datos => {
-                        if (datos !== true) {
-                            Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
-                        }
-                        })
-                }
-            
-                let logo_corazon = document.createElement('img')
-                logo_corazon.id = "logo_corazon"
-                if(publicacion.corazon_yo == 1) {
-                    logo_corazon.src = "front/img/imgHome/corazon-activado.png"
-                } else {
-                    logo_corazon.src = "front/img/imgHome/corazon-desactivado.png"
-                }
-            
-                let num_corazon = document.createElement('p')
-                num_corazon.id = "num_corazon"
-                num_corazon.innerHTML = publicacion.corazones
-            
-                caja_corazon.appendChild(logo_corazon)
-                caja_corazon.appendChild(num_corazon)
-            
-                contenedor_reacciones.appendChild(caja_fuego)
-                contenedor_reacciones.appendChild(caja_like)
-                contenedor_reacciones.appendChild(caja_dislike)
-                contenedor_reacciones.appendChild(caja_labio)
-                contenedor_reacciones.appendChild(caja_corazon)
+                    main.appendChild(c_recomendaciones_img)
+                    main.appendChild(c_img_click)
                 
-                let c_comentario_personal = document.createElement('textarea')
-                c_comentario_personal.id = 'c_comentario_personal'
-                c_comentario_personal.placeholder = buscarLiteral(literales, c_comentario_personal.id)
-                c_comentario_personal.onkeyup = (e) => {
-                    if (e.keyCode == 13 && e.shiftKey) {
-                        let bodyContent = {
-                            id_publicacion: publicacion.id,
-                            comentario: e.target.value,
+                    $('#caja_fuego').click(function(){
+                        $(this).toggleClass('activado')
+                        if ($(this).hasClass('activado')){
+                            $(this).children().first().attr('src', 'front/img/imgHome/fuego-activado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+                        } else {
+                            $(this).children().first().attr('src', 'front/img/imgHome/fuego-desactivado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())-1)
                         }
-                        let url = '../../back/controladores/enviarComentario.php'
-                        let params = {
-                            method: 'POST',
-                            body: JSON.stringify(bodyContent)
+                    })
+                
+                    $('#caja_like').click(function(){
+                        $(this).toggleClass('activado')
+                        if ($(this).hasClass('activado')){
+                            $(this).children().first().attr('src', 'front/img/imgHome/me-gusta-activado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+                        } else {
+                            $(this).children().first().attr('src', 'front/img/imgHome/me-gusta-desactivado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())-1)
                         }
-                        fetch(url, params)
-                            .then(req => req.json())
-                            .then( datos => { 
-                                if (datos.id) {
-                                    let parrafo_comentario = document.createElement('p')
-                                    parrafo_comentario.classList.add('comentarios')
-                                    parrafo_comentario.id = datos.id
-                                
-                                    let fecha_comentario = document.createElement('span')
-                                    fecha_comentario.classList.add('fecha_comentario')
-                                    let fecha_actual = new Date()
-                                    fecha_comentario.innerHTML = ("0" + fecha_actual.getFullYear()).slice(-4) + "-" + 
-                                                                ("0" + (fecha_actual.getMonth() + 1)).slice(-2) + "-" +
-                                                                ("0" + fecha_actual.getDate()).slice(-2) + " " + 
-                                                                ("0" + fecha_actual.getHours()).slice(-2) + ":" + 
-                                                                ("0" + fecha_actual.getMinutes()).slice(-2) + ":" + 
-                                                                ("0" + fecha_actual.getSeconds()).slice(-2)
-                                
-                                    let usuario_comentario = document.createElement('span')
-                                    usuario_comentario.classList.add('usuario_comentario')
-                                    usuario_comentario.innerHTML = " " + usuario_logueado.nick + " "
-                                    usuario_comentario.onclick = () => {
-                                        location.href = "perfil.php?usuario=" + usuario_comentario.innerHTML.trim()
-                                    }
-                                
-                                    let texto_comentario = document.createElement('span')
-                                    texto_comentario.classList.add('texto_comentario')
-                                    texto_comentario.innerHTML = c_comentario_personal.value
-
-                                    texto_comentario.innerHTML = texto_comentario.innerHTML + " "
-                                    let eliminar_comentario = document.createElement('span')
-                                    eliminar_comentario.classList.add('eliminar_comentario')
-                                    eliminar_comentario.innerHTML = buscarLiteral(literales, 'eliminar_comentario')
-                                    eliminar_comentario.onclick = (e) => {
-                                        e.target.parentNode.remove()
-                                        //fetch eliminar comentario
-                                        let bodyContent = {
-                                            id: e.target.parentNode.id,
-                                        }
-                                        let url = '../../back/controladores/borrarComentario.php'
-                                        let params = {
-                                            method: 'POST',
-                                            body: JSON.stringify(bodyContent)
-                                        }
-                                        fetch(url, params)
-                                            .then(req => req.json())
-                                            .then( datos => {
-                                                if (datos !== true) {
-                                                    Swal.fire({
-                                                        icon: 'error',
-                                                        title: 'Oops...',
-                                                        text: buscarLiteral(literales, "server_error_" + datos),
-                                                        showClass: {
-                                                            popup: 'animate__animated animate__fadeInDown'
-                                                        },
-                                                        hideClass: {
-                                                            popup: 'animate__animated animate__fadeOutUp'
-                                                        }
-                                                    })
-                                                }
-                                            }) 
-                                    }
-                                    
-                                    parrafo_comentario.appendChild(fecha_comentario)
-                                    parrafo_comentario.appendChild(usuario_comentario)
-                                    parrafo_comentario.appendChild(texto_comentario)
-                                    parrafo_comentario.appendChild(eliminar_comentario)
-
-                                    contenedor_comentarios.insertBefore(parrafo_comentario, contenedor_comentarios.children[0]); 
-                                    e.target.value = ""
-                                } else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: buscarLiteral(literales, "server_error_" + datos),
-                                        showClass: {
-                                            popup: 'animate__animated animate__fadeInDown'
-                                        },
-                                        hideClass: {
-                                            popup: 'animate__animated animate__fadeOutUp'
-                                        }
-                                    })
-                                }
-                            })
-                    } 
+                    })
+                
+                    $('#caja_dislike').click(function(){
+                        $(this).toggleClass('activado')
+                        if ($(this).hasClass('activado')){
+                            $(this).children().first().attr('src', 'front/img/imgHome/no-me-gusta-activado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+                        } else {
+                            $(this).children().first().attr('src', 'front/img/imgHome/no-me-gusta-desactivado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())-1)
+                        }
+                    })
+                
+                    $('#caja_labio').click(function(){
+                        $(this).toggleClass('activado')
+                        if ($(this).hasClass('activado')){
+                            $(this).children().first().attr('src', 'front/img/imgHome/labios-activado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+                        } else {
+                            $(this).children().first().attr('src', 'front/img/imgHome/labios-desactivado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())-1)
+                        }
+                    })
+                
+                    $('#caja_corazon').click(function(){
+                        $(this).toggleClass('activado')
+                        if ($(this).hasClass('activado')){
+                            $(this).children().first().attr('src', 'front/img/imgHome/corazon-activado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())+1)
+                        } else {
+                            $(this).children().first().attr('src', 'front/img/imgHome/corazon-desactivado.png')
+                            $(this).children().last().html(parseInt($(this).children().last().html())-1)
+                        }
+                    })
+                } else {
+                    if (publicacion == 999) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'server_error_' + publicacion),
+                            title: 'Oops...',
+                            icon: "error",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        .then(()=>{
+                            location.href = 'index.html'
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + publicacion),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }  
                 }
-            
-                c_img_click.appendChild(contenedor_comentarios)
-                c_img_click.appendChild(document.createElement('hr'))
-                c_img_click.appendChild(contenedor_reacciones)
-                c_img_click.appendChild(document.createElement('hr'))
-                c_img_click.appendChild(c_comentario_personal)
-            
-                main.appendChild(c_recomendaciones_img)
-                main.appendChild(c_img_click)
-            
-                $('#caja_fuego').click(function(){
-                    $(this).toggleClass('activado')
-                    if ($(this).hasClass('activado')){
-                        $(this).children().first().attr('src', 'front/img/imgHome/fuego-activado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())+1)
-                    } else {
-                        $(this).children().first().attr('src', 'front/img/imgHome/fuego-desactivado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())-1)
-                    }
-                })
-            
-                $('#caja_like').click(function(){
-                    $(this).toggleClass('activado')
-                    if ($(this).hasClass('activado')){
-                        $(this).children().first().attr('src', 'front/img/imgHome/me-gusta-activado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())+1)
-                    } else {
-                        $(this).children().first().attr('src', 'front/img/imgHome/me-gusta-desactivado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())-1)
-                    }
-                })
-            
-                $('#caja_dislike').click(function(){
-                    $(this).toggleClass('activado')
-                    if ($(this).hasClass('activado')){
-                        $(this).children().first().attr('src', 'front/img/imgHome/no-me-gusta-activado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())+1)
-                    } else {
-                        $(this).children().first().attr('src', 'front/img/imgHome/no-me-gusta-desactivado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())-1)
-                    }
-                })
-            
-                $('#caja_labio').click(function(){
-                    $(this).toggleClass('activado')
-                    if ($(this).hasClass('activado')){
-                        $(this).children().first().attr('src', 'front/img/imgHome/labios-activado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())+1)
-                    } else {
-                        $(this).children().first().attr('src', 'front/img/imgHome/labios-desactivado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())-1)
-                    }
-                })
-            
-                $('#caja_corazon').click(function(){
-                    $(this).toggleClass('activado')
-                    if ($(this).hasClass('activado')){
-                        $(this).children().first().attr('src', 'front/img/imgHome/corazon-activado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())+1)
-                    } else {
-                        $(this).children().first().attr('src', 'front/img/imgHome/corazon-desactivado.png')
-                        $(this).children().last().html(parseInt($(this).children().last().html())-1)
-                    }
-                })
             })
     } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: buscarLiteral(literales, "server_error_" + recomendaciones),
-            showClass: {
-                popup: 'animate__animated animate__fadeInDown'
-            },
-            hideClass: {
-                popup: 'animate__animated animate__fadeOutUp'
-            }
-        })
+        if (recomendaciones == 999) {
+            Swal.fire({
+                text: buscarLiteral(literales, 'server_error_' + recomendaciones),
+                title: 'Oops...',
+                icon: "error",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
+            .then(()=>{
+                location.href = 'index.html'
+            })
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: buscarLiteral(literales, "server_error_" + recomendaciones),
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
+        }  
     }
-
-            
-
 }
 
 function cargarFooter() {
