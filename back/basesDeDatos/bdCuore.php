@@ -673,13 +673,11 @@
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
                 $sql = "SELECT DISTINCT u.nick, u.imagen
-                        FROM 
-                        (SELECT * 
                         FROM mensajes m
-                        WHERE '$nick' IN (m.nick_origen, m.nick_destino)) j
                         JOIN usuarios u
-                        ON u.nick = j.nick_origen
-                        WHERE u.nick!='$nick'";
+                        ON u.nick = m.nick_destino
+                        WHERE '$nick' IN (m.nick_origen, m.nick_destino)
+                        AND u.nick != '$nick'";
                 $usuarios = $db->query($sql);
                 $resultado = array();
                 foreach ($usuarios as $usuario) {

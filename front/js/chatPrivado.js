@@ -221,16 +221,9 @@ function cargarMain(literales) {
         .then( usuarios => {
             cargarBuscador(usuarios, literales)
             input_buscador.onkeyup = (e) => {
-                if (e.key === 'Escape') {
-                    console.log("esc")
-                    let usu_buscador = document.getElementById('usuarios_buscador')
-                    usu_buscador.classList.add('ocultar')
-                    e.target.blur()
-                } else {
-                    let usuarios_filtrados = JSON.parse(JSON.stringify(usuarios));
-                    usuarios_filtrados = usuarios_filtrados.filter(usuario => {return usuario.nick.indexOf(e.target.value)>-1})
-                    cargarBuscador(usuarios_filtrados, literales)
-                }
+                let usuarios_filtrados = JSON.parse(JSON.stringify(usuarios));
+                usuarios_filtrados = usuarios_filtrados.filter(usuario => {return usuario.nick.indexOf(e.target.value)>-1})
+                cargarBuscador(usuarios_filtrados, literales)
             }
         })
     
@@ -258,11 +251,9 @@ function cargarMain(literales) {
     input_buscador.type = "text"
     input_buscador.name = "input_buscador"
     input_buscador.placeholder = buscarLiteral(literales, input_buscador.id)
-    input_buscador.onfocus = () => {
-        caja_usuarios.classList.add("ocultar")
-    }
-    input_buscador.onblur = () => {
-        caja_usuarios.classList.remove("ocultar")
+    input_buscador.onclick = () => {
+        caja_usuarios.classList.toggle("ocultar")
+        usuarios_buscador.classList.toggle("ocultar")
     }
 
     let caja_buscador_imagen = document.createElement('div')
@@ -336,11 +327,14 @@ function cargarMain(literales) {
 
 function cargarBuscador(usuarios, literales) {
     let buscador = document.getElementById("caja_buscador")
-    if (document.getElementById("usuarios_buscador")) {
-        document.getElementById("usuarios_buscador").remove()
+    let usuarios_buscador = document.getElementById("usuarios_buscador")
+    if (!usuarios_buscador) {
+        usuarios_buscador = document.createElement('div')
+        usuarios_buscador.id = "usuarios_buscador" 
+        usuarios_buscador.classList.add("ocultar")
+    } else {
+        usuarios_buscador.innerHTML = ""
     }
-    let usuarios_buscador = document.createElement('div')
-    usuarios_buscador.id = "usuarios_buscador" 
     buscador.appendChild(usuarios_buscador)
     for (const usuario of usuarios) {
         let caja_usuario = document.createElement('div')

@@ -118,7 +118,6 @@ main{
 
 #input_buscador:focus,#input_buscador:active,#comentario:focus,#comentario:active{
     outline: none;
-
 }
 #imagen_buscador{
     position: absolute;
@@ -134,11 +133,6 @@ main{
     background-color: #454545;
     width: 100%;
     top: 120%;
-    display: none;
-}
-
-#input_buscador:focus ~ #usuarios_buscador{
-    display: block;
 }
 
 .caja_usuarios{
