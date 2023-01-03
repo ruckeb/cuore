@@ -29,7 +29,7 @@ window.onload = ()=>{
 function cargarChat() {
     cargarFooter()
     let bodyContent = {
-        id_html: 'perfil',
+        id_html: 'chatPrivado',
     }
     let url = '../../back/controladores/cargarLiterales.php'
     let params = {
@@ -247,16 +247,27 @@ function cargarMain(literales) {
     input_buscador.type = "text"
     input_buscador.name = "input_buscador"
     input_buscador.placeholder = buscarLiteral(literales, input_buscador.id)
+    input_buscador.onfocus = () => {
+        caja_usuarios.classList.add("ocultar")
+    }
+    input_buscador.onblur = () => {
+        caja_usuarios.classList.remove("ocultar")
+    }
+
+    let caja_buscador_imagen = document.createElement('div')
+    caja_buscador_imagen.classList.add('caja_buscador_imagen')
 
     let imagen_buscador = document.createElement('img')
     imagen_buscador.id = "imagen_buscador"
     imagen_buscador.src = "front/img/imgChatPrivado/lupa.png"
 
-    caja_buscador.appendChild(imagen_buscador)
+    caja_buscador_imagen.appendChild(imagen_buscador)
+
+    caja_buscador.appendChild(caja_buscador_imagen)
     caja_buscador.appendChild(input_buscador)
 
     let caja_usuarios = document.createElement('div')
-    caja_usuarios.id = "caja_usuarios"
+    caja_usuarios.classList.add("caja_usuarios")
 
     bloque1.appendChild(caja_buscador)
     bloque1.appendChild(caja_usuarios)
@@ -302,14 +313,14 @@ function cargarMain(literales) {
                     
                         let usuario_origen = document.createElement('span')
                         usuario_origen.classList.add('usuario_origen')
-                        usuario_origen.innerHTML = " " + usuario_logueado.nick + ": "
+                        usuario_origen.innerHTML = " " + usuario_logueado.nick
                         usuario_origen.onclick = () => {
                             location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
                         }
                     
                         let texto_mensaje = document.createElement('span')
                         texto_mensaje.classList.add('texto_mensaje')
-                        texto_mensaje.innerHTML = comentario_chatPrivado.value
+                        texto_mensaje.innerHTML = ": " + comentario_chatPrivado.value
                         
                         parrafo_chat.appendChild(fecha_chat)
                         parrafo_chat.appendChild(usuario_origen)
@@ -352,16 +363,21 @@ function cargarBuscador(usuarios) {
         caja_usuario.onclick = () => {
             cargarChatDe(usuario.nick)
         }
+        
+        let caja_imagen = document.createElement('div')
+        caja_imagen.classList.add("caja_imagen")
 
         let imagen_usuario = document.createElement('img')
         imagen_usuario.id = "imagen_usuario"
         imagen_usuario.src = usuario.imagen
 
+        caja_imagen.appendChild(imagen_usuario)
+
         let nick_usuario = document.createElement('h1')
         nick_usuario.id = "nick_usuario"
         nick_usuario.innerHTML = usuario.nick 
 
-        caja_usuario.appendChild(imagen_usuario)
+        caja_usuario.appendChild(caja_imagen)
         caja_usuario.appendChild(nick_usuario)
 
         usuarios_buscador.appendChild(caja_usuario)
@@ -369,28 +385,33 @@ function cargarBuscador(usuarios) {
 }
 
 function cargarUsuarios(usuarios) {
-    let caja = document.getElementById("caja_usuarios")
+    let caja = document.getElementsByClassName("caja_usuarios")[0]
     for (const usuario of usuarios) {
         let caja_usuario = document.createElement('div')
         caja_usuario.id = "caja_usuario"
         caja_usuario.onclick = () => {
-            /*if (interval) {
-                clearInterval(interval)
-            }*/
+            // if (interval) {
+            //     clearInterval(interval)
+            // }
             usu_dest = usuario.nick
             cargarChatDe(usuario.nick)
-           /* interval = setInterval(() =>{cargarChatDe(usuario.nick)}, 1000)*/
+            // interval = setInterval(() =>{cargarChatDe(usuario.nick)}, 1000)
         }
+
+        let caja_imagen = document.createElement('div')
+        caja_imagen.classList.add("caja_imagen")
 
         let imagen_usuario = document.createElement('img')
         imagen_usuario.id = "imagen_usuario"
         imagen_usuario.src = usuario.imagen
 
+        caja_imagen.appendChild(imagen_usuario)
+
         let nick_usuario = document.createElement('h1')
         nick_usuario.id = "nick_usuario"
         nick_usuario.innerHTML = usuario.nick 
 
-        caja_usuario.appendChild(imagen_usuario)
+        caja_usuario.appendChild(caja_imagen)
         caja_usuario.appendChild(nick_usuario)
 
         caja.appendChild(caja_usuario)
@@ -423,14 +444,14 @@ function cargarChatDe(nick) {
 
                 let usuario_origen = document.createElement('span')
                 usuario_origen.classList.add('usuario_origen')
-                usuario_origen.innerHTML = " " + mensaje.nick_origen + ": "
+                usuario_origen.innerHTML = " " + mensaje.nick_origen
                 usuario_origen.onclick = () => {
                     location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
                 }
 
                 let texto_mensaje = document.createElement('span')
                 texto_mensaje.classList.add('texto_chat')
-                texto_mensaje.innerHTML = mensaje.texto
+                texto_mensaje.innerHTML =": " + mensaje.texto
 
                 parrafo_chat.appendChild(fecha_chat)
                 parrafo_chat.appendChild(usuario_origen)
