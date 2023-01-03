@@ -2,6 +2,7 @@ import { getCookie, setCookie, buscarLiteral } from "./utils.js";
 var usuario_logueado
 window.onload = ()=>{
 
+    //eres bobo
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
         setCookie("idioma", "es", 7)
