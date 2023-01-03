@@ -614,7 +614,7 @@ function cargarMain(recomendaciones, index, literales) {
                     if (e.keyCode == 13 && e.shiftKey) {
                         let bodyContent = {
                             id_publicacion: publicacion.id,
-                            comentario: e.target.value,
+                            comentario: e.target.value.trim(),
                         }
                         let url = '../../back/controladores/enviarComentario.php'
                         let params = {

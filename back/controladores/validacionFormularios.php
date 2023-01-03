@@ -95,7 +95,7 @@
 
     function validarEnviarComentario($datos){
         $texto_comentario = $datos->comentario;
-        if (strlen($texto_comentario) < 2 || strlen($texto_comentario) > 255) {
+        if (strlen($texto_comentario) < 1 || strlen($texto_comentario) > 255) {
             return 10; //El número máximo de caracteres es 255 y mínimo 1
         }
         return 0;
@@ -104,7 +104,7 @@
     function validarEnviarMensaje($datos){
         $texto_comentario = $datos->texto;
         $len = strlen($texto_comentario);
-        if (strlen($texto_comentario) < 2 || strlen($texto_comentario) > 255) {
+        if (strlen($texto_comentario) < 1 || strlen($texto_comentario) > 255) {
             return 10; //El número máximo de caracteres es 255 y mínimo 1
         }
         return 0;

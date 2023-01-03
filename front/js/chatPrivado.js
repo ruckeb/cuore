@@ -1,8 +1,7 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
-var interval
-var usu_dest
 var usuario_logueado
 window.onload = ()=>{
+
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
         setCookie("idioma", "es", 7)
@@ -220,7 +219,19 @@ function cargarMain(literales) {
     fetch(url, params)
         .then(req => req.json())
         .then( usuarios => {
-            cargarBuscador(usuarios)
+            cargarBuscador(usuarios, literales)
+            input_buscador.onkeyup = (e) => {
+                if (e.key === 'Escape') {
+                    console.log("esc")
+                    let usu_buscador = document.getElementById('usuarios_buscador')
+                    usu_buscador.classList.add('ocultar')
+                    e.target.blur()
+                } else {
+                    let usuarios_filtrados = JSON.parse(JSON.stringify(usuarios));
+                    usuarios_filtrados = usuarios_filtrados.filter(usuario => {return usuario.nick.indexOf(e.target.value)>-1})
+                    cargarBuscador(usuarios_filtrados, literales)
+                }
+            }
         })
     
     let url2 = '../../back/controladores/getUsuariosChat.php'
@@ -230,7 +241,7 @@ function cargarMain(literales) {
     fetch(url2, params2)
         .then(req => req.json())
         .then( usuarios => {
-            cargarUsuarios(usuarios)
+            cargarUsuarios(usuarios, literales)
         })
 
     let main = document.body.children[1]
@@ -271,11 +282,12 @@ function cargarMain(literales) {
     comentario_chatPrivado.id = "comentario"
     comentario_chatPrivado.placeholder = buscarLiteral(literales, comentario_chatPrivado.id)
     comentario_chatPrivado.disabled = true
-    comentario_chatPrivado.onkeyup = (e) => {
-        if (e.keyCode == 13 && e.shiftKey) {
+    comentario_chatPrivado.onkeypress = (e) => {
+        if (e.keyCode == 13 && !e.shiftKey) {
+            let mensaje = e.target.value
             let bodyContent = {
-                usuario_destino: usu_dest,
-                texto: e.target.value,
+                usuario_destino: e.target.previousSibling.classList[0],
+                texto: mensaje.trim(),
             }
             let url = '../../back/controladores/enviarMensaje.php'
             let params = {
@@ -285,39 +297,7 @@ function cargarMain(literales) {
             fetch(url, params)
                 .then(req => req.json())
                 .then( datos => { 
-                    if (datos.id) {
-
-                        let parrafo_chat = document.createElement('p')
-                        parrafo_chat.id = datos.id
-                    
-                        let fecha_chat = document.createElement('span')
-                        fecha_chat.classList.add('fecha_chat')
-                        let fecha_actual = new Date()
-                        fecha_chat.innerHTML = ("0" + fecha_actual.getFullYear()).slice(-4) + "-" + 
-                                                    ("0" + (fecha_actual.getMonth() + 1)).slice(-2) + "-" +
-                                                    ("0" + fecha_actual.getDate()).slice(-2) + " " + 
-                                                    ("0" + fecha_actual.getHours()).slice(-2) + ":" + 
-                                                    ("0" + fecha_actual.getMinutes()).slice(-2) + ":" + 
-                                                    ("0" + fecha_actual.getSeconds()).slice(-2)
-                    
-                        let usuario_origen = document.createElement('span')
-                        usuario_origen.classList.add('usuario_origen')
-                        usuario_origen.innerHTML = " " + usuario_logueado.nick + ": "
-                        usuario_origen.onclick = () => {
-                            location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
-                        }
-                    
-                        let texto_mensaje = document.createElement('span')
-                        texto_mensaje.classList.add('texto_mensaje')
-                        texto_mensaje.innerHTML = comentario_chatPrivado.value
-                        
-                        parrafo_chat.appendChild(fecha_chat)
-                        parrafo_chat.appendChild(usuario_origen)
-                        parrafo_chat.appendChild(texto_mensaje)
-
-                        chat.appendChild(parrafo_chat); 
-                        e.target.value = ""
-                    } else {
+                    if (!datos.id) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -329,6 +309,8 @@ function cargarMain(literales) {
                                 popup: 'animate__animated animate__fadeOutUp'
                             }
                         })
+                    } else {
+                        e.target.value=""
                     }
                 })
         }
@@ -341,8 +323,11 @@ function cargarMain(literales) {
     main.appendChild(bloque2)
 }
 
-function cargarBuscador(usuarios) {
+function cargarBuscador(usuarios, literales) {
     let buscador = document.getElementById("caja_buscador")
+    if (document.getElementById("usuarios_buscador")) {
+        document.getElementById("usuarios_buscador").remove()
+    }
     let usuarios_buscador = document.createElement('div')
     usuarios_buscador.id = "usuarios_buscador" 
     buscador.appendChild(usuarios_buscador)
@@ -350,7 +335,9 @@ function cargarBuscador(usuarios) {
         let caja_usuario = document.createElement('div')
         caja_usuario.id = "caja_usuario"
         caja_usuario.onclick = () => {
-            cargarChatDe(usuario.nick)
+            console.log("clickado")
+            document.getElementById("chat").classList = usuario.nick
+            cargarChatDe(usuario.nick, literales)
         }
 
         let imagen_usuario = document.createElement('img')
@@ -368,18 +355,14 @@ function cargarBuscador(usuarios) {
     }
 }
 
-function cargarUsuarios(usuarios) {
+function cargarUsuarios(usuarios, literales) {
     let caja = document.getElementById("caja_usuarios")
     for (const usuario of usuarios) {
         let caja_usuario = document.createElement('div')
         caja_usuario.id = "caja_usuario"
         caja_usuario.onclick = () => {
-            /*if (interval) {
-                clearInterval(interval)
-            }*/
-            usu_dest = usuario.nick
-            cargarChatDe(usuario.nick)
-           /* interval = setInterval(() =>{cargarChatDe(usuario.nick)}, 1000)*/
+            document.getElementById("chat").classList = usuario.nick
+            cargarChatDe(usuario.nick, literales)
         }
 
         let imagen_usuario = document.createElement('img')
@@ -397,8 +380,7 @@ function cargarUsuarios(usuarios) {
     }
 }
 
-function cargarChatDe(nick) {
-    document.getElementById('comentario').removeAttribute('disabled')
+function cargarChatDe(nick, literales) {
     let bodyContent = {
         nick_destino: nick,
     }
@@ -423,14 +405,17 @@ function cargarChatDe(nick) {
 
                 let usuario_origen = document.createElement('span')
                 usuario_origen.classList.add('usuario_origen')
-                usuario_origen.innerHTML = " " + mensaje.nick_origen + ": "
+                if (mensaje.nick_origen != usuario_logueado.nick) {
+                    usuario_origen.classList.add('not_me')
+                }
+                usuario_origen.innerHTML = " " + mensaje.nick_origen
                 usuario_origen.onclick = () => {
                     location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
                 }
 
                 let texto_mensaje = document.createElement('span')
                 texto_mensaje.classList.add('texto_chat')
-                texto_mensaje.innerHTML = mensaje.texto
+                texto_mensaje.innerHTML = ":\n" + mensaje.texto
 
                 parrafo_chat.appendChild(fecha_chat)
                 parrafo_chat.appendChild(usuario_origen)
@@ -440,6 +425,107 @@ function cargarChatDe(nick) {
 
             }
             chat.scrollTop = chat.scrollHeight;
+
+            /* CONTROLADOR DE SOCKET PARA CHAT */
+
+            //create a new WebSocket object. 
+            var msgBox = $('#chat');
+            var wsUri = "ws://localhost:9000/demo/server.php";     
+            var websocket = new WebSocket(wsUri);
+            
+            websocket.onopen = function(ev) { // connection is open 
+                $('#comentario').prop('disabled', false)
+            }
+            // Message received from server 
+            websocket.onmessage = function(ev) {
+                var response         = JSON.parse(ev.data); //PHP sends Json data 
+                var res_type         = response.type; //message type 
+                var user_message     = response.message; //message text 
+                var user_name         = response.name; //user name 
+                var usuario_actual        = $('#chat').attr('class') //usuario
+
+                switch(res_type){
+                    case 'usermsg':
+                        if (user_name == usuario_actual || user_name == usuario_logueado.nick) {
+                            let parrafo_chat = document.createElement('p')
+
+                            let fecha_chat = document.createElement('span')
+                            fecha_chat.classList.add('fecha_chat')
+                            let fecha_actual = new Date()
+                            fecha_chat.innerHTML = ("0" + fecha_actual.getFullYear()).slice(-4) + "-" + 
+                                                    ("0" + (fecha_actual.getMonth() + 1)).slice(-2) + "-" +
+                                                    ("0" + fecha_actual.getDate()).slice(-2) + " " + 
+                                                    ("0" + fecha_actual.getHours()).slice(-2) + ":" + 
+                                                    ("0" + fecha_actual.getMinutes()).slice(-2) + ":" + 
+                                                    ("0" + fecha_actual.getSeconds()).slice(-2)
+                            let usuario_origen = document.createElement('span')
+                            usuario_origen.classList.add('usuario_origen')
+                            usuario_origen.innerHTML = " " + user_name
+                            usuario_origen.onclick = () => {
+                                location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
+                            }
+                            let texto_mensaje = document.createElement('span')
+                            texto_mensaje.classList.add('texto_chat')
+                            texto_mensaje.innerHTML = ":\n" + user_message
+
+                            parrafo_chat.appendChild(fecha_chat)
+                            parrafo_chat.appendChild(usuario_origen)
+                            parrafo_chat.appendChild(texto_mensaje)
+                            msgBox.append(parrafo_chat);
+                            msgBox[0].scrollTop = msgBox[0].scrollHeight; //scroll message 
+
+                        } 
+                        if (user_name == usuario_actual) {
+                            usuario_origen.classList.add('not_me')
+                        }
+                        break;
+                }
+            };
+            
+            websocket.onerror    = function(ev){ 
+                msgBox.append('<div class="error_chat">'+ buscarLiteral(literales, 'error_chat') +'</div>')
+                $('#comentario').prop('disabled', true)
+            };
+            // websocket.onclose     = function(ev){ msgBox.append('<div class="system_msg">Connection Closed</div>'); };
+            //Message send button 
+            // $('#send-message').click(function(){
+            //     send_message();
+            // });
+            
+            //User hits enter key 
+            $( "#comentario" ).on( "keypress", function( event ) {
+                if(event.which==13 && !event.shiftKey){
+                    send_message();
+                }
+            });
+            
+            //Send message 
+            function send_message(){
+                var message_input = $('#comentario'); //user message text 
+                var name_input = usuario_logueado.nick //user name 
+                
+                if(message_input.val() == ""){ //empty name? 
+                    // alert("Enter your Name please!");
+                    return;
+                }
+                if(message_input.val() == ""){ //emtpy message? 
+                    // alert("Enter Some message Please!");
+                    return;
+                }
+                //prepare json data 
+                var msg = {
+                    message: message_input.val(),
+                    name: name_input,
+                };
+                //convert and send data to server 
+                websocket.send(JSON.stringify(msg));    
+                message_input.val(''); //reset message input 
+            }
+
+            /* FIN DEL SOCKET PARA CHAT */
+
+
+
         })
 }
 

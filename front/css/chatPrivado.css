@@ -205,6 +205,10 @@ main{
     margin-top: 1%;
 }
 
+#chat>p>span {
+    white-space: pre-wrap;
+}
+
 #comentario{
     width: 98%;
     height: 20%;
@@ -213,6 +217,14 @@ main{
     background-color: transparent;
     resize: none;
     color: rgb(245, 98, 135);
+}
+
+.not_me{
+    color: aqua;
+}
+
+.error_chat{
+    color: red;
 }
 
 .center{
