@@ -371,7 +371,7 @@ function cargarBuscador(usuarios, literales) {
     }
 }
 
-function cargarUsuarios(usuarios) {
+function cargarUsuarios(usuarios, literales) {
     let caja = document.getElementsByClassName("caja_usuarios")[0]
     for (const usuario of usuarios) {
         let caja_usuario = document.createElement('div')
@@ -481,6 +481,9 @@ function cargarChatDe(nick, literales) {
                                                     ("0" + fecha_actual.getSeconds()).slice(-2)
                             let usuario_origen = document.createElement('span')
                             usuario_origen.classList.add('usuario_origen')
+                            if (user_name == usuario_actual) {
+                                usuario_origen.classList.add('not_me')
+                            }
                             usuario_origen.innerHTML = " " + user_name
                             usuario_origen.onclick = () => {
                                 location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
@@ -494,11 +497,7 @@ function cargarChatDe(nick, literales) {
                             parrafo_chat.appendChild(texto_mensaje)
                             msgBox.append(parrafo_chat);
                             msgBox[0].scrollTop = msgBox[0].scrollHeight; //scroll message 
-
                         } 
-                        if (user_name == usuario_actual) {
-                            usuario_origen.classList.add('not_me')
-                        }
                         break;
                 }
             };
