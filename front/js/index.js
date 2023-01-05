@@ -255,6 +255,7 @@ function cargarMain(literales) {
     input_contrasena.title = buscarLiteral(literales, input_contrasena.id + "_title")
 
     let div_contrasena_ojo = document.createElement('div')
+    div_contrasena_ojo.id = "div_contrasena_ojo"
     div_contrasena_ojo.appendChild(input_contrasena)
     div_contrasena_ojo.appendChild(boton_ojo_contrasena)
 
@@ -500,6 +501,8 @@ function cargarMain(literales) {
     input_clave.onkeyup = comprobarContrasenas
 
     let div_clave_ojo = document.createElement('div')
+    div_clave_ojo.id = "div_clave_ojo"
+
     div_clave_ojo.appendChild(input_clave)
     div_clave_ojo.appendChild(boton_ojo_contrasena2)
 
@@ -526,6 +529,7 @@ function cargarMain(literales) {
     input_repetir_clave.onkeyup = comprobarContrasenas
 
     let div_repetir_clave_ojo = document.createElement('div')
+    div_repetir_clave_ojo.id = "div_repetir_clave_ojo"
     div_repetir_clave_ojo.appendChild(input_repetir_clave)
     div_repetir_clave_ojo.appendChild(boton_ojo_contrasena3)
 
@@ -709,6 +713,17 @@ function cargarFooter() {
 
     instagram_enlace.appendChild(instagram)
 
+    let facebook = document.createElement('img')
+    facebook.src = "front/img/imgFooter/facebook.png"
+
+    let facebook_enlace = document.createElement('a')
+    facebook_enlace.id ="facebook_enlace"
+    facebook_enlace.targer = "_blank"
+    facebook_enlace.rel = "noopener noreferrer"
+    facebook_enlace.href = "https://www.facebook.com/profile.php?id=100088263466164"
+
+    facebook_enlace.appendChild(facebook)
+
     let twitter = document.createElement('img')
     twitter.src = "front/img/imgFooter/gorjeo.png"
 
@@ -755,6 +770,7 @@ function cargarFooter() {
 
     cajaDirecciones.appendChild(p2)
     cajaDirecciones.appendChild(instagram_enlace)
+    cajaDirecciones.appendChild(facebook_enlace)
     cajaDirecciones.appendChild(twitter_enlace)
     cajaDirecciones.appendChild(gmail_enlace)
     cajaDirecciones.appendChild(linkedin_enlace)

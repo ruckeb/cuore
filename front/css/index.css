@@ -170,3 +170,7 @@ input:focus {
     border-radius: 2px;
     background-color: white;
 }
+#div_repetir_clave_ojo, #div_clave_ojo, #div_contrasena_ojo{
+    display: flex;
+    flex-wrap: nowrap;
+}
