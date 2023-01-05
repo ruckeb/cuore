@@ -49,12 +49,21 @@ while (true) {
 		{
 			$received_text = unmask($buf); //unmask data
 			$tst_msg = json_decode($received_text, true); //json decode 
-			$user_name = $tst_msg['name']; //sender name
-			$user_message = $tst_msg['message']; //message text
-			// $user_color = $tst_msg['color']; //color
+			if (!isset($tst_msg['mensaje'])) {
+				break;
+			}
+			$mensaje = $tst_msg['mensaje']; 
+			if (!isset($tst_msg['usuario_envia'])) {
+				break;
+			}
+			$usuario_envia = $tst_msg['usuario_envia']; 
+			if (!isset($tst_msg['usuario_recibe'])) {
+				break;
+			}
+			$usuario_recibe = $tst_msg['usuario_recibe']; 
 			
 			//prepare data to be sent to client
-			$response_text = mask(json_encode(array('type'=>'usermsg', 'name'=>$user_name, 'message'=>$user_message)));
+			$response_text = mask(json_encode(array('type'=>'usermsg', 'mensaje'=>$mensaje, 'usuario_envia'=>$usuario_envia, 'usuario_recibe'=>$usuario_recibe)));
 			send_message($response_text); //send data
 			break 2; //exist this loop
 		}

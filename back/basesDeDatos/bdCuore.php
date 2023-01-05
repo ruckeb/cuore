@@ -672,14 +672,23 @@
             try {
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
-                $sql = "SELECT DISTINCT u.nick, u.imagen
-                        FROM 
-                        (SELECT * 
-                        FROM mensajes m
-                        WHERE '$nick' IN (m.nick_origen, m.nick_destino)) j
-                        JOIN usuarios u
-                        ON u.nick = j.nick_origen
-                        WHERE u.nick!='$nick'";
+                $sql = "SELECT nick, imagen 
+                        FROM usuarios
+                        WHERE nick IN(
+                            SELECT nick
+                            FROM usuarios u
+                            WHERE u.nick!='$nick'
+                                INTERSECT 
+                            (
+                                SELECT nick_origen
+                                FROM mensajes
+                                WHERE '$nick' IN (nick_origen, nick_destino)
+                                    UNION
+                                SELECT nick_destino
+                                FROM mensajes
+                                WHERE '$nick' IN (nick_origen, nick_destino)
+                            )
+                        )";
                 $usuarios = $db->query($sql);
                 $resultado = array();
                 foreach ($usuarios as $usuario) {
@@ -734,6 +743,25 @@
                     array_push($resultado, $mensaje);
                 }
                 return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function enviarPagoBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "UPDATE usuarios SET premium=1 WHERE nick='$nick'";
+                $usuarios = $db->query($sql);
+                if ($db->query($sql) === FALSE) {
+                    return 523; //Error actualizando premium
+                }
+                return true;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
