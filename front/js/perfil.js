@@ -620,7 +620,8 @@ function cargarMain(literales) {
                                     "<div class = 'padre_de_todos' >"+
                                         "<label id = 'titulo_clave_antigua' for = 'clave_antigua'>"+
                                         buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
-                                        "<input id = 'clave_antigua' type = 'password' name = 'clave_antigua'>"+      
+                                        "<input id = 'clave_antigua' type = 'password' name = 'clave_antigua'>"+   
+                                        "<button id ='ojo_contrasena' src>👁</button>"+   
                                     "</div>"+ 
                                     "<div class = 'padre_de_todos'>"+
                                         "<label id = 'titulo_clave_nueva' for = 'clave_nueva'>"+
