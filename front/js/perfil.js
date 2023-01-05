@@ -8,9 +8,19 @@ window.onload = ()=>{
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
 
-    cargarPerfil()
-
 }
+
+var usuario_logueado
+let url = '../../back/controladores/getUsuarioLogeado.php'
+let params = {
+    method: 'GET',
+}
+fetch(url, params)
+    .then(req => req.json())
+    .then( usuario => {
+        usuario_logueado = usuario
+        cargarPerfil()
+    })
 
 function cargarPerfil() {
     cargarFooter()
@@ -121,6 +131,53 @@ function cargarCabecera(literales) {
                         "</div>"+
                     "</form>",
             preConfirm: () => {
+                function fValidarTarjeta(isbn){
+                    VISA = /^4[0-9]{3}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
+                    MASTERCARD = /^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
+                    AMEX = /^3[47][0-9-]{16}$/;
+                    CABAL = /^(6042|6043|6044|6045|6046|5896){4}[0-9]{12}$/;
+                    NARANJA = /^(589562|402917|402918|527571|527572|0377798|0377799)[0-9]*$/;
+                    let tipo_tarjeta = false
+                    if(luhn(isbn)){
+                        if(isbn.match(VISA)){
+                            tipo_tarjeta = "VISA"
+                        } else if(isbn.match(MASTERCARD)){
+                            tipo_tarjeta = "MASTERCARD"
+                        } else if(isbn.match(NARANJA)){
+                            tipo_tarjeta = "NARANJA"
+                        }else if(isbn.match(CABAL)){
+                            tipo_tarjeta = "CABAL"
+                        } else if(isbn.match(AMEX)){
+                            tipo_tarjeta = "AMEX"
+                        } 
+                        return tipo_tarjeta
+                    } else {
+                        return false
+                    }
+                }
+                function luhn(isbn) {
+                    // Accept only digits, dashes or spaces
+                    if (/[^0-9-\s]+/.test(isbn)) return false;
+                    // The Luhn Algorithm. It's so pretty.
+                    let nCheck = 0, bEven = false;
+                    isbn = isbn.replace(/\D/g, "");
+                    for (var n = isbn.length - 1; n >= 0; n--) {
+                        var cDigit = isbn.charAt(n),
+                        nDigit = parseInt(cDigit, 10);
+                        if (bEven && (nDigit *= 2) > 9) nDigit -= 9; nCheck +=  nDigit; bEven = !bEven;
+                    }
+                    return (nCheck % 10) == 0;
+                }
+                function existeFecha(mes, anyo){
+                    var day = 1;
+                    var month = mes;
+                    var year = anyo;
+                    var date = new Date(year, month, day);
+                    if((day-0)>(date.getDate()-0)){
+                          return false;
+                    }
+                    return true;
+              }
                 const text_nombre_completo = Swal.getPopup().querySelector('#text_nombre_completo').value
                 const text_isbn = Swal.getPopup().querySelector('#text_isbn').value
                 const mes = Swal.getPopup().querySelector('#selectMes').value
@@ -134,6 +191,12 @@ function cargarCabecera(literales) {
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
                 } else if (!texto_cvv) {
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_10'))
+                } else if(!fValidarTarjeta(text_isbn)){
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
+                } else if(!existeFecha(mes, anyo)){
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_12'))
+                } else if(!/^[0-9]{3,4}$/.match(texto_cvv)){
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_13'))
                 } else {
                     return {
                         text_nombre_completo: text_nombre_completo,
@@ -145,46 +208,61 @@ function cargarCabecera(literales) {
                 }
             }
         })
-            .then( response => {
-                let url = '../../back/controladores/enviarPago.php'
-                let params = {
-                    method: 'POST',
-                    body: JSON.stringify(response.value)
-                }
-                fetch(url, params)
-                    .then(req => req.json())
-                    .then( respuesta => {
-                        if (respuesta === true) {
-                            //alerta todo bien
-                            Swal.fire({
-                                text: buscarLiteral(literales, 'pago_realizado_correctamente'),
-                                title: buscarLiteral(literales, 'correcto'),
-                                icon: "success",
-                                timer: 2000,
-                                timerProgressBar: true,
-                                showConfirmButton: false,
-                                showClass: {
-                                    popup: 'animate__animated animate__fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animate__animated animate__fadeOutUp'
-                                }
-                            })
-                        } else {
-                            //alerta error
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: buscarLiteral(literales, "server_error_" + respuesta),
-                                showClass: {
-                                    popup: 'animate__animated animate__fadeInDown'
-                                },
-                                hideClass: {
-                                    popup: 'animate__animated animate__fadeOutUp'
-                                }
-                            })
+            .then( (result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: buscarLiteral(literales, 'realizando_pago'),
+                        icon: "info",
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
                         }
                     })
+                        .then( () => {
+                            let url = '../../back/controladores/enviarPago.php'
+                            let params = {
+                                method: 'POST',
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( respuesta => {
+                                    if (respuesta === true) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'pago_realizado_correctamente'),
+                                            title: buscarLiteral(literales, 'correcto'),
+                                            icon: "success",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + respuesta),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    }
+                                })
+                            })
+                }
+                
             })
     }
 
@@ -326,14 +404,18 @@ function cargarCabecera(literales) {
 
     boton_menu4.appendChild(p_menu4)   
 
-    div_tabla_menu.appendChild(boton_menu1)
+    if (usuario_logueado.premium == 1) {
+        div_tabla_menu.appendChild(boton_menu1)
+    }
     div_tabla_menu.appendChild(boton_menu2)
     div_tabla_menu.appendChild(boton_menu3)
     div_tabla_menu.appendChild(boton_menu4)
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
-    div_botones_login.appendChild(boton_premium)
+    if (usuario_logueado.premium == 0) {
+        div_botones_login.appendChild(boton_premium)
+    }
     div_botones_login.appendChild(boton_espana)
     div_botones_login.appendChild(boton_reino_unido)
     div_botones_login.appendChild(boton_francia)

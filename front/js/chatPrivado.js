@@ -1,5 +1,6 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
 var usuario_logueado
+var websocket
 window.onload = ()=>{
 
     var lenguaje_actual = getCookie("idioma")
@@ -227,15 +228,7 @@ function cargarMain(literales) {
             }
         })
     
-    let url2 = '../../back/controladores/getUsuariosChat.php'
-    let params2 = {
-        method: 'GET',
-    }
-    fetch(url2, params2)
-        .then(req => req.json())
-        .then( usuarios => {
-            cargarUsuarios(usuarios, literales)
-        })
+    recargarUsuarios(literales)
 
     let main = document.body.children[1]
     main.innerHTML = ""
@@ -284,45 +277,166 @@ function cargarMain(literales) {
     comentario_chatPrivado.id = "comentario"
     comentario_chatPrivado.placeholder = buscarLiteral(literales, comentario_chatPrivado.id)
     comentario_chatPrivado.disabled = true
-    comentario_chatPrivado.onkeypress = (e) => {
-        if (e.keyCode == 13 && !e.shiftKey) {
-            let mensaje = e.target.value
-            let bodyContent = {
-                usuario_destino: e.target.previousSibling.classList[0],
-                texto: mensaje.trim(),
-            }
-            let url = '../../back/controladores/enviarMensaje.php'
-            let params = {
-                method: 'POST',
-                body: JSON.stringify(bodyContent)
-            }
-            fetch(url, params)
-                .then(req => req.json())
-                .then( datos => { 
-                    if (!datos.id) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: buscarLiteral(literales, "server_error_" + datos),
-                            showClass: {
-                                popup: 'animate__animated animate__fadeInDown'
-                            },
-                            hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                            }
-                        })
-                    } else {
-                        e.target.value=""
-                    }
-                })
-        }
-    }
 
     bloque2.appendChild(chat)
     bloque2.appendChild(comentario_chatPrivado)
 
     main.appendChild(bloque1)
     main.appendChild(bloque2)
+
+    cargarSocket(literales)
+}
+
+function cargarSocket(literales) {
+    //create a new WebSocket object. 
+    var msgBox = $('#chat');
+    var wsUri = "ws://localhost:9000/demo/server.php";  
+    if (!websocket) {
+        websocket = new WebSocket(wsUri);
+    }  
+
+    websocket.onopen = function(ev) { // connection is open 
+        $('#comentario').prop('disabled', false)
+    }
+    // Message received from server 
+    websocket.onmessage = function(ev) {
+        var response         = JSON.parse(ev.data); //PHP sends Json data 
+        var res_type         = response.type; 
+        var mensaje          = response.mensaje; 
+        var usuario_envia         = response.usuario_envia; 
+        var usuario_recibe        =  response.usuario_recibe;
+        var conver_actual         = $('#chat').attr('class')?$('#chat').attr('class'):""
+
+        switch(res_type){
+            case 'usermsg':
+                if (usuario_envia == usuario_logueado.nick || usuario_recibe == usuario_logueado.nick) {
+                    recargarUsuarios(literales)
+                    if(usuario_envia == usuario_logueado.nick || (usuario_recibe == usuario_logueado.nick && conver_actual == usuario_envia)){
+                        let parrafo_chat = document.createElement('p')
+
+                        let fecha_chat = document.createElement('span')
+                        fecha_chat.classList.add('fecha_chat')
+                        let fecha_actual = new Date()
+                        fecha_chat.innerHTML = ("0" + fecha_actual.getFullYear()).slice(-4) + "-" + 
+                                                ("0" + (fecha_actual.getMonth() + 1)).slice(-2) + "-" +
+                                                ("0" + fecha_actual.getDate()).slice(-2) + " " + 
+                                                ("0" + fecha_actual.getHours()).slice(-2) + ":" + 
+                                                ("0" + fecha_actual.getMinutes()).slice(-2) + ":" + 
+                                                ("0" + fecha_actual.getSeconds()).slice(-2)
+                        let usuario_origen = document.createElement('span')
+                        usuario_origen.classList.add('usuario_origen')
+                        if (usuario_envia != usuario_logueado.nick) {
+                            usuario_origen.classList.add('not_me')
+                        }
+                        usuario_origen.innerHTML = " " + usuario_envia
+                        usuario_origen.onclick = () => {
+                            location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
+                        }
+                        let texto_mensaje = document.createElement('span')
+                        texto_mensaje.classList.add('texto_chat')
+                        texto_mensaje.innerHTML = ":\n" + mensaje
+
+                        parrafo_chat.appendChild(fecha_chat)
+                        parrafo_chat.appendChild(usuario_origen)
+                        parrafo_chat.appendChild(texto_mensaje)
+                        msgBox.append(parrafo_chat);
+                        msgBox[0].scrollTop = msgBox[0].scrollHeight; //scroll message 
+                    }
+                } 
+                break;
+        }
+    };
+    
+    websocket.onerror    = function(ev){ 
+        msgBox.append('<div class="error_chat">'+ buscarLiteral(literales, 'error_chat') +'</div>')
+        $('#comentario').prop('disabled', true)
+    };
+    // websocket.onclose     = function(ev){ msgBox.append('<div class="system_msg">Connection Closed</div>'); };
+    // Message send button 
+    // $('#send-message').click(function(){
+    //     send_message();
+    // });
+    
+    //User hits enter key 
+    $( "#comentario" ).on( "keypress", function( event ) {
+        if(event.which==13 && !event.shiftKey){
+            send_message();
+        }
+    });
+    
+    //Send message 
+    function send_message(){
+        var mensaje = $('#comentario'); 
+        var usuario_envia = usuario_logueado.nick 
+        var usuario_recibe = $('#chat').attr('class')?$('#chat').attr('class'):""
+        
+        if(usuario_envia == ""){ 
+            // TO-DO swal error enviando el mensaje, vualva a loguearse por favor
+            return;
+        }
+        if(mensaje.val() == ""){ 
+            // TO-DO swal error enviando el mensaje, debe escribir un mensaje
+            return;
+        }
+        console.log(usuario_recibe)
+        if(usuario_recibe == ""){ 
+            // TO-DO swal error enviando el mensaje, debe seleccionar un usario destinatario
+            return;
+        }
+        //prepare json data 
+        var msg = {
+            mensaje: mensaje.val(),
+            usuario_envia: usuario_envia,
+            usuario_recibe: usuario_recibe,
+        };    
+
+        //FETCH ACTUALIZA BBDD
+
+        let bodyContent = {
+            usuario_destino: usuario_recibe,
+            texto: mensaje.val().trim(),
+        }
+        let url = '../../back/controladores/enviarMensaje.php'
+        let params = {
+            method: 'POST',
+            body: JSON.stringify(bodyContent)
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( datos => { 
+                if (!datos.id) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: buscarLiteral(literales, "server_error_" + datos),
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    })
+                } else {
+                    //convert and send data to server 
+                    websocket.send(JSON.stringify(msg));
+                    mensaje.val(''); //reset message input 
+                }
+            })
+
+        //FIN FETCH
+    }
+}
+
+function recargarUsuarios(literales) {
+    let url2 = '../../back/controladores/getUsuariosChat.php'
+    let params2 = {
+        method: 'GET',
+    }
+    fetch(url2, params2)
+        .then(req => req.json())
+        .then( usuarios => {
+            cargarUsuarios(usuarios, literales)
+        })
 }
 
 function cargarBuscador(usuarios, literales) {
@@ -340,7 +454,6 @@ function cargarBuscador(usuarios, literales) {
         let caja_usuario = document.createElement('div')
         caja_usuario.id = "caja_usuario"
         caja_usuario.onclick = () => {
-            console.log("clickado")
             document.getElementById("chat").classList = usuario.nick
             cargarChatDe(usuario.nick, literales)
         }
@@ -367,6 +480,7 @@ function cargarBuscador(usuarios, literales) {
 
 function cargarUsuarios(usuarios, literales) {
     let caja = document.getElementsByClassName("caja_usuarios")[0]
+    caja.innerHTML=""
     for (const usuario of usuarios) {
         let caja_usuario = document.createElement('div')
         caja_usuario.id = "caja_usuario"
@@ -440,106 +554,6 @@ function cargarChatDe(nick, literales) {
 
             }
             chat.scrollTop = chat.scrollHeight;
-
-            /* CONTROLADOR DE SOCKET PARA CHAT */
-
-            //create a new WebSocket object. 
-            var msgBox = $('#chat');
-            var wsUri = "ws://localhost:9000/demo/server.php";     
-            var websocket = new WebSocket(wsUri);
-            
-            websocket.onopen = function(ev) { // connection is open 
-                $('#comentario').prop('disabled', false)
-            }
-            // Message received from server 
-            websocket.onmessage = function(ev) {
-                var response         = JSON.parse(ev.data); //PHP sends Json data 
-                var res_type         = response.type; //message type 
-                var user_message     = response.message; //message text 
-                var user_name         = response.name; //user name 
-                var usuario_actual        = $('#chat').attr('class') //usuario
-
-                switch(res_type){
-                    case 'usermsg':
-                        if (user_name == usuario_actual || user_name == usuario_logueado.nick) {
-                            let parrafo_chat = document.createElement('p')
-
-                            let fecha_chat = document.createElement('span')
-                            fecha_chat.classList.add('fecha_chat')
-                            let fecha_actual = new Date()
-                            fecha_chat.innerHTML = ("0" + fecha_actual.getFullYear()).slice(-4) + "-" + 
-                                                    ("0" + (fecha_actual.getMonth() + 1)).slice(-2) + "-" +
-                                                    ("0" + fecha_actual.getDate()).slice(-2) + " " + 
-                                                    ("0" + fecha_actual.getHours()).slice(-2) + ":" + 
-                                                    ("0" + fecha_actual.getMinutes()).slice(-2) + ":" + 
-                                                    ("0" + fecha_actual.getSeconds()).slice(-2)
-                            let usuario_origen = document.createElement('span')
-                            usuario_origen.classList.add('usuario_origen')
-                            if (user_name == usuario_actual) {
-                                usuario_origen.classList.add('not_me')
-                            }
-                            usuario_origen.innerHTML = " " + user_name
-                            usuario_origen.onclick = () => {
-                                location.href = "perfil.php?usuario=" + usuario_origen.innerHTML.trim()
-                            }
-                            let texto_mensaje = document.createElement('span')
-                            texto_mensaje.classList.add('texto_chat')
-                            texto_mensaje.innerHTML = ":\n" + user_message
-
-                            parrafo_chat.appendChild(fecha_chat)
-                            parrafo_chat.appendChild(usuario_origen)
-                            parrafo_chat.appendChild(texto_mensaje)
-                            msgBox.append(parrafo_chat);
-                            msgBox[0].scrollTop = msgBox[0].scrollHeight; //scroll message 
-                        } 
-                        break;
-                }
-            };
-            
-            websocket.onerror    = function(ev){ 
-                msgBox.append('<div class="error_chat">'+ buscarLiteral(literales, 'error_chat') +'</div>')
-                $('#comentario').prop('disabled', true)
-            };
-            // websocket.onclose     = function(ev){ msgBox.append('<div class="system_msg">Connection Closed</div>'); };
-            //Message send button 
-            // $('#send-message').click(function(){
-            //     send_message();
-            // });
-            
-            //User hits enter key 
-            $( "#comentario" ).on( "keypress", function( event ) {
-                if(event.which==13 && !event.shiftKey){
-                    send_message();
-                }
-            });
-            
-            //Send message 
-            function send_message(){
-                var message_input = $('#comentario'); //user message text 
-                var name_input = usuario_logueado.nick //user name 
-                
-                if(message_input.val() == ""){ //empty name? 
-                    // alert("Enter your Name please!");
-                    return;
-                }
-                if(message_input.val() == ""){ //emtpy message? 
-                    // alert("Enter Some message Please!");
-                    return;
-                }
-                //prepare json data 
-                var msg = {
-                    message: message_input.val(),
-                    name: name_input,
-                };
-                //convert and send data to server 
-                websocket.send(JSON.stringify(msg));    
-                message_input.val(''); //reset message input 
-            }
-
-            /* FIN DEL SOCKET PARA CHAT */
-
-
-
         })
 }
 
