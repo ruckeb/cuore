@@ -405,17 +405,37 @@ function cargarSocket(literales) {
             .then(req => req.json())
             .then( datos => { 
                 if (!datos.id) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: buscarLiteral(literales, "server_error_" + datos),
-                        showClass: {
-                            popup: 'animate__animated animate__fadeInDown'
-                        },
-                        hideClass: {
-                            popup: 'animate__animated animate__fadeOutUp'
-                        }
-                    })
+                    if (datos == 999) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'server_error_' + datos),
+                            title: 'Oops...',
+                            icon: "error",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        .then(()=>{
+                            location.href = 'index.html'
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + datos),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
                 } else {
                     //convert and send data to server 
                     websocket.send(JSON.stringify(msg));
