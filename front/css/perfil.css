@@ -147,10 +147,24 @@ hr{
 #caja_perfil_imagen > input{
     display: none;
 }
+#imgLabel{
+    position: relative;
+    width: 80%;
+}
+#imgLabel::after{
+    content: "";
+    display: block;
+    padding-bottom: 100%; /* The padding depends on the width, not on the height, so with a padding-bottom of 100% you will get a square */
+}
 #imgPerfil{
-    width: 99%;
-    height: auto;
-    margin: 1%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* This if for the object-fit */
+    height: 100%; /* This if for the object-fit */
+    object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
     background-size: cover;
     border-radius: 50%;
     border: 2px solid black;
@@ -264,9 +278,10 @@ form{
     align-self: center;
 }
 .padre_de_todos{
-    width: 100%;
+    width: 99%;
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: flex-start;
 }
@@ -380,6 +395,15 @@ h2{
 .ocultar{
     display: none;
 }
-#ojo_contrasena{
-    width: 2%;
+.ojo_contrasena{
+    width: 15%;
+    height: auto;
+    cursor: pointer;
+    background-color: transparent;
+    border: transparent;
+    color: rgb(245, 98, 135);
+}
+.caj_ojo{
+    display: flex;
+    flex-wrap: nowrap;
 }

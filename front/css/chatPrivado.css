@@ -172,8 +172,8 @@ main{
 
 #imagen_usuario{
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -3.5%;
+    left: 10%;
     right: 0;
     bottom: 0;
     width: 100%; /* This if for the object-fit */

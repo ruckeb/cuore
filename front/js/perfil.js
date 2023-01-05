@@ -247,17 +247,37 @@ function cargarCabecera(literales) {
                                             }
                                         })
                                     } else {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: buscarLiteral(literales, "server_error_" + respuesta),
-                                            showClass: {
-                                                popup: 'animate__animated animate__fadeInDown'
-                                            },
-                                            hideClass: {
-                                                popup: 'animate__animated animate__fadeOutUp'
-                                            }
-                                        })
+                                        if (respuesta == 999) {
+                                            Swal.fire({
+                                                text: buscarLiteral(literales, 'server_error_' + respuesta),
+                                                title: 'Oops...',
+                                                icon: "error",
+                                                timer: 2000,
+                                                timerProgressBar: true,
+                                                showConfirmButton: false,
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                            .then(()=>{
+                                                location.href = 'index.html'
+                                            })
+                                        }else{
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: buscarLiteral(literales, "server_error_" + respuesta),
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                        }
                                     }
                                 })
                             })
@@ -485,17 +505,37 @@ function cargarMain(literales) {
                 .then(req => req.json())
                 .then( datos => {
                     if (typeof datos == "number") {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: buscarLiteral(literales, "server_error_" + datos),
-                            showClass: {
-                                popup: 'animate__animated animate__fadeInDown'
-                            },
-                            hideClass: {
-                                popup: 'animate__animated animate__fadeOutUp'
-                            }
-                        })
+                        if (datos == 999) {
+                            Swal.fire({
+                                text: buscarLiteral(literales, 'server_error_' + datos),
+                                title: 'Oops...',
+                                icon: "error",
+                                timer: 2000,
+                                timerProgressBar: true,
+                                showConfirmButton: false,
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                            })
+                            .then(()=>{
+                                location.href = 'index.html'
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: buscarLiteral(literales, "server_error_" + datos),
+                                showClass: {
+                                    popup: 'animate__animated animate__fadeInDown'
+                                },
+                                hideClass: {
+                                    popup: 'animate__animated animate__fadeOutUp'
+                                }
+                            })
+                        }
                     } else {
                         e.target.parentNode.children[0].children[0].src = datos
                     }
@@ -688,6 +728,7 @@ function cargarMain(literales) {
                 boton_cambiar_contra.innerHTML = buscarLiteral(literales, boton_cambiar_contra.id)
                 boton_cambiar_contra.onclick = e => {
                     e.preventDefault()
+                
                     Swal.fire({
                         showDenyButton: true,
                         confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
@@ -698,24 +739,57 @@ function cargarMain(literales) {
                         hideClass: {
                             popup: 'animate__animated animate__fadeOutUp'
                         },
-                        html:   "<form>"+
+               
+                        html:  
+                        // "<swal-function-param
+                        // name="boton_mostrar_contrasena"
+                        // value=" =>  let input = this.previousSibling
+                        // if (input.type == 'password') {
+                        //     input.type = 'text'
+                        // }else{
+                        //     input.type = 'password'
+                        // } />
+                        // +
+
+                        "<form>"+
                                     "<div class = 'padre_de_todos' >"+
                                         "<label id = 'titulo_clave_antigua' for = 'clave_antigua'>"+
                                         buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
+                                        "<div class = 'caj_ojo'>"+
                                         "<input id = 'clave_antigua' type = 'password' name = 'clave_antigua'>"+   
-                                        "<button id ='ojo_contrasena' src>👁</button>"+   
+                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                        "</div>"+  
                                     "</div>"+ 
                                     "<div class = 'padre_de_todos'>"+
                                         "<label id = 'titulo_clave_nueva' for = 'clave_nueva'>"+
                                         buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
+                                        "<div class = 'caj_ojo'>"+
                                         "<input id = 'clave_nueva' type = 'password' name = 'clave_nueva'>"+
-                                    "</div>"+
+                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                        "</div>"+
+                                        "</div>"+
                                     "<div class = 'padre_de_todos' >"+
                                         "<label id = 'titulo_clave_nueva_conf' for = 'clave_nueva_confir'>"+
                                         buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
+                                        "<div class = 'caj_ojo'>"+
                                         "<input id = 'clave_nueva_confir' type = 'password' name = 'clave_nueva_confir'>"+
-                                    "</div>"+
+                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                        "</div>"+
+                                        "</div>"+
                                 "</form>",
+                        // "<script>"+
+                        //     "console.log('hola')"+
+                        //     "function boton_mostrar_contrasena(e) {"+
+                        //         "e.preventDefault()"+
+                        //         "let input = this.previousSibling"+
+                        //         "if (input.type == 'password') {"+
+                        //         "   input.type = 'text'"+
+                        //         "}else{"+
+                        //             "input.type = 'password'"+
+                        //         "}"+
+                        //     "}"+
+                        // "</script>",
+
                         preConfirm: () => {
                             const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
                             const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
@@ -740,45 +814,79 @@ function cargarMain(literales) {
                         }
                     })
                         .then( response => {
-                            let url = '../../back/controladores/cambiarContrasena.php'
-                            let params = {
-                                method: 'POST',
-                                body: JSON.stringify(response.value)
+                            console.log("gola")
+                            function boton_mostrar_contrasena(e) {
+                                e.preventDefault()
+                                let input = this.previousSibling
+                                if (input.type == 'password') {
+                                    input.type = 'text'
+                                }else{
+                                    input.type = 'password'
+                                }
                             }
-                            fetch(url, params)
-                                .then(req => req.json())
-                                .then( respuesta => {
-                                    if (respuesta === true) {
-                                        //alerta todo bien
-                                        Swal.fire({
-                                            text: buscarLiteral(literales, 'contrasena_actualziada_correctamente'),
-                                            title: buscarLiteral(literales, 'correcto'),
-                                            icon: "success",
-                                            timer: 2000,
-                                            timerProgressBar: true,
-                                            showConfirmButton: false,
-                                            showClass: {
-                                                popup: 'animate__animated animate__fadeInDown'
-                                            },
-                                            hideClass: {
-                                                popup: 'animate__animated animate__fadeOutUp'
+                            document.getElementsByClassName('ojo_contrasena').onclick = boton_mostrar_contrasena
+                            if (response.isConfirmed) {
+                                let url = '../../back/controladores/cambiarContrasena.php'
+                                let params = {
+                                    method: 'POST',
+                                    body: JSON.stringify(response.value)
+                                }
+                                fetch(url, params)
+                                    .then(req => req.json())
+                                    .then( respuesta => {
+                                        if (respuesta === true) {
+                                            //alerta todo bien
+                                            Swal.fire({
+                                                text: buscarLiteral(literales, 'contrasena_actualziada_correctamente'),
+                                                title: buscarLiteral(literales, 'correcto'),
+                                                icon: "success",
+                                                timer: 2000,
+                                                timerProgressBar: true,
+                                                showConfirmButton: false,
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                        } else {
+                                            //alerta error
+                                            if (respuesta == 999) {
+                                                Swal.fire({
+                                                    text: buscarLiteral(literales, 'server_error_' + respuesta),
+                                                    title: 'Oops...',
+                                                    icon: "error",
+                                                    timer: 2000,
+                                                    timerProgressBar: true,
+                                                    showConfirmButton: false,
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                                .then(()=>{
+                                                    location.href = 'index.html'
+                                                })
+                                            }else{
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Oops...',
+                                                    text: buscarLiteral(literales, "server_error_" + respuesta),
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
                                             }
-                                        })
-                                    } else {
-                                        //alerta error
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: buscarLiteral(literales, "server_error_" + respuesta),
-                                            showClass: {
-                                                popup: 'animate__animated animate__fadeInDown'
-                                            },
-                                            hideClass: {
-                                                popup: 'animate__animated animate__fadeOutUp'
-                                            }
-                                        })
-                                    }
-                                })
+                                        }
+                                    })
+                            }
+                          
                         })
                 }
 
@@ -1059,17 +1167,37 @@ function cargarMain(literales) {
                                             .then( () => location.reload())
                                     } else {
                                         //alerta error
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Oops...',
-                                            text: buscarLiteral(literales, "server_error_" + respuesta),
-                                            showClass: {
-                                                popup: 'animate__animated animate__fadeInDown'
-                                            },
-                                            hideClass: {
-                                                popup: 'animate__animated animate__fadeOutUp'
-                                            }
-                                        })
+                                        if (respuesta == 999) {
+                                            Swal.fire({
+                                                text: buscarLiteral(literales, 'server_error_' + respuesta),
+                                                title: 'Oops...',
+                                                icon: "error",
+                                                timer: 2000,
+                                                timerProgressBar: true,
+                                                showConfirmButton: false,
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                            .then(()=>{
+                                                location.href = 'index.html'
+                                            })
+                                        }else{
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: buscarLiteral(literales, "server_error_" + respuesta),
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                        }
                                     }
                                 })
                         })
@@ -1172,17 +1300,37 @@ function cargarMain(literales) {
                                                     }
                                                 })
                                             } else {
-                                                Swal.fire({
-                                                    icon: 'error',
-                                                    title: 'Oops...',
-                                                    text: buscarLiteral(literales, "server_error_" + datos),
-                                                    showClass: {
-                                                        popup: 'animate__animated animate__fadeInDown'
-                                                    },
-                                                    hideClass: {
-                                                        popup: 'animate__animated animate__fadeOutUp'
-                                                    }
-                                                })
+                                                if (datos == 999) {
+                                                    Swal.fire({
+                                                        text: buscarLiteral(literales, 'server_error_' + datos),
+                                                        title: 'Oops...',
+                                                        icon: "error",
+                                                        timer: 2000,
+                                                        timerProgressBar: true,
+                                                        showConfirmButton: false,
+                                                        showClass: {
+                                                            popup: 'animate__animated animate__fadeInDown'
+                                                        },
+                                                        hideClass: {
+                                                            popup: 'animate__animated animate__fadeOutUp'
+                                                        }
+                                                    })
+                                                    .then(()=>{
+                                                        location.href = 'index.html'
+                                                    })
+                                                }else{
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Oops...',
+                                                        text: buscarLiteral(literales, "server_error_" + datos),
+                                                        showClass: {
+                                                            popup: 'animate__animated animate__fadeInDown'
+                                                        },
+                                                        hideClass: {
+                                                            popup: 'animate__animated animate__fadeOutUp'
+                                                        }
+                                                    })
+                                                }
                                             }
                                         })
                                 }
@@ -1281,17 +1429,37 @@ function cargarMain(literales) {
                                                     }
                                                 })
                                             } else {
-                                                Swal.fire({
-                                                    icon: 'error',
-                                                    title: 'Oops...',
-                                                    text: buscarLiteral(literales, "server_error_" + datos),
-                                                    showClass: {
-                                                        popup: 'animate__animated animate__fadeInDown'
-                                                    },
-                                                    hideClass: {
-                                                        popup: 'animate__animated animate__fadeOutUp'
-                                                    }
-                                                })
+                                                if (datos == 999) {
+                                                    Swal.fire({
+                                                        text: buscarLiteral(literales, 'server_error_' + datos),
+                                                        title: 'Oops...',
+                                                        icon: "error",
+                                                        timer: 2000,
+                                                        timerProgressBar: true,
+                                                        showConfirmButton: false,
+                                                        showClass: {
+                                                            popup: 'animate__animated animate__fadeInDown'
+                                                        },
+                                                        hideClass: {
+                                                            popup: 'animate__animated animate__fadeOutUp'
+                                                        }
+                                                    })
+                                                    .then(()=>{
+                                                        location.href = 'index.html'
+                                                    })
+                                                }else{
+                                                    Swal.fire({
+                                                        icon: 'error',
+                                                        title: 'Oops...',
+                                                        text: buscarLiteral(literales, "server_error_" + datos),
+                                                        showClass: {
+                                                            popup: 'animate__animated animate__fadeInDown'
+                                                        },
+                                                        hideClass: {
+                                                            popup: 'animate__animated animate__fadeOutUp'
+                                                        }
+                                                    })
+                                                }
                                             }
                                         })
                                 }
