@@ -1104,6 +1104,17 @@ function cargarFooter() {
     instagram_enlace.href = "https://www.instagram.com/cuore__soporte/"
 
     instagram_enlace.appendChild(instagram)
+    
+    let facebook = document.createElement('img')
+    facebook.src = "front/img/imgFooter/facebook.png"
+
+    let facebook_enlace = document.createElement('a')
+    facebook_enlace.id ="facebook_enlace"
+    facebook_enlace.targer = "_blank"
+    facebook_enlace.rel = "noopener noreferrer"
+    facebook_enlace.href = "https://www.facebook.com/profile.php?id=100088263466164"
+
+    facebook_enlace.appendChild(facebook)
 
     let twitter = document.createElement('img')
     twitter.src = "front/img/imgFooter/gorjeo.png"
@@ -1151,6 +1162,7 @@ function cargarFooter() {
 
     cajaDirecciones.appendChild(p2)
     cajaDirecciones.appendChild(instagram_enlace)
+    cajaDirecciones.appendChild(facebook_enlace)
     cajaDirecciones.appendChild(twitter_enlace)
     cajaDirecciones.appendChild(gmail_enlace)
     cajaDirecciones.appendChild(linkedin_enlace)
