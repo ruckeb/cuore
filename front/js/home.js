@@ -155,12 +155,15 @@ function cargarCabecera(literales) {
                     "</form>",
             preConfirm: () => {
                 function fValidarTarjeta(isbn){
-                    VISA = /^4[0-9]{3}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
-                    MASTERCARD = /^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
-                    AMEX = /^3[47][0-9-]{16}$/;
-                    CABAL = /^(6042|6043|6044|6045|6046|5896){4}[0-9]{12}$/;
-                    NARANJA = /^(589562|402917|402918|527571|527572|0377798|0377799)[0-9]*$/;
+                    let VISA = /^4[0-9]{3}?[0-9]{4}?[0-9]{4}?[0-9]{4}$/;
+                    let MASTERCARD = /^5[1-5][0-9]{2}?[0-9]{4}?[0-9]{4}?[0-9]{4}$/;
+                    let AMEX = /^3[47][0-9-]{16}$/;
+                    let CABAL = /^(6042|6043|6044|6045|6046|5896){4}[0-9]{12}$/;
+                    let NARANJA = /^(589562|402917|402918|527571|527572|0377798|0377799)[0-9]*$/;
                     let tipo_tarjeta = false
+                    // Accept only digits, dashes or spaces
+                    if (/[^0-9-\s]+/.test(isbn)) return false;
+                    isbn = isbn.replace(/\D/g, "");
                     if(luhn(isbn)){
                         if(isbn.match(VISA)){
                             tipo_tarjeta = "VISA"
@@ -179,11 +182,8 @@ function cargarCabecera(literales) {
                     }
                 }
                 function luhn(isbn) {
-                    // Accept only digits, dashes or spaces
-                    if (/[^0-9-\s]+/.test(isbn)) return false;
                     // The Luhn Algorithm. It's so pretty.
                     let nCheck = 0, bEven = false;
-                    isbn = isbn.replace(/\D/g, "");
                     for (var n = isbn.length - 1; n >= 0; n--) {
                         var cDigit = isbn.charAt(n),
                         nDigit = parseInt(cDigit, 10);
@@ -218,7 +218,7 @@ function cargarCabecera(literales) {
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
                 } else if(!existeFecha(mes, anyo)){
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_12'))
-                } else if(!/^[0-9]{3,4}$/.match(texto_cvv)){
+                } else if(!/^[0-9]{3,4}$/.test(texto_cvv)){
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_13'))
                 } else {
                     return {
@@ -268,7 +268,7 @@ function cargarCabecera(literales) {
                                             hideClass: {
                                                 popup: 'animate__animated animate__fadeOutUp'
                                             }
-                                        })
+                                        }).then(()=>location.reload())
                                     } else {
                                         Swal.fire({
                                             icon: 'error',
