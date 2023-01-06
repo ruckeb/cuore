@@ -1,7 +1,93 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
+var literales
 var usuario_logueado
 var websocket
+
 window.onload = ()=>{
+
+    function cargarLiterales() {
+        let bodyContent = {
+            id_html: 'chatPrivado',
+        }
+        let url = '../../back/controladores/cargarLiterales.php'
+        let params = {
+            method: 'POST',
+            body: JSON.stringify(bodyContent)
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( literales_fetch => {
+                literales = literales_fetch
+                cargarUsuarioLogueado()
+            })
+    }
+
+    function cargarUsuarioLogueado() {
+        let url = '../../back/controladores/getUsuarioLogeado.php'
+        let params = {
+            method: 'GET',
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( usuario => {
+                if (usuario.nick) {
+                    usuario_logueado = usuario
+                    if (usuario_logueado.premium == 0) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'restringido_premium'),
+                            title: 'Oops...',
+                            icon: "error",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        .then(()=>{
+                            location.href = 'home.php'
+                        })
+                    } else {
+                        cargarChat()
+                    }
+                } else {
+                    if (usuario == 999) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'server_error_' + usuario),
+                            title: 'Oops...',
+                            icon: "error",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        .then(()=>{
+                            location.href = 'index.html'
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + usuario),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
+                }
+            })
+    }
 
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
@@ -10,41 +96,16 @@ window.onload = ()=>{
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
 
-    let url = '../../back/controladores/getUsuarioLogeado.php'
-    let params = {
-        method: 'GET',
-    }
-    fetch(url, params)
-        .then(req => req.json())
-        .then( usuario => {
-            usuario_logueado = usuario
-            if (usuario_logueado.premium == 0) {
-                //TO-DO sweet alert no puedes acceder a esta zona si no eres un usuario premium
-            } else {
-                cargarChat()
-            }
-        })
+    cargarLiterales()
 }
 
 function cargarChat() {
+    cargarCabecera()
+    cargarMain()
     cargarFooter()
-    let bodyContent = {
-        id_html: 'chatPrivado',
-    }
-    let url = '../../back/controladores/cargarLiterales.php'
-    let params = {
-        method: 'POST',
-        body: JSON.stringify(bodyContent)
-    }
-    fetch(url, params)
-        .then(req => req.json())
-        .then( literales => {
-            cargarCabecera(literales)
-            cargarMain(literales)
-        })
 }
 
-function cargarCabecera(literales) {
+function cargarCabecera() {
     let header = document.body.children[0]
 
     let imagen_logo_cuore = document.createElement('img')
@@ -212,7 +273,7 @@ function cargarCabecera(literales) {
 
 }
 
-function cargarMain(literales) {
+function cargarMain() {
     let url = '../../back/controladores/getUsuariosPremium.php'
     let params = {
         method: 'GET',
@@ -220,15 +281,15 @@ function cargarMain(literales) {
     fetch(url, params)
         .then(req => req.json())
         .then( usuarios => {
-            cargarBuscador(usuarios, literales)
+            cargarBuscador(usuarios)
             input_buscador.onkeyup = (e) => {
                 let usuarios_filtrados = JSON.parse(JSON.stringify(usuarios));
                 usuarios_filtrados = usuarios_filtrados.filter(usuario => {return usuario.nick.indexOf(e.target.value)>-1})
-                cargarBuscador(usuarios_filtrados, literales)
+                cargarBuscador(usuarios_filtrados)
             }
         })
     
-    recargarUsuarios(literales)
+    recargarUsuarios()
 
     let main = document.body.children[1]
     main.innerHTML = ""
@@ -284,11 +345,10 @@ function cargarMain(literales) {
     main.appendChild(bloque1)
     main.appendChild(bloque2)
 
-    cargarSocket(literales)
+    cargarSocket()
 }
 
-function cargarSocket(literales) {
-    //create a new WebSocket object. 
+function cargarSocket() {
     var msgBox = $('#chat');
     var wsUri = "ws://localhost:9000/demo/server.php";  
     if (!websocket) {
@@ -298,9 +358,9 @@ function cargarSocket(literales) {
     websocket.onopen = function(ev) { // connection is open 
         $('#comentario').prop('disabled', false)
     }
-    // Message received from server 
+    // Mensaje recibido del servidor
     websocket.onmessage = function(ev) {
-        var response         = JSON.parse(ev.data); //PHP sends Json data 
+        var response         = JSON.parse(ev.data); 
         var res_type         = response.type; 
         var mensaje          = response.mensaje; 
         var usuario_envia         = response.usuario_envia; 
@@ -310,7 +370,7 @@ function cargarSocket(literales) {
         switch(res_type){
             case 'usermsg':
                 if (usuario_envia == usuario_logueado.nick || usuario_recibe == usuario_logueado.nick) {
-                    recargarUsuarios(literales)
+                    recargarUsuarios()
                     if(usuario_envia == usuario_logueado.nick || (usuario_recibe == usuario_logueado.nick && conver_actual == usuario_envia)){
                         let parrafo_chat = document.createElement('p')
 
@@ -340,7 +400,7 @@ function cargarSocket(literales) {
                         parrafo_chat.appendChild(usuario_origen)
                         parrafo_chat.appendChild(texto_mensaje)
                         msgBox.append(parrafo_chat);
-                        msgBox[0].scrollTop = msgBox[0].scrollHeight; //scroll message 
+                        msgBox[0].scrollTop = msgBox[0].scrollHeight; 
                     }
                 } 
                 break;
@@ -351,20 +411,13 @@ function cargarSocket(literales) {
         msgBox.append('<div class="error_chat">'+ buscarLiteral(literales, 'error_chat') +'</div>')
         $('#comentario').prop('disabled', true)
     };
-    // websocket.onclose     = function(ev){ msgBox.append('<div class="system_msg">Connection Closed</div>'); };
-    // Message send button 
-    // $('#send-message').click(function(){
-    //     send_message();
-    // });
     
-    //User hits enter key 
     $( "#comentario" ).on( "keypress", function( event ) {
         if(event.which==13 && !event.shiftKey){
             send_message();
         }
     });
     
-    //Send message 
     function send_message(){
         var mensaje = $('#comentario'); 
         var usuario_envia = usuario_logueado.nick 
@@ -383,7 +436,6 @@ function cargarSocket(literales) {
             // TO-DO swal error enviando el mensaje, debe seleccionar un usario destinatario
             return;
         }
-        //prepare json data 
         var msg = {
             mensaje: mensaje.val(),
             usuario_envia: usuario_envia,
@@ -437,9 +489,9 @@ function cargarSocket(literales) {
                         })
                     }
                 } else {
-                    //convert and send data to server 
+                    //Envar el mensaje al servidor
                     websocket.send(JSON.stringify(msg));
-                    mensaje.val(''); //reset message input 
+                    mensaje.val(''); //Reset input mensaje
                 }
             })
 
@@ -447,7 +499,7 @@ function cargarSocket(literales) {
     }
 }
 
-function recargarUsuarios(literales) {
+function recargarUsuarios() {
     let url2 = '../../back/controladores/getUsuariosChat.php'
     let params2 = {
         method: 'GET',
@@ -455,11 +507,11 @@ function recargarUsuarios(literales) {
     fetch(url2, params2)
         .then(req => req.json())
         .then( usuarios => {
-            cargarUsuarios(usuarios, literales)
+            cargarUsuarios(usuarios)
         })
 }
 
-function cargarBuscador(usuarios, literales) {
+function cargarBuscador(usuarios) {
     let buscador = document.getElementById("caja_buscador")
     let usuarios_buscador = document.getElementById("usuarios_buscador")
     if (!usuarios_buscador) {
@@ -475,7 +527,7 @@ function cargarBuscador(usuarios, literales) {
         caja_usuario.id = "caja_usuario"
         caja_usuario.onclick = () => {
             document.getElementById("chat").classList = usuario.nick
-            cargarChatDe(usuario.nick, literales)
+            cargarChatDe(usuario.nick)
         }
         
         let caja_imagen = document.createElement('div')
@@ -498,7 +550,7 @@ function cargarBuscador(usuarios, literales) {
     }
 }
 
-function cargarUsuarios(usuarios, literales) {
+function cargarUsuarios(usuarios) {
     let caja = document.getElementsByClassName("caja_usuarios")[0]
     caja.innerHTML=""
     for (const usuario of usuarios) {
@@ -506,7 +558,7 @@ function cargarUsuarios(usuarios, literales) {
         caja_usuario.id = "caja_usuario"
         caja_usuario.onclick = () => {
             document.getElementById("chat").classList = usuario.nick
-            cargarChatDe(usuario.nick, literales)
+            cargarChatDe(usuario.nick)
         }
 
         let caja_imagen = document.createElement('div')
@@ -529,7 +581,7 @@ function cargarUsuarios(usuarios, literales) {
     }
 }
 
-function cargarChatDe(nick, literales) {
+function cargarChatDe(nick) {
     let bodyContent = {
         nick_destino: nick,
     }

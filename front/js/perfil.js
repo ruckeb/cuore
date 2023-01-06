@@ -1,6 +1,73 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
+var literales
+var usuario_logueado
 
 window.onload = ()=>{
+
+    function cargarLiterales() {
+        let bodyContent = {
+            id_html: 'perfil',
+        }
+        let url = '../../back/controladores/cargarLiterales.php'
+        let params = {
+            method: 'POST',
+            body: JSON.stringify(bodyContent)
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( literales_fetch => {
+                literales = literales_fetch
+                cargarUsuarioLogueado()
+            })
+    }
+
+    function cargarUsuarioLogueado() {
+        let url = '../../back/controladores/getUsuarioLogeado.php'
+        let params = {
+            method: 'GET',
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( usuario => {
+                if (usuario.nick) {
+                    usuario_logueado = usuario
+                    cargarPerfil()
+                } else {
+                    if (usuario == 999) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'server_error_' + usuario),
+                            title: 'Oops...',
+                            icon: "error",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        .then(()=>{
+                            location.href = 'index.html'
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + usuario),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
+                }
+            })
+    }
+
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
         setCookie("idioma", "es", 7)
@@ -8,39 +75,17 @@ window.onload = ()=>{
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
 
-}
+    cargarLiterales()
 
-var usuario_logueado
-let url = '../../back/controladores/getUsuarioLogeado.php'
-let params = {
-    method: 'GET',
 }
-fetch(url, params)
-    .then(req => req.json())
-    .then( usuario => {
-        usuario_logueado = usuario
-        cargarPerfil()
-    })
 
 function cargarPerfil() {
+    cargarCabecera()
+    cargarMain()
     cargarFooter()
-    let bodyContent = {
-        id_html: 'perfil',
-    }
-    let url = '../../back/controladores/cargarLiterales.php'
-    let params = {
-        method: 'POST',
-        body: JSON.stringify(bodyContent)
-    }
-    fetch(url, params)
-        .then(req => req.json())
-        .then( literales => {
-            cargarCabecera(literales)
-            cargarMain(literales)
-        })
-    }
+}
 
-function cargarCabecera(literales) {
+function cargarCabecera() {
     let header = document.body.children[0]
 
     let imagen_logo_cuore = document.createElement('img')
@@ -448,7 +493,7 @@ function cargarCabecera(literales) {
 
 }
 
-function cargarMain(literales) {
+function cargarMain() {
     let url_fetch 
     let url_actual = new URL(location.href);
     let nick = url_actual.searchParams.get("usuario");

@@ -1,6 +1,25 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
+var ubicacion
+var literales
 
 window.onload = ()=>{
+
+    function cargarLiterales() {
+        let bodyContent = {
+            id_html: 'index',
+        }
+        let url = '../../back/controladores/cargarLiterales.php'
+        let params = {
+            method: 'POST',
+            body: JSON.stringify(bodyContent)
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( literales_fetch => {
+                literales = literales_fetch
+                obtenerUbicacion()
+            })
+    }
 
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
@@ -8,12 +27,11 @@ window.onload = ()=>{
     } else {
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
-    cargarLogin()
+
+    cargarLiterales()
 }
 
-let ubicacion
-
-function obtenerUbicacion(literales) {
+function obtenerUbicacion() {
     /* OBTENEMOS LA UBICACION */
     const options = {
         enableHighAccuracy: true,
@@ -23,6 +41,7 @@ function obtenerUbicacion(literales) {
       
     function success(pos) {
         ubicacion = pos
+        cargarLogin()
     }
     
     function error(err) {
@@ -49,25 +68,12 @@ function obtenerUbicacion(literales) {
 }
 
 function cargarLogin() {
+    cargarCabecera()
+    cargarMain()
     cargarFooter()
-    let bodyContent = {
-        id_html: 'index',
-    }
-    let url = '../../back/controladores/cargarLiterales.php'
-    let params = {
-        method: 'POST',
-        body: JSON.stringify(bodyContent)
-    }
-    fetch(url, params)
-        .then(req => req.json())
-        .then( literales => {
-            obtenerUbicacion(literales)
-            cargarCabecera(literales)
-            cargarMain(literales)
-        })
 }
 
-function cargarCabecera(literales) {
+function cargarCabecera() {
     let header = document.body.children[0]
 
     let imagen_logo_cuore = document.createElement('img')
@@ -174,7 +180,7 @@ function cargarCabecera(literales) {
 
 }
 
-function cargarMain(literales) {
+function cargarMain() {
 
     function comprobarContrasenas() {
         if (input_clave.value == input_repetir_clave.value) {

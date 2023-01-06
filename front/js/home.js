@@ -1,6 +1,75 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
+var literales
+var usuario_logueado
+var recomendaciones
+var index = 0
 
 window.onload = ()=>{
+
+    function cargarLiterales() {
+        let bodyContent = {
+            id_html: 'home',
+        }
+        let url = '../../back/controladores/cargarLiterales.php'
+        let params = {
+            method: 'POST',
+            body: JSON.stringify(bodyContent)
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( literales_fetch => {
+                literales = literales_fetch
+                cargarUsuarioLogueado()
+            })
+    }
+
+    function cargarUsuarioLogueado() {
+        let url = '../../back/controladores/getUsuarioLogeado.php'
+        let params = {
+            method: 'GET',
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( usuario => {
+                if (usuario.nick) {
+                    usuario_logueado = usuario
+                    cargarHome()
+                } else {
+                    if (usuario == 999) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'server_error_' + usuario),
+                            title: 'Oops...',
+                            icon: "error",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        .then(()=>{
+                            location.href = 'index.html'
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + usuario),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
+                }
+            })
+    }
+
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
         setCookie("idioma", "es", 7)
@@ -8,62 +77,41 @@ window.onload = ()=>{
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
 
+    cargarLiterales()
+
 }
-var usuario_logueado
-let url = '../../back/controladores/getUsuarioLogeado.php'
-let params = {
-    method: 'GET',
-}
-fetch(url, params)
-    .then(req => req.json())
-    .then( usuario => {
-        usuario_logueado = usuario
-        cargarHome()
-    })
 
 function cargarHome() {
-    cargarFooter()
-    let bodyContent = {
-        id_html: 'home',
+    let url2 = '../../back/controladores/getRecomendaciones.php'
+    let url_actual = new URL(location.href);
+    let id = url_actual.searchParams.get("id");
+    if (id!=null) {
+        url2= url2 + "?id=" + id
     }
-    let url = '../../back/controladores/cargarLiterales.php'
-    let params = {
-        method: 'POST',
-        body: JSON.stringify(bodyContent)
+    let params2 = {
+        method: 'GET',
     }
-    fetch(url, params)
+    fetch(url2, params2)
         .then(req => req.json())
-        .then( literales => {
-            let url2 = '../../back/controladores/getRecomendaciones.php'
-            let url_actual = new URL(location.href);
-            let id = url_actual.searchParams.get("id");
+        .then( recomendaciones_fetch => {
+            recomendaciones = recomendaciones_fetch
             if (id!=null) {
-                url2= url2 + "?id=" + id
-            }
-            let params2 = {
-                method: 'GET',
-            }
-            fetch(url2, params2)
-                .then(req => req.json())
-                .then( recomendaciones => {
-                    var index = 0
-                    if (id!=null) {
-                        for (let i = 0; i < recomendaciones.length; i++) {
-                            const element = recomendaciones[i];
-                            if (element.id == id) {
-                                index = i
-                                break;
-                            }
-                        }
+                for (let i = 0; i < recomendaciones.length; i++) {
+                    const element = recomendaciones[i];
+                    if (element.id == id) {
+                        index = i
+                        break;
                     }
-                    cargarMain(recomendaciones, index, literales)
-                })
-            cargarCabecera(literales)
+                }
+            }
+            cargarMain(recomendaciones, index)
         })
+    cargarCabecera()
+    cargarFooter()
     
 }
 
-function cargarCabecera(literales) {
+function cargarCabecera() {
     let header = document.body.children[0]
 
     let imagen_logo_cuore = document.createElement('img')
@@ -486,7 +534,7 @@ function cargarCabecera(literales) {
 
 }
 
-function cargarMain(recomendaciones, index, literales) {
+function cargarMain(recomendaciones, index) {
     let main = document.body.children[1]
     main.innerHTML = ""
 
@@ -515,7 +563,7 @@ function cargarMain(recomendaciones, index, literales) {
                         imagen_flecha_izq.onclick = e => {
                             e.preventDefault()
                             index = index - 1
-                            cargarMain(recomendaciones, index, literales)
+                            cargarMain(recomendaciones, index)
                         }
                     }
 
@@ -534,7 +582,7 @@ function cargarMain(recomendaciones, index, literales) {
                         imagen_flecha_der.onclick = e => {
                             e.preventDefault()
                             index = index + 1
-                            cargarMain(recomendaciones, index, literales)
+                            cargarMain(recomendaciones, index)
                         }
                     }
                 
