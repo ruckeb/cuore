@@ -203,7 +203,7 @@ function cargarCabecera() {
     boton_menu1.classList.add("btnMenu")
     boton_menu1.onclick = (e) => {
         e.preventDefault()
-        location.href = './perfil.php' 
+        location.href = 'perfil.php' 
     }
 
     let p_menu1 = document.createElement('p')

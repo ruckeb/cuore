@@ -723,7 +723,37 @@ function cargarMain(recomendaciones, index) {
                             .then(req => req.json())
                             .then( datos => {
                                 if (datos !== true) {
-                                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_7'))
+                                    if (datos == 999) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'server_error_' + datos),
+                                            title: 'Oops...',
+                                            icon: "error",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                        .then(()=>{
+                                            location.href = 'index.html'
+                                        })
+                                    }else{
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + datos),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    }                                
                                 }
                             }) 
                     }
@@ -765,7 +795,37 @@ function cargarMain(recomendaciones, index) {
                             .then(req => req.json())
                             .then( datos => {
                                 if (datos !== true) {
-                                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_8'))
+                                    if (datos == 999) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'server_error_' + datos),
+                                            title: 'Oops...',
+                                            icon: "error",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                        .then(()=>{
+                                            location.href = 'index.html'
+                                        })
+                                    }else{
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + datos),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    }
                                 }
                             })
                     }
@@ -806,7 +866,37 @@ function cargarMain(recomendaciones, index) {
                             .then(req => req.json())
                             .then( datos => {
                                 if (datos !== true) {
-                                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
+                                    if (datos == 999) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'server_error_' + datos),
+                                            title: 'Oops...',
+                                            icon: "error",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                        .then(()=>{
+                                            location.href = 'index.html'
+                                        })
+                                    }else{
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + datos),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    }
                                 }
                             })
                     }
@@ -847,7 +937,37 @@ function cargarMain(recomendaciones, index) {
                             .then(req => req.json())
                             .then( datos => {
                                 if (datos !== true) {
-                                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_10'))
+                                    if (datos == 999) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'server_error_' + datos),
+                                            title: 'Oops...',
+                                            icon: "error",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                        .then(()=>{
+                                            location.href = 'index.html'
+                                        })
+                                    }else{
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + datos),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    }
                                 }
                             })
                     }
@@ -887,9 +1007,39 @@ function cargarMain(recomendaciones, index) {
                         fetch(url, params)
                             .then(req => req.json())
                             .then( datos => {
-                            if (datos !== true) {
-                                Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
-                            }
+                                if (datos !== true) {
+                                    if (datos == 999) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'server_error_' + datos),
+                                            title: 'Oops...',
+                                            icon: "error",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                        .then(()=>{
+                                            location.href = 'index.html'
+                                        })
+                                    }else{
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + datos),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    }
+                                }
                             })
                     }
                 

@@ -418,7 +418,7 @@ function cargarCabecera() {
     boton_menu1.classList.add("btnMenu")
     boton_menu1.onclick = (e) => {
         e.preventDefault()
-        location.href = './chatPrivado.php' 
+        location.href = 'chatPrivado.php' 
     }
 
     let p_menu1 = document.createElement('p')
