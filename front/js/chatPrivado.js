@@ -424,16 +424,45 @@ function cargarSocket() {
         var usuario_recibe = $('#chat').attr('class')?$('#chat').attr('class'):""
         
         if(usuario_envia == ""){ 
-            // TO-DO swal error enviando el mensaje, vualva a loguearse por favor
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: buscarLiteral(literales, "error_usuario_envia_socket"),
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
             return;
         }
         if(mensaje.val() == ""){ 
-            // TO-DO swal error enviando el mensaje, debe escribir un mensaje
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: buscarLiteral(literales, "error_mensaje_socket"),
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
             return;
         }
-        console.log(usuario_recibe)
         if(usuario_recibe == ""){ 
-            // TO-DO swal error enviando el mensaje, debe seleccionar un usario destinatario
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: buscarLiteral(literales, "error_usuario_recibe_socket"),
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            })
             return;
         }
         var msg = {

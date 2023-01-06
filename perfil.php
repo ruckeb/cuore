@@ -16,17 +16,16 @@
     <link rel="stylesheet" href="front/css/perfil.css">
     <script src="front/js/perfil.js" type="module"></script>
     <script src="front/sweet/sweetalert2.min.js"></script>
-    <!-- <script type = "text/javascript">
-        function boton_mostrar_contrasena(e) {
-        e.preventDefault()
-        let input = this.previousSibling
-        if (input.type == 'password') {
-            input.type = 'text'
-        }else{
-            input.type = 'password'
+    <script type = "text/javascript">
+        function mostrarContraseña(e) {
+            let input = e.previousSibling
+            if (input.type == 'password') {
+                input.type = 'text'
+            }else{
+                input.type = 'password'
+            }
         }
-    }
-    </script> -->
+    </script>
     <link rel="stylesheet" href="front/sweet/sweetalert2.css">
 </head>
 

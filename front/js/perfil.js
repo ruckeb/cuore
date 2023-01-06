@@ -177,9 +177,9 @@ function cargarCabecera() {
                     "</form>",
             preConfirm: () => {
                 function fValidarTarjeta(isbn){
-                    let VISA = /^4[0-9]{3}?[0-9]{4}?[0-9]{4}?[0-9]{4}$/;
-                    let MASTERCARD = /^5[1-5][0-9]{2}?[0-9]{4}?[0-9]{4}?[0-9]{4}$/;
-                    let AMEX = /^3[47][0-9-]{16}$/;
+                    let VISA = /^4[0-9]{12}(?:[0-9]{3})?$/;
+                    let MASTERCARD = /^5[1-5][0-9]{14}$/;
+                    let AMEX = /^3[47][0-9]{13}$/;
                     let CABAL = /^(6042|6043|6044|6045|6046|5896){4}[0-9]{12}$/;
                     let NARANJA = /^(589562|402917|402918|527571|527572|0377798|0377799)[0-9]*$/;
                     let tipo_tarjeta = false
@@ -785,56 +785,32 @@ function cargarMain() {
                             popup: 'animate__animated animate__fadeOutUp'
                         },
                
-                        html:  
-                        // "<swal-function-param
-                        // name="boton_mostrar_contrasena"
-                        // value=" =>  let input = this.previousSibling
-                        // if (input.type == 'password') {
-                        //     input.type = 'text'
-                        // }else{
-                        //     input.type = 'password'
-                        // } />
-                        // +
-
-                        "<form>"+
-                                    "<div class = 'padre_de_todos' >"+
+                        html:  "<form>"+
+                                    "<div class = 'padre_de_todos'>"+
                                         "<label id = 'titulo_clave_antigua' for = 'clave_antigua'>"+
                                         buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
                                         "<div class = 'caj_ojo'>"+
-                                        "<input id = 'clave_antigua' type = 'password' name = 'clave_antigua'>"+   
-                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                            "<input id = 'clave_antigua' type = 'password' name = 'clave_antigua'>"+   
+                                            "<div class ='ojo_contrasena' onclick='mostrarContraseña(this)'>👁</div>"+ 
                                         "</div>"+  
                                     "</div>"+ 
                                     "<div class = 'padre_de_todos'>"+
                                         "<label id = 'titulo_clave_nueva' for = 'clave_nueva'>"+
                                         buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
                                         "<div class = 'caj_ojo'>"+
-                                        "<input id = 'clave_nueva' type = 'password' name = 'clave_nueva'>"+
-                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                            "<input id = 'clave_nueva' type = 'password' name = 'clave_nueva'>"+
+                                            "<div class ='ojo_contrasena' onclick='mostrarContraseña(this)'>👁</div>"+ 
                                         "</div>"+
-                                        "</div>"+
+                                    "</div>"+
                                     "<div class = 'padre_de_todos' >"+
                                         "<label id = 'titulo_clave_nueva_conf' for = 'clave_nueva_confir'>"+
                                         buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
                                         "<div class = 'caj_ojo'>"+
-                                        "<input id = 'clave_nueva_confir' type = 'password' name = 'clave_nueva_confir'>"+
-                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                            "<input id = 'clave_nueva_confir' type = 'password' name = 'clave_nueva_confir'>"+
+                                            "<div class ='ojo_contrasena' onclick='mostrarContraseña(this)'>👁</div>"+ 
                                         "</div>"+
-                                        "</div>"+
+                                    "</div>"+
                                 "</form>",
-                        // "<script>"+
-                        //     "console.log('hola')"+
-                        //     "function boton_mostrar_contrasena(e) {"+
-                        //         "e.preventDefault()"+
-                        //         "let input = this.previousSibling"+
-                        //         "if (input.type == 'password') {"+
-                        //         "   input.type = 'text'"+
-                        //         "}else{"+
-                        //             "input.type = 'password'"+
-                        //         "}"+
-                        //     "}"+
-                        // "</script>",
-
                         preConfirm: () => {
                             const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
                             const clave_nueva = Swal.getPopup().querySelector('#clave_nueva').value
@@ -859,17 +835,6 @@ function cargarMain() {
                         }
                     })
                         .then( response => {
-                            console.log("gola")
-                            function boton_mostrar_contrasena(e) {
-                                e.preventDefault()
-                                let input = this.previousSibling
-                                if (input.type == 'password') {
-                                    input.type = 'text'
-                                }else{
-                                    input.type = 'password'
-                                }
-                            }
-                            document.getElementsByClassName('ojo_contrasena').onclick = boton_mostrar_contrasena
                             if (response.isConfirmed) {
                                 let url = '../../back/controladores/cambiarContrasena.php'
                                 let params = {

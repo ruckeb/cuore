@@ -203,9 +203,9 @@ function cargarCabecera() {
                     "</form>",
             preConfirm: () => {
                 function fValidarTarjeta(isbn){
-                    let VISA = /^4[0-9]{3}?[0-9]{4}?[0-9]{4}?[0-9]{4}$/;
-                    let MASTERCARD = /^5[1-5][0-9]{2}?[0-9]{4}?[0-9]{4}?[0-9]{4}$/;
-                    let AMEX = /^3[47][0-9-]{16}$/;
+                    let VISA = /^4[0-9]{12}(?:[0-9]{3})?$/;
+                    let MASTERCARD = /^5[1-5][0-9]{14}$/;
+                    let AMEX = /^3[47][0-9]{13}$/;
                     let CABAL = /^(6042|6043|6044|6045|6046|5896){4}[0-9]{12}$/;
                     let NARANJA = /^(589562|402917|402918|527571|527572|0377798|0377799)[0-9]*$/;
                     let tipo_tarjeta = false
