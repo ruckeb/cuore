@@ -288,7 +288,11 @@ function cargarMain() {
                 .then(req => req.json())
                 .then( datos => {
                     if (datos.nick) {
-                        location.href = "home.php"
+                        if (datos.superadmin==1) {
+                            location.href = "superadmin.php"
+                        } else {
+                            location.href = "home.php"
+                        }
                     } else {
                         Swal.fire({
                             icon: 'error',

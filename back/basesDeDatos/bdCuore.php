@@ -82,7 +82,7 @@
     function iniciarSesionBBDD($usuario, $contrasena){
         try {
             $db = getConnection();
-            $sql = "SELECT u.nick, u.nombre, u.fecha_nacimiento, u.email, s.sexo, b.busqueda, u.imagen, u.video_present, u.clave
+            $sql = "SELECT u.nick, u.nombre, u.fecha_nacimiento, u.email, s.sexo, b.busqueda, u.imagen, u.video_present, u.clave, u.superadmin
                     FROM usuarios u
                     JOIN sexos s 
                     ON u.sexo = s.id
@@ -168,6 +168,7 @@
                             JOIN usuarios logged
                             WHERE logged.nick = '$nick'
                             AND u.nick != logged.nick
+                            AND u.superadmin != 1
                         ) usuarios_r
                         JOIN 
                         (
@@ -221,42 +222,47 @@
                         JOIN publicaciones p
                         ON u.nick = p.nick_publicacion
                         WHERE u.nick='$nick'
+                        AND u.superadmin != 1
                         ORDER BY p.creado DESC";
                 $filas = $db->query($sql);	
-                $contador = 0;
-                foreach ($filas as $fila) {
-                    if ($contador == 0) {
-                        $contador = $contador + 1;
-                        $usuario = array(
-                            'nick' => $fila['nick'],
-                            'nombre' => !is_null($fila['nombre']) ? $fila['nombre'] : '',
-                            'email' => $fila['email'],
-                            'sexo' => $fila['sexo'],
-                            'perfil_busqueda' => $fila['perfil_busqueda'],
-                            'imagen' => $fila['imagen'],
-                            'imagenes_publicadas' => array(),
-                            'videos_publicados' => array(),
-                        );
+                if ($filas->rowCount() > 0) {
+                    $contador = 0;
+                    foreach ($filas as $fila) {
+                        if ($contador == 0) {
+                            $contador = $contador + 1;
+                            $usuario = array(
+                                'nick' => $fila['nick'],
+                                'nombre' => !is_null($fila['nombre']) ? $fila['nombre'] : '',
+                                'email' => $fila['email'],
+                                'sexo' => $fila['sexo'],
+                                'perfil_busqueda' => $fila['perfil_busqueda'],
+                                'imagen' => $fila['imagen'],
+                                'imagenes_publicadas' => array(),
+                                'videos_publicados' => array(),
+                            );
+                        }
+                        if (explode("/", $fila['publi'])[3] == "img") {
+                            $imagen = array(
+                                'id' => $fila['id'],
+                                'texto' => $fila['texto'],
+                                'publi' => $fila['publi'],
+                                'creado' => $fila['creado'],
+                            );
+                            array_push($usuario['imagenes_publicadas'], $imagen);
+                        } else {
+                            $video = array(
+                                'id' => $fila['id'],
+                                'texto' => $fila['texto'],
+                                'publi' => $fila['publi'],
+                                'creado' => $fila['creado'],
+                            );
+                            array_push($usuario['videos_publicados'], $video);
+                        }
                     }
-                    if (explode("/", $fila['publi'])[3] == "img") {
-                        $imagen = array(
-                            'id' => $fila['id'],
-                            'texto' => $fila['texto'],
-                            'publi' => $fila['publi'],
-                            'creado' => $fila['creado'],
-                        );
-                        array_push($usuario['imagenes_publicadas'], $imagen);
-                    } else {
-                        $video = array(
-                            'id' => $fila['id'],
-                            'texto' => $fila['texto'],
-                            'publi' => $fila['publi'],
-                            'creado' => $fila['creado'],
-                        );
-                        array_push($usuario['videos_publicados'], $video);
-                    }
+                    return $usuario;
+                } else {
+                    return 524;
                 }
-                return $usuario;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -688,6 +694,7 @@
                             SELECT nick
                             FROM usuarios u
                             WHERE u.nick!='$nick'
+                            AND u.superadmin!=1
                                 INTERSECT 
                             (
                                 SELECT nick_origen
@@ -721,6 +728,7 @@
                 $sql = "SELECT nick, imagen 
                         FROM usuarios 
                         WHERE premium=1
+                        AND superadmin!=1
                         AND nick!='$nick'";
                 $usuarios = $db->query($sql);
                 $resultado = array();
@@ -785,7 +793,7 @@
             try {
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
-                $sql = "SELECT nick FROM usuarios ORDER BY nick";
+                $sql = "SELECT nick FROM usuarios WHERE superadmin=0 ORDER BY nick";
                 $usuarios = $db->query($sql);
                 $resultado = array();
                 foreach ($usuarios as $usuario) {
@@ -814,6 +822,39 @@
                     }
                 }
                 return 524; //El usuario indicado no existe
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function borrarUsuarioBBDD($datos){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $resultado = array();
+                $nick = $_SESSION['usuario'];
+                $nick_usuario = $datos->nick;
+                $sql = "SELECT imagen, video_present FROM usuarios WHERE nick='$nick_usuario'";
+                $usuarios = $db->query($sql);
+                if($usuarios->rowCount() === 1){
+                    foreach ($usuarios as $usuario) {
+                        array_push($resultado, $usuario['imagen']);
+                        array_push($resultado, $usuario['video_present']);
+                    }
+                }
+                $sql = "SELECT imagen FROM publicaciones WHERE nick_publicacion='$nick_usuario'";
+                $publicaciones = $db->query($sql);
+                foreach ($publicaciones as $publicacion) {
+                    array_push($resultado, $publicacion['imagen']);
+                }
+                $sql = "DELETE FROM usuarios WHERE nick='$nick_usuario'";
+                if ($db->query($sql) === FALSE) {
+                    return 525; //Error borrando el comentario
+                }
+                return $resultado;
             } catch (Exception $e) {
                 return $e->getMessage();
             }

@@ -478,7 +478,93 @@ function cargarBloque2(nick){
                     boton_borrar.innerHTML = buscarLiteral(literales, boton_borrar.id)
                     boton_borrar.onclick = (e) => {
                         e.preventDefault()
-                        //borrar usuario
+                        Swal.fire({
+                            title: buscarLiteral(literales, 'titulo_borrar'), //estas seguro?
+                            text: buscarLiteral(literales, 'texto_borrar'), //no podrás deshacer esta acción
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: buscarLiteral(literales, 'confirmar_alerta'),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            },
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                                //borrar usuario
+                                let bodyContent = {
+                                    nick: e.target.parentNode.parentNode.children[0].innerHTML,
+                                }
+                                let url = '../../back/controladores/borrarUsuario.php'
+                                let params = {
+                                    method: 'POST',
+                                    body: JSON.stringify(bodyContent)
+                                }
+                                fetch(url, params)
+                                    .then(req => req.json())
+                                    .then( borrados => {
+                                        if (borrados === true) {
+                                            //quitar al usuario 
+                                            let caja_usuarios = document.getElementById('caja_usuarios')
+                                            for (const caja_usuario of caja_usuarios.children) {
+                                                if (caja_usuario.children[0].innerHTML == usuario.nick) {
+                                                    caja_usuario.remove()
+                                                }
+                                            }
+                                            Swal.fire({
+                                                text: buscarLiteral(literales, 'usuario_borrado_correctamente'), //borrado correctamente
+                                                title: buscarLiteral(literales, 'correcto'),
+                                                icon: "success",
+                                                timer: 2000,
+                                                timerProgressBar: true,
+                                                showConfirmButton: false,
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                        } else {
+                                            if (borrados == 999) {
+                                                Swal.fire({
+                                                    text: buscarLiteral(literales, 'server_error_' + borrados),
+                                                    title: 'Oops...',
+                                                    icon: "error",
+                                                    timer: 2000,
+                                                    timerProgressBar: true,
+                                                    showConfirmButton: false,
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                                .then(()=>{
+                                                    location.href = 'index.html'
+                                                })
+                                            }else{
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Oops...',
+                                                    text: buscarLiteral(literales, "server_error_" + borrados),
+                                                    showClass: {
+                                                        popup: 'animate__animated animate__fadeInDown'
+                                                    },
+                                                    hideClass: {
+                                                        popup: 'animate__animated animate__fadeOutUp'
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    })
+                            }
+                          })
+                        
                     }
 
                     div_botones_form.appendChild(boton_actualizar)
