@@ -510,11 +510,21 @@
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
                 $id = $publicacion->id;
+                $sql = "SELECT imagen 
+                        FROM publicaciones 
+                        WHERE id=$id";
+                $ruta_archivo = "";
+                $publicaciones = $db->query($sql);
+                if($publicaciones->rowCount() === 1){		
+                    foreach ($publicaciones as $publicacion) {
+                        $ruta_archivo = $publicacion['imagen'];
+                    }
+                }
                 $sql = "DELETE FROM publicaciones WHERE id=$id AND nick_publicacion='$nick'";
                 if ($db->query($sql) === FALSE) {
                     return 518; //Error borrando publicacion
                 }  
-                return true;
+                return !empty($ruta_archivo)?$ruta_archivo:518;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
