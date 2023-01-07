@@ -47,8 +47,8 @@ footer img{
     justify-content: flex-start;
     align-items: flex-start;
 }
-#text_caducidad, #text_cvv{
-    width: 10%;
+#text_caducidad, #texto_cvv{
+    width: 28%;
 }
 .botonIdiomas{
     background-color: transparent;
@@ -406,4 +406,13 @@ h2{
 .caj_ojo{
     display: flex;
     flex-wrap: nowrap;
+}
+#boton_enviar_match{
+    width: 20%;
+}
+.sweetAlertAmor{
+    background: transparent url("/front/img/imgPerfil/hearts-heart.gif") no-repeat fixed center !important;
+    background-size: 40% !important;
+    width: 100vw !important;
+    height: 100vh !important;
 }
