@@ -558,7 +558,7 @@ VALUES
 ('perfil', 'h2_boton_imagenes', 'de', 'IHRE BILDER'),
 ('perfil', 'h2_boton_videos', 'de', 'IHRE VIDEOS'),
 ('perfil', 'boton_enviar_match', 'de', 'ZITATE'),
-('perfil', 'texto_match_envio', 'de', 'ES wurde erfolgreich gesendet, warten Sie auf die Antwort'),
+('perfil', 'texto_match_envio', 'de', 'Es wurde erfolgreich gesendet, warten sie auf die antwort'),
 ('perfil', 'boton_edicion', 'de', 'PROFIL<br>BEARBEITEN'),
 ('perfil', 'boton_anadir_publi', 'de', 'VERÖFFENTLICHUNG<br>HINZUFÜGEN'),
 ('perfil', 'boton_guardar', 'de', 'PROFIL<br>SPEICHERN'),
