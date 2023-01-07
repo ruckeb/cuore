@@ -47,9 +47,20 @@ CREATE TABLE IF NOT EXISTS usuarios (
     clave VARCHAR(60) NOT NULL,
     ubicacion POINT NOT NULL,
     premium TINYINT(1) NOT NULL DEFAULT 0,
+    superadmin TINYINT(1) NOT NULL DEFAULT 0,
     CONSTRAINT PK_usuarios PRIMARY KEY (nick),
     CONSTRAINT FK_usarios_sexos FOREIGN KEY (sexo) REFERENCES sexos (id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT FK_usarios_busquedas FOREIGN KEY (perfil_busqueda) REFERENCES busquedas (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS matches (
+    usuario_origen VARCHAR(50),
+    usuario_destino VARCHAR(50),
+    amor TINYINT(1) NOT NULL DEFAULT 0,
+    fecha DATETIME NOT NULL DEFAULT current_timestamp,
+    CONSTRAINT PK_matches PRIMARY KEY (usuario_origen, usuario_destino),
+    CONSTRAINT FK_usuario_origen_usuarios FOREIGN KEY (usuario_origen) REFERENCES usuarios (nick) ON DELETE NO ACTION ON UPDATE CASCADE,
+    CONSTRAINT FK_usuario_destino_usuarios FOREIGN KEY (usuario_destino) REFERENCES usuarios (nick) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS visitas (
@@ -59,7 +70,7 @@ CREATE TABLE IF NOT EXISTS visitas (
     fecha DATE NOT NULL,
     contador INT UNSIGNED NOT NULL,
     CONSTRAINT PK_visitas PRIMARY KEY (id),
-    CONSTRAINT FK_visitas_usuarios FOREIGN KEY (nick) REFERENCES usuarios (nick) ON DELETE NO ACTION ON UPDATE NO ACTION
+    CONSTRAINT FK_visitas_usuarios FOREIGN KEY (nick) REFERENCES usuarios (nick) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS publicaciones(

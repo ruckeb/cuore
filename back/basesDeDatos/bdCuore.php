@@ -586,7 +586,7 @@
             try {
                 $db = getConnection();
                 $nick = $_SESSION['usuario'];
-                $sql = "SELECT nick, premium FROM usuarios WHERE nick='$nick'";
+                $sql = "SELECT nick, premium, superadmin FROM usuarios WHERE nick='$nick'";
                 $usuarios = $db->query($sql);
                 if($usuarios->rowCount() === 1){		
                     foreach ($usuarios as $usuario) {
@@ -772,6 +772,48 @@
                     return 523; //Error actualizando premium
                 }
                 return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getUsuariosBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT nick FROM usuarios ORDER BY nick";
+                $usuarios = $db->query($sql);
+                $resultado = array();
+                foreach ($usuarios as $usuario) {
+                    array_push($resultado, $usuario);
+                }
+                return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getUsuarioBBDD($datos){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $nick_usuario = $datos->nick;
+                $sql = "SELECT nick, email, premium FROM usuarios WHERE nick='$nick_usuario'";
+                $usuarios = $db->query($sql);
+                if($usuarios->rowCount() === 1){
+                    foreach ($usuarios as $usuario) {
+                        return $usuario;
+                    }
+                }
+                return 524; //El usuario indicado no existe
             } catch (Exception $e) {
                 return $e->getMessage();
             }
