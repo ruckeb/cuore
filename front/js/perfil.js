@@ -1248,7 +1248,6 @@ function cargarMain() {
                             if (datos.amor === true) {
                                 //swall con el corazón 
                                 Swal.fire({
-                                    title: buscarLiteral(literales, 'texto_match'),
                                     width: 600,
                                     timer: 2000,
                                     showConfirmButton: false,
