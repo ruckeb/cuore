@@ -1,6 +1,73 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
+var literales
+var usuario_logueado
 
 window.onload = ()=>{
+
+    function cargarLiterales() {
+        let bodyContent = {
+            id_html: 'perfil',
+        }
+        let url = '../../back/controladores/cargarLiterales.php'
+        let params = {
+            method: 'POST',
+            body: JSON.stringify(bodyContent)
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( literales_fetch => {
+                literales = literales_fetch
+                cargarUsuarioLogueado()
+            })
+    }
+
+    function cargarUsuarioLogueado() {
+        let url = '../../back/controladores/getUsuarioLogeado.php'
+        let params = {
+            method: 'GET',
+        }
+        fetch(url, params)
+            .then(req => req.json())
+            .then( usuario => {
+                if (usuario.nick) {
+                    usuario_logueado = usuario
+                    cargarPerfil()
+                } else {
+                    if (usuario == 999) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'server_error_' + usuario),
+                            title: 'Oops...',
+                            icon: "error",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        .then(()=>{
+                            location.href = 'index.html'
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: buscarLiteral(literales, "server_error_" + usuario),
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                    }
+                }
+            })
+    }
+
     var lenguaje_actual = getCookie("idioma")
     if (lenguaje_actual == null) {
         setCookie("idioma", "es", 7)
@@ -8,39 +75,17 @@ window.onload = ()=>{
         setCookie("idioma", lenguaje_actual, 7) //actualiza la cookie
     }
 
-}
+    cargarLiterales()
 
-var usuario_logueado
-let url = '../../back/controladores/getUsuarioLogeado.php'
-let params = {
-    method: 'GET',
 }
-fetch(url, params)
-    .then(req => req.json())
-    .then( usuario => {
-        usuario_logueado = usuario
-        cargarPerfil()
-    })
 
 function cargarPerfil() {
+    cargarCabecera()
+    cargarMain()
     cargarFooter()
-    let bodyContent = {
-        id_html: 'perfil',
-    }
-    let url = '../../back/controladores/cargarLiterales.php'
-    let params = {
-        method: 'POST',
-        body: JSON.stringify(bodyContent)
-    }
-    fetch(url, params)
-        .then(req => req.json())
-        .then( literales => {
-            cargarCabecera(literales)
-            cargarMain(literales)
-        })
-    }
+}
 
-function cargarCabecera(literales) {
+function cargarCabecera() {
     let header = document.body.children[0]
 
     let imagen_logo_cuore = document.createElement('img')
@@ -132,12 +177,15 @@ function cargarCabecera(literales) {
                     "</form>",
             preConfirm: () => {
                 function fValidarTarjeta(isbn){
-                    VISA = /^4[0-9]{3}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
-                    MASTERCARD = /^5[1-5][0-9]{2}-?[0-9]{4}-?[0-9]{4}-?[0-9]{4}$/;
-                    AMEX = /^3[47][0-9-]{16}$/;
-                    CABAL = /^(6042|6043|6044|6045|6046|5896){4}[0-9]{12}$/;
-                    NARANJA = /^(589562|402917|402918|527571|527572|0377798|0377799)[0-9]*$/;
+                    let VISA = /^4[0-9]{12}(?:[0-9]{3})?$/;
+                    let MASTERCARD = /^5[1-5][0-9]{14}$/;
+                    let AMEX = /^3[47][0-9]{13}$/;
+                    let CABAL = /^(6042|6043|6044|6045|6046|5896){4}[0-9]{12}$/;
+                    let NARANJA = /^(589562|402917|402918|527571|527572|0377798|0377799)[0-9]*$/;
                     let tipo_tarjeta = false
+                    // Accept only digits, dashes or spaces
+                    if (/[^0-9-\s]+/.test(isbn)) return false;
+                    isbn = isbn.replace(/\D/g, "");
                     if(luhn(isbn)){
                         if(isbn.match(VISA)){
                             tipo_tarjeta = "VISA"
@@ -156,11 +204,8 @@ function cargarCabecera(literales) {
                     }
                 }
                 function luhn(isbn) {
-                    // Accept only digits, dashes or spaces
-                    if (/[^0-9-\s]+/.test(isbn)) return false;
                     // The Luhn Algorithm. It's so pretty.
                     let nCheck = 0, bEven = false;
-                    isbn = isbn.replace(/\D/g, "");
                     for (var n = isbn.length - 1; n >= 0; n--) {
                         var cDigit = isbn.charAt(n),
                         nDigit = parseInt(cDigit, 10);
@@ -195,7 +240,7 @@ function cargarCabecera(literales) {
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
                 } else if(!existeFecha(mes, anyo)){
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_12'))
-                } else if(!/^[0-9]{3,4}$/.match(texto_cvv)){
+                } else if(!/^[0-9]{3,4}$/.test(texto_cvv)){
                     Swal.showValidationMessage(buscarLiteral(literales, 'validation_13'))
                 } else {
                     return {
@@ -245,7 +290,7 @@ function cargarCabecera(literales) {
                                             hideClass: {
                                                 popup: 'animate__animated animate__fadeOutUp'
                                             }
-                                        })
+                                        }).then(()=>location.reload())
                                     } else {
                                         if (respuesta == 999) {
                                             Swal.fire({
@@ -373,7 +418,7 @@ function cargarCabecera(literales) {
     boton_menu1.classList.add("btnMenu")
     boton_menu1.onclick = (e) => {
         e.preventDefault()
-        location.href = './chatPrivado.php' 
+        location.href = 'chatPrivado.php' 
     }
 
     let p_menu1 = document.createElement('p')
@@ -448,7 +493,7 @@ function cargarCabecera(literales) {
 
 }
 
-function cargarMain(literales) {
+function cargarMain() {
     let url_fetch 
     let url_actual = new URL(location.href);
     let nick = url_actual.searchParams.get("usuario");
@@ -740,55 +785,32 @@ function cargarMain(literales) {
                             popup: 'animate__animated animate__fadeOutUp'
                         },
                
-                        html:  
-                        // "<swal-function-param
-                        // name="boton_mostrar_contrasena"
-                        // value=" =>  let input = this.previousSibling
-                        // if (input.type == 'password') {
-                        //     input.type = 'text'
-                        // }else{
-                        //     input.type = 'password'
-                        // } />
-                        // +
-
-                        "<form>"+
-                                    "<div class = 'padre_de_todos' >"+
+                        html:  "<form>"+
+                                    "<div class = 'padre_de_todos'>"+
                                         "<label id = 'titulo_clave_antigua' for = 'clave_antigua'>"+
                                         buscarLiteral(literales, 'titulo_clave_antigua')+ "</label>"+
                                         "<div class = 'caj_ojo'>"+
-                                        "<input id = 'clave_antigua' type = 'password' name = 'clave_antigua'>"+   
-                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                            "<input id = 'clave_antigua' type = 'password' name = 'clave_antigua'>"+   
+                                            "<div class ='ojo_contrasena' onclick='mostrarContraseña(this)'>👁</div>"+ 
                                         "</div>"+  
                                     "</div>"+ 
                                     "<div class = 'padre_de_todos'>"+
                                         "<label id = 'titulo_clave_nueva' for = 'clave_nueva'>"+
                                         buscarLiteral(literales, 'titulo_clave_nueva')+ "</label>"+
                                         "<div class = 'caj_ojo'>"+
-                                        "<input id = 'clave_nueva' type = 'password' name = 'clave_nueva'>"+
-                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                            "<input id = 'clave_nueva' type = 'password' name = 'clave_nueva'>"+
+                                            "<div class ='ojo_contrasena' onclick='mostrarContraseña(this)'>👁</div>"+ 
                                         "</div>"+
-                                        "</div>"+
+                                    "</div>"+
                                     "<div class = 'padre_de_todos' >"+
                                         "<label id = 'titulo_clave_nueva_conf' for = 'clave_nueva_confir'>"+
                                         buscarLiteral(literales, 'titulo_clave_nueva_conf')+ "</label>"+
                                         "<div class = 'caj_ojo'>"+
-                                        "<input id = 'clave_nueva_confir' type = 'password' name = 'clave_nueva_confir'>"+
-                                        "<div class ='ojo_contrasena'>👁</div>"+ 
+                                            "<input id = 'clave_nueva_confir' type = 'password' name = 'clave_nueva_confir'>"+
+                                            "<div class ='ojo_contrasena' onclick='mostrarContraseña(this)'>👁</div>"+ 
                                         "</div>"+
-                                        "</div>"+
+                                    "</div>"+
                                 "</form>",
-                        // "<script>"+
-                        //     "console.log('hola')"+
-                        //     "function boton_mostrar_contrasena(e) {"+
-                        //         "e.preventDefault()"+
-                        //         "let input = this.previousSibling"+
-                        //         "if (input.type == 'password') {"+
-                        //         "   input.type = 'text'"+
-                        //         "}else{"+
-                        //             "input.type = 'password'"+
-                        //         "}"+
-                        //     "}"+
-                        // "</script>",
 
                         preConfirm: () => {
                             const clave_antigua = Swal.getPopup().querySelector('#clave_antigua').value
@@ -814,17 +836,6 @@ function cargarMain(literales) {
                         }
                     })
                         .then( response => {
-                            console.log("gola")
-                            function boton_mostrar_contrasena(e) {
-                                e.preventDefault()
-                                let input = this.previousSibling
-                                if (input.type == 'password') {
-                                    input.type = 'text'
-                                }else{
-                                    input.type = 'password'
-                                }
-                            }
-                            document.getElementsByClassName('ojo_contrasena').onclick = boton_mostrar_contrasena
                             if (response.isConfirmed) {
                                 let url = '../../back/controladores/cambiarContrasena.php'
                                 let params = {
