@@ -217,8 +217,6 @@ main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
     border-collapse: collapse;
     cursor: pointer;
 }
-
-
 #c_comentario_personal{
     width: 95%;
     height: 16%;
@@ -231,4 +229,40 @@ main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
     overflow-y: scroll;
     -ms-overflow-style: none;  /* IE y Edge */
     scrollbar-width: none;  /* Firefox */
+}
+#boton_premium{
+    margin-right: 2%;
+    white-space: nowrap;
+    text-align: center;
+    border: 2px solid black;
+    padding: 1%;
+    border-radius: 20px;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+.boton_cabecera {
+    background-color: white;
+    font-size: 1em;
+    font-weight: 800;
+    color: black;
+}
+.caja_premium{
+    width: 95%;
+    height: auto;
+    gap: 2%;
+    padding: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+#text_nombre_completo{
+    width: 50%;
+}    
+#text_isbn{
+    width: 69%;
+}
+#text_caducidad, #texto_cvv{
+    width: 28%;
 }

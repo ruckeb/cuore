@@ -1221,6 +1221,97 @@ function cargarMain() {
 
                 caja_publi_edicion.appendChild(caja_botones_edicion)
 
+            }else{
+                //boton match, fetch enviarMatch, usuario: usuario.nick
+                let caja_botones_edicion = document.createElement('div')
+                caja_botones_edicion.id = "caja_botones_edicion"
+
+                let boton_enviar_match = document.createElement('button')
+                boton_enviar_match.id = "boton_enviar_match"
+                boton_enviar_match.classList.add("botones_seccion1")
+                boton_enviar_match.innerHTML = buscarLiteral(literales, boton_enviar_match.id)
+                boton_enviar_match.onclick = e => {
+                e.preventDefault()
+                 
+                let bodyContent = {
+                    usuario: usuario.nick
+                }
+                let url = '../../back/controladores/enviarMatch.php'
+                let params = {
+                    method: 'POST',
+                    body: JSON.stringify(bodyContent)
+                }
+                fetch(url, params)
+                    .then(req => req.json())
+                    .then( datos => {
+                        if (typeof datos !== 'number') {
+                            if (datos.amor === true) {
+                                //swall con el corazón 
+                                Swal.fire({
+                                    title: buscarLiteral(literales, 'texto_match'),
+                                    width: 600,
+                                    timer: 2000,
+                                    showConfirmButton: false,
+                                    padding: '3em',
+                                    color: 'black',
+                                    background: 'transparent',
+                                    customClass: 'sweetAlertAmor'
+                                  })
+                            }else{
+                                //swall se ha enviado el match
+                                Swal.fire({
+                                    title:  buscarLiteral(literales, 'texto_match_envio'),
+                                    icon: "success",
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    showConfirmButton: false,
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                            }
+                            caja_botones_edicion.remove()
+                        } else {
+                            if (datos == 999) {
+                                Swal.fire({
+                                    text: buscarLiteral(literales, 'server_error_' + datos), //error no metido todavia
+                                    title: 'Oops...',
+                                    icon: "error",
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    showConfirmButton: false,
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                                .then(()=>{
+                                    location.href = 'index.html'
+                                })
+                            }else{
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: buscarLiteral(literales, "server_error_" + datos),
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+                caja_botones_edicion.appendChild(boton_enviar_match)
+
+                caja_publi_edicion.appendChild(caja_botones_edicion)
             }
 
             div_section1.appendChild(caja_perfil_imagen)
