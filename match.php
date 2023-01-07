@@ -13,9 +13,9 @@
     <title>Cuore</title>
     <link rel="icon" type="image/x-icon" href="front/img/imgLogo/logo.png">
     <link rel="stylesheet" href="front/css/all.css">
-    <link rel="stylesheet" href="front/css/chatPrivado.css">
+    <link rel="stylesheet" href="front/css/match.css">
     <script src="front/js/jquery-3.6.0.min.js"></script>
-    <script src="front/js/chatPrivado.js" type="module"></script>
+    <script src="front/js/match.js" type="module"></script>
     <script src="front/sweet/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="front/sweet/sweetalert2.css">
 </head>
