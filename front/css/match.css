@@ -1,0 +1,146 @@
+img {
+    width: 25%;
+    height: auto;
+}
+footer img{
+    object-fit: contain;
+    width: 33%;
+    cursor: pointer;
+}
+#logo{
+    height: 100%;
+    object-fit: contain;
+    width: 33%;
+    cursor: pointer;
+}
+#botones_login{
+    padding-right: 5%;
+    display: flex;
+    flex-direction: row;
+}
+.botonIdiomas{
+    background-color: transparent;
+    border: transparent;
+    width: 30%;
+    height: 30px;
+}
+#espana{
+    width: 78%;
+    height: 40px;
+}
+#reino-unido{
+    width: 75%;
+    height: 40px;
+}
+#francia{
+    width: 75%;
+    height: 40px;
+}
+#alemania{
+    width: 100%;
+    height: 40px;
+}
+#menu{
+    background-color: transparent;
+    border: transparent;
+    width: 90%;
+    height: 40px;
+    margin-left: 55%;
+}
+button{
+    height: 40px;
+    width: 150px;
+    cursor: pointer;
+}
+#disMenu{
+    width: 20%;
+    position: absolute;
+    right: 0%;
+    top: 20%;
+    z-index: 10;
+}
+#tablaMenu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+.btnMenu{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 25%;
+    padding: 5% 0;
+    border: 2px solid black;
+    border-collapse: collapse;
+    background-color: #454545;
+}
+main{
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #6b6868;
+}
+
+#bloque1{
+    width: 50%;
+    height: 99.4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 2px solid rgb(245, 98, 135);
+    border-collapse: collapse;
+}
+#caja_usuarios_match{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#boton_borrar{
+    width: auto;
+    height: auto;
+    background-color: rgb(245, 98, 135);
+    border: 2px solid black;
+    border-radius: 5px;
+    border-bottom: 2px solid black;
+    padding: 1%;
+}
+#bloque2{
+    width: 50%;
+    height: 99.7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-top: 1px solid rgb(245, 98, 135);
+    border-right: 1px solid rgb(245, 98, 135);
+    border-bottom: 1px solid rgb(245, 98, 135);
+    border-collapse: collapse;
+}
+#usuarios_match, #usuarios_match_ambos{
+    width: auto;
+    font-size: 5vh;
+    padding: 1%;
+}
+#titulo_bloque1,#titulo_bloque2{
+    width: 100%;
+    text-align: center;
+}
+.center{
+    align-self: center;
+}
+
+.ocultar{
+    display: none;
+}
