@@ -32,8 +32,28 @@ window.onload = ()=>{
             .then(req => req.json())
             .then( usuario => {
                 if (usuario.nick) {
-                    usuario_logueado = usuario
-                    cargarHome()
+                    if (usuario.superadmin==1) {
+                        Swal.fire({
+                            text: buscarLiteral(literales, 'restringido_no_superadmin'),
+                            title: 'Oops...',
+                            icon: "error",
+                            timer: 2000,
+                            timerProgressBar: true,
+                            showConfirmButton: false,
+                            showClass: {
+                                popup: 'animate__animated animate__fadeInDown'
+                            },
+                            hideClass: {
+                                popup: 'animate__animated animate__fadeOutUp'
+                            }
+                        })
+                        .then(()=>{
+                            location.href = 'superadmin.php'
+                        })
+                    } else {
+                        usuario_logueado = usuario
+                        cargarHome()
+                    }
                 } else {
                     if (usuario == 999) {
                         Swal.fire({
