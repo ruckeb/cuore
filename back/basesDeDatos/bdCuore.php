@@ -248,10 +248,10 @@
         if (validateToken()) {
             try {
                 $db = getConnection();
-                if(is_null($nick)){
-                    $nick = $_SESSION['usuario'];
-                }
-                $sql = "SELECT u.nick, u.nombre, u.email, u.sexo, u.perfil_busqueda, u.imagen, p.id, p.texto, p.imagen as publi, p.creado
+                $mi_nick = $_SESSION['usuario'];
+                $sql = "SELECT u.nick, u.nombre, u.email, u.sexo, u.perfil_busqueda, u.imagen, p.id, p.texto, p.imagen as publi, p.creado, 
+                        COALESCE((SELECT amor FROM matches WHERE usuario_origen='$mi_nick' and usuario_destino='$nick'), 0) as amor_mio,
+                        COALESCE((SELECT amor FROM matches WHERE usuario_origen='$nick' and usuario_destino='$mi_nick'), 0) as amor_tuyo
                         FROM usuarios u 
                         JOIN publicaciones p
                         ON u.nick = p.nick_publicacion
@@ -271,6 +271,8 @@
                                 'sexo' => $fila['sexo'],
                                 'perfil_busqueda' => $fila['perfil_busqueda'],
                                 'imagen' => $fila['imagen'],
+                                'amor_mio' => $fila['amor_mio'],
+                                'amor_tuyo' => $fila['amor_tuyo'],
                                 'imagenes_publicadas' => array(),
                                 'videos_publicados' => array(),
                             );
@@ -955,6 +957,92 @@
                     return true;
                 }
                 return 528; //restringido superadmin
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function actualizarMatchBBDD($datos) {
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $mi_nick = $_SESSION['usuario'];
+                $nick = $datos->usuario;
+                $sql = "SELECT * 
+                        FROM matches 
+                        WHERE usuario_origen='$mi_nick'
+                        AND usuario_destino='$nick'";
+                $matches = $db->query($sql);
+                if($matches->rowCount() === 1){		
+                    $sql = "UPDATE matches 
+                            SET amor=1
+                            WHERE usuario_origen='$mi_nick'
+                            AND usuario_destino='$nick'";
+                } else {
+                    $sql = "INSERT INTO matches (usuario_origen, usuario_destino, amor)
+                            VALUES ('$mi_nick', '$nick', 1)";
+                }
+                if ($db->query($sql) === FALSE) {
+                    return 529; //Error actualizando match
+                }
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getMatchEnviadosBBDD(){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $sql = "SELECT usuario_destino as nick
+                        FROM matches
+                        WHERE usuario_origen='$nick'
+                        AND amor=1";
+                $matches = $db->query($sql);
+                $resultado = array();
+                foreach ($matches as $match) {
+                    array_push($resultado, $match);
+                }
+                return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function getMatchConjuntosBBDD(){
+        if (validateToken()) {
+            try {
+                if (is_premium() == 1) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $sql = "SELECT usuario_origen as nick
+                            FROM matches
+                            WHERE usuario_destino = '$nick'
+                            AND amor=1
+                            INTERSECT
+                            SELECT usuario_destino as nick
+                            FROM matches
+                            WHERE usuario_origen = '$nick'
+                            AND amor=1";
+                    $matches = $db->query($sql);
+                    $resultado = array();
+                    foreach ($matches as $match) {
+                        array_push($resultado, $match);
+                    }
+                    return $resultado;
+                }
+                return 526; //restringido premium
             } catch (Exception $e) {
                 return $e->getMessage();
             }
