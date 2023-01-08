@@ -112,7 +112,7 @@ function cargarCabecera() {
     imagen_logo_cuore.src = "front/img/imgLogo/logo.png"
     imagen_logo_cuore.title = "Logo"
     imagen_logo_cuore.onclick = () => {
-        location.href = "home.php"
+        location.reload()
     }
 
     let div_botones_login = document.createElement('div')
@@ -178,97 +178,13 @@ function cargarCabecera() {
     imagen_bandera_alemania.src = "front/img/imgPaises/alemania.png"
     boton_alemania.appendChild(imagen_bandera_alemania)
 
-    let boton_menu = document.createElement('button')
-    boton_menu.id = "boton_menu"
-    boton_menu.classList.add("botonIdiomas")
-    boton_menu.onclick = () => {
-        div_contenedor_menu.classList.toggle("ocultar")
-    }
-
-    let imagen_menu = document.createElement('img')
-    imagen_menu.id = "menu"
-    imagen_menu.src = "front/img/imgMenu/menu.png"
-    boton_menu.appendChild(imagen_menu)
-
-    let div_contenedor_menu = document.createElement('div')
-    div_contenedor_menu.id = "disMenu"
-    div_contenedor_menu.classList.add("ocultar")
-
-    let div_tabla_menu = document.createElement('div')
-    div_tabla_menu.id = "tablaMenu"
-
-    let boton_menu1 = document.createElement('button')
-    boton_menu1.id = "boton_menu1"
-    boton_menu1.classList.add("btnMenu")
-    boton_menu1.onclick = (e) => {
-        e.preventDefault()
-        location.href = 'perfil.php' 
-    }
-
-    let p_menu1 = document.createElement('p')
-    p_menu1.id = "p_menu1"
-    p_menu1.innerHTML = buscarLiteral(literales, p_menu1.id) //Caja1
-
-    boton_menu1.appendChild(p_menu1)
-
-    let boton_menu2 = document.createElement('button')
-    boton_menu2.id = "boton_menu2"
-    boton_menu2.classList.add("btnMenu")
-    boton_menu2.onclick = (e) => {
-        e.preventDefault()
-        // location.href = './sugerenciasCuore.php' 
-    }
-
-    let p_menu2 = document.createElement('p')
-    p_menu2.id = "p_menu2"
-    p_menu2.innerHTML = buscarLiteral(literales, p_menu2.id) //Caja2
-
-    boton_menu2.appendChild(p_menu2)
-
-    let boton_menu3 = document.createElement('button')
-    boton_menu3.id = "boton_menu3"
-    boton_menu3.classList.add("btnMenu")
-    boton_menu3.onclick = (e) => {
-        e.preventDefault()
-        // location.href = './contactanos.php' 
-    }
-
-    let p_menu3 = document.createElement('p')
-    p_menu3.id = "p_menu3"
-    p_menu3.innerHTML = buscarLiteral(literales, p_menu3.id) //Caja3
-
-    boton_menu3.appendChild(p_menu3)
-
-    let boton_menu4 = document.createElement('button')
-    boton_menu4.id = "boton_menu4"
-    boton_menu4.classList.add("btnMenu")
-    boton_menu4.onclick = (e) => {
-        e.preventDefault()
-        location.href = 'back/controladores/cerrarSesion.php' 
-    }
-
-    let p_menu4 = document.createElement('p')
-    p_menu4.id = "p_menu4"
-    p_menu4.innerHTML = buscarLiteral(literales, p_menu4.id) //Caja4
-
-    boton_menu4.appendChild(p_menu4)   
-
-    div_tabla_menu.appendChild(boton_menu1)
-    div_tabla_menu.appendChild(boton_menu2)
-    div_tabla_menu.appendChild(boton_menu3)
-    div_tabla_menu.appendChild(boton_menu4)
-
-    div_contenedor_menu.appendChild(div_tabla_menu)
-
     div_botones_login.appendChild(boton_espana)
     div_botones_login.appendChild(boton_reino_unido)
     div_botones_login.appendChild(boton_francia)
     div_botones_login.appendChild(boton_alemania)
-    div_botones_login.appendChild(boton_menu)
 
     header.appendChild(imagen_logo_cuore)
     header.appendChild(div_botones_login)
-    header.appendChild(div_contenedor_menu)
 
 }
 
@@ -469,8 +385,102 @@ function cargarBloque2(nick){
                     boton_actualizar.onclick = (e) => {
                         e.preventDefault()
                         if (formulario.reportValidity()) {
-                            //actualizar perfil
-                        } 
+                            let formulario2 = e.target.parentNode.parentNode 
+                            let bodyContent = {
+                                nick: formulario2.children[0].innerHTML,
+                                email: formulario.email.value,
+                                clave: formulario.clave_registro.value,
+                                premium: formulario.select_premium.value,
+                            }
+                            let url = '../../back/controladores/actualizarPerfilSuperadmin.php'
+                            let params = {
+                                method: 'POST',
+                                body: JSON.stringify(bodyContent)
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( actualizado => {
+                                    if (actualizado===true) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'usuario_actualizado_correctamente'),
+                                            title: buscarLiteral(literales, 'correcto'),
+                                            icon: "success",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        }).then(() => {
+                                            let bodyContent = {
+                                                destinatario: formulario.email.value,
+                                                idioma: getCookie('idioma'),
+                                                nick: formulario2.children[0].innerHTML,
+                                                email: formulario.email.value,
+                                                clave: formulario.clave_registro.value,
+                                                premium: formulario.select_premium.value,
+                                            }
+                                            let url = '../../back/controladores/correo.php'
+                                            let params = {
+                                                method: 'POST',
+                                                body: JSON.stringify(bodyContent)
+                                            }
+                                            fetch(url, params)
+                                                .then(req => req.text())
+                                                .then( enviado => {
+                                                    if (enviado!==true) {
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Oops...',
+                                                            text: buscarLiteral(literales, "error_envio_correo"),
+                                                            showClass: {
+                                                                popup: 'animate__animated animate__fadeInDown'
+                                                            },
+                                                            hideClass: {
+                                                                popup: 'animate__animated animate__fadeOutUp'
+                                                            }
+                                                        })
+                                                    }
+                                                })
+                                        })
+                                    } else {
+                                        if (actualizado == 999) {
+                                            Swal.fire({
+                                                text: buscarLiteral(literales, 'server_error_' + actualizado),
+                                                title: 'Oops...',
+                                                icon: "error",
+                                                timer: 2000,
+                                                timerProgressBar: true,
+                                                showConfirmButton: false,
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                            .then(()=>{
+                                                location.href = 'index.html'
+                                            })
+                                        }else{
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: buscarLiteral(literales, "server_error_" + actualizado),
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+                        }
                     }
 
                     let boton_borrar = document.createElement('button')

@@ -125,3 +125,16 @@
         }
         return 0;
     }
+
+    function validarActualizarPerfilSuperadmin($datos){
+        if (!preg_match("/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/", $datos->email) ||
+            strlen($datos->email) > 150 || strlen($datos->email) < 5) {
+            return 3; //El email debe tener el formato xxx@xxx.xxx
+        }
+        if (!empty($datos->clave) && 
+            (!preg_match("/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$/", $datos->clave) ||
+            strlen($datos->clave) > 20 || strlen($datos->clave) < 8)) {
+            return 4; //La clave debe contener al menos una mayúscula, una minúscula y un número, además no puede contener espacios
+        }
+        return 0;
+    }

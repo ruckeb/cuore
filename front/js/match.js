@@ -7,7 +7,7 @@ window.onload = ()=>{
 
     function cargarLiterales() {
         let bodyContent = {
-            id_html: 'chatPrivado',
+            id_html: 'match',
         }
         let url = '../../back/controladores/cargarLiterales.php'
         let params = {
@@ -31,10 +31,9 @@ window.onload = ()=>{
             .then(req => req.json())
             .then( usuario => {
                 if (usuario.nick) {
-                    usuario_logueado = usuario
-                    if (usuario_logueado.premium == 0) {
+                    if (usuario.superadmin==1) {
                         Swal.fire({
-                            text: buscarLiteral(literales, 'restringido_premium'),
+                            text: buscarLiteral(literales, 'restringido_no_superadmin'),
                             title: 'Oops...',
                             icon: "error",
                             timer: 2000,
@@ -48,9 +47,10 @@ window.onload = ()=>{
                             }
                         })
                         .then(()=>{
-                            location.href = 'home.php'
+                            location.href = 'superadmin.php'
                         })
                     } else {
+                        usuario_logueado = usuario
                         cargarMatch()
                     }
                 } else {

@@ -852,9 +852,48 @@
                 }
                 $sql = "DELETE FROM usuarios WHERE nick='$nick_usuario'";
                 if ($db->query($sql) === FALSE) {
-                    return 525; //Error borrando el comentario
+                    return 525; //Error borrando el usuario
                 }
                 return $resultado;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
+
+    function actualizarPerfilSuperadminBBDD($datos) {
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $nick = $_SESSION['usuario'];
+                $nick_usuario = $datos->nick;
+                $email = $datos->email;
+                $contrasena = $datos->clave;
+                $premium = $datos->premium;
+                $sql = "SELECT *
+                        FROM usuarios
+                        WHERE nick!='$nick_usuario'
+                        AND email='$email'";
+                $usuarios = $db->query($sql);	
+                if($usuarios->rowCount() === 1){
+                    return 513;//El email introducido pertenece a otro usuario
+                }
+                if (!empty($contrasena)) {
+                    $clave_cifrada = password_hash($contrasena, PASSWORD_BCRYPT);
+                    $sql = "UPDATE usuarios 
+                            SET clave='$clave_cifrada', email='$email', premium=$premium 
+                            WHERE nick='$nick_usuario'";
+                } else {
+                    $sql = "UPDATE usuarios 
+                            SET email='$email', premium=$premium 
+                            WHERE nick='$nick_usuario'";
+                }
+                if ($db->query($sql) === FALSE) {
+                    return 512; //Error actualizando el perfil
+                }
+                return true;
             } catch (Exception $e) {
                 return $e->getMessage();
             }
