@@ -118,6 +118,15 @@ function cargarCabecera() {
     let div_botones_login = document.createElement('div')
     div_botones_login.id = "botones_login"
 
+    let cerrar_sesion = document.createElement('button')
+    cerrar_sesion.id = "cerrar_sesion"
+    cerrar_sesion.classList.add("boton_cabecera")
+    cerrar_sesion.innerHTML = buscarLiteral(literales, cerrar_sesion.id)
+    cerrar_sesion.onclick = e => {
+        e.preventDefault()
+        location.href = 'back/controladores/cerrarSesion.php'
+    }
+
     let boton_espana = document.createElement('button')
     boton_espana.id = "boton_espana"
     boton_espana.classList.add("botonIdiomas")
@@ -178,6 +187,8 @@ function cargarCabecera() {
     imagen_bandera_alemania.src = "front/img/imgPaises/alemania.png"
     boton_alemania.appendChild(imagen_bandera_alemania)
 
+    
+    div_botones_login.appendChild(cerrar_sesion)
     div_botones_login.appendChild(boton_espana)
     div_botones_login.appendChild(boton_reino_unido)
     div_botones_login.appendChild(boton_francia)

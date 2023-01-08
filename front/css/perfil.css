@@ -409,6 +409,7 @@ h2{
 }
 #boton_enviar_match{
     width: 20%;
+    height: auto;
 }
 .sweetAlertAmor{
     background: transparent url("/front/img/imgPerfil/hearts-heart.gif") no-repeat fixed center !important;
@@ -416,3 +417,88 @@ h2{
     width: 100vw !important;
     height: 100vh !important;
 }
+
+@media only screen and (max-width: 350px) {
+    
+    #menu{
+        background-color: transparent;
+        width: 90%;
+        height: 40px;
+        margin-left: 2%;
+    }
+    main{
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        overflow-y: scroll;
+        -ms-overflow-style: none;  /* IE y Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    #section1{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+    
+    #caja_perfil_imagen{
+        width: 30%;
+        height: auto;
+        margin: 1%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    #caja_perfil{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #caja_publi_edicion{
+        width: 100%;
+        height: 99%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 2%;
+    }
+
+    #cajaDirecciones{
+        width: 49%;
+    }
+
+    #btnImgVid{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-around;
+        width: 100%;
+        margin-top: 22%;
+    }
+
+    #disMenu{
+        width: 50%;
+        position: absolute;
+        right: 0%;
+        top: 20%;
+        z-index: 10;
+    }
+
+    footer img{
+        width: 100%;
+    }
+  }

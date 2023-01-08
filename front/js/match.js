@@ -216,7 +216,7 @@ function cargarCabecera() {
     boton_menu2.classList.add("btnMenu")
     boton_menu2.onclick = (e) => {
         e.preventDefault()
-        // location.href = './sugerenciasCuore.php' 
+        location.href = 'chatPrivado.php' 
     }
 
     let p_menu2 = document.createElement('p')
@@ -224,20 +224,6 @@ function cargarCabecera() {
     p_menu2.innerHTML = buscarLiteral(literales, p_menu2.id) //Caja2
 
     boton_menu2.appendChild(p_menu2)
-
-    let boton_menu3 = document.createElement('button')
-    boton_menu3.id = "boton_menu3"
-    boton_menu3.classList.add("btnMenu")
-    boton_menu3.onclick = (e) => {
-        e.preventDefault()
-        // location.href = './contactanos.php' 
-    }
-
-    let p_menu3 = document.createElement('p')
-    p_menu3.id = "p_menu3"
-    p_menu3.innerHTML = buscarLiteral(literales, p_menu3.id) //Caja3
-
-    boton_menu3.appendChild(p_menu3)
 
     let boton_menu4 = document.createElement('button')
     boton_menu4.id = "boton_menu4"
@@ -255,7 +241,6 @@ function cargarCabecera() {
 
     div_tabla_menu.appendChild(boton_menu1)
     div_tabla_menu.appendChild(boton_menu2)
-    div_tabla_menu.appendChild(boton_menu3)
     div_tabla_menu.appendChild(boton_menu4)
 
     div_contenedor_menu.appendChild(div_tabla_menu)
@@ -287,10 +272,10 @@ function cargarMain() {
         
         for (const usuario of usuarios) {
             let caja_usuario_match = document.createElement('div')
-            caja_usuario_match.class = "caja_usuario_match"
+            caja_usuario_match.classList.add('caja_usuario_match')
 
             let usuarios_match = document.createElement('p')
-            usuarios_match.class = "usuarios_match"
+            usuarios_match.classList.add("usuarios_match")
             usuarios_match.innerHTML =usuario.nick
 
             let boton_borrar = document.createElement('button')
@@ -326,22 +311,13 @@ function cargarMain() {
         
         for (const usuario of usuarios) {
             let caja_usuario_match = document.createElement('div')
-            caja_usuario_match.class = "caja_usuario_match"
+            caja_usuario_match.classList.add("caja_usuario_match")
 
             let usuarios_match = document.createElement('p')
-            usuarios_match.class = "usuarios_match"
+            usuarios_match.classList.add("usuarios_match")
             usuarios_match.innerHTML = usuario.nick
 
-            let boton_borrar = document.createElement('button')
-            boton_borrar.id = "boton_borrar"
-            boton_borrar.innerHTML = buscarLiteral(literales, boton_borrar.id)
-            boton_borrar.onclick = (e) => {
-                e.preventDefault
-                e.target.parentNode.remove()
-            }
-
             caja_usuario_match.appendChild(usuarios_match)
-            caja_usuario_match.appendChild(boton_borrar)
 
             caja_usuarios_match.appendChild(caja_usuario_match)
         }
