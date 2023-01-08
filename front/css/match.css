@@ -98,7 +98,8 @@ main{
     border: 2px solid rgb(245, 98, 135);
     border-collapse: collapse;
 }
-#caja_usuarios_match{
+
+.caja_usuarios_match{
     width: 100%;
     height: auto;
     display: flex;
@@ -106,8 +107,16 @@ main{
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
-    /* //scroll */
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
 }
+
+/* para ocultar la barra de scroll Chrome, Safari y Opera*/
+.caja_usuarios_match::-webkit-scrollbar{
+    display: none;
+}
+
 .caja_usuario_match{
     width: 100%;
     margin: 1%;

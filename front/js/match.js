@@ -268,7 +268,7 @@ function cargarMain() {
         titulo_bloque1.innerHTML = buscarLiteral(literales, titulo_bloque1.id)
 
         let caja_usuarios_match = document.createElement('div')
-        caja_usuarios_match.id = "caja_usuarios_match"
+        caja_usuarios_match.classList.add("caja_usuarios_match")
         
         for (const usuario of usuarios) {
             let caja_usuario_match = document.createElement('div')
@@ -297,7 +297,37 @@ function cargarMain() {
                         if (eliminado === true) {
                             e.target.parentNode.remove()
                         } else {
-                            //swal server error
+                            if (eliminado == 999) {
+                                Swal.fire({
+                                    text: buscarLiteral(literales, 'server_error_' + eliminado),
+                                    title: 'Oops...',
+                                    icon: "error",
+                                    timer: 2000,
+                                    timerProgressBar: true,
+                                    showConfirmButton: false,
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                                .then(()=>{
+                                    location.href = 'index.html'
+                                })
+                            }else{
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: buscarLiteral(literales, "server_error_" + eliminado),
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown'
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp'
+                                    }
+                                })
+                            }
                         }
                     })
             }
@@ -323,7 +353,7 @@ function cargarMain() {
         titulo_bloque2.innerHTML = buscarLiteral(literales, titulo_bloque2.id)
 
         let caja_usuarios_match = document.createElement('div')
-        caja_usuarios_match.id = "caja_usuarios_match"
+        caja_usuarios_match.classList.add("caja_usuarios_match")
         
         for (const usuario of usuarios) {
             let caja_usuario_match = document.createElement('div')
@@ -356,7 +386,37 @@ function cargarMain() {
         .then(req => req.json())
         .then( usuarios => {
             if (typeof usuarios == "numeric") {
-                //swal server_error
+                if (usuarios == 999) {
+                    Swal.fire({
+                        text: buscarLiteral(literales, 'server_error_' + usuarios),
+                        title: 'Oops...',
+                        icon: "error",
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    })
+                    .then(()=>{
+                        location.href = 'index.html'
+                    })
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: buscarLiteral(literales, "server_error_" + usuarios),
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    })
+                }
             } else {
                 cargarBloque1(usuarios)
                 if (usuario_logueado.premium == 1) {
@@ -368,7 +428,37 @@ function cargarMain() {
                         .then(req => req.json())
                         .then( usuarios => {
                             if (typeof usuarios == "numeric") {
-                                //swal server_error
+                                if (usuarios == 999) {
+                                    Swal.fire({
+                                        text: buscarLiteral(literales, 'server_error_' + usuarios),
+                                        title: 'Oops...',
+                                        icon: "error",
+                                        timer: 2000,
+                                        timerProgressBar: true,
+                                        showConfirmButton: false,
+                                        showClass: {
+                                            popup: 'animate__animated animate__fadeInDown'
+                                        },
+                                        hideClass: {
+                                            popup: 'animate__animated animate__fadeOutUp'
+                                        }
+                                    })
+                                    .then(()=>{
+                                        location.href = 'index.html'
+                                    })
+                                }else{
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: buscarLiteral(literales, "server_error_" + usuarios),
+                                        showClass: {
+                                            popup: 'animate__animated animate__fadeInDown'
+                                        },
+                                        hideClass: {
+                                            popup: 'animate__animated animate__fadeOutUp'
+                                        }
+                                    })
+                                }
                             } else {
                                 cargarBloque2(usuarios)
                             }
