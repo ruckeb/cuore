@@ -1,7 +1,6 @@
 import { getCookie, setCookie, buscarLiteral } from "./utils.js";
 var literales
 var usuario_logueado
-var websocket
 
 window.onload = ()=>{
 
@@ -260,53 +259,116 @@ function cargarCabecera() {
 
 function cargarMain() {
 
+    function cargarBloque1(usuarios) {
+        let bloque1 = document.createElement('div')
+        bloque1.id = "bloque1"
+
+        let titulo_bloque1 = document.createElement('h1')
+        titulo_bloque1.id = "titulo_bloque1"
+        titulo_bloque1.innerHTML = buscarLiteral(literales, titulo_bloque1.id)
+
+        let caja_usuarios_match = document.createElement('div')
+        caja_usuarios_match.id = "caja_usuarios_match"
+        
+        for (const usuario of usuarios) {
+            let caja_usuario_match = document.createElement('div')
+            caja_usuario_match.class = "caja_usuario_match"
+
+            let usuarios_match = document.createElement('p')
+            usuarios_match.class = "usuarios_match"
+            usuarios_match.innerHTML =usuario.nick
+
+            let boton_borrar = document.createElement('button')
+            boton_borrar.id = "boton_borrar"
+            boton_borrar.innerHTML = buscarLiteral(literales, boton_borrar.id)
+            boton_borrar.onclick = (e) => {
+                e.preventDefault
+                e.target.parentNode.remove()
+            }
+
+            caja_usuario_match.appendChild(usuarios_match)
+            caja_usuario_match.appendChild(boton_borrar)
+
+            caja_usuarios_match.appendChild(caja_usuario_match)
+        }
+
+        bloque1.appendChild(titulo_bloque1)
+        bloque1.appendChild(caja_usuarios_match)
+
+        main.appendChild(bloque1)
+    }
+
+    function cargarBloque2(usuarios) {
+        let bloque2 = document.createElement('div')
+        bloque2.id = "bloque2"
+
+        let titulo_bloque2 = document.createElement('h1')
+        titulo_bloque2.id = "titulo_bloque2"
+        titulo_bloque2.innerHTML = buscarLiteral(literales, titulo_bloque2.id)
+
+        let caja_usuarios_match = document.createElement('div')
+        caja_usuarios_match.id = "caja_usuarios_match"
+        
+        for (const usuario of usuarios) {
+            let caja_usuario_match = document.createElement('div')
+            caja_usuario_match.class = "caja_usuario_match"
+
+            let usuarios_match = document.createElement('p')
+            usuarios_match.class = "usuarios_match"
+            usuarios_match.innerHTML = usuario.nick
+
+            let boton_borrar = document.createElement('button')
+            boton_borrar.id = "boton_borrar"
+            boton_borrar.innerHTML = buscarLiteral(literales, boton_borrar.id)
+            boton_borrar.onclick = (e) => {
+                e.preventDefault
+                e.target.parentNode.remove()
+            }
+
+            caja_usuario_match.appendChild(usuarios_match)
+            caja_usuario_match.appendChild(boton_borrar)
+
+            caja_usuarios_match.appendChild(caja_usuario_match)
+        }
+
+        bloque2.appendChild(titulo_bloque2)
+        bloque2.appendChild(caja_usuarios_match)
+
+        main.appendChild(bloque2)
+    }
+
+
     let main = document.body.children[1]
     main.innerHTML = ""
 
-    let bloque1 = document.createElement('div')
-    bloque1.id = "bloque1"
-
-    let titulo_bloque1 = document.createElement('h1')
-    titulo_bloque1.id = "titulo_bloque1"
-    titulo_bloque1.innerHTML = buscarLiteral(literales, titulo_bloque1.id)
-
-    let caja_usuarios_match = document.createElement('div')
-    caja_usuarios_match.id = "caja_usuarios_match"
-
-    let usuarios_match = document.createElement('p')
-    usuarios_match.id = "usuarios_match"
-    usuarios_match.innerHTML ="pepe" //usuario.nick
-
-    let boton_borrar = document.createElement('button')
-    boton_borrar.id = "boton_borrar"
-    boton_borrar.innerHTML = buscarLiteral(literales, boton_borrar.id)
-    boton_borrar.onclick = (e) => {
-        e.preventDefault
-        caja_usuarios_match.remove()
+    let url = '../../back/controladores/getMatchEnviados.php'
+    let params = {
+        method: 'GET',
     }
-
-    caja_usuarios_match.appendChild(usuarios_match)
-    caja_usuarios_match.appendChild(boton_borrar)
-
-    bloque1.appendChild(titulo_bloque1)
-    bloque1.appendChild(caja_usuarios_match)
-
-    let bloque2 = document.createElement('div')
-    bloque2.id = "bloque2"
-
-    let titulo_bloque2 = document.createElement('h1')
-    titulo_bloque2.id = "titulo_bloque2"
-    titulo_bloque2.innerHTML = buscarLiteral(literales, titulo_bloque2.id)
-
-    let usuarios_match_ambos = document.createElement('p')
-    usuarios_match_ambos.id = "usuarios_match_ambos"
-    usuarios_match_ambos.innerHTML = "pepe" //usuario.coinciden
-
-    bloque2.appendChild(titulo_bloque2)
-    bloque2.appendChild(usuarios_match_ambos)
-
-    main.appendChild(bloque1)
-    main.appendChild(bloque2)
+    fetch(url, params)
+        .then(req => req.json())
+        .then( usuarios => {
+            if (typeof usuarios == "numeric") {
+                //swal server_error
+            } else {
+                cargarBloque1(usuarios)
+                if (usuario_logueado.premium == 1) {
+                    let url = '../../back/controladores/getMatchConjuntos.php'
+                    let params = {
+                        method: 'GET',
+                    }
+                    fetch(url, params)
+                        .then(req => req.json())
+                        .then( usuarios => {
+                            if (typeof usuarios == "numeric") {
+                                //swal server_error
+                            } else {
+                                cargarBloque2(usuarios)
+                            }
+                        })
+                }
+            }
+        })
 
 }
 

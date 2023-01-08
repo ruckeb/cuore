@@ -1228,84 +1228,86 @@ function cargarMain() {
                     boton_enviar_match.classList.add("botones_seccion1")
                     boton_enviar_match.innerHTML = buscarLiteral(literales, boton_enviar_match.id)
                     boton_enviar_match.onclick = e => {
-                    e.preventDefault()
-                    
-                    let bodyContent = {
-                        usuario: usuario.nick
-                    }
-                    let url = '../../back/controladores/enviarMatch.php'
-                    let params = {
-                        method: 'POST',
-                        body: JSON.stringify(bodyContent)
-                    }
-                    fetch(url, params)
-                        .then(req => req.json())
-                        .then( datos => {
-                            if (typeof datos !== 'number') {
-                                if (datos.amor === true) {
-                                    Swal.fire({
-                                        width: 600,
-                                        timer: 2000,
-                                        showConfirmButton: false,
-                                        padding: '3em',
-                                        color: 'black',
-                                        background: 'transparent',
-                                        customClass: 'sweetAlertAmor'
-                                    })
-                                }else{
-                                    Swal.fire({
-                                        title:  buscarLiteral(literales, 'texto_match_envio'),
-                                        icon: "success",
-                                        timer: 2000,
-                                        timerProgressBar: true,
-                                        showConfirmButton: false,
-                                        showClass: {
-                                            popup: 'animate__animated animate__fadeInDown'
-                                        },
-                                        hideClass: {
-                                            popup: 'animate__animated animate__fadeOutUp'
-                                        }
-                                    })
+                        e.preventDefault()
+                        
+                        let bodyContent = {
+                            usuario: usuario.nick
+                        }
+                        let url = '../../back/controladores/enviarMatch.php'
+                        let params = {
+                            method: 'POST',
+                            body: JSON.stringify(bodyContent)
+                        }
+                        fetch(url, params)
+                            .then(req => req.json())
+                            .then( datos => {
+                                if (typeof datos !== 'number') {
+                                    if (usuario.amor_tuyo == 1) {
+                                        Swal.fire({
+                                            width: 600,
+                                            timer: 2000,
+                                            showConfirmButton: false,
+                                            padding: '3em',
+                                            color: 'black',
+                                            background: 'transparent',
+                                            customClass: 'sweetAlertAmor'
+                                        })
+                                    }else{
+                                        Swal.fire({
+                                            title:  buscarLiteral(literales, 'texto_match_envio'),
+                                            icon: "success",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    }
+                                    caja_botones_edicion.remove()
+                                } else {
+                                    if (datos == 999) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'server_error_' + datos), //error no metido todavia
+                                            title: 'Oops...',
+                                            icon: "error",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                        .then(()=>{
+                                            location.href = 'index.html'
+                                        })
+                                    }else{
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: buscarLiteral(literales, "server_error_" + datos),
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        })
+                                    }
                                 }
-                                caja_botones_edicion.remove()
-                            } else {
-                                if (datos == 999) {
-                                    Swal.fire({
-                                        text: buscarLiteral(literales, 'server_error_' + datos), //error no metido todavia
-                                        title: 'Oops...',
-                                        icon: "error",
-                                        timer: 2000,
-                                        timerProgressBar: true,
-                                        showConfirmButton: false,
-                                        showClass: {
-                                            popup: 'animate__animated animate__fadeInDown'
-                                        },
-                                        hideClass: {
-                                            popup: 'animate__animated animate__fadeOutUp'
-                                        }
-                                    })
-                                    .then(()=>{
-                                        location.href = 'index.html'
-                                    })
-                                }else{
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: buscarLiteral(literales, "server_error_" + datos),
-                                        showClass: {
-                                            popup: 'animate__animated animate__fadeInDown'
-                                        },
-                                        hideClass: {
-                                            popup: 'animate__animated animate__fadeOutUp'
-                                        }
-                                    })
-                                }
-                            }
-                        })
+                            })
                     }
                     caja_botones_edicion.appendChild(boton_enviar_match)
 
-                    caja_publi_edicion.appendChild(caja_botones_edicion)
+                    if (usuario.amor_mio == 0) {
+                        caja_publi_edicion.appendChild(caja_botones_edicion)
+                    }
                 }
 
                 div_section1.appendChild(caja_perfil_imagen)
