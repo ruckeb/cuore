@@ -272,10 +272,10 @@ function cargarMain() {
         
         for (const usuario of usuarios) {
             let caja_usuario_match = document.createElement('div')
-            caja_usuario_match.class = "caja_usuario_match"
+            caja_usuario_match.classList.add('caja_usuario_match')
 
             let usuarios_match = document.createElement('p')
-            usuarios_match.class = "usuarios_match"
+            usuarios_match.classList.add("usuarios_match")
             usuarios_match.innerHTML =usuario.nick
 
             let boton_borrar = document.createElement('button')
@@ -311,22 +311,13 @@ function cargarMain() {
         
         for (const usuario of usuarios) {
             let caja_usuario_match = document.createElement('div')
-            caja_usuario_match.class = "caja_usuario_match"
+            caja_usuario_match.classList.add("caja_usuario_match")
 
             let usuarios_match = document.createElement('p')
-            usuarios_match.class = "usuarios_match"
+            usuarios_match.classList.add("usuarios_match")
             usuarios_match.innerHTML = usuario.nick
 
-            let boton_borrar = document.createElement('button')
-            boton_borrar.id = "boton_borrar"
-            boton_borrar.innerHTML = buscarLiteral(literales, boton_borrar.id)
-            boton_borrar.onclick = (e) => {
-                e.preventDefault
-                e.target.parentNode.remove()
-            }
-
             caja_usuario_match.appendChild(usuarios_match)
-            caja_usuario_match.appendChild(boton_borrar)
 
             caja_usuarios_match.appendChild(caja_usuario_match)
         }

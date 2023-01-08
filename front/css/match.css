@@ -103,9 +103,23 @@ main{
     height: auto;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
+    /* //scroll */
+}
+.caja_usuario_match{
+    width: 100%;
+    margin: 1%;
+    gap: 1%;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.usuarios_match{
+    font-size: 100%;
 }
 #boton_borrar{
     width: auto;
