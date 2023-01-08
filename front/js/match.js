@@ -283,7 +283,23 @@ function cargarMain() {
             boton_borrar.innerHTML = buscarLiteral(literales, boton_borrar.id)
             boton_borrar.onclick = (e) => {
                 e.preventDefault
-                e.target.parentNode.remove()
+                let bodyContent = {
+                    nick: usuario.nick,
+                }
+                let url = '../../back/controladores/eliminarMatch.php'
+                let params = {
+                    method: 'POST',
+                    body: JSON.stringify(bodyContent)
+                }
+                fetch(url, params)
+                    .then(req => req.json())
+                    .then( eliminado => {
+                        if (eliminado === true) {
+                            e.target.parentNode.remove()
+                        } else {
+                            //swal server error
+                        }
+                    })
             }
 
             caja_usuario_match.appendChild(usuarios_match)
