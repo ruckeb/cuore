@@ -517,13 +517,13 @@ function cargarBloque2(nick){
                                     .then(req => req.json())
                                     .then( borrados => {
                                         if (borrados === true) {
-                                            //quitar al usuario 
                                             let caja_usuarios = document.getElementById('caja_usuarios')
                                             for (const caja_usuario of caja_usuarios.children) {
                                                 if (caja_usuario.children[0].innerHTML == usuario.nick) {
                                                     caja_usuario.remove()
                                                 }
                                             }
+                                            bloque2.innerHTML = ""
                                             Swal.fire({
                                                 text: buscarLiteral(literales, 'usuario_borrado_correctamente'), //borrado correctamente
                                                 title: buscarLiteral(literales, 'correcto'),
