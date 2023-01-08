@@ -21,6 +21,40 @@
         }
     }
 
+    function is_premium() {
+        try {
+            $db = getConnection();
+            $nick = $_SESSION['usuario'];
+            $sql = "SELECT premium FROM usuarios WHERE nick='$nick'";
+            $usuarios = $db->query($sql);
+            if($usuarios->rowCount() === 1){		
+                foreach ($usuarios as $usuario) {
+                    return $usuario['premium'];
+                }
+            }
+            return 524; //error usuario no existe
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    function is_superadmin() {
+        try {
+            $db = getConnection();
+            $nick = $_SESSION['usuario'];
+            $sql = "SELECT superadmin FROM usuarios WHERE nick='$nick'";
+            $usuarios = $db->query($sql);
+            if($usuarios->rowCount() === 1){		
+                foreach ($usuarios as $usuario) {
+                    return $usuario['superadmin'];
+                }
+            }
+            return 524; //error usuario no existe
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     function registrarUsuarioBBDD($nick, $fecha_nacimiento, $email, $sexo, $perfil_busqueda, $clave, $ruta_imagen_usuario, $ruta_video_usuario, $ruta_imagen_publicacion, $ruta_video_publicacion, $latitud, $longitud){
         try {
             $db = getConnection();
@@ -566,19 +600,22 @@
     function enviarMensajeBBDD($mensaje){
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $nick = $_SESSION['usuario'];
-                $usuario_destino = $mensaje->usuario_destino;
-                $texto = $mensaje->texto;
-                $sql = "INSERT INTO mensajes (nick_origen, nick_destino, texto)
-                        VALUES ('$nick', '$usuario_destino', '$texto')";
-                if ($db->query($sql) === FALSE) {
-                    return 520; //Error insertando el mensaje
-                }  
-                $lastId = $db->lastInsertId();
-                return array(
-                    'id' => $lastId
-                );
+                if (is_premium() == 1) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $usuario_destino = $mensaje->usuario_destino;
+                    $texto = $mensaje->texto;
+                    $sql = "INSERT INTO mensajes (nick_origen, nick_destino, texto)
+                            VALUES ('$nick', '$usuario_destino', '$texto')";
+                    if ($db->query($sql) === FALSE) {
+                        return 520; //Error insertando el mensaje
+                    }  
+                    $lastId = $db->lastInsertId();
+                    return array(
+                        'id' => $lastId
+                    );
+                }
+                return 526; //restringido premium
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -686,32 +723,35 @@
     function getUsuariosChatBBDD(){
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $nick = $_SESSION['usuario'];
-                $sql = "SELECT nick, imagen 
-                        FROM usuarios
-                        WHERE nick IN(
-                            SELECT nick
-                            FROM usuarios u
-                            WHERE u.nick!='$nick'
-                            AND u.superadmin!=1
-                                INTERSECT 
-                            (
-                                SELECT nick_origen
-                                FROM mensajes
-                                WHERE '$nick' IN (nick_origen, nick_destino)
-                                    UNION
-                                SELECT nick_destino
-                                FROM mensajes
-                                WHERE '$nick' IN (nick_origen, nick_destino)
-                            )
-                        )";
-                $usuarios = $db->query($sql);
-                $resultado = array();
-                foreach ($usuarios as $usuario) {
-                    array_push($resultado, $usuario);
+                if (is_premium() == 1) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $sql = "SELECT nick, imagen 
+                            FROM usuarios
+                            WHERE nick IN(
+                                SELECT nick
+                                FROM usuarios u
+                                WHERE u.nick!='$nick'
+                                AND u.superadmin!=1
+                                    INTERSECT 
+                                (
+                                    SELECT nick_origen
+                                    FROM mensajes
+                                    WHERE '$nick' IN (nick_origen, nick_destino)
+                                        UNION
+                                    SELECT nick_destino
+                                    FROM mensajes
+                                    WHERE '$nick' IN (nick_origen, nick_destino)
+                                )
+                            )";
+                    $usuarios = $db->query($sql);
+                    $resultado = array();
+                    foreach ($usuarios as $usuario) {
+                        array_push($resultado, $usuario);
+                    }
+                    return $resultado;
                 }
-                return $resultado;
+                return 526; //restringido premium
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -723,19 +763,22 @@
     function getUsuariosPremiumBBDD(){
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $nick = $_SESSION['usuario'];
-                $sql = "SELECT nick, imagen 
-                        FROM usuarios 
-                        WHERE premium=1
-                        AND superadmin!=1
-                        AND nick!='$nick'";
-                $usuarios = $db->query($sql);
-                $resultado = array();
-                foreach ($usuarios as $usuario) {
-                    array_push($resultado, $usuario);
+                if (is_premium() == 1) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $sql = "SELECT nick, imagen 
+                            FROM usuarios 
+                            WHERE premium=1
+                            AND superadmin!=1
+                            AND nick!='$nick'";
+                    $usuarios = $db->query($sql);
+                    $resultado = array();
+                    foreach ($usuarios as $usuario) {
+                        array_push($resultado, $usuario);
+                    }
+                    return $resultado;
                 }
-                return $resultado;
+                return 526; //restringido premium
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -747,20 +790,23 @@
     function cargarMensajesBBDD($datos){
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $nick = $_SESSION['usuario'];
-                $nick_destino = $datos->nick_destino;
-                $sql = "SELECT * 
-                        FROM mensajes
-                        WHERE nick_origen IN ('$nick', '$nick_destino')
-                        AND nick_destino IN ('$nick', '$nick_destino')
-                        ORDER BY creado";
-                $mensajes = $db->query($sql);
-                $resultado = array();
-                foreach ($mensajes as $mensaje) {
-                    array_push($resultado, $mensaje);
+                if (is_premium() == 1) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $nick_destino = $datos->nick_destino;
+                    $sql = "SELECT * 
+                            FROM mensajes
+                            WHERE nick_origen IN ('$nick', '$nick_destino')
+                            AND nick_destino IN ('$nick', '$nick_destino')
+                            ORDER BY creado";
+                    $mensajes = $db->query($sql);
+                    $resultado = array();
+                    foreach ($mensajes as $mensaje) {
+                        array_push($resultado, $mensaje);
+                    }
+                    return $resultado;
                 }
-                return $resultado;
+                return 526; //restringido premium
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -772,14 +818,17 @@
     function enviarPagoBBDD(){
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $nick = $_SESSION['usuario'];
-                $sql = "UPDATE usuarios SET premium=1 WHERE nick='$nick'";
-                $usuarios = $db->query($sql);
-                if ($db->query($sql) === FALSE) {
-                    return 523; //Error actualizando premium
+                if (is_premium() == 0) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $sql = "UPDATE usuarios SET premium=1 WHERE nick='$nick'";
+                    $usuarios = $db->query($sql);
+                    if ($db->query($sql) === FALSE) {
+                        return 523; //Error actualizando premium
+                    }
+                    return true;
                 }
-                return true;
+                return 527; //restringido no premium
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -791,15 +840,18 @@
     function getUsuariosBBDD(){
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $nick = $_SESSION['usuario'];
-                $sql = "SELECT nick FROM usuarios WHERE superadmin=0 ORDER BY nick";
-                $usuarios = $db->query($sql);
-                $resultado = array();
-                foreach ($usuarios as $usuario) {
-                    array_push($resultado, $usuario);
+                if (is_superadmin() == 1) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $sql = "SELECT nick FROM usuarios WHERE superadmin=0 ORDER BY nick";
+                    $usuarios = $db->query($sql);
+                    $resultado = array();
+                    foreach ($usuarios as $usuario) {
+                        array_push($resultado, $usuario);
+                    }
+                    return $resultado;
                 }
-                return $resultado;
+                return 528; //restringido superadmin
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -811,17 +863,20 @@
     function getUsuarioBBDD($datos){
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $nick = $_SESSION['usuario'];
-                $nick_usuario = $datos->nick;
-                $sql = "SELECT nick, email, premium FROM usuarios WHERE nick='$nick_usuario'";
-                $usuarios = $db->query($sql);
-                if($usuarios->rowCount() === 1){
-                    foreach ($usuarios as $usuario) {
-                        return $usuario;
+                if (is_superadmin() == 1) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $nick_usuario = $datos->nick;
+                    $sql = "SELECT nick, email, premium FROM usuarios WHERE nick='$nick_usuario'";
+                    $usuarios = $db->query($sql);
+                    if($usuarios->rowCount() === 1){
+                        foreach ($usuarios as $usuario) {
+                            return $usuario;
+                        }
                     }
+                    return 524; //El usuario indicado no existe
                 }
-                return 524; //El usuario indicado no existe
+                return 528; //restringido superadmin
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -833,28 +888,31 @@
     function borrarUsuarioBBDD($datos){
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $resultado = array();
-                $nick = $_SESSION['usuario'];
-                $nick_usuario = $datos->nick;
-                $sql = "SELECT imagen, video_present FROM usuarios WHERE nick='$nick_usuario'";
-                $usuarios = $db->query($sql);
-                if($usuarios->rowCount() === 1){
-                    foreach ($usuarios as $usuario) {
-                        array_push($resultado, $usuario['imagen']);
-                        array_push($resultado, $usuario['video_present']);
+                if (is_superadmin() == 1) {
+                    $db = getConnection();
+                    $resultado = array();
+                    $nick = $_SESSION['usuario'];
+                    $nick_usuario = $datos->nick;
+                    $sql = "SELECT imagen, video_present FROM usuarios WHERE nick='$nick_usuario'";
+                    $usuarios = $db->query($sql);
+                    if($usuarios->rowCount() === 1){
+                        foreach ($usuarios as $usuario) {
+                            array_push($resultado, $usuario['imagen']);
+                            array_push($resultado, $usuario['video_present']);
+                        }
                     }
+                    $sql = "SELECT imagen FROM publicaciones WHERE nick_publicacion='$nick_usuario'";
+                    $publicaciones = $db->query($sql);
+                    foreach ($publicaciones as $publicacion) {
+                        array_push($resultado, $publicacion['imagen']);
+                    }
+                    $sql = "DELETE FROM usuarios WHERE nick='$nick_usuario'";
+                    if ($db->query($sql) === FALSE) {
+                        return 525; //Error borrando el usuario
+                    }
+                    return $resultado;
                 }
-                $sql = "SELECT imagen FROM publicaciones WHERE nick_publicacion='$nick_usuario'";
-                $publicaciones = $db->query($sql);
-                foreach ($publicaciones as $publicacion) {
-                    array_push($resultado, $publicacion['imagen']);
-                }
-                $sql = "DELETE FROM usuarios WHERE nick='$nick_usuario'";
-                if ($db->query($sql) === FALSE) {
-                    return 525; //Error borrando el usuario
-                }
-                return $resultado;
+                return 528; //restringido superadmin
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -866,34 +924,37 @@
     function actualizarPerfilSuperadminBBDD($datos) {
         if (validateToken()) {
             try {
-                $db = getConnection();
-                $nick = $_SESSION['usuario'];
-                $nick_usuario = $datos->nick;
-                $email = $datos->email;
-                $contrasena = $datos->clave;
-                $premium = $datos->premium;
-                $sql = "SELECT *
-                        FROM usuarios
-                        WHERE nick!='$nick_usuario'
-                        AND email='$email'";
-                $usuarios = $db->query($sql);	
-                if($usuarios->rowCount() === 1){
-                    return 513;//El email introducido pertenece a otro usuario
+                if (is_superadmin() == 1) {
+                    $db = getConnection();
+                    $nick = $_SESSION['usuario'];
+                    $nick_usuario = $datos->nick;
+                    $email = $datos->email;
+                    $contrasena = $datos->clave;
+                    $premium = $datos->premium;
+                    $sql = "SELECT *
+                            FROM usuarios
+                            WHERE nick!='$nick_usuario'
+                            AND email='$email'";
+                    $usuarios = $db->query($sql);	
+                    if($usuarios->rowCount() === 1){
+                        return 513;//El email introducido pertenece a otro usuario
+                    }
+                    if (!empty($contrasena)) {
+                        $clave_cifrada = password_hash($contrasena, PASSWORD_BCRYPT);
+                        $sql = "UPDATE usuarios 
+                                SET clave='$clave_cifrada', email='$email', premium=$premium 
+                                WHERE nick='$nick_usuario'";
+                    } else {
+                        $sql = "UPDATE usuarios 
+                                SET email='$email', premium=$premium 
+                                WHERE nick='$nick_usuario'";
+                    }
+                    if ($db->query($sql) === FALSE) {
+                        return 512; //Error actualizando el perfil
+                    }
+                    return true;
                 }
-                if (!empty($contrasena)) {
-                    $clave_cifrada = password_hash($contrasena, PASSWORD_BCRYPT);
-                    $sql = "UPDATE usuarios 
-                            SET clave='$clave_cifrada', email='$email', premium=$premium 
-                            WHERE nick='$nick_usuario'";
-                } else {
-                    $sql = "UPDATE usuarios 
-                            SET email='$email', premium=$premium 
-                            WHERE nick='$nick_usuario'";
-                }
-                if ($db->query($sql) === FALSE) {
-                    return 512; //Error actualizando el perfil
-                }
-                return true;
+                return 528; //restringido superadmin
             } catch (Exception $e) {
                 return $e->getMessage();
             }
