@@ -1050,3 +1050,26 @@
             return 999; //Token de sesion ha expirado
         }
     }
+
+
+    function eliminarMatchBBDD($datos){
+        if (validateToken()) {
+            try {
+                $db = getConnection();
+                $mi_nick = $_SESSION['usuario'];
+                $nick = $datos->nick;
+                $sql = "UPDATE matches 
+                        SET amor=0
+                        WHERE usuario_origen='$mi_nick'
+                        AND usuario_destino='$nick'";
+                if ($db->query($sql) === FALSE) {
+                    return 530; //Error actualizando match
+                }
+                return true;
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+        } else {
+            return 999; //Token de sesion ha expirado
+        }
+    }
