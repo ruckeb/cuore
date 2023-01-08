@@ -229,9 +229,14 @@ main{
     resize: none;
     color: rgb(245, 98, 135);
 }
-
+.fecha_chat{
+    color: #343131;
+}
+.usuario_origen{
+    color: antiquewhite;
+}
 .not_me{
-    color: aqua;
+    color: rgb(245, 98, 135);
 }
 
 .error_chat{
@@ -244,4 +249,53 @@ main{
 
 .ocultar{
     display: none;
+}
+
+@media only screen and (max-width: 350px) {
+    
+    #menu{
+        background-color: transparent;
+        width: 90%;
+        height: 40px;
+        margin-left: 2%;
+    }
+
+    #disMenu{
+        width: 50%;
+        position: absolute;
+        right: 0%;
+        top: 20%;
+        z-index: 10;
+    }
+
+    main{
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        overflow-y: scroll;
+        -ms-overflow-style: none;  /* IE y Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .caja_imagen{
+        width: 10%;
+        position: relative;
+    }
+
+    #nick_usuario{
+        width: 100%;
+        font-size: 100%;
+        height: auto;
+        text-align: center;
+    }
+
+    #cajaDirecciones{
+        width: 49%;
+    }
+    footer img{
+        width: 100%;
+    }
 }

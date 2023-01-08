@@ -99,7 +99,7 @@ main{
     scrollbar-width: none;  /* Firefox */
 }
 /* para ocultar la barra de scroll Chrome, Safari y Opera*/
-main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
+main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar, #c_comentario_personal::-webkit-scrollbar{
     display: none;
 }
 #c_recomendaciones_img{
@@ -265,4 +265,75 @@ main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
 }
 #text_caducidad, #texto_cvv{
     width: 28%;
+}
+
+@media only screen and (max-width: 350px) {
+    
+    #menu{
+        background-color: transparent;
+        width: 90%;
+        height: 40px;
+        margin-left: 2%;
+    }
+
+    #disMenu{
+        width: 50%;
+        position: absolute;
+        right: 0%;
+        top: 20%;
+        z-index: 10;
+    }
+
+    main{
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        overflow-y: scroll;
+        -ms-overflow-style: none;  /* IE y Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    #c_recomendaciones_img{
+        width: 100%;
+        height: 40%;
+        margin: 1%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    #contenedor_reacciones{
+        width: 95%;
+        height: 15%;
+        padding: 2%;
+        background-color: #454545;
+        border: 1px solid rgb(245, 98, 135);
+        border-collapse: collapse;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #c_img_click{
+        width: 100%;
+        height: 50%;
+        margin: 1%;
+        margin-top: 7%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    #cajaDirecciones{
+        width: 49%;
+    }
+    footer img{
+        width: 100%;
+    }
 }
