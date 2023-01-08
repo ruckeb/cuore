@@ -111,8 +111,9 @@ $headers = 'From: cuore.soporte@gmail.com'."\r\n" .
             "Content-Type: text/html; charset=utf-8\r\n" .
             'X-Mailer: PHP/' . phpversion();
 
-if (mail($para, $asunto, $descripcion, $headers))
-{
+if (mail($para, $asunto, $descripcion, $headers)) {
     echo true;
+} else {
+    echo false;
 }
 ?>

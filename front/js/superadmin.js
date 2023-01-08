@@ -431,7 +431,7 @@ function cargarBloque2(nick){
                                             fetch(url, params)
                                                 .then(req => req.text())
                                                 .then( enviado => {
-                                                    if (enviado!==true) {
+                                                    if (enviado==false) {
                                                         Swal.fire({
                                                             icon: 'error',
                                                             title: 'Oops...',
