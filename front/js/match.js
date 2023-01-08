@@ -268,7 +268,7 @@ function cargarMain() {
         titulo_bloque1.innerHTML = buscarLiteral(literales, titulo_bloque1.id)
 
         let caja_usuarios_match = document.createElement('div')
-        caja_usuarios_match.id = "caja_usuarios_match"
+        caja_usuarios_match.classList.add("caja_usuarios_match")
         
         for (const usuario of usuarios) {
             let caja_usuario_match = document.createElement('div')
@@ -307,7 +307,7 @@ function cargarMain() {
         titulo_bloque2.innerHTML = buscarLiteral(literales, titulo_bloque2.id)
 
         let caja_usuarios_match = document.createElement('div')
-        caja_usuarios_match.id = "caja_usuarios_match"
+        caja_usuarios_match.classList.add("caja_usuarios_match")
         
         for (const usuario of usuarios) {
             let caja_usuario_match = document.createElement('div')
