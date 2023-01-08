@@ -144,3 +144,32 @@ main{
 .ocultar{
     display: none;
 }
+
+@media only screen and (max-width: 350px) {
+    
+    #menu{
+        background-color: transparent;
+        width: 90%;
+        height: 40px;
+        margin-left: 2%;
+    }
+
+    #disMenu{
+        width: 50%;
+        position: absolute;
+        right: 0%;
+        top: 20%;
+        z-index: 10;
+    }
+  
+    #titulo_bloque1, #titulo_bloque2 {
+    font-size: 50%;
+    }
+
+    #cajaDirecciones{
+        width: 49%;
+    }
+    footer img{
+        width: 100%;
+    }
+}

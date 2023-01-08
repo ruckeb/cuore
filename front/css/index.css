@@ -174,3 +174,35 @@ input:focus {
     display: flex;
     flex-wrap: nowrap;
 }
+
+@media only screen and (max-width: 350px) {
+    
+    #menu{
+        background-color: transparent;
+        width: 90%;
+        height: 40px;
+        margin-left: 2%;
+    }
+
+    #disMenu{
+        width: 50%;
+        position: absolute;
+        right: 0%;
+        top: 20%;
+        z-index: 10;
+    }
+    form > div{
+        max-width: 60%;
+    }
+
+    #fondo3{
+        font-size: 5vw;
+    }
+
+    #cajaDirecciones{
+        width: 49%;
+    }
+    footer img{
+        width: 100%;
+    }
+}

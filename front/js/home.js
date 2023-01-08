@@ -492,7 +492,7 @@ function cargarCabecera() {
     boton_menu3.classList.add("btnMenu")
     boton_menu3.onclick = (e) => {
         e.preventDefault()
-         // location.href = 'sugerenciasCuore.php' 
+        location.href = 'match.php' 
     }
 
     let p_menu3 = document.createElement('p')
@@ -500,20 +500,6 @@ function cargarCabecera() {
     p_menu3.innerHTML = buscarLiteral(literales, p_menu3.id) //Caja3
 
     boton_menu3.appendChild(p_menu3)
-
-    let boton_menu4 = document.createElement('button')
-    boton_menu4.id = "boton_menu4"
-    boton_menu4.classList.add("btnMenu")
-    boton_menu3.onclick = (e) => {
-        e.preventDefault()
-         // location.href = 'contactanos.php' 
-    }
-
-    let p_menu4 = document.createElement('p')
-    p_menu4.id = "p_menu4"
-    p_menu4.innerHTML = buscarLiteral(literales, p_menu4.id) //Caja4
-
-    boton_menu4.appendChild(p_menu4)
 
     let boton_menu5 = document.createElement('button')
     boton_menu5.id = "boton_menu5"
@@ -534,7 +520,6 @@ function cargarCabecera() {
         div_tabla_menu.appendChild(boton_menu2)
     }
     div_tabla_menu.appendChild(boton_menu3)
-    div_tabla_menu.appendChild(boton_menu4)
     div_tabla_menu.appendChild(boton_menu5)
 
     div_contenedor_menu.appendChild(div_tabla_menu)
