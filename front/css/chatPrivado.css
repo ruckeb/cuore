@@ -282,7 +282,10 @@ main{
 
     .caja_imagen{
         width: 10%;
+        height: auto;
+        margin: 1%;
         position: relative;
+        
     }
 
     #nick_usuario{
