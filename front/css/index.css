@@ -17,6 +17,9 @@
     font-weight: 800;
     color: black;
 }
+#registrarse{
+    white-space: nowrap;
+}
 #iniciar_sesion{
     margin-right: 2%;
     white-space: nowrap;

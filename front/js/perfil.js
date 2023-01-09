@@ -503,7 +503,12 @@ function cargarMain() {
     let nick = url_actual.searchParams.get("usuario");
     let mi_perfil = false
     if (nick!=null) {
-        url_fetch = '../../back/controladores/getPerfil.php?usuario='+nick
+        if (nick == usuario_logueado.nick) {
+            url_fetch = '../../back/controladores/getPerfil.php'
+            mi_perfil = true
+        }else{
+            url_fetch = '../../back/controladores/getPerfil.php?usuario='+nick
+        }
     } else {
         url_fetch = '../../back/controladores/getPerfil.php'
         mi_perfil = true
