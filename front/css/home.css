@@ -146,6 +146,9 @@ main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar, #c_comentar
     border-collapse: collapse;
     cursor: pointer;
 }
+.texto_comentario{
+    white-space: pre-wrap;
+}
 #comentario_usuario_imagen{
     width: 78.8%;
     margin-left: 10%;

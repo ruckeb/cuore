@@ -1068,12 +1068,12 @@ function cargarMain(recomendaciones, index) {
                     contenedor_reacciones.appendChild(caja_dislike)
                     contenedor_reacciones.appendChild(caja_labio)
                     contenedor_reacciones.appendChild(caja_corazon)
-                    
+
                     let c_comentario_personal = document.createElement('textarea')
                     c_comentario_personal.id = 'c_comentario_personal'
                     c_comentario_personal.placeholder = buscarLiteral(literales, c_comentario_personal.id)
-                    c_comentario_personal.onkeyup = (e) => {
-                        if (e.keyCode == 13 && e.shiftKey) {
+                    c_comentario_personal.onkeypress = (e) => {
+                        if (e.keyCode == 13 && !e.shiftKey) {
                             let bodyContent = {
                                 id_publicacion: publicacion.id,
                                 comentario: e.target.value,
