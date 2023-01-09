@@ -249,6 +249,9 @@
             try {
                 $db = getConnection();
                 $mi_nick = $_SESSION['usuario'];
+                if (is_null($nick)) {
+                    $nick = $mi_nick;
+                }
                 $sql = "SELECT u.nick, u.nombre, u.email, u.sexo, u.perfil_busqueda, u.imagen, p.id, p.texto, p.imagen as publi, p.creado, 
                         COALESCE((SELECT amor FROM matches WHERE usuario_origen='$mi_nick' and usuario_destino='$nick'), 0) as amor_mio,
                         COALESCE((SELECT amor FROM matches WHERE usuario_origen='$nick' and usuario_destino='$mi_nick'), 0) as amor_tuyo
