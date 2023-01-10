@@ -541,62 +541,66 @@ function cargarMain() {
 
                 img_label.appendChild(img_perfil)
 
-                let img_input = document.createElement('input')
-                img_input.id = "imgInput"
-                img_input.type = "file"
-                img_input.name = "imgInput" 
-                img_input.accept = ".PNG,.JPG,.JPEG"
-                img_input.required = true
-                img_input.onchange  = (e) => {
-                    let data = new FormData()
-                    data.append('imagen', img_input.files[0])
-                    let url = '../../back/controladores/actualizarImagenPerfil.php'
-                    let params = {
-                        method: 'POST',
-                        body: data
-                    }
-                    fetch(url, params)
-                    .then(req => req.json())
-                    .then( datos => {
-                        if (typeof datos == "number") {
-                            if (datos == 999) {
-                                Swal.fire({
-                                    text: buscarLiteral(literales, 'server_error_' + datos),
-                                    title: 'Oops...',
-                                    icon: "error",
-                                    timer: 2000,
-                                    timerProgressBar: true,
-                                    showConfirmButton: false,
-                                    showClass: {
-                                        popup: 'animate__animated animate__fadeInDown'
-                                    },
-                                    hideClass: {
-                                        popup: 'animate__animated animate__fadeOutUp'
-                                    }
-                                })
-                                .then(()=>{
-                                    location.href = 'index.html'
-                                })
-                            }else{
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: buscarLiteral(literales, "server_error_" + datos),
-                                    showClass: {
-                                        popup: 'animate__animated animate__fadeInDown'
-                                    },
-                                    hideClass: {
-                                        popup: 'animate__animated animate__fadeOutUp'
-                                    }
-                                })
-                            }
-                        } else {
-                            e.target.parentNode.children[0].children[0].src = datos
+                if (mi_perfil === true) {
+                    let img_input = document.createElement('input')
+                    img_input.id = "imgInput"
+                    img_input.type = "file"
+                    img_input.name = "imgInput" 
+                    img_input.accept = ".PNG,.JPG,.JPEG"
+                    img_input.required = true
+                    img_input.onchange  = (e) => {
+                        let data = new FormData()
+                        data.append('imagen', img_input.files[0])
+                        let url = '../../back/controladores/actualizarImagenPerfil.php'
+                        let params = {
+                            method: 'POST',
+                            body: data
                         }
-                        })
+                        fetch(url, params)
+                        .then(req => req.json())
+                        .then( datos => {
+                            if (typeof datos == "number") {
+                                if (datos == 999) {
+                                    Swal.fire({
+                                        text: buscarLiteral(literales, 'server_error_' + datos),
+                                        title: 'Oops...',
+                                        icon: "error",
+                                        timer: 2000,
+                                        timerProgressBar: true,
+                                        showConfirmButton: false,
+                                        showClass: {
+                                            popup: 'animate__animated animate__fadeInDown'
+                                        },
+                                        hideClass: {
+                                            popup: 'animate__animated animate__fadeOutUp'
+                                        }
+                                    })
+                                    .then(()=>{
+                                        location.href = 'index.html'
+                                    })
+                                }else{
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: buscarLiteral(literales, "server_error_" + datos),
+                                        showClass: {
+                                            popup: 'animate__animated animate__fadeInDown'
+                                        },
+                                        hideClass: {
+                                            popup: 'animate__animated animate__fadeOutUp'
+                                        }
+                                    })
+                                }
+                            } else {
+                                e.target.parentNode.children[0].children[0].src = datos
+                            }
+                            })
+                    }
+
+                    caja_perfil_imagen.appendChild(img_input)
                 }
+                
                 caja_perfil_imagen.appendChild(img_label)
-                caja_perfil_imagen.appendChild(img_input)
 
                 let usuario_nick = document.createElement('h1')
                 usuario_nick.id = "usuario_nick" 
