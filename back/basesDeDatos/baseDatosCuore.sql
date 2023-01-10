@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS matches (
     amor TINYINT(1) NOT NULL DEFAULT 0,
     fecha DATETIME NOT NULL DEFAULT current_timestamp,
     CONSTRAINT PK_matches PRIMARY KEY (usuario_origen, usuario_destino),
-    CONSTRAINT FK_usuario_origen_usuarios FOREIGN KEY (usuario_origen) REFERENCES usuarios (nick) ON DELETE NO ACTION ON UPDATE CASCADE,
-    CONSTRAINT FK_usuario_destino_usuarios FOREIGN KEY (usuario_destino) REFERENCES usuarios (nick) ON DELETE NO ACTION ON UPDATE CASCADE
+    CONSTRAINT FK_usuario_origen_usuarios FOREIGN KEY (usuario_origen) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_usuario_destino_usuarios FOREIGN KEY (usuario_destino) REFERENCES usuarios (nick) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS visitas (
