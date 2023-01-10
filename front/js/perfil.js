@@ -592,7 +592,8 @@ function cargarMain() {
                                     })
                                 }
                             } else {
-                                e.target.parentNode.children[0].children[0].src = datos
+                                console.log(e.target)
+                                e.target.nextSibling.children[0].src = datos
                             }
                             })
                     }
