@@ -107,6 +107,240 @@ function cargarMatch() {
 function cargarCabecera() {
     let header = document.body.children[0]
 
+    let boton_premium = document.createElement('button')
+    boton_premium.id = "boton_premium"
+    boton_premium.classList.add("boton_cabecera")
+    boton_premium.innerHTML = buscarLiteral(literales, boton_premium.id)
+    boton_premium.onclick = e => {
+        e.preventDefault()
+        Swal.fire({
+            showDenyButton: true,
+            confirmButtonText: buscarLiteral(literales, "confirmar_alerta"),
+            denyButtonText: buscarLiteral(literales, "cancelar_alerta"),
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            },
+            html:   "<form>"+
+                        "<div class = 'caja_premium'>"+
+                        "<h5 id = 'titulo_premium'>"+
+                        buscarLiteral(literales, 'titulo_premium')+ "</h5>"+  
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_nombre_completo' for = 'text_nombre_completo'>"+
+                            buscarLiteral(literales, 'titulo_nombre_completo')+ "</label>"+
+                            "<input id = 'text_nombre_completo' type = 'text' name = 'text_nombre_completo' autocomplete = 'off'>"+      
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_isbn' for = 'text_isbn'>"+
+                            buscarLiteral(literales, 'titulo_isbn')+ "</label>"+
+                            "<input id = 'text_isbn' type = 'text' name = 'text_isbn' autocomplete = 'off'>"+      
+                        "</div>"+ 
+                        "<div class = 'caja_premium'>"+
+                            "<label id = 'titulo_caducidad' for = 'texto_caducidad'>"+
+                            buscarLiteral(literales, 'titulo_caducidad')+ "</label>"+
+                                "<div class= 'grupo-select'>"+
+                                    "<select name='mes' id='selectMes'>"+
+                                        "<option value=12>12</option>"+
+                                        "<option value=11>11</option>"+
+                                        "<option value=10>10</option>"+
+                                        "<option value=9>09</option>"+
+                                        "<option value=8>08</option>"+
+                                        "<option value=7>07</option>"+
+                                        "<option value=6>06</option>"+
+                                        "<option value=5>05</option>"+
+                                        "<option value=4>04</option>"+
+                                        "<option value=3>03</option>"+
+                                        "<option value=2>02</option>"+
+                                        "<option value=1 selected>01</option>"+
+                                    "</select>"+
+                                    "<i class='fas fa-angle-down'></i>"+
+                                "</div>"+"<span>/</span>"+
+                                "<div class='grupo-select'>"+
+                                    "<select name='year' id='selectYear'>"+
+                                        "<option value=40>40</option>"+
+                                        "<option value=39>39</option>"+
+                                        "<option value=38>38</option>"+
+                                        "<option value=37>37</option>"+
+                                        "<option value=36>36</option>"+
+                                        "<option value=35>35</option>"+
+                                        "<option value=34>34</option>"+
+                                        "<option value=33>33</option>"+
+                                        "<option value=32>32</option>"+
+                                        "<option value=31>31</option>"+
+                                        "<option value=30>30</option>"+
+                                        "<option value=29>29</option>"+
+                                        "<option value=28>28</option>"+
+                                        "<option value=27>27</option>"+
+                                        "<option value=26>26</option>"+
+                                        "<option value=25>25</option>"+
+                                        "<option value=24>24</option>"+
+                                        "<option value=23 selected>23</option>"+
+                                    "</select>"+
+                                "	<i class='fas fa-angle-down'></i>"+
+                                "</div>"+
+                            "<label id = 'titulo_cvv' for = 'texto_cvv'>"+
+                            buscarLiteral(literales, 'titulo_cvv')+ "</label>"+
+                            "<input id = 'texto_cvv' type = 'password' name = 'texto_cvv' autocomplete = 'off'>"+
+                        "</div>"+
+                    "</form>",
+            preConfirm: () => {
+                function fValidarTarjeta(isbn){
+                    let VISA = /^4[0-9]{12}(?:[0-9]{3})?$/;
+                    let MASTERCARD = /^5[1-5][0-9]{14}$/;
+                    let AMEX = /^3[47][0-9]{13}$/;
+                    let CABAL = /^(6042|6043|6044|6045|6046|5896){4}[0-9]{12}$/;
+                    let NARANJA = /^(589562|402917|402918|527571|527572|0377798|0377799)[0-9]*$/;
+                    let tipo_tarjeta = false
+                    // Accept only digits, dashes or spaces
+                    if (/[^0-9-\s]+/.test(isbn)) return false;
+                    isbn = isbn.replace(/\D/g, "");
+                    if(luhn(isbn)){
+                        if(isbn.match(VISA)){
+                            tipo_tarjeta = "VISA"
+                        } else if(isbn.match(MASTERCARD)){
+                            tipo_tarjeta = "MASTERCARD"
+                        } else if(isbn.match(NARANJA)){
+                            tipo_tarjeta = "NARANJA"
+                        }else if(isbn.match(CABAL)){
+                            tipo_tarjeta = "CABAL"
+                        } else if(isbn.match(AMEX)){
+                            tipo_tarjeta = "AMEX"
+                        } 
+                        return tipo_tarjeta
+                    } else {
+                        return false
+                    }
+                }
+                function luhn(isbn) {
+                    let nCheck = 0, bEven = false;
+                    for (var n = isbn.length - 1; n >= 0; n--) {
+                        var cDigit = isbn.charAt(n),
+                        nDigit = parseInt(cDigit, 10);
+                        if (bEven && (nDigit *= 2) > 9) nDigit -= 9; nCheck +=  nDigit; bEven = !bEven;
+                    }
+                    return (nCheck % 10) == 0;
+                }
+                function existeFecha(mes, anyo){
+                    var day = 1;
+                    var month = mes;
+                    var year = anyo;
+                    var date = new Date(year, month, day);
+                    if((day-0)>(date.getDate()-0)){
+                          return false;
+                    }
+                    return true;
+              }
+                const text_nombre_completo = Swal.getPopup().querySelector('#text_nombre_completo').value
+                const text_isbn = Swal.getPopup().querySelector('#text_isbn').value
+                const mes = Swal.getPopup().querySelector('#selectMes').value
+                const anyo = Swal.getPopup().querySelector('#selectYear').value
+                const texto_cvv = Swal.getPopup().querySelector('#texto_cvv').value
+                if (!text_nombre_completo) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_7'))
+                } else if (!text_isbn) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_8'))
+                } else if (!mes || !anyo) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_9'))
+                } else if (!texto_cvv) {
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_10'))
+                } else if(!fValidarTarjeta(text_isbn)){
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_11'))
+                } else if(!existeFecha(mes, anyo)){
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_12'))
+                } else if(!/^[0-9]{3,4}$/.test(texto_cvv)){
+                    Swal.showValidationMessage(buscarLiteral(literales, 'validation_13'))
+                } else {
+                    return {
+                        text_nombre_completo: text_nombre_completo,
+                        text_isbn: text_isbn,
+                        mes: mes,
+                        anyo: anyo,
+                        texto_cvv: texto_cvv
+                    }
+                }
+            }
+        })
+            .then( (result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: buscarLiteral(literales, 'realizando_pago'),
+                        icon: "info",
+                        timer: 2000,
+                        timerProgressBar: true,
+                        showConfirmButton: false,
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    })
+                        .then( () => {
+                            let url = '../../back/controladores/enviarPago.php'
+                            let params = {
+                                method: 'POST',
+                            }
+                            fetch(url, params)
+                                .then(req => req.json())
+                                .then( respuesta => {
+                                    if (respuesta === true) {
+                                        Swal.fire({
+                                            text: buscarLiteral(literales, 'pago_realizado_correctamente'),
+                                            title: buscarLiteral(literales, 'correcto'),
+                                            icon: "success",
+                                            timer: 2000,
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            showClass: {
+                                                popup: 'animate__animated animate__fadeInDown'
+                                            },
+                                            hideClass: {
+                                                popup: 'animate__animated animate__fadeOutUp'
+                                            }
+                                        }).then(()=>location.reload())
+                                    } else {
+                                        if (respuesta == 999) {
+                                            Swal.fire({
+                                                text: buscarLiteral(literales, 'server_error_' + respuesta),
+                                                title: 'Oops...',
+                                                icon: "error",
+                                                timer: 2000,
+                                                timerProgressBar: true,
+                                                showConfirmButton: false,
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                            .then(()=>{
+                                                location.href = 'index.html'
+                                            })
+                                        }else{
+                                            Swal.fire({
+                                                icon: 'error',
+                                                title: 'Oops...',
+                                                text: buscarLiteral(literales, "server_error_" + respuesta),
+                                                showClass: {
+                                                    popup: 'animate__animated animate__fadeInDown'
+                                                },
+                                                hideClass: {
+                                                    popup: 'animate__animated animate__fadeOutUp'
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+                            })
+                }
+                
+            })
+    }
+
     let imagen_logo_cuore = document.createElement('img')
     imagen_logo_cuore.id = "logo"
     imagen_logo_cuore.src = "front/img/imgLogo/logo.png"
@@ -211,20 +445,24 @@ function cargarCabecera() {
 
     boton_menu1.appendChild(p_menu1)
 
-    let boton_menu2 = document.createElement('button')
-    boton_menu2.id = "boton_menu2"
-    boton_menu2.classList.add("btnMenu")
-    boton_menu2.onclick = (e) => {
-        e.preventDefault()
-        location.href = 'chatPrivado.php' 
+    if (usuario_logueado.premium == 1) {
+        let boton_menu2 = document.createElement('button')
+        boton_menu2.id = "boton_menu2"
+        boton_menu2.classList.add("btnMenu")
+        boton_menu2.onclick = (e) => {
+            e.preventDefault()
+            location.href = 'chatPrivado.php' 
+        }
+
+        let p_menu2 = document.createElement('p')
+        p_menu2.id = "p_menu2"
+        p_menu2.innerHTML = buscarLiteral(literales, p_menu2.id) //Caja2
+
+        boton_menu2.appendChild(p_menu2)
+
+        div_tabla_menu.appendChild(boton_menu2)
     }
-
-    let p_menu2 = document.createElement('p')
-    p_menu2.id = "p_menu2"
-    p_menu2.innerHTML = buscarLiteral(literales, p_menu2.id) //Caja2
-
-    boton_menu2.appendChild(p_menu2)
-
+    
     let boton_menu4 = document.createElement('button')
     boton_menu4.id = "boton_menu4"
     boton_menu4.classList.add("btnMenu")
@@ -240,11 +478,14 @@ function cargarCabecera() {
     boton_menu4.appendChild(p_menu4)   
 
     div_tabla_menu.appendChild(boton_menu1)
-    div_tabla_menu.appendChild(boton_menu2)
     div_tabla_menu.appendChild(boton_menu4)
 
     div_contenedor_menu.appendChild(div_tabla_menu)
 
+    if (usuario_logueado.premium == 0) {
+        div_botones_login.appendChild(boton_premium)
+    }
+    
     div_botones_login.appendChild(boton_espana)
     div_botones_login.appendChild(boton_reino_unido)
     div_botones_login.appendChild(boton_francia)
