@@ -1110,7 +1110,7 @@ function cargarMain(recomendaciones, index) {
                                     
                                         let texto_comentario = document.createElement('span')
                                         texto_comentario.classList.add('texto_comentario')
-                                        texto_comentario.innerHTML = c_comentario_personal.value
+                                        texto_comentario.innerHTML = c_comentario_personal.value.trim()
 
                                         texto_comentario.innerHTML = texto_comentario.innerHTML + " "
                                         let eliminar_comentario = document.createElement('span')

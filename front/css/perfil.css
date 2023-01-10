@@ -122,7 +122,7 @@ main{
     scrollbar-width: none;  /* Firefox */
 }
 /* para ocultar la barra de scroll Chrome, Safari y Opera*/
-main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar{
+main::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar, .sweetAlertAmor::-webkit-scrollbar{
     display: none;
 }
 #section1{
@@ -416,6 +416,9 @@ h2{
     background-size: 40% !important;
     width: 100vw !important;
     height: 100vh !important;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 @media only screen and (max-width: 350px) {

@@ -97,6 +97,10 @@ main{
     align-items: flex-start;
     border: 2px solid rgb(245, 98, 135);
     border-collapse: collapse;
+    overflow-y: scroll;
+    position: relative;
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 #caja_buscador{
@@ -143,11 +147,9 @@ main{
     flex-direction: column;
     justify-content: flex-start;
     align-items: center; overflow-y: scroll;
-    -ms-overflow-style: none;  /* IE y Edge */
-    scrollbar-width: none;  /* Firefox */
 }
 /* para ocultar la barra de scroll Chrome, Safari y Opera*/
-.caja_usuarios::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar,#chat::-webkit-scrollbar{
+.caja_usuarios::-webkit-scrollbar, #contenedor_comentarios::-webkit-scrollbar,#chat::-webkit-scrollbar,#bloque1::-webkit-scrollbar{
     display: none;
 }
 
@@ -159,6 +161,7 @@ main{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    margin: 1%;
 }
 .caja_imagen{
     width: 10%;
